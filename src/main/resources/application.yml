@@ -10,10 +10,10 @@ spring:
     druid:
       # 数据库访问配置, 使用druid数据源
       db-type: com.alibaba.druid.pool.DruidDataSource
-      driverClassName: com.mysql.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/rainbow?useUnicode=true&characterEncoding=utf8&&serverTimezone=UTC
-      username: root
-      password: 123456
+      driverClassName: oracle.jdbc.driver.OracleDriver
+      url: jdbc:oracle:thin:@115.29.37.200:1522:orcl1
+      username: GRANDEFLORUM
+      password: 0000000
       # 连接池配置
       initial-size: 5
       min-idle: 5
@@ -104,9 +104,9 @@ mybatis:
 mapper:
   mappers: com.grandeflorum.common.config.MyMapper
   not-empty: false
-  identity: mysql
+  identity: oracle
 pagehelper:
-  helper-dialect: mysql
+  helper-dialect: oracle
   reasonable: true
   support-methods-arguments: true
   params: count=countSql
