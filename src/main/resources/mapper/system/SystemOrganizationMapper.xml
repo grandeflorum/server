@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.grandeflorum.system.dao.SystemOrganizationMapper">
+  <resultMap id="BaseResultMap" type="com.grandeflorum.system.domain.SystemOrganization">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="CODE" jdbcType="VARCHAR" property="code" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="PARENT_ID" jdbcType="VARCHAR" property="parentId" />
+    <result column="ORG_LEVER" jdbcType="INTEGER" property="orgLever" />
+    <result column="ORG_LEVER_ORDER" jdbcType="INTEGER" property="orgLeverOrder" />
+  </resultMap>
+
+  <select id="getOrganizationList" resultMap="BaseResultMap">
+    select * from system_organization where 1=1
+  </select>
+
+</mapper>

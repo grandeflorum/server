@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.grandeflorum.system.dao.SystemUserMapper">
+  <resultMap id="BaseResultMap" type="com.grandeflorum.system.domain.SystemUser">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="USERNAME" jdbcType="VARCHAR" property="username" />
+    <result column="PASSWORD" jdbcType="VARCHAR" property="password" />
+    <result column="REALNAME" jdbcType="VARCHAR" property="realname" />
+    <result column="EMAIL" jdbcType="VARCHAR" property="email" />
+    <result column="MOBILE" jdbcType="VARCHAR" property="mobile" />
+    <result column="ORG_ID" jdbcType="VARCHAR" property="orgId" />
+  </resultMap>
+
+  <resultMap id="UserWithRoleMap" extends="BaseResultMap" type="com.grandeflorum.system.domain.SystemUser">
+    <collection property="roleList" javaType="ArrayList" ofType="com.grandeflorum.system.domain.SystemRole">
+      <id column="role_id" jdbcType="VARCHAR" property="id" />
+      <result column="role_name" jdbcType="VARCHAR" property="name" />
+    </collection>
+  </resultMap>
+
+  <select id="login" parameterType="map" resultMap="BaseResultMap">
+    select * from system_user t where t.username = #{username} and  t.password=#{password}
+  </select>
+
+  <select id="findUserByUsername" resultMap="BaseResultMap">
+    select * from system_user t where t.username = #{username}
+  </select>
+
+  <select id="getUserList" parameterType="map" resultMap="BaseResultMap">
+    select * from system_user t where 1=1
+    <if test="username != null and username != ''">
+      and instr(t.username,#{username})>0
+    </if>
+    <if test="realname != null and realname != ''">
+      and instr(t.realname,#{realname})>0
+    </if>
+    <if test="mobile != null and mobile != ''">
+      and instr(t.mobile,#{mobile})>0
+    </if>
+  </select>
+
+  <select id="getUserDetailByUserId" resultMap="UserWithRoleMap">
+    select
+    u.*,
+    r.id role_id,
+    r.name role_name
+    from system_user u
+    inner join system_user_role ur on u.id = ur.user_id
+    inner join system_role r on ur.role_id = r.id
+    where u.id = #{id}
+  </select>
+
+  <select id="getPermissionByUserId" resultType="java.lang.String">
+    select  m.`code`
+    from system_user u
+    inner join system_user_role ur on u.id = ur.user_id
+    inner join system_role r on r.id = ur.role_id
+    inner join system_role_menu rm on rm.role_id =r.id
+    inner join system_menu m on m.id=rm.menu_id
+    where u.id = #{id}
+    and (SELECT COUNT(1) FROM system_menu sm where sm.parent_id = m.id)=0
+    group by m.id
+
+  </select>
+
+  <update id="changePassword" parameterType="com.grandeflorum.system.domain.SystemUser">
+    update system_user set password=#{password} where id =#{id}
+  </update>
+</mapper>

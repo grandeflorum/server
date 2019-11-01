@@ -99,6 +99,8 @@ mybatis:
   type-aliases-package: com.grandeflorum.*.domain
   # mapper xml实现扫描路径
   mapper-locations: classpath:mapper/*/*.xml
+  configuration:
+    jdbc-type-for-null: varchar
 
 #mappers 多个接口时逗号隔开
 mapper:

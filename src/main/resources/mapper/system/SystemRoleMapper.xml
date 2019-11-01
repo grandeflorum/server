@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.grandeflorum.system.dao.SystemRoleMapper">
+  <resultMap id="BaseResultMap" type="com.grandeflorum.system.domain.SystemRole">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+  </resultMap>
+
+  <resultMap id="RoleWithUserMap" extends="BaseResultMap" type="com.grandeflorum.system.domain.SystemRole">
+    <collection property="roleMenuList" javaType="ArrayList" ofType="com.grandeflorum.system.domain.SystemMenu">
+      <id column="menu_id" jdbcType="VARCHAR" property="id" />
+      <result column="menu_code" jdbcType="VARCHAR" property="code" />
+      <result column="menu_name" jdbcType="VARCHAR" property="name" />
+    </collection>
+  </resultMap>
+
+  <select id="getRoleById" resultMap="RoleWithUserMap">
+    select
+    r.*,
+    m.id menu_id,
+    m.code menu_code,
+    m.name menu_name
+    from system_role r
+    inner join system_role_menu rm on r.id = rm.role_id
+    inner join system_menu m on rm.menu_id = m.id
+    where r.id = #{roleId}
+  </select>
+
+  <select id="getRoleList" parameterType="map" resultMap="BaseResultMap">
+    select * from system_role
+  </select>
+</mapper>
