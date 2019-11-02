@@ -7,12 +7,13 @@
     -->
     <id column="ID" jdbcType="VARCHAR" property="id" />
     <result column="REF_ID" jdbcType="VARCHAR" property="refId" />
-    <result column="FILE_TYPE" jdbcType="VARCHAR" property="fileType" />
+    <result column="FILE_TYPE" jdbcType="DECIMAL" property="fileType" />
     <result column="SERVER_FILE_NAME" jdbcType="VARCHAR" property="serverFileName" />
     <result column="CLIENT_FILE_NAME" jdbcType="VARCHAR" property="clientFileName" />
     <result column="SERVER_PATH" jdbcType="VARCHAR" property="serverPath" />
     <result column="UPLOAD_USER_ID" jdbcType="VARCHAR" property="uploadUserId" />
     <result column="UPLOAD_DATE" jdbcType="TIMESTAMP" property="uploadDate" />
+    <result column="FILE_SUFFIX" jdbcType="VARCHAR" property="fileSuffix" />
   </resultMap>
 
   <update id="updateFileInfoByIds" parameterType="map">

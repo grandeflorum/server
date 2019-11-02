@@ -78,7 +78,7 @@ public class FileInfoServiceImpl extends BaseService<FileInfo> implements FileIn
         FileInfo fileInfo = new FileInfo();
         fileInfo.setRefId(fromID);
         fileInfo.setId(guid);
-        fileInfo.setFileType(ext);
+        fileInfo.setFileSuffix(ext);
         fileInfo.setServerFileName(storeFile);
         fileInfo.setClientFileName(fileName);
         fileInfo.setServerPath(fileSavePath);

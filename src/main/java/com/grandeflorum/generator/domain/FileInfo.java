@@ -1,4 +1,4 @@
-package com.grandeflorum.attachment.domain;
+package domain;
 
 import java.util.Date;
 import javax.persistence.*;
@@ -7,6 +7,7 @@ import javax.persistence.*;
 public class FileInfo {
     @Id
     @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
     @Column(name = "REF_ID")
@@ -145,11 +146,17 @@ public class FileInfo {
         this.uploadDate = uploadDate;
     }
 
+    /**
+     * @return FILE_SUFFIX
+     */
     public String getFileSuffix() {
         return fileSuffix;
     }
 
+    /**
+     * @param fileSuffix
+     */
     public void setFileSuffix(String fileSuffix) {
-        this.fileSuffix = fileSuffix;
+        this.fileSuffix = fileSuffix == null ? null : fileSuffix.trim();
     }
 }
