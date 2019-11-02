@@ -2,8 +2,10 @@ package com.grandeflorum.StockHouse.domin;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
 
+@Table(name = "STOCKHOUSE")
 public class StockHouse {
     /**
      * id

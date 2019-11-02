@@ -4,8 +4,10 @@ import com.grandeflorum.common.domain.EntityBase;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
 
+@Table(name = "WF_AUDIT")
 public class WFAudit extends EntityBase{
     @Id
     @Column(name = "ID")

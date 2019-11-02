@@ -2,7 +2,9 @@ package com.grandeflorum.system.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Table(name = "DICTIONARY")
 public class DataDictionaryItem {
     @Id
     @Column(name = "ID")
