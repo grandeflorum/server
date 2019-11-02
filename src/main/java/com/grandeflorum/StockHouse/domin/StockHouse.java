@@ -1,10 +1,14 @@
 package com.grandeflorum.StockHouse.domin;
 
+import org.aspectj.asm.internal.Relationship;
+
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
+import java.util.List;
 
+//存量房源
 @Table(name = "STOCKHOUSE")
 public class StockHouse {
     /**
@@ -17,45 +21,43 @@ public class StockHouse {
     /**
      * 产权人姓名
      */
-    @Id
     @Column(name = "CQRXM")
     public String cqrxm;
 
     /**
      * 房型
      */
-    @Id
     @Column(name = "FX")
     public Integer fx;
 
     /**
      * 建筑面积
      */
-    @Id
     @Column(name = "JZMJ")
     public Double jzmj;
 
     /**
      * 所属地区行政区划代码
      */
-    @Id
     @Column(name = "REGIONCODE")
     public Integer regionCode;
 
     /**
      * 项目详细地址
      */
-    @Id
     @Column(name = "ADDRESS")
     public String address;
 
     /**
      * 备注
      */
-    @Id
     @Column(name = "BZ")
     public String bz;
 
+    /**
+     * 与产权人关系
+     */
+    public List<RelationShip> relationShips;
     /**
      * 创建时间
      */
@@ -152,5 +154,13 @@ public class StockHouse {
 
     public void setAuditType(Integer auditType) {
         this.auditType = auditType;
+    }
+
+    public List<RelationShip> getRelationShips() {
+        return relationShips;
+    }
+
+    public void setRelationShips(List<RelationShip> relationShips) {
+        this.relationShips = relationShips;
     }
 }

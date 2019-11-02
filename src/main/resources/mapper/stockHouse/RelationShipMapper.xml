@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.grandeflorum.StockHouse.dao.RelationShipMapper">
+
+    <delete id="deleteRelationShipByProjectId" parameterType="String">
+        delete from  relationship t where t.projectid=#{projectId}
+    </delete>
+
+    <select id="getRelationShipByProjectId" resultType="com.grandeflorum.StockHouse.domin.RelationShip">
+        select * from relationship where projectid=#{projectId}
+    </select>
+
+</mapper>

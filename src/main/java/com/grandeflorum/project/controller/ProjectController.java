@@ -81,15 +81,14 @@ public class ProjectController {
     }
 
     /**
-     * 修改审核项目
+     * 提交审核项目
      *
-     * @param project
+     * @param
      * @return
      */
-    @PostMapping("/modifyAuditState")
-    public ResponseBo modifyAuditState(@RequestBody Project project) {
-        projectService.modifyAuditState(project);
-        return ResponseBo.ok();
+    @GetMapping("/auditProjectById")
+    public ResponseBo auditProjectById(String id,int type) {
+        return projectService.auditProjectById(id, type);
     }
 
 

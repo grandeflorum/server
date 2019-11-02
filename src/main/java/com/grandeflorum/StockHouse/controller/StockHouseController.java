@@ -82,14 +82,13 @@ public class StockHouseController {
     }
 
     /**
-     * 修改审核项目状态
+     * 提交审核
      *
-     * @param stockHouse
+     * @param
      * @return
      */
-    @PostMapping("/modifyAuditState")
-    public ResponseBo modifyAuditState(@RequestBody StockHouse stockHouse ) {
-        stockHouseService.modifyAuditState(stockHouse);
-        return ResponseBo.ok();
+    @GetMapping("/auditStockHouseById")
+    public ResponseBo auditStockHouseById(String id,int type) {
+        return stockHouseService.auditStockHouseById(id, type);
     }
 }

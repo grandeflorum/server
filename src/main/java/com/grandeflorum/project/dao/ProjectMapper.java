@@ -14,4 +14,6 @@ public interface ProjectMapper extends MyMapper<Project> {
 
     int addOrUpdateAudit(WFAudit param);
 
+    void auditProjectById(Map<String,Object> map);
+
 }

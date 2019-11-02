@@ -22,7 +22,13 @@ public interface ProjectService extends IService<Project> {
     //审核项目
     ResponseBo auditProjects(AuditParam auditParam);
 
-    //提交审核项目
-    ResponseBo modifyAuditState(Project project);
+
+    /**
+     * 审核
+     * @param id
+     * @param type
+     * @return
+     */
+    ResponseBo auditProjectById(String id,int type);
 
 }

@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import sun.plugin2.message.PrintAppletMessage;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -66,12 +67,10 @@ public class ProjectServiceImpl extends BaseService<Project> implements ProjectS
     public ResponseBo auditProjects(AuditParam param) {
         for (String id : param.ids) {
             //更新项目表信息
-            Project project = projectMapper.selectByPrimaryKey(id);
-            project.setAuditType(2);
-            projectMapper.updateByPrimaryKey(project);
+            auditProjectById(id, 2);
 
             //添加或更新审核表信息
-            if(param.getWfAudit()!=null&&param.getWfAudit().getId()==null){
+            if (param.getWfAudit() != null && param.getWfAudit().getId() == null) {
                 param.getWfAudit().setId(GuidHelper.getGuid());
             }
             param.getWfAudit().setProjectId(id);
@@ -81,10 +80,13 @@ public class ProjectServiceImpl extends BaseService<Project> implements ProjectS
     }
 
     @Override
-    public ResponseBo modifyAuditState(Project project) {
-        Project projectinfo = projectMapper.selectByPrimaryKey(project.getId());
-        projectinfo.setAuditType(project.getAuditType());
-        projectMapper.updateByPrimaryKey(projectinfo);
+    public ResponseBo auditProjectById(String id, int type) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("id", id);
+        map.put("type", type);
+
+        projectMapper.auditProjectById(map);
+
         return ResponseBo.ok();
     }
 }

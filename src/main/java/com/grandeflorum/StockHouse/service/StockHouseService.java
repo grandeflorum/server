@@ -19,6 +19,6 @@ public interface StockHouseService  extends IService<StockHouse> {
     //审核项目
     ResponseBo auditStockHouses(AuditParam auditParam);
 
-    //提交审核项目
-    ResponseBo modifyAuditState(StockHouse stockHouse);
+    //提交审核
+    ResponseBo auditStockHouseById(String id,int type);
 }

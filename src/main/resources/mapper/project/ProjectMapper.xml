@@ -68,4 +68,8 @@
         </if>
     </insert>
 
+    <update id="auditProjectById" parameterType="map">
+        update project t set t.audit_type = #{type} WHERE  t.id = #{id}
+    </update>
+
 </mapper>

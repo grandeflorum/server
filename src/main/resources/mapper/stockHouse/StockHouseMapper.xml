@@ -62,4 +62,8 @@
         </if>
     </insert>
 
+    <update id="auditStockHouseById" parameterType="map">
+        update stockhouse t set t.audit_type = #{type} WHERE  t.id = #{id}
+    </update>
+
 </mapper>
