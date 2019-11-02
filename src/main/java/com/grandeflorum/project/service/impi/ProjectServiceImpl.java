@@ -54,7 +54,7 @@ public class ProjectServiceImpl extends BaseService<Project> implements ProjectS
     public ResponseBo getProjectList(Page page) {
         PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
-        List<Project> list = projectMapper.getOrganizationList(map);
+        List<Project> list = projectMapper.getProjectList(map);
 
         PageInfo<Project> pageInfo = new PageInfo<Project>(list);
 

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
-@Service("SystemCommonService")
+@Service("SystemDictionaryService")
 public class SystemDictionaryServiceImpl extends BaseService<DataDictionaryItem> implements SystemDictionaryService {
 
     @Autowired

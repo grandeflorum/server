@@ -1,39 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.grandeflorum.project.dao.ProjectMapper">
-    <resultMap id="BaseResultMap" type="com.grandeflorum.project.domain.Project">
+<mapper namespace="com.grandeflorum.StockHouse.dao.StockHouseMapper">
+    <resultMap id="BaseResultMap" type="com.grandeflorum.StockHouse.domin.StockHouse">
         <!--
           WARNING - @mbg.generated
         -->
         <id column="ID" jdbcType="VARCHAR" property="id"/>
-        <result column="XMMC" jdbcType="VARCHAR" property="xmmc"/>
-        <result column="KFQYMC" jdbcType="VARCHAR" property="kfqymc"/>
+        <result column="CQRXM" jdbcType="VARCHAR" property="cqrxm"/>
+        <result column="ADDRESS" jdbcType="VARCHAR" property="address"/>
         <result column="AUDIT_TYPE" jdbcType="VARCHAR" property="auditType"/>
     </resultMap>
 
-    <!--获取项目管理查询列表-->
-    <select id="getProjectList" resultMap="BaseResultMap">
-        select * from project p where 1=1
-        <if test="xmmc!=null and xmmc != ''">
-            and (s.xmmc like '%'||#{xmmc}||'%' )
+    <!--获取存量房源查询列表-->
+    <select id="getStockHouseList" resultMap="BaseResultMap">
+        select * from StockHouse p where 1=1
+        <if test="cqrxm!=null and cqrxm != ''">
+            and (s.cqrxm like '%'||#{cqrxm}||'%' )
         </if>
-        <if test="kfqymc!=null and kfqymc != ''">
-            and (s.kfqymc like '%'||#{kfqymc}||'%' )
+        <if test="address!=null and address != ''">
+            and (s.address like '%'||#{address}||'%' )
         </if>
         <if test="auditType!=null and auditType != ''">
             and s.audit_type=#{auditType}
-        </if>
-        <if test="kgrq!=null and kgrq != ''">
-            and p.kgrq<![CDATA[>=]]>#{startTime})
-        </if>
-        <if test="jgrq!=null and jgrq != ''">
-            and p.jgrq<![CDATA[<=]]>#{endTime})
         </if>
         order by p.SYS_DATE desc
     </select>
 
     <!--添加或更新审核-->
-    <insert id="addOrUpdateAudit" parameterType="com.grandeflorum.project.domain.Project">
+    <insert id="addOrUpdateAudit" parameterType="com.grandeflorum.StockHouse.domin.StockHouse">
         <selectKey keyProperty="count" resultType="int" order="BEFORE">
             select count(*) from wf_audit p where p.PROJECTID=#{projectId,jdbcType=VARCHAR}
         </selectKey>

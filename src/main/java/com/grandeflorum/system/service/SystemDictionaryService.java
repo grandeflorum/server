@@ -7,5 +7,5 @@ import java.util.List;
 import java.util.Map;
 
 public interface SystemDictionaryService extends IService<DataDictionaryItem> {
-    public Map<String, List<DataDictionaryItem>> getAllDictionary();
+    Map<String, List<DataDictionaryItem>> getAllDictionary();
 }

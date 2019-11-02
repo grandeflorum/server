@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface ProjectMapper extends MyMapper<Project> {
-    List<Project> getOrganizationList(Map<String, Object> map);
+    List<Project> getProjectList(Map<String, Object> map);
 
     int addOrUpdateAudit(WFAudit param);
 
