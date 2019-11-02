@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.grandeflorum.practitioner.dao.EmployeeMapper">
+  <resultMap id="BaseResultMap" type="com.grandeflorum.practitioner.domain.Employee">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="GENDER" jdbcType="DECIMAL" property="gender" />
+    <result column="MAJOR" jdbcType="VARCHAR" property="major" />
+    <result column="EDUCATION" jdbcType="DECIMAL" property="education" />
+    <result column="ZJLB" jdbcType="DECIMAL" property="zjlb" />
+    <result column="ZJH" jdbcType="VARCHAR" property="zjh" />
+    <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+    <result column="EMAIL" jdbcType="VARCHAR" property="email" />
+    <result column="REGIONCODE" jdbcType="VARCHAR" property="regioncode" />
+    <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+    <result column="FWJGDM" jdbcType="VARCHAR" property="fwjgdm" />
+    <result column="POSTION" jdbcType="VARCHAR" property="postion" />
+    <result column="ZSMC" jdbcType="VARCHAR" property="zsmc" />
+    <result column="ZSBH" jdbcType="VARCHAR" property="zsbh" />
+    <result column="CYNX" jdbcType="DECIMAL" property="cynx" />
+    <result column="FWNX" jdbcType="DECIMAL" property="fwnx" />
+    <result column="BZ" jdbcType="OTHER" property="bz" />
+    <result column="SYS_DATE" jdbcType="TIMESTAMP" property="sysDate" />
+    <result column="SYS_UPD_DATE" jdbcType="TIMESTAMP" property="sysUpdDate" />
+    <result column="COMPANY_ID" jdbcType="VARCHAR" property="companyId" />
+  </resultMap>
+
+  <resultMap id="EmployeeListMap" type="com.grandeflorum.practitioner.domain.EmployeeList" extends="BaseResultMap">
+    <result column="AUDIT_TYPE" jdbcType="DECIMAL" property="auditType" />
+    <result column="genderName" jdbcType="VARCHAR" property="genderName" />
+    <result column="educationName" jdbcType="VARCHAR" property="educationName" />
+    <result column="fwjgName" jdbcType="VARCHAR" property="fwjgName" />
+  </resultMap>
+
+  <select id="validationCode" resultMap="BaseResultMap" parameterType="map">
+    select * from employee e where 1=1
+    <if test="zjlb!=null and zjlb!='' and zjh!=null and zjh!=''">
+      and e.ZJLB=#{zjlb} and zjh=#{zjh}
+    </if>
+    <if test="id!=null and id!=''">
+      and id!=#{id}
+    </if>
+  </select>
+
+  <select id="getEmployeeList" parameterType="map" resultMap="EmployeeListMap">
+    select e.*,c.audit_type,d1.name genderName,d2.name educationName from employee e
+    left join company c on e.company_id = c.id
+    left join dictionary d1 on d1.code = e.gender and d1.type=''
+    left join dictionary d2 on d2.code = e.education and d2.type =''
+    left join dictionary d3 on d3.code = e.fwjgdm and d3.type=''
+    where 1=1
+    <if test="name != null and name != ''">
+      and instr(e.name,#{name})>0
+    </if>
+    <if test="cynx != null and cynx != ''">
+      and e.cynx = #{cynx}
+    </if>
+    <if test="fwjgmc != null and fwjgmc != ''">
+      and instr(d3.name,#{fwjgmc})>0
+    </if>
+    <if test="auditType!=null and auditType!=''">
+      and c.audit_type = #{auditType}
+    </if>
+    <if test="companyId!=null and companyId!=''">
+      and c.COMPANY_ID = #{COMPANY_ID}
+    </if>
+  </select>
+
+</mapper>
