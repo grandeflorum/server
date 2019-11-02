@@ -11,6 +11,7 @@ import com.grandeflorum.system.dao.SystemRoleMapper;
 import com.grandeflorum.system.domain.SystemRole;
 import com.grandeflorum.system.service.SystemRoleMenuService;
 import com.grandeflorum.system.service.SystemRoleService;
+import com.grandeflorum.system.service.SystemUserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +31,9 @@ public class SystemRoleServiceImpl extends BaseService<SystemRole> implements Sy
 
     @Autowired
     SystemRoleMenuService roleMenuServie;
+
+    @Autowired
+    SystemUserRoleService systemUserRoleService;
 
     @Override
     @Transactional
@@ -75,7 +79,7 @@ public class SystemRoleServiceImpl extends BaseService<SystemRole> implements Sy
         try {
             roleMapper.deleteByPrimaryKey(id);
             roleMenuServie.deleteRoleMenusByRoleId(id);
-//            userRoleService.deleteUserRoleByRoleId(id);
+            systemUserRoleService.deleteUserRoleByRoleId(id);
             return 1;
         } catch (Exception e) {
             return 0;
