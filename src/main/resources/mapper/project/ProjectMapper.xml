@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.grandeflorum.project.dao.ProjectMapper">
+    <resultMap id="BaseResultMap" type="com.grandeflorum.project.domain.Project">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="ID" jdbcType="VARCHAR" property="id"/>
+        <result column="XMMC" jdbcType="VARCHAR" property="xmmc"/>
+        <result column="KFQYMC" jdbcType="VARCHAR" property="kfqymc"/>
+        <result column="AUDIT_TYPE" jdbcType="VARCHAR" property="auditType"/>
+    </resultMap>
+
+    <!--获取项目管理查询列表-->
+    <select id="getProjectList" resultMap="BaseResultMap">
+        select * from project p where 1=1
+        <if test="xmmc!=null">
+            and (s.xmmc like '%'||#{xmmc}||'%' )
+        </if>
+        <if test="kfqymc!=null">
+            and (s.kfqymc like '%'||#{kfqymc}||'%' )
+        </if>
+        <if test="auditType!=null">
+            and s.audit_type=#{auditType}
+        </if>
+        <if test="kgrq!=null">
+            and p.kgrq<![CDATA[>=]]>#{startTime})
+        </if>
+        <if test="jgrq!=null">
+            and p.jgrq<![CDATA[<=]]>#{endTime})
+        </if>
+        order by p.SYS_DATE desc
+    </select>
+
+    <!--添加或更新审核-->
+    <insert id="addOrUpdateAudit" parameterType="com.grandeflorum.project.domain.Project">
+        <selectKey keyProperty="count" resultType="int" order="BEFORE">
+            select count(*) from wf_audit p where p.PROJECTID=#{projectId,jdbcType=VARCHAR}
+        </selectKey>
+        <if test="count>0">
+            update wf_audit p set
+            p.shsj=#{shsj,jdbcType=TIMESTAMP},
+            p.shr=#{shr,jdbcType=VARCHAR},
+            p.shrq=#{shrq,jdbcType=TIMESTAMP},
+            p.bz=#{bz,jdbcType=VARCHAR},
+            p.SYS_UPD_DATE=#{sysdate,jdbcType=TIMESTAMP}
+            where p.id = #{projectId,jdbcType=VARCHAR}
+        </if>
+        <if test="count==0">
+            insert into wf_audit(
+            id,
+            shsj,
+            shr,
+            shrq,
+            bz,
+            PROJECTID,
+            SYS_DATE
+            )
+            values (
+            #{id,jdbcType=VARCHAR},
+            #{shsj,jdbcType=TIMESTAMP},
+            #{shr,jdbcType=VARCHAR},
+            #{shrq,jdbcType=TIMESTAMP},
+            #{bz,jdbcType=VARCHAR},
+            #{projectId,jdbcType=VARCHAR},
+            #{sysdate,jdbcType=TIMESTAMP}
+            )
+        </if>
+    </insert>
+
+</mapper>
