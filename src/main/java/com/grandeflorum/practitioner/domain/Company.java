@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.*;
 
+@Table(name = "COMPANY")
 public class Company {
     @Id
     @Column(name = "ID")
@@ -92,6 +93,12 @@ public class Company {
 
     @Column(name = "USER_ID")
     private String userId;
+
+    @Column(name = "COMPANY_TYPE")
+    private Short companyType;
+
+    @Column(name = "AUDIT_TYPE")
+    private Short auditType;
 
     /**
      * @return ID
@@ -497,5 +504,22 @@ public class Company {
      */
     public void setUserId(String userId) {
         this.userId = userId == null ? null : userId.trim();
+    }
+
+
+    public Short getCompanyType() {
+        return companyType;
+    }
+
+    public void setCompanyType(Short companyType) {
+        this.companyType = companyType;
+    }
+
+    public Short getAuditType() {
+        return auditType;
+    }
+
+    public void setAuditType(Short auditType) {
+        this.auditType = auditType;
     }
 }

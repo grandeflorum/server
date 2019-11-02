@@ -9,7 +9,7 @@
     <result column="QYMC" jdbcType="VARCHAR" property="qymc" />
     <result column="YYZZ" jdbcType="VARCHAR" property="yyzz" />
     <result column="SHXYDM" jdbcType="VARCHAR" property="shxydm" />
-    <result column="QYLX" jdbcType="DECIMAL" property="qylx" />
+    <result column="" jdbcType="DECIMAL" property="qylx" />
     <result column="ZCZJ" jdbcType="DECIMAL" property="zczj" />
     <result column="REGIONCODE" jdbcType="DECIMAL" property="regioncode" />
     <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
@@ -34,5 +34,30 @@
     <result column="SYS_DATE" jdbcType="TIMESTAMP" property="sysDate" />
     <result column="SYS_UPD_DATE" jdbcType="TIMESTAMP" property="sysUpdDate" />
     <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
+    <result column="COMPANY_TYPE" jdbcType="DECIMAL" property="companyType" />
+    <result column="AUDIT_TYPE" jdbcType="DECIMAL" property="auditType" />
   </resultMap>
+
+  <select id="getCompanyList" parameterType="map" resultMap="BaseResultMap">
+
+   select t.id,t.QYMC,t.QYFR,t.PHONE,t.ZZZSH,t.YXQX,t.audit_type from company t
+    where t.COMPANY_TYPE = #{CompanyType}
+
+    <if test="qymc !=null and qymc != ''">
+          and instr(t.QYMC,#{qymc})>0
+    </if>
+
+    <if test="qylx !=null and qylx != ''">
+      and t.qylx = #{qylx}
+    </if>
+
+    <if test="auditType != null and auditType != ''">
+      and t.audit_type = #{auditType}
+    </if>
+
+  </select>
+
+  <update id="auditCompanyById" parameterType="map">
+    update company t set t.audit_type = #{type} WHERE  t.id = #{id}
+  </update>
 </mapper>
