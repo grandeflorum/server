@@ -39,6 +39,7 @@ public class CompanyServiceImpl extends BaseService<Company> implements CompanyS
             company.setId(GuidHelper.getGuid());
             company.setSysDate(new Date());
 
+            company.setAuditType((short)0);
             companyMapper.insert(company);
             return ResponseBo.ok(company.getId());
 
