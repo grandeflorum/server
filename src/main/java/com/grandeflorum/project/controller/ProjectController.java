@@ -46,7 +46,7 @@ public class ProjectController {
      * @return
      */
     @PostMapping("/deleteProjectByIds")
-    public ResponseBo deleteSystemMenuByIds(@RequestBody List<String> ids) {
+    public ResponseBo deleteProjectByIds(@RequestBody List<String> ids) {
         if ((ids != null) && (ids.size() > 0)) {
             projectService.batchDelete(ids, "id", Project.class);
         }
