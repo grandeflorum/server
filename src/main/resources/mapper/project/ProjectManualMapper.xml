@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.grandeflorum.project.dao.ProjectManualMapper">
+
+    <resultMap id="BaseResultMap" type="com.grandeflorum.attachment.domain.FileInfo">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="ID" jdbcType="VARCHAR" property="id"/>
+        <result column="REF_ID" jdbcType="VARCHAR" property="refId"/>
+        <result column="FILE_TYPE" jdbcType="DECIMAL" property="fileType"/>
+        <result column="SERVER_FILE_NAME" jdbcType="VARCHAR" property="serverFileName"/>
+        <result column="CLIENT_FILE_NAME" jdbcType="VARCHAR" property="clientFileName"/>
+        <result column="SERVER_PATH" jdbcType="VARCHAR" property="serverPath"/>
+        <result column="UPLOAD_USER_ID" jdbcType="VARCHAR" property="uploadUserId"/>
+        <result column="UPLOAD_DATE" jdbcType="TIMESTAMP" property="uploadDate"/>
+        <result column="FILE_SUFFIX" jdbcType="VARCHAR" property="fileSuffix"/>
+    </resultMap>
+
+    <select id="getProjectManualList" parameterMap="map" resultMap="FileInfoResultMap">
+        select * from file_info t where 1=1
+        <if test="id!=null and id !=''">
+            and t.ref_id=#{id}
+        </if>
+
+        <if test="fileType!=null and fileType!=''">
+            and t.FILE_TYPE=#{fileType}
+        </if>
+
+        <if test="name!=null and name!=''">
+            and (t.CLIENT_FILE_NAME like '%'||#{name}||'%' )
+        </if>
+        order by UPLOAD_DATE desc
+    </select>
+
+
+
+</mapper>
