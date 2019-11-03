@@ -7,6 +7,7 @@ import com.grandeflorum.common.domain.PagingEntity;
 import com.grandeflorum.common.domain.ResponseBo;
 import com.grandeflorum.common.service.impl.BaseService;
 import com.grandeflorum.common.util.GuidHelper;
+import com.grandeflorum.common.util.StrUtil;
 import com.grandeflorum.practitioner.dao.EmployeeMapper;
 import com.grandeflorum.practitioner.domain.Employee;
 import com.grandeflorum.practitioner.domain.EmployeeList;
@@ -14,10 +15,7 @@ import com.grandeflorum.practitioner.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service("employeeService")
 public class EmployeeServiceImpl extends BaseService<Employee> implements EmployeeService {
@@ -71,13 +69,6 @@ public class EmployeeServiceImpl extends BaseService<Employee> implements Employ
     public ResponseBo getEmployeeList(Page page) {
         PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
-
-        List<String> desc = (List<String>) map.get("desc");
-        List<String> asc = (List<String>) map.get("asc");
-
-        for (String d:desc){
-            PageHelper.orderBy(d);
-        }
         List<EmployeeList> list = employeeMapper.getEmployeeList(map);
 
         PageInfo<EmployeeList> pageInfo = new PageInfo<EmployeeList>(list);
@@ -89,15 +80,15 @@ public class EmployeeServiceImpl extends BaseService<Employee> implements Employ
 
     @Override
     public boolean validationCode(Employee employee) {
-
+        List<Employee> list = new ArrayList<>();
         Map<String,Object> map = new HashMap<>();
 
-        map.put("zjlb",employee.getZjlb());
-        map.put("zjh",employee.getZjh());
-        map.put("id",employee.getId());
-
-        List<Employee> list = employeeMapper.validationCode(map);
-
+        if(!StrUtil.isNullOrEmpty(employee.getZjh())){
+            map.put("zjlb",employee.getZjlb());
+            map.put("zjh",employee.getZjh());
+            map.put("id",employee.getId());
+            list = employeeMapper.validationCode(map);
+        }
         return list != null && list.size() > 0;
     }
 }

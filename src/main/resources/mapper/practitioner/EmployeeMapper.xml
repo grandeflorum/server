@@ -48,25 +48,29 @@
   <select id="getEmployeeList" parameterType="map" resultMap="EmployeeListMap">
     select e.*,c.audit_type,d1.name genderName,d2.name educationName from employee e
     left join company c on e.company_id = c.id
-    left join dictionary d1 on d1.code = e.gender and d1.type=''
-    left join dictionary d2 on d2.code = e.education and d2.type =''
-    left join dictionary d3 on d3.code = e.fwjgdm and d3.type=''
+    left join dictionary d1 on d1.code = e.gender and d1.type='gender'
+    left join dictionary d2 on d2.code = e.education and d2.type ='education'
     where 1=1
     <if test="name != null and name != ''">
       and instr(e.name,#{name})>0
     </if>
     <if test="cynx != null and cynx != ''">
-      and e.cynx = #{cynx}
+      and e.cynx = ${cynx}
     </if>
     <if test="fwjgmc != null and fwjgmc != ''">
-      and instr(d3.name,#{fwjgmc})>0
+      and instr(e.fwjgdm,#{fwjgmc})>0
     </if>
     <if test="auditType!=null and auditType!=''">
-      and c.audit_type = #{auditType}
+      and c.audit_type = ${auditType}
     </if>
     <if test="companyId!=null and companyId!=''">
-      and c.COMPANY_ID = #{COMPANY_ID}
+      and e.COMPANY_ID = #{companyId}
     </if>
+   <if test="sort!=null and sort.size()>0">
+     <foreach collection="sort" item="item" open="order by " separator=",">
+       ${item}
+     </foreach>
+   </if>
   </select>
 
 </mapper>
