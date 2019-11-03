@@ -2,6 +2,7 @@ package com.grandeflorum.practitioner.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.grandeflorum.attachment.service.FileInfoService;
 import com.grandeflorum.common.domain.Page;
 import com.grandeflorum.common.domain.PagingEntity;
 import com.grandeflorum.common.domain.ResponseBo;
@@ -34,6 +35,10 @@ public class CompanyServiceImpl extends BaseService<Company> implements CompanyS
     @Autowired
     WFAuditMapper wFAuditMapper;
 
+    @Autowired
+    FileInfoService fileInfoService;
+
+
     @Override
     public ResponseBo SaveOrUpdateCompany(Company company){
 
@@ -47,6 +52,8 @@ public class CompanyServiceImpl extends BaseService<Company> implements CompanyS
 
             company.setAuditType((short)0);
             companyMapper.insert(company);
+
+            fileInfoService.updateFileInfoByIds(company.getFileInfoList(),company.getId());
             return ResponseBo.ok(company.getId());
 
         }

@@ -1,7 +1,10 @@
 package com.grandeflorum.practitioner.domain;
 
+import com.grandeflorum.attachment.domain.FileInfo;
+
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.*;
 
 @Table(name = "COMPANY")
@@ -99,6 +102,8 @@ public class Company {
 
     @Column(name = "AUDIT_TYPE")
     private Short auditType;
+
+    private List<FileInfo> fileInfoList;
 
     /**
      * @return ID
@@ -521,5 +526,13 @@ public class Company {
 
     public void setAuditType(Short auditType) {
         this.auditType = auditType;
+    }
+
+    public List<FileInfo> getFileInfoList() {
+        return fileInfoList;
+    }
+
+    public void setFileInfoList(List<FileInfo> fileInfoList) {
+        this.fileInfoList = fileInfoList;
     }
 }
