@@ -80,7 +80,11 @@ public class StockHouseServiceImpl extends BaseService<StockHouse> implements St
     public ResponseBo auditStockHouses(AuditParam param) {
         for (String id : param.ids) {
             //更新项目表信息
-            auditStockHouseById(id, 2);
+            if(param.getWfAudit().getShjg()==1){
+                auditStockHouseById(id, 2);
+            }else{
+                auditStockHouseById(id, 3);
+            }
 
             //添加或更新审核表信息
             if (param.getWfAudit() != null && param.getWfAudit().getId() == null) {

@@ -67,7 +67,11 @@ public class ProjectServiceImpl extends BaseService<Project> implements ProjectS
     public ResponseBo auditProjects(AuditParam param) {
         for (String id : param.ids) {
             //更新项目表信息
-            auditProjectById(id, 2);
+            if(param.getWfAudit().getShjg()==1){
+                auditProjectById(id, 2);
+            }else{
+                auditProjectById(id, 3);
+            }
 
             //添加或更新审核表信息
             if (param.getWfAudit() != null && param.getWfAudit().getId() == null) {
