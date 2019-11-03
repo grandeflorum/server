@@ -25,12 +25,12 @@
 
     <select id="getFileListByRefidAndType" resultMap="BaseResultMap">
         select * from file_info t where 1=1
-        <if test="id!=null and id !=''">
-            and t.ref_id=#{id}
+        <if test="refid!=null and refid !=''">
+            and t.ref_id=#{refid}
         </if>
 
-        <if test="fileType!=null and fileType!=''">
-            and t.FILE_TYPE=#{fileType}
+        <if test="type!=null and type!=''">
+            and t.FILE_TYPE=#{type}
         </if>
 
         <if test="name!=null and name!=''">
