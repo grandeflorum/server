@@ -36,56 +36,67 @@ public class FileInfoServiceImpl extends BaseService<FileInfo> implements FileIn
     private GrandeflorumProperties grandeflorumProperties;
 
     @Override
-    public ResponseBo upload(MultipartFile multifile, HttpServletRequest request) {
-
-        String guid = UUID.randomUUID().toString();
+    public ResponseBo upload(MultipartFile[] multifiles, HttpServletRequest request) {
 
         String fromID = request.getParameter("refid");
+        String fileType = request.getParameter("type");
 
-        if (null == multifile) {
+        List<String> results = new ArrayList<>();
+        if (null == multifiles||multifiles.length==0) {
             return ResponseBo.error();
         }
-        String ext = null;
-        String storeFile = null;
-        String fileName = null;
-        String fileSavePath = "";
-        String storageFolder="";
 
-        try {
-            fileName = StrUtil.isNullOrEmpty(fileName) ? multifile.getOriginalFilename() : fileName;
-            fileName = new String(fileName.getBytes("UTF-8"), "UTF-8");
-            ext = FilenameUtils.getExtension(fileName); //fileName.split("\\.")[1];
-            storeFile = guid + "." + ext;
+        for (MultipartFile multi:multifiles
+             ) {
+            MultipartFile multifile = multi;
+            String guid = UUID.randomUUID().toString();
+            results.add(guid);
 
-            // 保存文件
-            storageFolder = GetFileStorageFolder(guid);
-            fileSavePath = storageFolder + storeFile;
-            File file = new File(storageFolder);
+            String ext = null;
+            String storeFile = null;
+            String fileName = null;
+            String fileSavePath = "";
+            String storageFolder="";
 
-            if (!file.exists()) {
-                file.mkdirs();
+            try {
+                fileName = StrUtil.isNullOrEmpty(fileName) ? multifile.getOriginalFilename() : fileName;
+                fileName = new String(fileName.getBytes("UTF-8"), "UTF-8");
+                ext = FilenameUtils.getExtension(fileName); //fileName.split("\\.")[1];
+                storeFile = guid + "." + ext;
+
+                // 保存文件
+                storageFolder = GetFileStorageFolder(guid);
+                fileSavePath = storageFolder + storeFile;
+                File file = new File(storageFolder);
+
+                if (!file.exists()) {
+                    file.mkdirs();
+                }
+
+                File file1 = new File(fileSavePath);
+                multifile.transferTo(file1);
+
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
 
-            File file1 = new File(fileSavePath);
-            multifile.transferTo(file1);
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+            FileInfo fileInfo = new FileInfo();
+            fileInfo.setRefId(fromID);
+            fileInfo.setId(guid);
+            fileInfo.setFileSuffix(ext);
+            fileInfo.setServerFileName(storeFile);
+            fileInfo.setClientFileName(fileName);
+            fileInfo.setServerPath(fileSavePath);
+            fileInfo.setUploadDate(new Date());
+            fileInfo.setFileType(Short.parseShort(fileType));
+            fileInfoMapper.insert(fileInfo);
         }
 
-        FileInfo fileInfo = new FileInfo();
-        fileInfo.setRefId(fromID);
-        fileInfo.setId(guid);
-        fileInfo.setFileSuffix(ext);
-        fileInfo.setServerFileName(storeFile);
-        fileInfo.setClientFileName(fileName);
-        fileInfo.setServerPath(fileSavePath);
-        fileInfo.setUploadDate(new Date());
-        fileInfoMapper.insert(fileInfo);
 
-        return ResponseBo.ok(guid);
+
+        return ResponseBo.ok(results);
     }
 
 

@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface FileInfoService extends IService<FileInfo>{
 
-    ResponseBo upload(MultipartFile file, HttpServletRequest request);
+    ResponseBo upload(MultipartFile[] file, HttpServletRequest request);
 
     ResponseBo getFileList(String id);
 
