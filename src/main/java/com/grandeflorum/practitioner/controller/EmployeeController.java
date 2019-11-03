@@ -40,7 +40,7 @@ public class EmployeeController {
         int result = employeeService.addEmployee(employee);
 
         if(result ==1){
-            return ResponseBo.ok("新增从业人员成功！");
+            return ResponseBo.ok(employee);
         }else{
             return ResponseBo.error("新增从业人员失败，请联系网站管理员！");
         }
@@ -56,7 +56,7 @@ public class EmployeeController {
         int result = employeeService.modifyEmployee(employee);
 
         if (result == 1) {
-            return ResponseBo.ok("修改成功");
+            return ResponseBo.ok(employee);
         } else {
             return ResponseBo.error("修改失败");
         }

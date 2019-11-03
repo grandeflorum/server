@@ -4,6 +4,8 @@ import com.grandeflorum.common.domain.Page;
 import com.grandeflorum.common.domain.ResponseBo;
 import com.grandeflorum.common.service.IService;
 import com.grandeflorum.practitioner.domain.Company;
+import com.grandeflorum.project.domain.AuditParam;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -46,4 +48,11 @@ public interface CompanyService extends IService<Company>{
      * @return
      */
     ResponseBo auditCompanyById(String id,int type);
+
+    /**
+     * 批量审核
+     * @param auditParam
+     * @return
+     */
+    ResponseBo btachAuditCompany(AuditParam auditParam);
 }

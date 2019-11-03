@@ -40,7 +40,7 @@
         <if test="count>0">
             update wf_audit p set
             p.shsj=#{shsj,jdbcType=TIMESTAMP},
-            p.shr=#{shr,jdbcType=VARCHAR},
+            p.shry=#{shry,jdbcType=VARCHAR},
             p.shrq=#{shrq,jdbcType=TIMESTAMP},
             p.bz=#{bz,jdbcType=VARCHAR},
             p.SYS_UPD_DATE=#{sysdate,jdbcType=TIMESTAMP}
@@ -50,7 +50,7 @@
             insert into wf_audit(
             id,
             shsj,
-            shr,
+            shry,
             shrq,
             bz,
             PROJECTID,
@@ -59,7 +59,7 @@
             values (
             #{id,jdbcType=VARCHAR},
             #{shsj,jdbcType=TIMESTAMP},
-            #{shr,jdbcType=VARCHAR},
+            #{shry,jdbcType=VARCHAR},
             #{shrq,jdbcType=TIMESTAMP},
             #{bz,jdbcType=VARCHAR},
             #{projectId,jdbcType=VARCHAR},

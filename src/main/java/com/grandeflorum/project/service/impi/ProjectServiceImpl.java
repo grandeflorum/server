@@ -73,7 +73,7 @@ public class ProjectServiceImpl extends BaseService<Project> implements ProjectS
             if (param.getWfAudit() != null && param.getWfAudit().getId() == null) {
                 param.getWfAudit().setId(GuidHelper.getGuid());
             }
-            param.getWfAudit().setProjectId(id);
+            param.getWfAudit().setProjectid(id);
             projectMapper.addOrUpdateAudit(param.getWfAudit());
         }
         return ResponseBo.ok();

@@ -11,6 +11,9 @@ import com.grandeflorum.common.util.StrUtil;
 import com.grandeflorum.practitioner.dao.CompanyMapper;
 import com.grandeflorum.practitioner.domain.Company;
 import com.grandeflorum.practitioner.service.CompanyService;
+import com.grandeflorum.project.dao.WFAuditMapper;
+import com.grandeflorum.project.domain.AuditParam;
+import com.grandeflorum.project.domain.WFAudit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +30,9 @@ public class CompanyServiceImpl extends BaseService<Company> implements CompanyS
 
     @Autowired
     CompanyMapper companyMapper;
+
+    @Autowired
+    WFAuditMapper wFAuditMapper;
 
     @Override
     public ResponseBo SaveOrUpdateCompany(Company company){
@@ -96,6 +102,42 @@ public class CompanyServiceImpl extends BaseService<Company> implements CompanyS
         companyMapper.auditCompanyById(map);
 
         return ResponseBo.ok();
+    }
+
+    @Override
+    public ResponseBo btachAuditCompany(AuditParam auditParam){
+
+        WFAudit wf = auditParam.getWfAudit();
+
+        for (String id:auditParam.getIds() ) {
+
+            WFAudit wfAudit = new WFAudit();
+            wfAudit.setId(GuidHelper.getGuid());
+
+            wfAudit.setShjg(wf.getShjg());
+            wfAudit.setShry(wf.getShry());
+            wfAudit.setShrq(wf.getShrq());
+            wfAudit.setBz(wf.getBz());
+
+            wfAudit.setProjectid(id);
+            wfAudit.setSysDate(new Date());
+            wfAudit.setSysUpdDate(new Date());
+
+            wFAuditMapper.insert(wfAudit);
+
+            //更新企业审核状态
+            Map<String,Object> map =new HashMap<>();
+            map.put("id",id);
+            if(wf.getShjg()==1){
+                map.put("type",2);
+            }else{
+                map.put("type",3);
+            }
+            companyMapper.auditCompanyById(map);
+        }
+
+        return ResponseBo.ok();
+
     }
 
 

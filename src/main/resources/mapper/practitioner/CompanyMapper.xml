@@ -55,6 +55,12 @@
       and t.audit_type = #{auditType}
     </if>
 
+    <if test="sort!=null and sort.size()>0">
+      <foreach collection="sort" item="item" open="order by " separator=",">
+        ${item}
+      </foreach>
+    </if>
+
   </select>
 
   <update id="auditCompanyById" parameterType="map">
