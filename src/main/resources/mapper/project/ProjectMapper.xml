@@ -8,20 +8,20 @@
         <id column="ID" jdbcType="VARCHAR" property="id"/>
         <result column="XMMC" jdbcType="VARCHAR" property="xmmc"/>
         <result column="KFQYMC" jdbcType="VARCHAR" property="kfqymc"/>
-        <result column="AUDIT_TYPE" jdbcType="VARCHAR" property="auditType"/>
+        <result column="AUDIT_TYPE" jdbcType="DECIMAL" property="auditType"/>
     </resultMap>
 
     <!--获取项目管理查询列表-->
     <select id="getProjectList" resultMap="BaseResultMap">
         select * from project p where 1=1
         <if test="xmmc!=null and xmmc != ''">
-            and (s.xmmc like '%'||#{xmmc}||'%' )
+            and (p.xmmc like '%'||#{xmmc}||'%' )
         </if>
         <if test="kfqymc!=null and kfqymc != ''">
-            and (s.kfqymc like '%'||#{kfqymc}||'%' )
+            and (p.kfqymc like '%'||#{kfqymc}||'%' )
         </if>
         <if test="auditType!=null and auditType != ''">
-            and s.audit_type=#{auditType}
+            and p.audit_type=#{auditType}
         </if>
         <if test="kgrq!=null and kgrq != ''">
             and p.kgrq<![CDATA[>=]]>#{startTime})
