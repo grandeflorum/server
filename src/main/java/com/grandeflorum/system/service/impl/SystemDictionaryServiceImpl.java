@@ -30,6 +30,22 @@ public class SystemDictionaryServiceImpl extends BaseService<DataDictionaryItem>
                 dictionariesMap.put(dataDictionaryItem.getType(), list);
             }
         }
+
+        for (List<DataDictionaryItem> list : dictionariesMap.values()) {
+            Collections.sort(list, new Comparator<DataDictionaryItem>() {
+                @Override
+                public int compare(DataDictionaryItem o1, DataDictionaryItem o2) {
+                    int diff = o1.getRank() - o2.getRank();
+                    if(diff>0){
+                        return 1;
+                    }else if(diff<0){
+                        return -1;
+                    }else{
+                        return 0;
+                    }
+                }
+            });
+        }
         return dictionariesMap;
     }
 
