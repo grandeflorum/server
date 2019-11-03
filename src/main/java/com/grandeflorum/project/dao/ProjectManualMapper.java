@@ -6,6 +6,6 @@ import com.grandeflorum.common.config.MyMapper;
 import java.util.List;
 import java.util.Map;
 
-public interface ProjectManualMapper extends MyMapper<FileInfo> {
+public interface ProjectManualMapper  {
     List<FileInfo> getProjectManualList(Map<String, Object> map);
 }
