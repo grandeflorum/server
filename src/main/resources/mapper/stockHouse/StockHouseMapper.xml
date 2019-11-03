@@ -8,20 +8,20 @@
         <id column="ID" jdbcType="VARCHAR" property="id"/>
         <result column="CQRXM" jdbcType="VARCHAR" property="cqrxm"/>
         <result column="ADDRESS" jdbcType="VARCHAR" property="address"/>
-        <result column="AUDIT_TYPE" jdbcType="VARCHAR" property="auditType"/>
+        <result column="AUDIT_TYPE" jdbcType="DECIMAL" property="auditType"/>
     </resultMap>
 
     <!--获取存量房源查询列表-->
     <select id="getStockHouseList" resultMap="BaseResultMap">
         select * from StockHouse p where 1=1
         <if test="cqrxm!=null and cqrxm != ''">
-            and (s.cqrxm like '%'||#{cqrxm}||'%' )
+            and (p.cqrxm like '%'||#{cqrxm}||'%' )
         </if>
         <if test="address!=null and address != ''">
-            and (s.address like '%'||#{address}||'%' )
+            and (p.address like '%'||#{address}||'%' )
         </if>
         <if test="auditType!=null and auditType != ''">
-            and s.audit_type=#{auditType}
+            and p.audit_type=#{auditType}
         </if>
         order by p.SYS_DATE desc
     </select>
