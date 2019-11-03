@@ -1,6 +1,7 @@
 package com.grandeflorum.attachment.controller;
 
 import com.grandeflorum.attachment.service.FileInfoService;
+import com.grandeflorum.common.domain.Page;
 import com.grandeflorum.common.domain.ResponseBo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -42,5 +43,17 @@ public class FileInfoController {
     @GetMapping("/download")
     public void downloadAccessoryByid(String id,int type,HttpServletResponse response){
         fileInfoService.downloadAccessoryByid(id,type,response);
+    }
+
+    /**
+     * 查询开发项目信息
+     *
+     * @param page
+     * @return
+     */
+    @PostMapping("/getFileListByRefidAndType")
+    public ResponseBo getFileListByRefidAndType(@RequestBody Page page) {
+
+        return fileInfoService.getFileListByRefidAndType(page);
     }
 }

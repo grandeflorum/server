@@ -29,7 +29,15 @@
         <if test="jgrq!=null and jgrq != ''">
             and p.jgrq<![CDATA[<=]]>#{endTime})
         </if>
-        order by p.SYS_DATE desc
+        <if test="sort!=null and sort.size()>0">
+            <foreach collection="sort" item="item" open="order by " separator=",">
+                ${item}
+            </foreach>
+        </if>
+        <if test="sort==null or sort.size()==0">
+            order by p.SYS_DATE desc
+        </if>
+
     </select>
 
     <!--添加或更新审核-->
