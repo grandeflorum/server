@@ -1,9 +1,13 @@
 package com.grandeflorum.attachment.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.grandeflorum.attachment.dao.FileInfoMapper;
 import com.grandeflorum.attachment.domain.FileInfo;
 import com.grandeflorum.attachment.service.FileInfoService;
 import com.grandeflorum.common.config.GrandeflorumProperties;
+import com.grandeflorum.common.domain.Page;
+import com.grandeflorum.common.domain.PagingEntity;
 import com.grandeflorum.common.domain.ResponseBo;
 import com.grandeflorum.common.service.impl.BaseService;
 import com.grandeflorum.common.util.StrUtil;
@@ -108,6 +112,18 @@ public class FileInfoServiceImpl extends BaseService<FileInfo> implements FileIn
 
         String path = String.format("%s%s/%s/", webInfPath, actualFile.charAt(0), actualFile.charAt(1));
         return path;
+    }
+
+    @Override
+    public ResponseBo getFileListByRefidAndType(Page page) {
+        PageHelper.startPage(page.getPageNo(), page.getPageSize());
+        Map<String, Object> map = page.getQueryParameter();
+        List<FileInfo> list = fileInfoMapper.getFileListByRefidAndType(map);
+
+        PageInfo<FileInfo> pageInfo = new PageInfo<FileInfo>(list);
+
+        PagingEntity<FileInfo> result = new PagingEntity<>(pageInfo);
+        return ResponseBo.ok(result);
     }
 
     @Override

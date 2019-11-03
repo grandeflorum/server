@@ -1,6 +1,7 @@
 package com.grandeflorum.attachment.service;
 
 import com.grandeflorum.attachment.domain.FileInfo;
+import com.grandeflorum.common.domain.Page;
 import com.grandeflorum.common.domain.ResponseBo;
 import com.grandeflorum.common.service.IService;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,6 +24,8 @@ public interface FileInfoService extends IService<FileInfo>{
     void updateFileInfoByIds(List<FileInfo> list, String id);
 
     String GetFileStorageFolder(String id);
+
+    ResponseBo getFileListByRefidAndType(Page page);
 }
 
 
