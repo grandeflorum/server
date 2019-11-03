@@ -16,11 +16,17 @@ public class RelationShip {
     @Id
     @Column(name = "ID")
     public String id;
+
+    /**
+     * 姓名
+     */
+    @Column(name = "name")
+    public String name;
     /**
      * 性别
      */
     @Column(name = "GENDER")
-    public String gender;
+    public Integer gender;
     /**
      * 身份证号
      */
@@ -62,11 +68,19 @@ public class RelationShip {
         this.id = id;
     }
 
-    public String getGender() {
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(Integer gender) {
         this.gender = gender;
     }
 
