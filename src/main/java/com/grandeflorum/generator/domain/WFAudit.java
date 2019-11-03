@@ -1,22 +1,20 @@
-package com.grandeflorum.project.domain;
-
-import com.grandeflorum.common.domain.EntityBase;
+package domain;
 
 import java.util.Date;
 import javax.persistence.*;
 
 @Table(name = "WF_AUDIT")
-public class WFAudit extends EntityBase {
-
+public class WFAudit {
     @Id
     @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
     @Column(name = "SHJG")
     private Short shjg;
 
-    @Column(name = "SHRY")
-    private String shry;
+    @Column(name = "SHR")
+    private String shr;
 
     @Column(name = "SHRQ")
     private Date shrq;
@@ -64,15 +62,15 @@ public class WFAudit extends EntityBase {
     /**
      * @return SHR
      */
-    public String getShry() {
-        return shry;
+    public String getShr() {
+        return shr;
     }
 
     /**
-     * @param shry
+     * @param shr
      */
-    public void setShry(String shry) {
-        this.shry = shry == null ? null : shry.trim();
+    public void setShr(String shr) {
+        this.shr = shr == null ? null : shr.trim();
     }
 
     /**
