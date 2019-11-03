@@ -23,7 +23,16 @@
         <if test="auditType!=null and auditType != ''">
             and p.audit_type=#{auditType}
         </if>
-        order by p.SYS_DATE desc
+        <choose>
+            <when test="sort!=null and sort.size()>0">
+                <foreach collection="sort" item="item" open="order by " separator=",">
+                    ${item}
+                </foreach>
+            </when>
+            <otherwise>
+                order by p.SYS_DATE desc
+            </otherwise>
+        </choose>
     </select>
 
     <!--添加或更新审核-->
