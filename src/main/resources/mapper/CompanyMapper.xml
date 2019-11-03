@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.CompanyMapper">
+  <resultMap id="BaseResultMap" type="domain.Company">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="QYMC" jdbcType="VARCHAR" property="qymc" />
+    <result column="YYZZ" jdbcType="VARCHAR" property="yyzz" />
+    <result column="SHXYDM" jdbcType="VARCHAR" property="shxydm" />
+    <result column="QYLX" jdbcType="DECIMAL" property="qylx" />
+    <result column="ZCZJ" jdbcType="DECIMAL" property="zczj" />
+    <result column="REGIONCODE" jdbcType="DECIMAL" property="regioncode" />
+    <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+    <result column="QYFR" jdbcType="VARCHAR" property="qyfr" />
+    <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+    <result column="YZBM" jdbcType="VARCHAR" property="yzbm" />
+    <result column="ZJLX" jdbcType="DECIMAL" property="zjlx" />
+    <result column="ZJH" jdbcType="VARCHAR" property="zjh" />
+    <result column="QYTEL" jdbcType="VARCHAR" property="qytel" />
+    <result column="CLRQ" jdbcType="TIMESTAMP" property="clrq" />
+    <result column="YYQX" jdbcType="VARCHAR" property="yyqx" />
+    <result column="ZGBM" jdbcType="VARCHAR" property="zgbm" />
+    <result column="QYWZ" jdbcType="VARCHAR" property="qywz" />
+    <result column="DZYX" jdbcType="VARCHAR" property="dzyx" />
+    <result column="DMZH" jdbcType="VARCHAR" property="dmzh" />
+    <result column="ZZZSH" jdbcType="VARCHAR" property="zzzsh" />
+    <result column="ZZDJ" jdbcType="DECIMAL" property="zzdj" />
+    <result column="PZSJ" jdbcType="TIMESTAMP" property="pzsj" />
+    <result column="YXQX" jdbcType="VARCHAR" property="yxqx" />
+    <result column="PZBM" jdbcType="VARCHAR" property="pzbm" />
+    <result column="BZ" jdbcType="OTHER" property="bz" />
+    <result column="SYS_DATE" jdbcType="TIMESTAMP" property="sysDate" />
+    <result column="SYS_UPD_DATE" jdbcType="TIMESTAMP" property="sysUpdDate" />
+    <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
+    <result column="COMPANY_TYPE" jdbcType="DECIMAL" property="companyType" />
+    <result column="AUDIT_TYPE" jdbcType="DECIMAL" property="auditType" />
+  </resultMap>
+</mapper>
