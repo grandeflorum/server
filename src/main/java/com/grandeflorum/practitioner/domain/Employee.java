@@ -1,6 +1,9 @@
 package com.grandeflorum.practitioner.domain;
 
+import com.grandeflorum.attachment.domain.FileInfo;
+
 import java.util.Date;
+import java.util.List;
 import javax.persistence.*;
 
 public class Employee {
@@ -67,6 +70,16 @@ public class Employee {
 
     @Column(name = "COMPANY_ID")
     private String companyId;
+
+    private List<FileInfo> fileInfoList;
+
+    public List<FileInfo> getFileInfoList() {
+        return fileInfoList;
+    }
+
+    public void setFileInfoList(List<FileInfo> fileInfoList) {
+        this.fileInfoList = fileInfoList;
+    }
 
     /**
      * @return ID

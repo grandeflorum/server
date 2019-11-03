@@ -2,6 +2,7 @@ package com.grandeflorum.practitioner.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.grandeflorum.attachment.service.FileInfoService;
 import com.grandeflorum.common.domain.Page;
 import com.grandeflorum.common.domain.PagingEntity;
 import com.grandeflorum.common.domain.ResponseBo;
@@ -23,6 +24,9 @@ public class EmployeeServiceImpl extends BaseService<Employee> implements Employ
     @Autowired
     private EmployeeMapper employeeMapper;
 
+    @Autowired
+    FileInfoService fileInfoService;
+
     @Override
     public int addEmployee(Employee employee) {
         employee.setId(GuidHelper.getGuid());
@@ -30,6 +34,7 @@ public class EmployeeServiceImpl extends BaseService<Employee> implements Employ
         employee.setSysUpdDate(new Date());
 
         try{
+            fileInfoService.updateFileInfoByIds(employee.getFileInfoList(),employee.getId());
             employeeMapper.insert(employee);
             return 1;
         }catch (Exception e){
