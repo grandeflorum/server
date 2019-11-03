@@ -13,8 +13,8 @@ public class WFAudit {
     @Column(name = "SHJG")
     private Short shjg;
 
-    @Column(name = "SHR")
-    private String shr;
+    @Column(name = "SHRY")
+    private String shry;
 
     @Column(name = "SHRQ")
     private Date shrq;
@@ -60,17 +60,17 @@ public class WFAudit {
     }
 
     /**
-     * @return SHR
+     * @return SHRY
      */
-    public String getShr() {
-        return shr;
+    public String getShry() {
+        return shry;
     }
 
     /**
-     * @param shr
+     * @param shry
      */
-    public void setShr(String shr) {
-        this.shr = shr == null ? null : shr.trim();
+    public void setShry(String shry) {
+        this.shry = shry == null ? null : shry.trim();
     }
 
     /**
