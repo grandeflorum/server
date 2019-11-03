@@ -86,7 +86,7 @@ public class StockHouseServiceImpl extends BaseService<StockHouse> implements St
             if (param.getWfAudit() != null && param.getWfAudit().getId() == null) {
                 param.getWfAudit().setId(GuidHelper.getGuid());
             }
-            param.getWfAudit().setProjectId(id);
+            param.getWfAudit().setProjectid(id);
             stockHouseMapper.addOrUpdateAudit(param.getWfAudit());
         }
         return ResponseBo.ok();
