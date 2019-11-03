@@ -119,8 +119,8 @@ public class Project {
     /**
      * 项目状态
      */
-    @Column(name = "XMJD")
-    public Integer xmjd;
+    @Column(name = "XMZT")
+    public Integer xmzt;
 
     /**
      * 拆迁标志
@@ -355,12 +355,12 @@ public class Project {
         this.gcjd = gcjd;
     }
 
-    public Integer getXmjd() {
-        return xmjd;
+    public Integer getXmzt() {
+        return xmzt;
     }
 
-    public void setXmjd(Integer xmjd) {
-        this.xmjd = xmjd;
+    public void setXmzt(Integer xmzt) {
+        this.xmzt = xmzt;
     }
 
     public Integer getCqbz() {
