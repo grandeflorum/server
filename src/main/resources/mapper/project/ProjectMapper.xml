@@ -33,23 +33,23 @@
     </select>
 
     <!--添加或更新审核-->
-    <insert id="addOrUpdateAudit" parameterType="com.grandeflorum.project.domain.Project">
+    <insert id="addOrUpdateAudit" parameterType="com.grandeflorum.project.domain.WFAudit">
         <selectKey keyProperty="count" resultType="int" order="BEFORE">
-            select count(*) from wf_audit p where p.PROJECTID=#{projectId,jdbcType=VARCHAR}
+            select count(*) from wf_audit p where p.PROJECTID=#{projectid,jdbcType=VARCHAR}
         </selectKey>
         <if test="count>0">
             update wf_audit p set
-            p.shsj=#{shsj,jdbcType=TIMESTAMP},
+            p.shjg=#{shjg,jdbcType=DECIMAL},
             p.shry=#{shry,jdbcType=VARCHAR},
             p.shrq=#{shrq,jdbcType=TIMESTAMP},
             p.bz=#{bz,jdbcType=VARCHAR},
-            p.SYS_UPD_DATE=#{sysdate,jdbcType=TIMESTAMP}
-            where p.id = #{projectId,jdbcType=VARCHAR}
+            p.SYS_UPD_DATE=sysdate
+            where p.id = #{projectid,jdbcType=VARCHAR}
         </if>
         <if test="count==0">
             insert into wf_audit(
             id,
-            shsj,
+            shjg,
             shry,
             shrq,
             bz,
@@ -58,12 +58,12 @@
             )
             values (
             #{id,jdbcType=VARCHAR},
-            #{shsj,jdbcType=TIMESTAMP},
+            #{shjg,jdbcType=DECIMAL},
             #{shry,jdbcType=VARCHAR},
             #{shrq,jdbcType=TIMESTAMP},
             #{bz,jdbcType=VARCHAR},
-            #{projectId,jdbcType=VARCHAR},
-            #{sysdate,jdbcType=TIMESTAMP}
+            #{projectid,jdbcType=VARCHAR},
+            sysdate
             )
         </if>
     </insert>
