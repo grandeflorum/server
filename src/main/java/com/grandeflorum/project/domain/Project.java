@@ -114,7 +114,7 @@ public class Project {
      * 当前工程进度
      */
     @Column(name = "GCJD")
-    public Integer gcjd;
+    public String gcjd;
 
     /**
      * 项目状态
@@ -347,11 +347,11 @@ public class Project {
         this.jgrq = jgrq;
     }
 
-    public Integer getGcjd() {
+    public String getGcjd() {
         return gcjd;
     }
 
-    public void setGcjd(Integer gcjd) {
+    public void setGcjd(String gcjd) {
         this.gcjd = gcjd;
     }
 
