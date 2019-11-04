@@ -1,5 +1,6 @@
 package com.grandeflorum.attachment.controller;
 
+import com.grandeflorum.attachment.domain.FileInfo;
 import com.grandeflorum.attachment.service.FileInfoService;
 import com.grandeflorum.common.domain.Page;
 import com.grandeflorum.common.domain.ResponseBo;
@@ -35,6 +36,12 @@ public class FileInfoController {
         return ResponseBo.ok();
     }
 
+    @PostMapping("/deleteByIds")
+    public ResponseBo deleteFileByIds(@RequestBody List<String> ids){
+        int num= fileInfoService.batchDelete(ids,"id", FileInfo.class);
+        return ResponseBo.ok();
+    }
+
     @GetMapping("/getFileListById")
     public ResponseBo getFileList(String id){
         return fileInfoService.getFileList(id);
@@ -46,7 +53,7 @@ public class FileInfoController {
     }
 
     /**
-     * 查询开发项目信息
+     * 通过refid与类型查询附件列表（参数：refid，type）
      *
      * @param page
      * @return
