@@ -70,8 +70,8 @@ public class SystemUserServiceImpl extends BaseService<SystemUser> implements Sy
     }
 
     @Override
-    public List<String> getAllPermissionByUserId(String userId) {
-        List<String> result = userMapper.getPermissionByUserId(userId);
+    public List<String> getAllPermissionByUserId(String id) {
+        List<String> result = userMapper.getPermissionByUserId(id);
         return result;
     }
 

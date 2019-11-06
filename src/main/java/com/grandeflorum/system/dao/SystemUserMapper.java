@@ -2,6 +2,7 @@ package com.grandeflorum.system.dao;
 
 import com.grandeflorum.common.config.MyMapper;
 import com.grandeflorum.system.domain.SystemUser;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -12,7 +13,7 @@ public interface SystemUserMapper extends MyMapper<SystemUser> {
 
     SystemUser getUserDetailByUserId(String userId);
 
-    List<String> getPermissionByUserId(String userId);
+    List<String> getPermissionByUserId(@Param("id") String id);
 
     SystemUser findByName(String username);
 

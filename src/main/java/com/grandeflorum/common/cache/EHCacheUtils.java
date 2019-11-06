@@ -1,5 +1,6 @@
 package com.grandeflorum.common.cache;
 
+import com.grandeflorum.system.domain.SystemUser;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
@@ -7,6 +8,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * Created by 13260 on 2019/9/1.
@@ -55,6 +57,45 @@ public class EHCacheUtils {
         if(cache.get(key)!=null && !cache.get(key).equals("")){
             cache.remove(key);
         }
+    }
+
+    public static  SystemUser getCurrentUser(CacheManager cacheManager){
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
+                .getRequest();
+
+        String key = request.getHeader("auth_id");
+        if (null == key){
+            key =  request.getParameter("AUTH_ID");
+        }
+        SystemUser systemUser = null;
+
+        Cache cache = cacheManager.getCache("objectCache");
+        if(cache.get(key)!=null && !cache.get(key).equals("")){
+            systemUser =(SystemUser) cache.get(key).getObjectValue();
+        }
+
+        return systemUser;
+    }
+
+    public static void deleteCacheByUserId(CacheManager cacheManager,String id){
+        Cache cache = cacheManager.getCache("objectCache");
+        SystemUser object = null;
+
+        List<String> list =  cache.getKeys();
+        if(list!=null&&list.size()>0){
+
+            for (int i=0;i<list.size();i++){
+                if(cache.get(list.get(i))!=null && !cache.get(list.get(i)).equals("")){
+                    object =(SystemUser) cache.get(list.get(i)).getObjectValue();
+                    if(object.getId().equals(id)){
+                        cache.remove(list.get(i));
+                        break;
+                    }
+                }
+            }
+
+        }
+
     }
 
 }
