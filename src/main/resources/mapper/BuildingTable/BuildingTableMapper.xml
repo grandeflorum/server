@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.grandeflorum.buildingTable.dao.BuildingTableMapper">
+
+
+    <select id="getBuildingTableList" parameterType="map" resultType="com.grandeflorum.buildingTable.domain.ResultList">
+        select z.XMMC,z.JZWMC,lj.LZZS,t.ZTS,t.ZMJ from zrz z
+        left join (select l.ZRZH,count(1)LZZS from ljz l where l.zt='1' group by l.ZRZH) lj on lj.zrzh  = z.ZRZH
+        left join (select h.ZRZH,sum(h.SCJZMJ) ZMJ,count(1)ZTS from h where h.zt='1' group by h.ZRZH) t on t.zrzh = z.zrzh
+        where zt='1'
+        <if test="xmmc != null and xmmc != ''">
+            and instr(z.xmmc,#{xmmc})>0
+        </if>
+        <if test="jzwmc != null and jzwmc != ''">
+            and instr(z.jzwmc,#{jzwmc})>0
+        </if>
+        <if test="sort!=null and sort.size()>0">
+            <foreach collection="sort" item="item" open="order by " separator=",">
+                ${item}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="getCList" parameterType="map" resultType="com.grandeflorum.buildingTable.domain.C">
+        select c.ID,c.SJC,c.CH,c.SFQFDY from c where c.zrzh=#{zrzh} and c.ljzh=#{ljzh} and c.zt='1' order by c.sjc desc
+    </select>
+
+    <select id="getLjz" parameterType="java.lang.String" resultType="com.grandeflorum.buildingTable.domain.LJZ">
+        select l.ID,l.LJZH,l.ZRZH,l.MPH,l.SCJZMJ,l.FWYT1,l.ZCS from ljz l where l.id = #{id}
+    </select>
+
+    <select id="getLjzList" parameterType="java.lang.String" resultType="com.grandeflorum.buildingTable.domain.LJZ">
+        select l.ID,l.LJZH,l.ZRZH,l.MPH,l.SCJZMJ,l.FWYT1,l.ZCS from ljz l where l.zrzh = #{zrzh}
+    </select>
+
+    <select id="getZrz" parameterType="java.lang.String" resultType="com.grandeflorum.buildingTable.domain.ZRZ">
+        select z.ID,z.ZRZH,z.XMMC,z.JZWMC from zrz z where z.id = #{id}
+    </select>
+
+    <select id="getHList" parameterType="map" resultType="com.grandeflorum.buildingTable.domain.H">
+        select h.ID,h.BDCDYH,h.FWBM,h.CH,h.ZL,h.SJCS,h.HH,h.SHBW,h.HX,h.HXJG,h.FWYT1,h.SCJZMJ,h.FWLX,h.MPH,nvl(h.DYH,1)dyh,nvl(h.HBH,1)hbh,
+        Nvl2(d.ID,1,nvl2(cf.ID,2,0)) status from h
+        left join dyaq d on d.BDCDYH = h.BDCDYH and d.QSZT='1'
+        left join cfdj cf on cf.BDCDYH = h.BDCDYH and cf.QSZT='1'
+        where h.zt='1' and h.ZRZH=#{zrzh} and h.ljzh=#{ljzh}
+    </select>
+
+</mapper>
