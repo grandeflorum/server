@@ -4,7 +4,7 @@
 
 
     <select id="getBuildingTableList" parameterType="map" resultType="com.grandeflorum.buildingTable.domain.ResultList">
-        select z.XMMC,z.JZWMC,lj.LZZS,t.ZTS,t.ZMJ from zrz z
+        select z.ID,z.XMMC,z.JZWMC,lj.LZZS,t.ZTS,t.ZMJ from zrz z
         left join (select l.ZRZH,count(1)LZZS from ljz l where l.zt='1' group by l.ZRZH) lj on lj.zrzh  = z.ZRZH
         left join (select h.ZRZH,sum(h.SCJZMJ) ZMJ,count(1)ZTS from h where h.zt='1' group by h.ZRZH) t on t.zrzh = z.zrzh
         where zt='1'
