@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.grandeflorum.contract.dao.ContractTemplateHistoryMapper">
+    <resultMap id="BaseResultMap" type="com.grandeflorum.contract.domain.ContractTemplateHistory">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="ID" jdbcType="VARCHAR" property="id"/>
+        <result column="XGYY" jdbcType="VARCHAR" property="xgyy"/>
+        <result column="XGNR" jdbcType="DECIMAL" property="xgnr"/>
+        <result column="XGR" jdbcType="VARCHAR" property="xgr"/>
+        <result column="CONTENT" jdbcType="VARCHAR" property="content"/>
+        <result column="UPLOAD_DATE" jdbcType="TIMESTAMP" property="uploadDate"/>
+        <result column="CONTRACTTEMPLATEID" jdbcType="VARCHAR" property="contractTemplateId"/>
+    </resultMap>
+
+
+    <select id="getContractTemplateHistoryList" resultMap="BaseResultMap">
+        select * from CONTRACTTEMPLATEHISTORY t where 1=1 and t.CONTRACTTEMPLATEID=#{id}
+        <if test="xgr!=null and xgr!=''">
+            and (t.XGR like '%'||#{xgr}||'%' )
+        </if>
+        <if test="xgyy!=null and xgyy!=''">
+            and (t.XGYY like '%'||#{xgyy}||'%' )
+        </if>
+        <if test="xgnr!=null and xgnr!=''">
+            and (t.XGNR like '%'||#{xgnr}||'%' )
+        </if>
+        order by UPLOAD_DATE desc
+    </select>
+
+
+</mapper>
