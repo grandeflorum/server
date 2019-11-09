@@ -12,6 +12,7 @@
     <result column="EMAIL" jdbcType="VARCHAR" property="email" />
     <result column="MOBILE" jdbcType="VARCHAR" property="mobile" />
     <result column="ORG_ID" jdbcType="VARCHAR" property="orgId" />
+    <result column="IS_VAILD" jdbcType="INTEGER" property="isVaild" />
   </resultMap>
 
   <resultMap id="UserWithRoleMap" extends="BaseResultMap" type="com.grandeflorum.system.domain.SystemUser">
@@ -22,7 +23,7 @@
   </resultMap>
 
   <select id="login" parameterType="map" resultMap="BaseResultMap">
-    select * from system_user t where t.username = #{username} and  t.password=#{password}
+    select * from system_user t where t.username = #{username} and  t.password=#{password} and t.IS_VAILD =1
   </select>
 
   <select id="findUserByUsername" resultMap="BaseResultMap">

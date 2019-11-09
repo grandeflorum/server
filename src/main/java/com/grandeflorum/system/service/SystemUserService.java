@@ -31,4 +31,6 @@ public interface SystemUserService extends IService<SystemUser> {
 
     int changePassword(SystemUser user);
 
+    ResponseBo insertRoleManage(SystemUser user);
+
 }

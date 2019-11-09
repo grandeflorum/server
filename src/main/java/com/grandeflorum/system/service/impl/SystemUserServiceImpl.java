@@ -7,6 +7,7 @@ import com.grandeflorum.common.domain.PagingEntity;
 import com.grandeflorum.common.domain.ResponseBo;
 import com.grandeflorum.common.service.impl.BaseService;
 import com.grandeflorum.common.util.GuidHelper;
+import com.grandeflorum.system.dao.SystemOrganizationMapper;
 import com.grandeflorum.system.dao.SystemUserMapper;
 import com.grandeflorum.system.domain.SystemUser;
 import com.grandeflorum.system.service.SystemUserRoleService;
@@ -28,6 +29,9 @@ public class SystemUserServiceImpl extends BaseService<SystemUser> implements Sy
 
     @Autowired
     private SystemUserRoleService userRoleService;
+
+    @Autowired
+    SystemOrganizationMapper systemOrganizationMapper;
 
     @Override
     public int addUser(SystemUser user) {
@@ -103,5 +107,15 @@ public class SystemUserServiceImpl extends BaseService<SystemUser> implements Sy
     @Override
     public int changePassword(SystemUser user) {
         return userMapper.changePassword(user);
+    }
+
+    @Override
+    public ResponseBo insertRoleManage(SystemUser user) {
+
+        user.setId(GuidHelper.getGuid());
+        String orgId =  systemOrganizationMapper.getTopOrganization();
+        user.setOrgId(orgId);
+        userMapper.insert(user);
+        return ResponseBo.ok();
     }
 }

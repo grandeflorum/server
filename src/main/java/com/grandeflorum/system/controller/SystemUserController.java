@@ -4,11 +4,9 @@ import com.grandeflorum.common.cache.EHCacheUtils;
 import com.grandeflorum.common.domain.Page;
 import com.grandeflorum.common.domain.ResponseBo;
 import com.grandeflorum.common.util.GuidHelper;
-import com.grandeflorum.common.util.StrUtil;
 import com.grandeflorum.system.domain.SystemUser;
 import com.grandeflorum.system.service.SystemUserService;
 import net.sf.ehcache.CacheManager;
-import org.apache.poi.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -193,5 +191,10 @@ public class SystemUserController {
     @GetMapping("/findUserByUsername")
     public ResponseBo findUserByUsername(String name) {
         return ResponseBo.ok(userService.findUserByUsername(name));
+    }
+
+    @PostMapping("/insertRoleManage")
+    public ResponseBo insertRoleManage(@RequestBody SystemUser user){
+        return userService.insertRoleManage(user);
     }
 }

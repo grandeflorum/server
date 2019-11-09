@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.grandeflorum.system.dao.SysRegionMapper">
+  <resultMap id="BaseResultMap" type="com.grandeflorum.system.domain.SysRegion">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="CODE" jdbcType="VARCHAR" property="code" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="PARENTCODE" jdbcType="VARCHAR" property="parentCode" />
+    <result column="LEVEL" jdbcType="DECIMAL" property="level" />
+    <result column="RANK" jdbcType="DECIMAL" property="rank" />
+
+  </resultMap>
+
+  <select id="getAllRegion" resultMap="BaseResultMap">
+    select *from sys_region
+  </select>
+  
+  <select id="getLevelByCode" parameterType="String" resultType="int">
+    select "LEVEL" from sys_region  where code=#{code}
+  </select>
+</mapper>

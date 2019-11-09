@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.grandeflorum.houseRental.dao.HouseRentalMapper">
+  <resultMap id="BaseResultMap" type="com.grandeflorum.houseRental.domain.HouseRental">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="SERIALNUMBER" jdbcType="VARCHAR" property="serialnumber" />
+    <result column="LINKER" jdbcType="VARCHAR" property="linker" />
+    <result column="TELEPHONE" jdbcType="VARCHAR" property="telephone" />
+    <result column="REGIONCODE" jdbcType="VARCHAR" property="regioncode" />
+    <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+    <result column="ROOM" jdbcType="DECIMAL" property="room" />
+    <result column="HALL" jdbcType="DECIMAL" property="hall" />
+    <result column="TRAFFIC" jdbcType="VARCHAR" property="traffic" />
+    <result column="HOUSEAGE" jdbcType="DECIMAL" property="houseage" />
+    <result column="RENTAL" jdbcType="DECIMAL" property="rental" />
+    <result column="AREA" jdbcType="DECIMAL" property="area" />
+    <result column="ISDECORATED" jdbcType="DECIMAL" property="isdecorated" />
+    <result column="CURFLOOR" jdbcType="DECIMAL" property="curfloor" />
+    <result column="TOTALFLOOR" jdbcType="DECIMAL" property="totalfloor" />
+    <result column="DIRECTION" jdbcType="VARCHAR" property="direction" />
+    <result column="RENTDATE" jdbcType="TIMESTAMP" property="rentdate" />
+    <result column="USETYPE" jdbcType="DECIMAL" property="usetype" />
+    <result column="HOUSE_ID" jdbcType="VARCHAR" property="houseId" />
+    <result column="SYS_DATE" jdbcType="TIMESTAMP" property="sysDate" />
+    <result column="SYS_UPD_DATE" jdbcType="TIMESTAMP" property="sysUpdDate" />
+  </resultMap>
+
+  <resultMap id="listMap" type="com.grandeflorum.houseRental.domain.HouseRentalExtend" extends="BaseResultMap">
+    <result column="regionname" jdbcType="VARCHAR" property="regionName" />
+  </resultMap>
+
+  <select id="getHouseRentalList" parameterType="map" resultMap="listMap">
+select t.id,t.serialnumber,t.linker,r.name regionname,t.area,t.rental,t.houseage from house_rental t
+left join sys_region r on t.regioncode = r.code
+where 1=1
+    <if test="regioncode !=null and regioncode != ''">
+      and instr(t.regioncode,#{regioncode})>0
+    </if>
+
+    <if test="address !=null and address != ''">
+      and instr(t.address,#{address})>0
+    </if>
+
+    <if test="usetype != null and usetype != ''">
+      and t.usetype = #{usetype}
+    </if>
+
+    <if test="isdecorated != null and isdecorated != ''">
+      and t.isdecorated = #{isdecorated}
+    </if>
+
+    <if test="sort!=null and sort.size()>0">
+      <foreach collection="sort" item="item" open="order by " separator=",">
+        ${item}
+      </foreach>
+    </if>
+  </select>
+</mapper>

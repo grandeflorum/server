@@ -27,6 +27,9 @@ public class SystemUser {
     @Column(name = "ORG_ID")
     private String orgId;
 
+    @Column(name = "IS_VAILD")
+    private Integer isVaild;
+
     private List<SystemRole> roleList;
 
     public List<SystemRole> getRoleList() {
@@ -133,5 +136,13 @@ public class SystemUser {
      */
     public void setOrgId(String orgId) {
         this.orgId = orgId == null ? null : orgId.trim();
+    }
+
+    public Integer getIsVaild() {
+        return isVaild;
+    }
+
+    public void setIsVaild(Integer isVaild) {
+        this.isVaild = isVaild;
     }
 }

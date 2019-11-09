@@ -10,4 +10,6 @@ import java.util.Map;
 public interface SystemOrganizationMapper extends MyMapper<SystemOrganization> {
 
     List<SystemOrganization> getOrganizationList(Map<String, Object> map);
+
+    String getTopOrganization();
 }

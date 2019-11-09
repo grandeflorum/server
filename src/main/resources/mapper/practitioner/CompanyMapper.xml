@@ -37,10 +37,12 @@
     <result column="COMPANY_TYPE" jdbcType="DECIMAL" property="companyType" />
     <result column="AUDIT_TYPE" jdbcType="DECIMAL" property="auditType" />
   </resultMap>
+    
+
 
   <select id="getCompanyList" parameterType="map" resultMap="BaseResultMap">
 
-   select t.id,t.QYMC,t.QYFR,t.PHONE,t.ZZZSH,t.YXQX,t.audit_type from company t
+   select t.id,t.QYMC,t.QYFR,t.PHONE,t.ZZZSH,t.YXQX,t.audit_type,t.zjh from company t
     where t.COMPANY_TYPE = #{CompanyType}
 
     <if test="qymc !=null and qymc != ''">
