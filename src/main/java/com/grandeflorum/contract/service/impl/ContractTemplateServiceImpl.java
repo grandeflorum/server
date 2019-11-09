@@ -67,14 +67,12 @@ public class ContractTemplateServiceImpl extends BaseService<ContractTemplate> i
             return ResponseBo.error();
         }
         String guid = UUID.randomUUID().toString();
-        results.add(guid);
-
         String ext = null;
         String storeFile = null;
         String fileName = null;
         String fileSavePath = "";
         String storageFolder = "";
-
+        ContractTemplate contractTemplate=null;
         try {
             fileName = StrUtil.isNullOrEmpty(fileName) ? multifile.getOriginalFilename() : fileName;
             fileName = new String(fileName.getBytes("UTF-8"), "UTF-8");
@@ -96,7 +94,7 @@ public class ContractTemplateServiceImpl extends BaseService<ContractTemplate> i
             String id = request.getParameter("id");
             String type = request.getParameter("type");
             if (id == null || id.equals("")) {
-                ContractTemplate contractTemplate = new ContractTemplate();
+                 contractTemplate = new ContractTemplate();
                 contractTemplate.setId(GuidHelper.getGuid());
                 contractTemplate.setContent(content);
                 contractTemplate.setUploadDate(new Date());
@@ -109,23 +107,16 @@ public class ContractTemplateServiceImpl extends BaseService<ContractTemplate> i
                 }
                 contractTemplateMapper.insert(contractTemplate);
             } else {
-                ContractTemplate contractTemplate = contractTemplateMapper.selectByPrimaryKey(id);
+                 contractTemplate = contractTemplateMapper.selectByPrimaryKey(id);
                 contractTemplate.setContent(content);
                 contractTemplateMapper.updateByPrimaryKey(contractTemplate);
             }
-
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
+            return ResponseBo.error();
         }
-        return ResponseBo.ok(results);
+        return ResponseBo.ok(contractTemplate);
     }
-
-
 
 
     @Override
@@ -153,7 +144,7 @@ public class ContractTemplateServiceImpl extends BaseService<ContractTemplate> i
 
     @Override
     public ResponseBo SaveContractTemplate(ContractTemplate contractTemplate) {
-        if (contractTemplate.getId() == null||contractTemplate.getId().equals("")) {
+        if (contractTemplate.getId() == null || contractTemplate.getId().equals("")) {
             contractTemplate.setId(GuidHelper.getGuid());
             contractTemplate.setUploadDate(new Date());
             contractTemplateMapper.insert(contractTemplate);
@@ -200,11 +191,11 @@ public class ContractTemplateServiceImpl extends BaseService<ContractTemplate> i
 
     @Override
     public ResponseBo getContractTemplateHistoryById(String id) {
-        ContractTemplateHistory contractTemplateHistory=contractTemplateHistoryMapper.selectByPrimaryKey(id);
-        if(contractTemplateHistory!=null){
-           return   ResponseBo.ok(contractTemplateHistory);
-        }else{
-           return   ResponseBo.error();
+        ContractTemplateHistory contractTemplateHistory = contractTemplateHistoryMapper.selectByPrimaryKey(id);
+        if (contractTemplateHistory != null) {
+            return ResponseBo.ok(contractTemplateHistory);
+        } else {
+            return ResponseBo.error();
         }
     }
 
