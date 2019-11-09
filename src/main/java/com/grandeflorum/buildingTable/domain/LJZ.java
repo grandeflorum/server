@@ -55,6 +55,16 @@ public class LJZ {
      */
     private List<C> cList;
 
+    private LJZStatistical ljzStatistical;
+
+    public LJZStatistical getLjzStatistical() {
+        return ljzStatistical;
+    }
+
+    public void setLjzStatistical(LJZStatistical ljzStatistical) {
+        this.ljzStatistical = ljzStatistical;
+    }
+
     public List<DY> getDyList() {
         return dyList;
     }
