@@ -1,10 +1,15 @@
 package com.grandeflorum.contract.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.grandeflorum.common.domain.Page;
+import com.grandeflorum.common.domain.PagingEntity;
 import com.grandeflorum.common.domain.ResponseBo;
 import com.grandeflorum.common.service.impl.BaseService;
 import com.grandeflorum.common.util.GuidHelper;
 import com.grandeflorum.contract.dao.HouseTradeHistoryMapper;
+import com.grandeflorum.contract.dao.HouseTradeMapper;
 import com.grandeflorum.contract.dao.HouseTradeMapper;
 import com.grandeflorum.contract.domain.HouseTrade;
 import com.grandeflorum.contract.domain.HouseTradeHistory;
@@ -19,7 +24,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Service("houseTradeService")
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+@Service("HouseTradeService")
 public class HouseTradeServiceIml extends BaseService<HouseTrade> implements HouseTradeService {
 
     @Autowired
@@ -92,5 +101,40 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
         }
 
         return ResponseBo.ok();
+    }
+
+    @Override
+    public String saveOrUpdateHouseTrade(HouseTrade houseTrade) {
+        if (houseTrade.getId() == null) {
+            houseTrade.setId(GuidHelper.getGuid());
+//            houseTrade.setAuditType(0);
+            houseTrade.setSysDate(new Date());
+            houseTradeMapper.insert(houseTrade);
+        } else {
+            houseTrade.setSysUpdDate(new Date());
+            houseTradeMapper.updateByPrimaryKey(houseTrade);
+        }
+        return houseTrade.getId();
+    }
+
+    @Override
+    public ResponseBo getHouseTradeById(String id) {
+        HouseTrade result = houseTradeMapper.selectByPrimaryKey(id);
+        if (result != null) {
+            return ResponseBo.ok(result);
+        }
+        return ResponseBo.error("查询失败");
+    }
+
+    @Override
+    public ResponseBo getHouseTradeList(Page page) {
+        PageHelper.startPage(page.getPageNo(), page.getPageSize());
+        Map<String, Object> map = page.getQueryParameter();
+        List<HouseTrade> list = houseTradeMapper.getHouseTradeList(map);
+
+        PageInfo<HouseTrade> pageInfo = new PageInfo<HouseTrade>(list);
+
+        PagingEntity<HouseTrade> result = new PagingEntity<>(pageInfo);
+        return ResponseBo.ok(result);
     }
 }

@@ -6,9 +6,44 @@
           WARNING - @mbg.generated
         -->
         <id column="ID" jdbcType="VARCHAR" property="id"/>
-        <result column="CURRENTSTATUS" jdbcType="DECIMAL" property="currentStatus"/>
+        <result column="DJ" jdbcType="DECIMAL" property="dj"/>
+        <result column="ZJ" jdbcType="DECIMAL" property="zj"/>
+        <result column="RWSJ" jdbcType="TIMESTAMP" property="rwsj"/>
+        <result column="HTBAH" jdbcType="VARCHAR" property="htbah"/>
+        <result column="BASJ" jdbcType="TIMESTAMP" property="basj"/>
+        <result column="BUYER" jdbcType="VARCHAR" property="buyer"/>
+        <result column="SFZH" jdbcType="VARCHAR" property="sfzh"/>
+        <result column="LXDZ" jdbcType="VARCHAR" property="lxdz"/>
+        <result column="YSXKZ" jdbcType="VARCHAR" property="ysxkz"/>
         <result column="ISPASS" jdbcType="DECIMAL" property="isPass"/>
+        <result column="CURRENTSTATUS" jdbcType="DECIMAL" property="currentStatus"/>
+        <result column="HOUSEID" jdbcType="VARCHAR" property="houseId"/>
+        <result column="CONTRACTID" jdbcType="VARCHAR" property="contractId"/>
+        <result column="SYS_DATE" jdbcType="TIMESTAMP" property="sysDate"/>
+        <result column="SYS_UPD_DATE" jdbcType="TIMESTAMP" property="sysUpdDate"/>
     </resultMap>
+
+    <!--获取存量房源查询列表-->
+    <select id="getHouseTradeList" resultMap="BaseResultMap">
+        select * from HOUSE_NEW_TRADE p where 1=1
+        <if test="kfqymc!=null and kfqymc != ''">
+            and (p.kfqymc like '%'||#{kfqymc}||'%' )
+        </if>
+        <if test="xmmc!=null and xmmc != ''">
+            and (p.xmmc like '%'||#{xmmc}||'%' )
+        </if>
+        <if test="currentStatus!=null and currentStatus != ''">
+            and p.currentStatus=#{currentStatus}
+        </if>
+        <if test="sort!=null and sort.size()>0">
+            <foreach collection="sort" item="item" open="order by " separator=",">
+                ${item}
+            </foreach>
+        </if>
+        <if test="sort==null or sort.size()==0">
+            order by p.SYS_DATE desc
+        </if>
+    </select>
 
 
 
