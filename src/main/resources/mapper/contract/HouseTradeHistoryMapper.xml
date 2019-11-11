@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.grandeflorum.contract.dao.HouseTradeHistoryMapper">
+  <resultMap id="BaseResultMap" type="com.grandeflorum.contract.domain.HouseTradeHistory">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="HOUSETRADEID" jdbcType="OTHER" property="housetradeid" />
+    <result column="SYS_DATE" jdbcType="TIMESTAMP" property="sysDate" />
+    <result column="CURRENTSTATUS" jdbcType="DECIMAL" property="currentstatus" />
+    <result column="HISTORYOBJ" jdbcType="CLOB" property="historyobj" />
+  </resultMap>
+
+
+  <select id="getHistoryList" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select * from HOUSE_NEW_TRADE_HISTORY t where t.HOUSETRADEID=#{id} order by t.SYS_DATE
+  </select>
+
+</mapper>
