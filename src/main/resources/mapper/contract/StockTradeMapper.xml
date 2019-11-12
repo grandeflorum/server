@@ -52,7 +52,7 @@
     </select>
 
     <update id="auditStockTradeById" parameterType="map">
-        update house_new_trade t set t.CURRENTSTATUS = #{type} WHERE  t.id = #{id}
+        update HOUSE_STOCK_TRADE t set t.CURRENTSTATUS = #{type} WHERE  t.id = #{id}
     </update>
 
 
