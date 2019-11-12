@@ -12,7 +12,7 @@ public class StockTradeHistory {
     private String id;
 
     @Column(name = "STOCKTRADEID")
-    private Object stocktradeid;
+    private String stocktradeid;
 
     @Column(name = "SYS_DATE")
     private Date sysDate;
@@ -49,11 +49,11 @@ public class StockTradeHistory {
         this.historyobj = historyobj;
     }
 
-    public Object getStocktradeid() {
+    public String getStocktradeid() {
         return stocktradeid;
     }
 
-    public void setStocktradeid(Object stocktradeid) {
+    public void setStocktradeid(String stocktradeid) {
         this.stocktradeid = stocktradeid;
     }
 

@@ -7,11 +7,10 @@ import javax.persistence.*;
 public class HouseTradeHistory {
     @Id
     @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
     @Column(name = "HOUSETRADEID")
-    private Object housetradeid;
+    private String housetradeid;
 
     @Column(name = "SYS_DATE")
     private Date sysDate;
@@ -47,17 +46,11 @@ public class HouseTradeHistory {
         this.id = id == null ? null : id.trim();
     }
 
-    /**
-     * @return HOUSETRADEID
-     */
-    public Object getHousetradeid() {
+    public String getHousetradeid() {
         return housetradeid;
     }
 
-    /**
-     * @param housetradeid
-     */
-    public void setHousetradeid(Object housetradeid) {
+    public void setHousetradeid(String housetradeid) {
         this.housetradeid = housetradeid;
     }
 
