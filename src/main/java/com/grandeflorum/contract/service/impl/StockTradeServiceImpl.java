@@ -66,6 +66,8 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
                 wfAudit.setProjectid(id);
                 wfAudit.setSysDate(new Date());
                 wfAudit.setSysUpdDate(new Date());
+                wfAudit.setCurrentStatus(stockTrade.getCurrentStatus());
+                wFAuditMapper.insert(wfAudit);
                 if(wfAudit.getShjg()==1){
                     stockTrade.setIsPass(1);
                     stockTrade.setCurrentStatus(stockTrade.getCurrentStatus() + 1);
@@ -79,8 +81,6 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
                     history.setHistoryobj(JSON.toJSONString(stockTrade));
                     stockTradeHistoryMapper.insert(history);
                 }
-                wfAudit.setCurrentStatus(stockTrade.getCurrentStatus());
-                wFAuditMapper.insert(wfAudit);
             }else{
                 if(stockTrade.getIsPass()!=null&& stockTrade.getIsPass()==2){
                     stockTrade.setIsPass(1);

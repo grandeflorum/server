@@ -67,6 +67,8 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
                 wfAudit.setProjectid(id);
                 wfAudit.setSysDate(new Date());
                 wfAudit.setSysUpdDate(new Date());
+                wfAudit.setCurrentStatus(houseTrade.getCurrentStatus());
+                wFAuditMapper.insert(wfAudit);
                 if(wfAudit.getShjg()==1){
                     houseTrade.setIsPass(1);
                     houseTrade.setCurrentStatus(houseTrade.getCurrentStatus() + 1);
@@ -80,9 +82,6 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
                     history.setHistoryobj(JSON.toJSONString(houseTrade));
                     houseTradeHistoryMapper.insert(history);
                 }
-                wfAudit.setCurrentStatus(houseTrade.getCurrentStatus());
-                wFAuditMapper.insert(wfAudit);
-
             }else{
                 if(houseTrade.getIsPass()!=null&&houseTrade.getIsPass()==2){
                     houseTrade.setIsPass(1);
