@@ -114,7 +114,7 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
     public String saveOrUpdateHouseTrade(HouseTrade houseTrade) {
         if (houseTrade.getId() == null) {
             houseTrade.setId(GuidHelper.getGuid());
-//            houseTrade.setAuditType(0);
+            houseTrade.setCurrentStatus(0);
             houseTrade.setSysDate(new Date());
             houseTradeMapper.insert(houseTrade);
         } else {

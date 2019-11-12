@@ -112,7 +112,7 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
     public String saveOrUpdateStockTrade(StockTrade stockTrade) {
         if (stockTrade.getId() == null) {
             stockTrade.setId(GuidHelper.getGuid());
-//            stockTrade.setAuditType(0);
+            stockTrade.setCurrentStatus(0);
             stockTrade.setSysDate(new Date());
             stockTradeMapper.insert(stockTrade);
         } else {

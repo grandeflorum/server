@@ -3,6 +3,7 @@ package com.grandeflorum.attachment.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.grandeflorum.attachment.dao.FileInfoMapper;
+import com.grandeflorum.attachment.domain.AttachDicCount;
 import com.grandeflorum.attachment.domain.FileInfo;
 import com.grandeflorum.attachment.service.FileInfoService;
 import com.grandeflorum.common.config.GrandeflorumProperties;
@@ -126,6 +127,8 @@ public class FileInfoServiceImpl extends BaseService<FileInfo> implements FileIn
         return ResponseBo.ok(result);
     }
 
+
+
     @Override
     public ResponseBo getFileList(String id) {
 
@@ -177,4 +180,15 @@ public class FileInfoServiceImpl extends BaseService<FileInfo> implements FileIn
             fileInfoMapper.updateFileInfoByIds(map);
         }
     }
+
+    @Override
+    public ResponseBo getAttachDicCount(String id, String type) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("id", id);
+        map.put("type", type);
+        List<AttachDicCount> attachDicCountList=  fileInfoMapper.getAttachDicCount(map);
+        return ResponseBo.ok(attachDicCountList);
+    }
+
+
 }

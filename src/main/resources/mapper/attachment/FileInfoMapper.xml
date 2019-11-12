@@ -38,4 +38,11 @@
         </if>
         order by UPLOAD_DATE desc
     </select>
+
+    <select id="getAttachDicCount" parameterType="map" resultType="com.grandeflorum.attachment.domain.AttachDicCount">
+        select t.id,t.code,t.name,t.rank,t.type,t.remark,(select count(*) from file_info fi where fi.file_type=t.code and fi.ref_id=#{id}) count
+        from dictionary t
+        where t.type=#{type}
+        order by t.rank
+    </select>
 </mapper>

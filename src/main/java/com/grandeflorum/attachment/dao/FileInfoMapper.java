@@ -1,5 +1,6 @@
 package com.grandeflorum.attachment.dao;
 
+import com.grandeflorum.attachment.domain.AttachDicCount;
 import com.grandeflorum.common.config.MyMapper;
 import com.grandeflorum.attachment.domain.FileInfo;
 
@@ -11,4 +12,6 @@ public interface FileInfoMapper extends MyMapper<FileInfo> {
     int updateFileInfoByIds(Map<String,Object> map);
 
     List<FileInfo> getFileListByRefidAndType(Map<String, Object> map);
+
+    List<AttachDicCount> getAttachDicCount(Map<String, Object> map);
 }
