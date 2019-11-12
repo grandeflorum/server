@@ -20,13 +20,10 @@ import com.grandeflorum.project.domain.WFAudit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @Service("HouseTradeService")
 public class HouseTradeServiceIml extends BaseService<HouseTrade> implements HouseTradeService {
@@ -100,6 +97,16 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
             houseTradeMapper.updateByPrimaryKey(houseTrade);
         }
 
+        return ResponseBo.ok();
+    }
+
+    @Override
+    public ResponseBo auditHouseTradeById(String id, int type) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("id", id);
+        map.put("type", type);
+
+        houseTradeMapper.auditHouseTradeById(map);
         return ResponseBo.ok();
     }
 

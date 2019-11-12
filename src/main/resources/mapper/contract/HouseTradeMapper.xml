@@ -45,6 +45,10 @@
         </if>
     </select>
 
+    <update id="auditHouseTradeById" parameterType="map">
+        update house_new_trade t set t.CURRENTSTATUS = #{type} WHERE  t.id = #{id}
+    </update>
+
 
 
 </mapper>

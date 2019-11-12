@@ -26,6 +26,11 @@ public class HouseTradeController {
     public ResponseBo getHouseTradeHistory(String id){
         return houseTradeService.getHouseTradeHistory(id);
     }
+
+    @GetMapping("/auditHouseTradeById")
+    public ResponseBo auditHouseTradeById(String id,int type) {
+        return houseTradeService.auditHouseTradeById(id, type);
+    }
     /**
      * 添加或修改商品房合同
      *

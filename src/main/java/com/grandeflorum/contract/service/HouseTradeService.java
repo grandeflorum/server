@@ -13,6 +13,8 @@ public interface HouseTradeService extends IService<HouseTrade> {
 
     ResponseBo getHouseTradeHistory(String id);
 
+     ResponseBo auditHouseTradeById(String id, int type) ;
+
     // 保持或更新存量房源
     String saveOrUpdateHouseTrade(HouseTrade houseTrade  );
 
