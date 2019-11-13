@@ -6,6 +6,8 @@ import com.grandeflorum.common.service.IService;
 import com.grandeflorum.contract.domain.HouseTrade;
 import com.grandeflorum.project.domain.AuditParam;
 
+import javax.servlet.http.HttpServletResponse;
+
 public interface HouseTradeService extends IService<HouseTrade> {
 
 
@@ -23,4 +25,6 @@ public interface HouseTradeService extends IService<HouseTrade> {
 
     //获取存量房源列表
     ResponseBo getHouseTradeList(Page page);
+
+    void printHt(String id , HttpServletResponse response);
 }

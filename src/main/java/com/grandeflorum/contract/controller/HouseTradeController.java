@@ -8,6 +8,7 @@ import com.grandeflorum.project.domain.AuditParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
@@ -79,5 +80,11 @@ public class HouseTradeController {
     public ResponseBo getHouseTradeList(@RequestBody Page page) {
 
         return houseTradeService.getHouseTradeList(page);
+    }
+
+    @RequestMapping(value = "/printHt", method = RequestMethod.GET)
+    public void printHt(@RequestParam(value = "id", required = false) String id
+            , HttpServletResponse response) {
+        houseTradeService.printHt(id,response);
     }
 }
