@@ -218,4 +218,15 @@ public final class StrUtil {
 
         return str;
     }
+
+
+    //非空字符串
+    public  static String DoubleToString(Double d){
+        String result = "";
+
+        if(d==null) {
+            return result;
+        }
+        return d.toString();
+    }
 }

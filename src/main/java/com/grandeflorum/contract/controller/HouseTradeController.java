@@ -83,8 +83,9 @@ public class HouseTradeController {
     }
 
     @RequestMapping(value = "/printHt", method = RequestMethod.GET)
-    public void printHt(@RequestParam(value = "id", required = false) String id
+    public void printHt(@RequestParam(value = "id", required = false) String id,
+                        @RequestParam(value = "type", required = false) String type
             , HttpServletResponse response) {
-        houseTradeService.printHt(id,response);
+        houseTradeService.printHt(id,type,response);
     }
 }

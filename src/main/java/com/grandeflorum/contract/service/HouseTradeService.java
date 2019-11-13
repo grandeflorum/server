@@ -26,5 +26,5 @@ public interface HouseTradeService extends IService<HouseTrade> {
     //获取存量房源列表
     ResponseBo getHouseTradeList(Page page);
 
-    void printHt(String id , HttpServletResponse response);
+    void printHt(String id , String type,HttpServletResponse response);
 }

@@ -29,6 +29,8 @@ public class GrandeflorumProperties {
 
     private String uploadFolder;
 
+    private String openoffice;
+
     public String getUploadFolder() {
         return uploadFolder;
     }
@@ -53,4 +55,11 @@ public class GrandeflorumProperties {
         this.openAOPLog = openAOPLog;
     }
 
+    public String getOpenoffice() {
+        return openoffice;
+    }
+
+    public void setOpenoffice(String openoffice) {
+        this.openoffice = openoffice;
+    }
 }

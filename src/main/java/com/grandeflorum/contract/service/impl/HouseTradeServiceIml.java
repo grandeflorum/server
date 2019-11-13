@@ -3,12 +3,12 @@ package com.grandeflorum.contract.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.grandeflorum.common.config.GrandeflorumProperties;
 import com.grandeflorum.common.domain.Page;
 import com.grandeflorum.common.domain.PagingEntity;
 import com.grandeflorum.common.domain.ResponseBo;
 import com.grandeflorum.common.service.impl.BaseService;
-import com.grandeflorum.common.util.GuidHelper;
-import com.grandeflorum.common.util.XwpfTUtil;
+import com.grandeflorum.common.util.*;
 import com.grandeflorum.contract.dao.HouseTradeHistoryMapper;
 import com.grandeflorum.contract.dao.HouseTradeMapper;
 import com.grandeflorum.contract.domain.HouseTrade;
@@ -18,12 +18,15 @@ import com.grandeflorum.project.dao.WFAuditMapper;
 import com.grandeflorum.project.domain.AuditParam;
 import com.grandeflorum.project.domain.WFAudit;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.util.*;
@@ -39,6 +42,9 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
 
     @Autowired
     HouseTradeHistoryMapper houseTradeHistoryMapper;
+
+    @Autowired
+    GrandeflorumProperties grandeflorumProperties;
 
     @Autowired
     WFAuditMapper wFAuditMapper;
@@ -149,33 +155,53 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
 
     //打印
     @Override
-    public void printHt(String id , HttpServletResponse response){
+    public void printHt(String id ,String type, HttpServletResponse response){
 
         try{
 
             HouseTrade houseTrade = houseTradeMapper.selectByPrimaryKey(id);
             //读入流中
-//            InputStream is =this.getClass().getResourceAsStream("/templates/htTemplates.docx");
             String path = this.getClass().getResource("/").getPath()+ "templates/htTemplates.docx";
             //新建一个word文档
             XWPFDocument doc = new XWPFDocument(new FileInputStream(path));
             Map<String, Object> params = new HashMap<String, Object>();
-            params.put("${htbh}", houseTrade.getHtbah());
-            params.put("gmr", houseTrade.getBuyer());
-            params.put("dj", houseTrade.getDj());
-            params.put("zj", houseTrade.getZj());
-            params.put("rwsj", houseTrade.getRwsj());
+            params.put("htbh", houseTrade.getHtbah());
+            params.put("gmr",houseTrade.getBuyer());
+            params.put("dj", StrUtil.DoubleToString(houseTrade.getDj()));
+            params.put("zj", StrUtil.DoubleToString(houseTrade.getZj()));
+            params.put("rwsj", DateUtils.DateToString(houseTrade.getRwsj()));
 
             XwpfTUtil xwpfTUtil = new XwpfTUtil();
             xwpfTUtil.replaceInPara(doc, params);
 
-//            office2PDF.office2PDF(fileSavePath,storageFolder+id+".pdf",rainbowProperties.getOpenoffice());
+            //转化为pdf
+            String sourcePath = grandeflorumProperties.getUploadFolder()+"ht";
+            File file = new File(sourcePath);
+
+            if (!file.exists()) {
+                file.mkdirs();
+            }
+            String fileSavePath = sourcePath+"/"+id+".docx";
+            File file1 = new File(fileSavePath);
+            doc.write(new FileOutputStream(fileSavePath));
+            office2PDF.office2PDF(fileSavePath,sourcePath+"/"+id+".pdf",grandeflorumProperties.getOpenoffice());
 
             OutputStream os = response.getOutputStream();
-
             response.setContentType("application/vnd.ms-excel");
+
+            String fileName = type.equals("1")?"合同模版.docx":"合同模版.pdf";
             response.setHeader("content-disposition", "Attachment;filename=" + URLEncoder.encode("合同模版.docx", "utf-8"));
-            doc.write(os);
+
+
+            if(type.equals("1")){
+                doc.write(os);
+            }else{
+                File filePdf = new File(sourcePath+"/"+id+".pdf");
+                if(filePdf.exists()){
+                    os.write(FileUtils.readFileToByteArray(filePdf));
+                }
+            }
+
 
             xwpfTUtil.close(os);
 

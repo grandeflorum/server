@@ -27,7 +27,7 @@ public class XwpfTUtil {
         XWPFParagraph para;
         while (iterator.hasNext()) {
             para = iterator.next();
-            this.replaceInPara(para, params);
+            this.replaceInPara1(para, params);
         }
     }
 
@@ -86,6 +86,32 @@ public class XwpfTUtil {
         }
     }
 
+
+    /**
+     * 替换段落中的参数（word）
+     * @param para
+     * @param params
+     */
+    private  void replaceInPara1(XWPFParagraph para, Map<String, Object> params) {
+        List<XWPFRun> runs;
+        Matcher matcher;
+        if (matcher(para.getParagraphText()).find()) {
+            runs = para.getRuns();
+            for (int i=0; i<runs.size(); i++) {
+                XWPFRun run = runs.get(i);
+                String runText = run.toString();
+                matcher = matcher(runText);
+                if (matcher.find()) {
+                    while ((matcher = matcher(runText)).find()) {
+                        runText = matcher.replaceFirst(String.valueOf(params.get(matcher.group(1))));
+                    }
+                    para.removeRun(i);
+                    //重新插入run里内容格式可能与原来模板的格式不一致
+                    para.insertNewRun(i).setText(runText);
+                }
+            }
+        }
+    }
     /**
      * 替换表格里面的变量
      *
