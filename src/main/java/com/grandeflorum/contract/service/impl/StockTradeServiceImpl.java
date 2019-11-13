@@ -63,35 +63,32 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
                 wfAudit.setShry(wf.getShry());
                 wfAudit.setShrq(wf.getShrq());
                 wfAudit.setBz(wf.getBz());
-
                 wfAudit.setProjectid(id);
                 wfAudit.setSysDate(new Date());
                 wfAudit.setSysUpdDate(new Date());
-
+                wfAudit.setCurrentStatus(stockTrade.getCurrentStatus());
                 wFAuditMapper.insert(wfAudit);
-
                 if(wfAudit.getShjg()==1){
+                    stockTrade.setIsPass(1);
                     stockTrade.setCurrentStatus(stockTrade.getCurrentStatus() + 1);
                 }else if(wfAudit.getShjg()==2){
                     stockTrade.setIsPass(2);
-
                     StockTradeHistory history = new StockTradeHistory();
-
                     history.setId(GuidHelper.getGuid());
                     history.setStocktradeid(stockTrade.getId());
                     history.setCurrentstatus(stockTrade.getCurrentStatus().shortValue());
                     history.setSysDate(new Date());
                     history.setHistoryobj(JSON.toJSONString(stockTrade));
-
                     stockTradeHistoryMapper.insert(history);
                 }
             }else{
-                if(stockTrade.getIsPass()==2){
+                if(stockTrade.getIsPass()!=null&& stockTrade.getIsPass()==2){
                     stockTrade.setIsPass(1);
                 }else{
                     stockTrade.setCurrentStatus(stockTrade.getCurrentStatus() + 1);
                 }
             }
+            stockTrade.setSysUpdDate(new Date());
             stockTradeMapper.updateByPrimaryKey(stockTrade);
         }
 
@@ -112,7 +109,7 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
     public String saveOrUpdateStockTrade(StockTrade stockTrade) {
         if (stockTrade.getId() == null) {
             stockTrade.setId(GuidHelper.getGuid());
-//            stockTrade.setAuditType(0);
+            stockTrade.setCurrentStatus(0);
             stockTrade.setSysDate(new Date());
             stockTradeMapper.insert(stockTrade);
         } else {

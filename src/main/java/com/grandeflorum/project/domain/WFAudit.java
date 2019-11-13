@@ -27,6 +27,12 @@ public class WFAudit extends EntityBase {
     @Column(name = "PROJECTID")
     private String projectid;
 
+    /**
+     * 当前状态
+     */
+    @Column(name = "CURRENTSTATUS")
+    public Integer currentStatus;
+
     @Column(name = "SYS_DATE")
     private Date sysDate;
 
@@ -115,6 +121,14 @@ public class WFAudit extends EntityBase {
      */
     public void setProjectid(String projectid) {
         this.projectid = projectid == null ? null : projectid.trim();
+    }
+
+    public Integer getCurrentStatus() {
+        return currentStatus;
+    }
+
+    public void setCurrentStatus(Integer currentStatus) {
+        this.currentStatus = currentStatus;
     }
 
     /**

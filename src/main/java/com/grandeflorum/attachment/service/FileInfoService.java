@@ -26,6 +26,8 @@ public interface FileInfoService extends IService<FileInfo>{
     String GetFileStorageFolder(String id);
 
     ResponseBo getFileListByRefidAndType(Page page);
+
+    ResponseBo getAttachDicCount(String id,String type);
 }
 
 

@@ -63,4 +63,14 @@ public class FileInfoController {
 
         return fileInfoService.getFileListByRefidAndType(page);
     }
+
+    @GetMapping("/getAttachDicCount")
+    public ResponseBo getAttachDicCount(String id,String type) {
+        if(id==null||type==null){
+            return ResponseBo.ok();
+        }
+        return fileInfoService.getAttachDicCount(id, type);
+    }
+
+
 }

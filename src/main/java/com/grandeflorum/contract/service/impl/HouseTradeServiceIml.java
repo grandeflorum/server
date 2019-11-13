@@ -66,40 +66,36 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
             if (wf != null) {
                 WFAudit wfAudit = new WFAudit();
                 wfAudit.setId(GuidHelper.getGuid());
-
                 wfAudit.setShjg(wf.getShjg());
                 wfAudit.setShry(wf.getShry());
                 wfAudit.setShrq(wf.getShrq());
                 wfAudit.setBz(wf.getBz());
-
                 wfAudit.setProjectid(id);
                 wfAudit.setSysDate(new Date());
                 wfAudit.setSysUpdDate(new Date());
-
+                wfAudit.setCurrentStatus(houseTrade.getCurrentStatus());
                 wFAuditMapper.insert(wfAudit);
-
                 if(wfAudit.getShjg()==1){
+                    houseTrade.setIsPass(1);
                     houseTrade.setCurrentStatus(houseTrade.getCurrentStatus() + 1);
                 }else if(wfAudit.getShjg()==2){
                     houseTrade.setIsPass(2);
-
                     HouseTradeHistory history = new HouseTradeHistory();
-
                     history.setId(GuidHelper.getGuid());
                     history.setHousetradeid(houseTrade.getId());
                     history.setCurrentstatus(houseTrade.getCurrentStatus().shortValue());
                     history.setSysDate(new Date());
                     history.setHistoryobj(JSON.toJSONString(houseTrade));
-
                     houseTradeHistoryMapper.insert(history);
                 }
             }else{
-                if(houseTrade.getIsPass()==2){
+                if(houseTrade.getIsPass()!=null&&houseTrade.getIsPass()==2){
                     houseTrade.setIsPass(1);
                 }else{
                     houseTrade.setCurrentStatus(houseTrade.getCurrentStatus() + 1);
                 }
             }
+            houseTrade.setSysUpdDate(new Date());
             houseTradeMapper.updateByPrimaryKey(houseTrade);
         }
 
@@ -120,7 +116,7 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
     public String saveOrUpdateHouseTrade(HouseTrade houseTrade) {
         if (houseTrade.getId() == null) {
             houseTrade.setId(GuidHelper.getGuid());
-//            houseTrade.setAuditType(0);
+            houseTrade.setCurrentStatus(0);
             houseTrade.setSysDate(new Date());
             houseTradeMapper.insert(houseTrade);
         } else {
