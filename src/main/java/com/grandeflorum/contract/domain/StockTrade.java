@@ -1,9 +1,12 @@
 package com.grandeflorum.contract.domain;
 
+import com.grandeflorum.project.domain.WFAudit;
+
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
+import java.util.List;
 
 @Table(name = "HOUSE_STOCK_TRADE")
 public class StockTrade {
@@ -119,6 +122,11 @@ public class StockTrade {
      */
     @Column(name = "SYS_UPD_DATE")
     public Date sysUpdDate;
+
+    /**
+     * 流程信息
+     */
+    public List<WFAudit> wfAuditList;
 
     public String getId() {
         return id;
@@ -294,5 +302,13 @@ public class StockTrade {
 
     public void setHtbah(String htbah) {
         this.htbah = htbah;
+    }
+
+    public List<WFAudit> getWfAuditList() {
+        return wfAuditList;
+    }
+
+    public void setWfAuditList(List<WFAudit> wfAuditList) {
+        this.wfAuditList = wfAuditList;
     }
 }

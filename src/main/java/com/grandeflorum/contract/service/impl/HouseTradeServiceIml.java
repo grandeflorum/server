@@ -22,6 +22,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tk.mybatis.mapper.entity.Example;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -136,6 +137,11 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
     public ResponseBo getHouseTradeById(String id) {
         HouseTrade result = houseTradeMapper.selectByPrimaryKey(id);
         if (result != null) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("shjg", 1);
+            map.put("projectid", id);
+            List<WFAudit> list = wFAuditMapper.getWFAuditList(map);
+            result.setWfAuditList(list);
             return ResponseBo.ok(result);
         }
         return ResponseBo.error("查询失败");

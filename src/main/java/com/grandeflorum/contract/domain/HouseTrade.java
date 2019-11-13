@@ -1,9 +1,12 @@
 package com.grandeflorum.contract.domain;
 
+import com.grandeflorum.project.domain.WFAudit;
+
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
+import java.util.List;
 
 @Table(name = "HOUSE_NEW_TRADE")
 public class HouseTrade {
@@ -89,6 +92,8 @@ public class HouseTrade {
      */
     @Column(name = "SYS_UPD_DATE")
     public Date sysUpdDate;
+
+    public List<WFAudit>  wfAuditList;
 
     public String getId() {
         return id;
@@ -216,5 +221,13 @@ public class HouseTrade {
 
     public void setSysUpdDate(Date sysUpdDate) {
         this.sysUpdDate = sysUpdDate;
+    }
+
+    public List<WFAudit> getWfAuditList() {
+        return wfAuditList;
+    }
+
+    public void setWfAuditList(List<WFAudit> wfAuditList) {
+        this.wfAuditList = wfAuditList;
     }
 }
