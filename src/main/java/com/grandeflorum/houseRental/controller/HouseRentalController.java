@@ -4,6 +4,7 @@ import com.grandeflorum.common.domain.Page;
 import com.grandeflorum.common.domain.ResponseBo;
 import com.grandeflorum.houseRental.domain.HouseRental;
 import com.grandeflorum.houseRental.service.HouseRentalService;
+import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,5 +38,10 @@ public class HouseRentalController {
     @PostMapping("/deleteHouseRentalByIds")
     public ResponseBo deleteHouseRentalByIds(@RequestBody List<String> ids) {
         return houseRentalService.deleteHouseRentalByIds(ids);
+    }
+
+    @GetMapping("/linkH")
+    public ResponseBo linkH(String id,String hid){
+        return houseRentalService.linkH(id,hid);
     }
 }

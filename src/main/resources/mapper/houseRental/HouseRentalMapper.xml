@@ -58,4 +58,15 @@ where 1=1
       </foreach>
     </if>
   </select>
+
+    <select id="linkH" parameterType="map">
+        update house_rental t set t.HOUSE_ID = #{hid} where t.id=#{id}
+    </select>
+
+    <select id="getLjzh" parameterType="String" resultType="String">
+        select t1.id from h t
+        left join ljz t1 on t.LJZH = t1.LJZH
+        where t.id=#{hid}
+    </select>
+
 </mapper>

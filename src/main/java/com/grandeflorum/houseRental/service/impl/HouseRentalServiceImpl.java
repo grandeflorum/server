@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -79,6 +80,10 @@ public class HouseRentalServiceImpl extends BaseService<HouseRental> implements 
     public ResponseBo getHouseRentalById(String id){
 
         HouseRental houseRental =  houseRentalMapper.selectByPrimaryKey(id);
+
+        if(!StrUtil.isNullOrEmpty(houseRental.getHouseId())){
+            houseRental.setLjzid( houseRentalMapper.getLjzh(houseRental.getHouseId()));
+        }
         return ResponseBo.ok(houseRental);
     }
 
@@ -90,6 +95,18 @@ public class HouseRentalServiceImpl extends BaseService<HouseRental> implements 
                 houseRentalMapper.deleteByPrimaryKey(str);
             }
         }
+        return ResponseBo.ok();
+    }
+
+    @Override
+    public ResponseBo linkH(String id,String hid){
+
+        Map<String,Object> map = new HashMap<>();
+        map.put("id",id);
+        map.put("hid",hid);
+
+        houseRentalMapper.linkH(map);
+
         return ResponseBo.ok();
     }
 

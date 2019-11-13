@@ -39,4 +39,6 @@ public interface HouseRentalService extends IService<HouseRental> {
      * @return
      */
     ResponseBo deleteHouseRentalByIds(List<String> ids);
+
+    ResponseBo linkH(String id,String hid);
 }

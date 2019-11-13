@@ -69,6 +69,8 @@ public class HouseRental {
     @Column(name = "SYS_UPD_DATE")
     private Date sysUpdDate;
 
+    @Transient
+    private String ljzid;
     /**
      * @return ID
      */
@@ -361,5 +363,13 @@ public class HouseRental {
      */
     public void setSysUpdDate(Date sysUpdDate) {
         this.sysUpdDate = sysUpdDate;
+    }
+
+    public String getLjzid() {
+        return ljzid;
+    }
+
+    public void setLjzid(String ljzid) {
+        this.ljzid = ljzid;
     }
 }

@@ -10,4 +10,8 @@ import java.util.Map;
 public interface HouseRentalMapper extends MyMapper<HouseRental> {
 
     List<HouseRentalExtend> getHouseRentalList(Map<String,Object> map);
+
+    void linkH(Map<String,Object> map);
+
+    String getLjzh(String hid);
 }
