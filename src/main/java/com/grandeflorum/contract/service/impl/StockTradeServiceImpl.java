@@ -123,6 +123,11 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
     public ResponseBo getStockTradeById(String id) {
         StockTrade result = stockTradeMapper.selectByPrimaryKey(id);
         if (result != null) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("shjg", 1);
+            map.put("projectid", id);
+            List<WFAudit> list = wFAuditMapper.getWFAuditList(map);
+            result.setWfAuditList(list);
             return ResponseBo.ok(result);
         }
         return ResponseBo.error("查询失败");

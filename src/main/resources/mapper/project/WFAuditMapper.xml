@@ -1,17 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.grandeflorum.project.dao.WFAuditMapper">
-  <resultMap id="BaseResultMap" type="com.grandeflorum.project.domain.WFAudit">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="ID" jdbcType="VARCHAR" property="id" />
-    <result column="SHJG" jdbcType="DECIMAL" property="shjg" />
-    <result column="SHRY" jdbcType="VARCHAR" property="shry" />
-    <result column="SHRQ" jdbcType="TIMESTAMP" property="shrq" />
-    <result column="BZ" jdbcType="VARCHAR" property="bz" />
-    <result column="PROJECTID" jdbcType="VARCHAR" property="projectid" />
-    <result column="SYS_DATE" jdbcType="TIMESTAMP" property="sysDate" />
-    <result column="SYS_UPD_DATE" jdbcType="TIMESTAMP" property="sysUpdDate" />
-  </resultMap>
+    <resultMap id="BaseResultMap" type="com.grandeflorum.project.domain.WFAudit">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="ID" jdbcType="VARCHAR" property="id"/>
+        <result column="SHJG" jdbcType="DECIMAL" property="shjg"/>
+        <result column="SHRY" jdbcType="VARCHAR" property="shry"/>
+        <result column="SHRQ" jdbcType="TIMESTAMP" property="shrq"/>
+        <result column="BZ" jdbcType="VARCHAR" property="bz"/>
+        <result column="PROJECTID" jdbcType="VARCHAR" property="projectid"/>
+        <result column="SYS_DATE" jdbcType="TIMESTAMP" property="sysDate"/>
+        <result column="SYS_UPD_DATE" jdbcType="TIMESTAMP" property="sysUpdDate"/>
+    </resultMap>
+
+    <select id="getWFAuditList" resultMap="BaseResultMap">
+        select * from WF_AUDIT t where 1=1
+        <if test="shjg!=null and shjg!=''">
+            and t.shjg=#{shjg}
+        </if>
+        <if test="projectid!=null and projectid!=''">
+            and t.projectid=#{projectid}
+        </if>
+        order by sys_date
+    </select>
 </mapper>
