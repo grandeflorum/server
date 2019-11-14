@@ -35,6 +35,9 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
     @Autowired
     WFAuditMapper wFAuditMapper;
 
+    @Autowired
+    HouseTradeServiceIml houseTradeServiceIml;
+
     @Override
     public ResponseBo getStockTradeHistory(String id){
         List<StockTradeHistory> list = stockTradeHistoryMapper.getHistoryList(id);
@@ -71,6 +74,11 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
                 if(wfAudit.getShjg()==1){
                     stockTrade.setIsPass(1);
                     stockTrade.setCurrentStatus(stockTrade.getCurrentStatus() + 1);
+
+                    if(stockTrade.getCurrentStatus()==4){
+                        stockTrade.setHtbah(this.houseTradeServiceIml.getHTBAH("StockTrade"));
+                    }
+
                 }else if(wfAudit.getShjg()==2){
                     stockTrade.setIsPass(2);
                     StockTradeHistory history = new StockTradeHistory();

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.grandeflorum.contract.dao.ContractnumMapper">
+  <resultMap id="BaseResultMap" type="com.grandeflorum.contract.domain.Contractnum">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="ID" jdbcType="VARCHAR" property="id"/>
+    <result column="TYPE" jdbcType="VARCHAR" property="type" />
+    <result column="TIME" jdbcType="VARCHAR" property="time" />
+    <result column="MAXNUM" jdbcType="DECIMAL" property="maxnum" />
+  </resultMap>
+
+  <select id="getObjByTypeAndTime" resultMap="BaseResultMap" parameterType="map">
+    select * from CONTRACTNUM where TYPE=#{type} and TIME=#{time}
+  </select>
+
+</mapper>

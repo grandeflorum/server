@@ -9,8 +9,10 @@ import com.grandeflorum.common.domain.PagingEntity;
 import com.grandeflorum.common.domain.ResponseBo;
 import com.grandeflorum.common.service.impl.BaseService;
 import com.grandeflorum.common.util.*;
+import com.grandeflorum.contract.dao.ContractnumMapper;
 import com.grandeflorum.contract.dao.HouseTradeHistoryMapper;
 import com.grandeflorum.contract.dao.HouseTradeMapper;
+import com.grandeflorum.contract.domain.Contractnum;
 import com.grandeflorum.contract.domain.HouseTrade;
 import com.grandeflorum.contract.domain.HouseTradeHistory;
 import com.grandeflorum.contract.service.HouseTradeService;
@@ -30,6 +32,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import java.util.Date;
@@ -49,6 +52,9 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
 
     @Autowired
     WFAuditMapper wFAuditMapper;
+
+    @Autowired
+    ContractnumMapper contractnumMapper;
 
     @Override
     public ResponseBo getHouseTradeHistory(String id){
@@ -85,6 +91,11 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
                 if(wfAudit.getShjg()==1){
                     houseTrade.setIsPass(1);
                     houseTrade.setCurrentStatus(houseTrade.getCurrentStatus() + 1);
+
+                    if(houseTrade.getCurrentStatus()==4){
+                        houseTrade.setHtbah(this.getHTBAH("HouseTrade"));
+                    }
+
                 }else if(wfAudit.getShjg()==2){
                     houseTrade.setIsPass(2);
                     HouseTradeHistory history = new HouseTradeHistory();
@@ -107,6 +118,60 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
         }
 
         return ResponseBo.ok();
+    }
+
+    public String getHTBAH(String type) {
+
+        String result = "";
+
+        SimpleDateFormat df = new SimpleDateFormat("yyMMdd");
+        String date = df.format(new Date());
+        String num;
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("time", date);
+        map.put("type", type);
+
+        Contractnum con = this.contractnumMapper.getObjByTypeAndTime(map);
+
+        if (con == null) {
+            con = new Contractnum();
+
+            con.setId(GuidHelper.getGuid());
+            con.setTime(date);
+            con.setType(type);
+            con.setMaxnum((short) 1);
+
+            this.contractnumMapper.insert(con);
+
+            num = "1";
+        } else {
+            num = con.getMaxnum() + 1 + "";
+
+            con.setMaxnum((short) (con.getMaxnum() + 1));
+
+            this.contractnumMapper.updateByPrimaryKey(con);
+        }
+
+        if (type.equals("HouseTrade")) {
+            result = "01";
+        } else if (type.equals("StockTrade")) {
+            result = "C01";
+        }
+        switch (num.length()) {
+            case 1:
+                num = "000" + num;
+                break;
+            case 2:
+                num = "00" + num;
+                break;
+            case 3:
+                num = "0" + num;
+                break;
+        }
+        result += date + num;
+
+        return result;
     }
 
     @Override
