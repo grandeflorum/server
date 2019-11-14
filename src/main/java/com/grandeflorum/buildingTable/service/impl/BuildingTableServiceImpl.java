@@ -11,6 +11,7 @@ import com.grandeflorum.common.domain.ResponseBo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -75,13 +76,13 @@ public class BuildingTableServiceImpl implements BuildingTableService {
         if (cList != null && cList.size() > 0 && hList != null && hList.size() > 0) {
 
             result.setLjzStatistical(new LJZStatistical());
-            result.getLjzStatistical().setZmj(hList.stream().mapToDouble(H::getScjzmj).sum());
+            result.getLjzStatistical().setZmj(new BigDecimal(hList.stream().mapToDouble(H::getScjzmj).sum()).setScale(4,BigDecimal.ROUND_HALF_UP).doubleValue());
             result.getLjzStatistical().setZts(hList.size());
             result.getLjzStatistical().setDyts((int)hList.stream().filter(x-> x.getStatus()==1).count());
-            result.getLjzStatistical().setDymj(hList.stream().filter(x->x.getStatus()==1).mapToDouble(H::getScjzmj).sum());
-            result.getLjzStatistical().setWsmj(hList.stream().filter(x->x.getStatus()==0).mapToDouble(H::getScjzmj).sum());
+            result.getLjzStatistical().setDymj(new BigDecimal(hList.stream().filter(x->x.getStatus()==1).mapToDouble(H::getScjzmj).sum()).setScale(4,BigDecimal.ROUND_HALF_UP).doubleValue());
+            result.getLjzStatistical().setWsmj(new BigDecimal(hList.stream().filter(x->x.getStatus()==0).mapToDouble(H::getScjzmj).sum()).setScale(4,BigDecimal.ROUND_HALF_UP).doubleValue());
             result.getLjzStatistical().setWsts((int)hList.stream().filter(x->x.getStatus()==0).count());
-            result.getLjzStatistical().setYsmj(hList.stream().filter(x->x.getStatus()!=0).mapToDouble(H::getScjzmj).sum());
+            result.getLjzStatistical().setYsmj(new BigDecimal(hList.stream().filter(x->x.getStatus()!=0).mapToDouble(H::getScjzmj).sum()).setScale(4,BigDecimal.ROUND_HALF_UP).doubleValue());
             result.getLjzStatistical().setYsts((int)hList.stream().filter(x->x.getStatus()!=0).count());
 
 
