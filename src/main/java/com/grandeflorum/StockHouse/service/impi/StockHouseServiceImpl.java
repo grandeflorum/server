@@ -12,7 +12,9 @@ import com.grandeflorum.common.domain.PagingEntity;
 import com.grandeflorum.common.domain.ResponseBo;
 import com.grandeflorum.common.service.impl.BaseService;
 import com.grandeflorum.common.util.GuidHelper;
+import com.grandeflorum.project.dao.WFAuditMapper;
 import com.grandeflorum.project.domain.AuditParam;
+import com.grandeflorum.project.domain.WFAudit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +31,9 @@ public class StockHouseServiceImpl extends BaseService<StockHouse> implements St
 
     @Autowired
     RelationShipMapper relationShipMapper;
+
+    @Autowired
+    WFAuditMapper wFAuditMapper;
 
     @Override
     public String saveOrUpdateStockHouse(StockHouse stockHouse) {
@@ -78,6 +83,7 @@ public class StockHouseServiceImpl extends BaseService<StockHouse> implements St
 
     @Override
     public ResponseBo auditStockHouses(AuditParam param) {
+        WFAudit wf = param.getWfAudit();
         for (String id : param.ids) {
             //更新项目表信息
             if(param.getWfAudit().getShjg()==1){
@@ -87,11 +93,19 @@ public class StockHouseServiceImpl extends BaseService<StockHouse> implements St
             }
 
             //添加或更新审核表信息
-            if (param.getWfAudit() != null && param.getWfAudit().getId() == null) {
-                param.getWfAudit().setId(GuidHelper.getGuid());
-            }
-            param.getWfAudit().setProjectid(id);
-            stockHouseMapper.addOrUpdateAudit(param.getWfAudit());
+            WFAudit wfAudit = new WFAudit();
+            wfAudit.setId(GuidHelper.getGuid());
+
+            wfAudit.setShjg(wf.getShjg());
+            wfAudit.setShry(wf.getShry());
+            wfAudit.setShrq(wf.getShrq());
+            wfAudit.setBz(wf.getBz());
+
+            wfAudit.setProjectid(id);
+            wfAudit.setSysDate(new Date());
+            wfAudit.setSysUpdDate(new Date());
+
+            wFAuditMapper.insert(wfAudit);
         }
         return ResponseBo.ok();
     }

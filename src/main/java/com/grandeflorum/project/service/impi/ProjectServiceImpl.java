@@ -8,8 +8,10 @@ import com.grandeflorum.common.domain.ResponseBo;
 import com.grandeflorum.common.service.impl.BaseService;
 import com.grandeflorum.common.util.GuidHelper;
 import com.grandeflorum.project.dao.ProjectMapper;
+import com.grandeflorum.project.dao.WFAuditMapper;
 import com.grandeflorum.project.domain.AuditParam;
 import com.grandeflorum.project.domain.Project;
+import com.grandeflorum.project.domain.WFAudit;
 import com.grandeflorum.project.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,9 @@ public class ProjectServiceImpl extends BaseService<Project> implements ProjectS
 
     @Autowired
     ProjectMapper projectMapper;
+
+    @Autowired
+    WFAuditMapper wFAuditMapper;
 
     @Override
     public String saveOrUpdateProject(Project project) {
@@ -62,6 +67,7 @@ public class ProjectServiceImpl extends BaseService<Project> implements ProjectS
 
     @Override
     public ResponseBo auditProjects(AuditParam param) {
+        WFAudit wf = param.getWfAudit();
         for (String id : param.ids) {
             //更新项目表信息
             if(param.getWfAudit().getShjg()==1){
@@ -71,11 +77,19 @@ public class ProjectServiceImpl extends BaseService<Project> implements ProjectS
             }
 
             //添加或更新审核表信息
-            if (param.getWfAudit() != null && param.getWfAudit().getId() == null) {
-                param.getWfAudit().setId(GuidHelper.getGuid());
-            }
-            param.getWfAudit().setProjectid(id);
-            projectMapper.addOrUpdateAudit(param.getWfAudit());
+            WFAudit wfAudit = new WFAudit();
+            wfAudit.setId(GuidHelper.getGuid());
+
+            wfAudit.setShjg(wf.getShjg());
+            wfAudit.setShry(wf.getShry());
+            wfAudit.setShrq(wf.getShrq());
+            wfAudit.setBz(wf.getBz());
+
+            wfAudit.setProjectid(id);
+            wfAudit.setSysDate(new Date());
+            wfAudit.setSysUpdDate(new Date());
+
+            wFAuditMapper.insert(wfAudit);
         }
         return ResponseBo.ok();
     }
