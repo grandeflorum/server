@@ -8,6 +8,7 @@ import com.grandeflorum.common.domain.PagingEntity;
 import com.grandeflorum.common.domain.ResponseBo;
 import com.grandeflorum.common.service.impl.BaseService;
 import com.grandeflorum.common.util.GuidHelper;
+import com.grandeflorum.common.util.StrUtil;
 import com.grandeflorum.contract.dao.StockTradeHistoryMapper;
 import com.grandeflorum.contract.dao.StockTradeMapper;
 import com.grandeflorum.contract.domain.StockTrade;
@@ -129,13 +130,16 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
 
     @Override
     public ResponseBo getStockTradeById(String id) {
-        StockTrade result = stockTradeMapper.selectByPrimaryKey(id);
+        StockTrade result = stockTradeMapper.getStockTradeById(id);
         if (result != null) {
             Map<String, Object> map = new HashMap<>();
             map.put("shjg", 1);
             map.put("projectid", id);
             List<WFAudit> list = wFAuditMapper.getWFAuditList(map);
             result.setWfAuditList(list);
+            if(!StrUtil.isNullOrEmpty(result.getHouseId())){
+                result.setLjzid( stockTradeMapper.getLjzh(result.getHouseId()));
+            }
             return ResponseBo.ok(result);
         }
         return ResponseBo.error("查询失败");
@@ -152,4 +156,18 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
         PagingEntity<StockTrade> result = new PagingEntity<>(pageInfo);
         return ResponseBo.ok(result);
     }
+
+
+    @Override
+    public ResponseBo linkH(String id,String hid){
+
+        Map<String,Object> map = new HashMap<>();
+        map.put("id",id);
+        map.put("hid",hid);
+
+        stockTradeMapper.linkH(map);
+
+        return ResponseBo.ok();
+    }
+
 }

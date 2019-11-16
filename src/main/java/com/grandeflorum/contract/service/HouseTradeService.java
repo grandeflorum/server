@@ -27,4 +27,6 @@ public interface HouseTradeService extends IService<HouseTrade> {
     ResponseBo getHouseTradeList(Page page);
 
     void printHt(String id , String type,HttpServletResponse response);
+
+    ResponseBo linkH(String id,String hid);
 }

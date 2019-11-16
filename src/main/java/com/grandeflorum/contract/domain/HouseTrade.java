@@ -5,6 +5,7 @@ import com.grandeflorum.project.domain.WFAudit;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.util.Date;
 import java.util.List;
 
@@ -94,6 +95,41 @@ public class HouseTrade {
     public Date sysUpdDate;
 
     public List<WFAudit>  wfAuditList;
+
+    @Transient
+    private String ljzid;
+
+    /**
+     * 项目名称
+     */
+    @Transient
+    private String xmmc;
+    /**
+     * 建筑物名称
+     */
+    @Transient
+    private String jzwmc;
+    /**
+     * 幢号
+     */
+    @Transient
+    private String zh;
+
+    /**
+     * 单元号
+     */
+    @Transient
+    private String dyh;
+    /**
+     * 层号
+     */
+    @Transient
+    private String ch;
+    /**
+     * 房号
+     */
+    @Transient
+    private String fh;
 
     public String getId() {
         return id;
@@ -229,5 +265,61 @@ public class HouseTrade {
 
     public void setWfAuditList(List<WFAudit> wfAuditList) {
         this.wfAuditList = wfAuditList;
+    }
+
+    public String getLjzid() {
+        return ljzid;
+    }
+
+    public void setLjzid(String ljzid) {
+        this.ljzid = ljzid;
+    }
+
+    public String getXmmc() {
+        return xmmc;
+    }
+
+    public void setXmmc(String xmmc) {
+        this.xmmc = xmmc;
+    }
+
+    public String getJzwmc() {
+        return jzwmc;
+    }
+
+    public void setJzwmc(String jzwmc) {
+        this.jzwmc = jzwmc;
+    }
+
+    public String getZh() {
+        return zh;
+    }
+
+    public void setZh(String zh) {
+        this.zh = zh;
+    }
+
+    public String getDyh() {
+        return dyh;
+    }
+
+    public void setDyh(String dyh) {
+        this.dyh = dyh;
+    }
+
+    public String getCh() {
+        return ch;
+    }
+
+    public void setCh(String ch) {
+        this.ch = ch;
+    }
+
+    public String getFh() {
+        return fh;
+    }
+
+    public void setFh(String fh) {
+        this.fh = fh;
     }
 }
