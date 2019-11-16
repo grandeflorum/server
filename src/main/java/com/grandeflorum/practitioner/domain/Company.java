@@ -29,7 +29,7 @@ public class Company {
     private BigDecimal zczj;
 
     @Column(name = "REGIONCODE")
-    private Integer regioncode;
+    private String regioncode;
 
     @Column(name = "ADDRESS")
     private String address;
@@ -192,14 +192,14 @@ public class Company {
     /**
      * @return REGIONCODE
      */
-    public Integer getRegioncode() {
+    public String getRegioncode() {
         return regioncode;
     }
 
     /**
      * @param regioncode
      */
-    public void setRegioncode(Integer regioncode) {
+    public void setRegioncode(String regioncode) {
         this.regioncode = regioncode;
     }
 

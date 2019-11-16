@@ -45,6 +45,15 @@ public class CompanyServiceImpl extends BaseService<Company> implements CompanyS
 
         company.setSysUpdDate(new Date());
 
+        Map<String,Object> map = new HashMap<>();
+        map.put("qymc",company.getQymc());
+        map.put("id",company.getId());
+        int count = companyMapper.checkCompanyName(map);
+
+        if(count>0){
+            return ResponseBo.ok("repeat");
+        }
+
         //新增
         if(StrUtil.isNullOrEmpty(company.getId())){
             company.setId(GuidHelper.getGuid());

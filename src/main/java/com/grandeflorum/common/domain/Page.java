@@ -27,13 +27,13 @@ public class Page {
         Map<String, Object> map = new HashMap();
         map.put("startNum", getStartNum());
         map.put("endNum", getEndNum());
-        if (conditions != null) {
-            for (final Condition cond : conditions) {
-                map.put(cond.getKey(), cond.getValue());
-            }
-        } else if (getConditions() != null) {
+        if (getConditions() != null) {
             for (final Condition cond : getConditions()) {
-                map.put(cond.getKey(), cond.getValue());
+                Object obj = cond.getValue();
+                if(obj instanceof String){
+                    obj = ((String) obj).trim();
+                }
+                map.put(cond.getKey(), obj);
             }
         }
         return map;

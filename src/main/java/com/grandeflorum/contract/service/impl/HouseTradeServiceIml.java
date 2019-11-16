@@ -236,8 +236,8 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
             //新建一个word文档
             XWPFDocument doc = new XWPFDocument(new FileInputStream(path));
             Map<String, Object> params = new HashMap<String, Object>();
-            params.put("htbh", houseTrade.getHtbah());
-            params.put("gmr",houseTrade.getBuyer());
+            params.put("htbh", StrUtil.NoNullString(houseTrade.getHtbah()));
+            params.put("gmr",StrUtil.NoNullString(houseTrade.getBuyer()));
             params.put("dj", StrUtil.DoubleToString(houseTrade.getDj()));
             params.put("zj", StrUtil.DoubleToString(houseTrade.getZj()));
             params.put("rwsj", DateUtils.DateToString(houseTrade.getRwsj()));
