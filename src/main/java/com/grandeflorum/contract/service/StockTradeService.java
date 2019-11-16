@@ -23,4 +23,6 @@ public interface StockTradeService extends IService<StockTrade> {
 
     //获取存量房源列表
     ResponseBo getStockTradeList(Page page);
+
+    ResponseBo linkH(String id,String hid);
 }

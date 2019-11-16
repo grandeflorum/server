@@ -5,6 +5,7 @@ import com.grandeflorum.project.domain.WFAudit;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.util.Date;
 import java.util.List;
 
@@ -94,6 +95,9 @@ public class HouseTrade {
     public Date sysUpdDate;
 
     public List<WFAudit>  wfAuditList;
+
+    @Transient
+    private String ljzid;
 
     public String getId() {
         return id;
@@ -229,5 +233,13 @@ public class HouseTrade {
 
     public void setWfAuditList(List<WFAudit> wfAuditList) {
         this.wfAuditList = wfAuditList;
+    }
+
+    public String getLjzid() {
+        return ljzid;
+    }
+
+    public void setLjzid(String ljzid) {
+        this.ljzid = ljzid;
     }
 }

@@ -88,4 +88,9 @@ public class HouseTradeController {
             , HttpServletResponse response) {
         houseTradeService.printHt(id,type,response);
     }
+
+    @GetMapping("/linkH")
+    public ResponseBo linkH(String id,String hid){
+        return houseTradeService.linkH(id,hid);
+    }
 }

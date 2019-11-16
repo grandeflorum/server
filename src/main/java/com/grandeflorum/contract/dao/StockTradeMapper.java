@@ -10,4 +10,8 @@ public interface StockTradeMapper extends MyMapper<StockTrade> {
     List<StockTrade> getStockTradeList(Map<String, Object> map);
 
     void auditStockTradeById(Map<String, Object> map);
+
+    void linkH(Map<String,Object> map);
+
+    String getLjzh(String hid);
 }

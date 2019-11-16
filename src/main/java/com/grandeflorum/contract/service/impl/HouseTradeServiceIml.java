@@ -207,6 +207,9 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
             map.put("projectid", id);
             List<WFAudit> list = wFAuditMapper.getWFAuditList(map);
             result.setWfAuditList(list);
+            if(!StrUtil.isNullOrEmpty(result.getHouseId())){
+                result.setLjzid( houseTradeMapper.getLjzh(result.getHouseId()));
+            }
             return ResponseBo.ok(result);
         }
         return ResponseBo.error("查询失败");
@@ -285,4 +288,17 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
 
 
     }
+
+    @Override
+    public ResponseBo linkH(String id,String hid){
+
+        Map<String,Object> map = new HashMap<>();
+        map.put("id",id);
+        map.put("hid",hid);
+
+        houseTradeMapper.linkH(map);
+
+        return ResponseBo.ok();
+    }
+
 }

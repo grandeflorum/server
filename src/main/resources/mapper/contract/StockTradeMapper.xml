@@ -55,6 +55,15 @@
         update HOUSE_STOCK_TRADE t set t.CURRENTSTATUS = #{type} WHERE  t.id = #{id}
     </update>
 
+    <select id="linkH" parameterType="map">
+        update HOUSE_STOCK_TRADE t set t.HOUSEID = #{hid} where t.id=#{id}
+    </select>
+
+    <select id="getLjzh" parameterType="String" resultType="String">
+        select t1.id from h t
+        left join ljz t1 on t.LJZH = t1.LJZH
+        where t.id=#{hid}
+    </select>
 
 
 </mapper>
