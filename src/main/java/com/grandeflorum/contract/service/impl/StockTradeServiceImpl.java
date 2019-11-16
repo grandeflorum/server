@@ -130,7 +130,7 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
 
     @Override
     public ResponseBo getStockTradeById(String id) {
-        StockTrade result = stockTradeMapper.selectByPrimaryKey(id);
+        StockTrade result = stockTradeMapper.getStockTradeById(id);
         if (result != null) {
             Map<String, Object> map = new HashMap<>();
             map.put("shjg", 1);

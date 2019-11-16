@@ -23,17 +23,30 @@
         <result column="SYS_UPD_DATE" jdbcType="TIMESTAMP" property="sysUpdDate"/>
     </resultMap>
 
+    <resultMap id="listMap" type="com.grandeflorum.contract.domain.HouseTrade" extends="BaseResultMap">
+        <result column="XMMC" jdbcType="VARCHAR" property="xmmc" />
+        <result column="JZWMC" jdbcType="VARCHAR" property="jzwmc" />
+        <result column="ZH" jdbcType="VARCHAR" property="zh" />
+        <result column="DYH" jdbcType="VARCHAR" property="dyh" />
+        <result column="CH" jdbcType="VARCHAR" property="ch" />
+        <result column="FH" jdbcType="VARCHAR" property="fh" />
+    </resultMap>
+
     <!--获取存量房源查询列表-->
-    <select id="getHouseTradeList" resultMap="BaseResultMap">
-        select * from HOUSE_NEW_TRADE p where 1=1
-        <if test="kfqymc!=null and kfqymc != ''">
-            and (p.kfqymc like '%'||#{kfqymc}||'%' )
+    <select id="getHouseTradeList" resultMap="listMap">
+        select t2.xmmc ,t2.JZWMC,t1.mph zh,t.dymc dyh, t.ch,t.mph fh,hnt.* from house_new_trade hnt
+        left join h t on hnt.houseid=t.id
+        left join ljz t1 on t.ljzh=t1.ljzh
+        left join zrz t2 on t1.zrzh=t2.zrzh
+        where 1=1
+        <if test="jzwmc!=null and jzwmc != ''">
+            and (t2.jzwmc like '%'||#{jzwmc}||'%' )
         </if>
         <if test="xmmc!=null and xmmc != ''">
-            and (p.xmmc like '%'||#{xmmc}||'%' )
+            and (t2.xmmc like '%'||#{xmmc}||'%' )
         </if>
         <if test="currentStatus!=null and currentStatus != ''">
-            and p.currentStatus=#{currentStatus}
+            and hnt.currentStatus=#{currentStatus}
         </if>
         <if test="sort!=null and sort.size()>0">
             <foreach collection="sort" item="item" open="order by " separator=",">
@@ -41,7 +54,7 @@
             </foreach>
         </if>
         <if test="sort==null or sort.size()==0">
-            order by p.SYS_DATE desc
+            order by hnt.SYS_DATE desc
         </if>
     </select>
 
@@ -57,6 +70,15 @@
         select t1.id from h t
         left join ljz t1 on t.LJZH = t1.LJZH
         where t.id=#{hid}
+    </select>
+
+    <select id="getHouseTradeById"  parameterType="String" resultType="com.grandeflorum.contract.domain.HouseTrade">
+      select t2.xmmc ,t2.JZWMC,t1.mph zh,t.dymc dyh, t.ch,t.mph fh,hnt.*
+      from house_new_trade hnt
+      left join h t on hnt.houseid=t.id
+      left join ljz t1 on t.ljzh=t1.ljzh
+      left join zrz t2 on t1.zrzh=t2.zrzh
+      where hnt.id=#{id}
     </select>
 
 

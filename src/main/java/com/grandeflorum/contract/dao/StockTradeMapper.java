@@ -1,5 +1,6 @@
 package com.grandeflorum.contract.dao;
 
+import com.grandeflorum.StockHouse.domin.StockHouse;
 import com.grandeflorum.common.config.MyMapper;
 import com.grandeflorum.contract.domain.StockTrade;
 
@@ -14,4 +15,6 @@ public interface StockTradeMapper extends MyMapper<StockTrade> {
     void linkH(Map<String,Object> map);
 
     String getLjzh(String hid);
+
+    StockTrade getStockTradeById(String id);
 }

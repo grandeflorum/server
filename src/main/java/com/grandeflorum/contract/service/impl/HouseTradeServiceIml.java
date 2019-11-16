@@ -200,7 +200,7 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
 
     @Override
     public ResponseBo getHouseTradeById(String id) {
-        HouseTrade result = houseTradeMapper.selectByPrimaryKey(id);
+        HouseTrade result = houseTradeMapper.getHouseTradeById(id);
         if (result != null) {
             Map<String, Object> map = new HashMap<>();
             map.put("shjg", 1);
