@@ -91,5 +91,17 @@ public class ProjectController {
         return projectService.auditProjectById(id, type);
     }
 
+    /**
+     * 通过refid与类型查询附件列表（参数：refid，type）
+     *
+     * @param page
+     * @return
+     */
+    @PostMapping("/getProjectDialog")
+    public ResponseBo getProjectDialog(@RequestBody Page page) {
+
+        return projectService.getProjectDialog(page);
+    }
+
 
 }

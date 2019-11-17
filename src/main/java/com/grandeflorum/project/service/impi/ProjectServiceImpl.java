@@ -2,6 +2,7 @@ package com.grandeflorum.project.service.impi;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.grandeflorum.attachment.domain.FileInfo;
 import com.grandeflorum.common.domain.Page;
 import com.grandeflorum.common.domain.PagingEntity;
 import com.grandeflorum.common.domain.ResponseBo;
@@ -11,6 +12,7 @@ import com.grandeflorum.project.dao.ProjectMapper;
 import com.grandeflorum.project.dao.WFAuditMapper;
 import com.grandeflorum.project.domain.AuditParam;
 import com.grandeflorum.project.domain.Project;
+import com.grandeflorum.project.domain.ProjectDialog;
 import com.grandeflorum.project.domain.WFAudit;
 import com.grandeflorum.project.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,5 +105,17 @@ public class ProjectServiceImpl extends BaseService<Project> implements ProjectS
         projectMapper.auditProjectById(map);
 
         return ResponseBo.ok();
+    }
+
+    @Override
+    public ResponseBo getProjectDialog(Page page) {
+        PageHelper.startPage(page.getPageNo(), page.getPageSize());
+        Map<String, Object> map = page.getQueryParameter();
+        List<ProjectDialog> list = projectMapper.getProjectDialog(map);
+
+        PageInfo<ProjectDialog> pageInfo = new PageInfo<ProjectDialog>(list);
+
+        PagingEntity<ProjectDialog> result = new PagingEntity<>(pageInfo);
+        return ResponseBo.ok(result);
     }
 }

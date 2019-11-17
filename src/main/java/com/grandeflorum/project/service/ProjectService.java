@@ -31,4 +31,7 @@ public interface ProjectService extends IService<Project> {
      */
     ResponseBo auditProjectById(String id,int type);
 
+    ResponseBo getProjectDialog(Page page);
+
+
 }

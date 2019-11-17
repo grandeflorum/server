@@ -80,4 +80,35 @@
         update project t set t.audit_type = #{type} WHERE  t.id = #{id}
     </update>
 
+    <resultMap id="ProjectDialogMap" type="com.grandeflorum.project.domain.ProjectDialog">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="ID" jdbcType="VARCHAR" property="id"/>
+        <result column="REF_ID" jdbcType="VARCHAR" property="refId"/>
+        <result column="FILE_TYPE" jdbcType="DECIMAL" property="fileType"/>
+        <result column="SERVER_FILE_NAME" jdbcType="VARCHAR" property="serverFileName"/>
+        <result column="CLIENT_FILE_NAME" jdbcType="VARCHAR" property="clientFileName"/>
+        <result column="SERVER_PATH" jdbcType="VARCHAR" property="serverPath"/>
+        <result column="UPLOAD_USER_ID" jdbcType="VARCHAR" property="uploadUserId"/>
+        <result column="UPLOAD_DATE" jdbcType="TIMESTAMP" property="uploadDate"/>
+        <result column="FILE_SUFFIX" jdbcType="VARCHAR" property="fileSuffix"/>
+        <result column="fileTypeName" jdbcType="VARCHAR" property="fileTypeName"/>
+    </resultMap>
+
+    <select id="getProjectDialog" resultMap="ProjectDialogMap">
+        select t.*,di.name as fileTypeName from file_info t
+        left join dictionary di on t.file_type=di.code and di.type='xmsc'
+        where 1=1 and t.ref_id='xmsc'
+
+        <if test="type!=null and type!=''">
+            and t.FILE_TYPE=#{type}
+        </if>
+
+        <if test="name!=null and name!=''">
+            and (t.CLIENT_FILE_NAME like '%'||#{name}||'%' )
+        </if>
+        order by UPLOAD_DATE desc
+    </select>
+
 </mapper>
