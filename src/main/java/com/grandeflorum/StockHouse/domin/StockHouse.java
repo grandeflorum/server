@@ -40,7 +40,7 @@ public class StockHouse {
      * 所属地区行政区划代码
      */
     @Column(name = "REGIONCODE")
-    public Integer regionCode;
+    public String regionCode;
 
     /**
      * 项目详细地址
@@ -108,11 +108,11 @@ public class StockHouse {
         this.jzmj = jzmj;
     }
 
-    public Integer getRegionCode() {
+    public String getRegionCode() {
         return regionCode;
     }
 
-    public void setRegionCode(Integer regionCode) {
+    public void setRegionCode(String regionCode) {
         this.regionCode = regionCode;
     }
 
