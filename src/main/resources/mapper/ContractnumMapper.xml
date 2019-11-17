@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.ContractnumMapper">
+  <resultMap id="BaseResultMap" type="domain.Contractnum">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="ID" jdbcType="OTHER" property="id" />
+    <result column="TYPE" jdbcType="OTHER" property="type" />
+    <result column="TIME" jdbcType="OTHER" property="time" />
+    <result column="MAXNUM" jdbcType="DECIMAL" property="maxnum" />
+  </resultMap>
+</mapper>
