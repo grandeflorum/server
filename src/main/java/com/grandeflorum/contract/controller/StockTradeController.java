@@ -79,4 +79,9 @@ public class StockTradeController {
 
         return stockTradeService.getStockTradeList(page);
     }
+
+    @GetMapping("/linkH")
+    public ResponseBo linkH(String id,String hid){
+        return stockTradeService.linkH(id,hid);
+    }
 }

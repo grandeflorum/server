@@ -200,13 +200,16 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
 
     @Override
     public ResponseBo getHouseTradeById(String id) {
-        HouseTrade result = houseTradeMapper.selectByPrimaryKey(id);
+        HouseTrade result = houseTradeMapper.getHouseTradeById(id);
         if (result != null) {
             Map<String, Object> map = new HashMap<>();
             map.put("shjg", 1);
             map.put("projectid", id);
             List<WFAudit> list = wFAuditMapper.getWFAuditList(map);
             result.setWfAuditList(list);
+            if(!StrUtil.isNullOrEmpty(result.getHouseId())){
+                result.setLjzid( houseTradeMapper.getLjzh(result.getHouseId()));
+            }
             return ResponseBo.ok(result);
         }
         return ResponseBo.error("查询失败");
@@ -236,8 +239,8 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
             //新建一个word文档
             XWPFDocument doc = new XWPFDocument(new FileInputStream(path));
             Map<String, Object> params = new HashMap<String, Object>();
-            params.put("htbh", houseTrade.getHtbah());
-            params.put("gmr",houseTrade.getBuyer());
+            params.put("htbh", StrUtil.NoNullString(houseTrade.getHtbah()));
+            params.put("gmr",StrUtil.NoNullString(houseTrade.getBuyer()));
             params.put("dj", StrUtil.DoubleToString(houseTrade.getDj()));
             params.put("zj", StrUtil.DoubleToString(houseTrade.getZj()));
             params.put("rwsj", DateUtils.DateToString(houseTrade.getRwsj()));
@@ -285,4 +288,17 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
 
 
     }
+
+    @Override
+    public ResponseBo linkH(String id,String hid){
+
+        Map<String,Object> map = new HashMap<>();
+        map.put("id",id);
+        map.put("hid",hid);
+
+        houseTradeMapper.linkH(map);
+
+        return ResponseBo.ok();
+    }
+
 }

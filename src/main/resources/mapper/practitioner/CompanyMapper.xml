@@ -9,9 +9,9 @@
     <result column="QYMC" jdbcType="VARCHAR" property="qymc" />
     <result column="YYZZ" jdbcType="VARCHAR" property="yyzz" />
     <result column="SHXYDM" jdbcType="VARCHAR" property="shxydm" />
-    <result column="" jdbcType="DECIMAL" property="qylx" />
+    <result column="QYLX" jdbcType="DECIMAL" property="qylx" />
     <result column="ZCZJ" jdbcType="DECIMAL" property="zczj" />
-    <result column="REGIONCODE" jdbcType="DECIMAL" property="regioncode" />
+    <result column="REGIONCODE" jdbcType="VARCHAR" property="regioncode" />
     <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
     <result column="QYFR" jdbcType="VARCHAR" property="qyfr" />
     <result column="PHONE" jdbcType="VARCHAR" property="phone" />
@@ -57,15 +57,29 @@
       and t.audit_type = #{auditType}
     </if>
 
-    <if test="sort!=null and sort.size()>0">
-      <foreach collection="sort" item="item" open="order by " separator=",">
-        ${item}
-      </foreach>
-    </if>
+  <choose>
+      <when test="sort!=null and sort.size()>0">
+          <foreach collection="sort" item="item" open="order by " separator=",">
+              ${item}
+          </foreach>
+      </when>
+      <otherwise>
+          order by SYS_UPD_DATE desc
+      </otherwise>
+  </choose>
 
   </select>
 
   <update id="auditCompanyById" parameterType="map">
     update company t set t.audit_type = #{type} WHERE  t.id = #{id}
   </update>
+
+    <select id="checkCompanyName" parameterType="map" resultType="int">
+        select count(1) from company t where t.QYMC = #{qymc}
+
+        <if test="id != null and id != ''">
+            and t.id != #{id}
+        </if>
+
+    </select>
 </mapper>

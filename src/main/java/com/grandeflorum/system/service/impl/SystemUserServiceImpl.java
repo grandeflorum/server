@@ -37,6 +37,7 @@ public class SystemUserServiceImpl extends BaseService<SystemUser> implements Sy
     public int addUser(SystemUser user) {
         user.setId(GuidHelper.getGuid());
         try {
+            user.setIsVaild(1);
             userMapper.insert(user);
             userRoleService.insertUserRoleByRole(user);
             return 1;

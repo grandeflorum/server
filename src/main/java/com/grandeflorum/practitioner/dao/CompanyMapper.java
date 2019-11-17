@@ -11,4 +11,6 @@ public interface CompanyMapper extends MyMapper<Company> {
     List<Company> getCompanyList(Map<String,Object> map);
 
     void auditCompanyById(Map<String,Object> map);
+
+    int checkCompanyName(Map<String,Object> map);
 }

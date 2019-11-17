@@ -11,5 +11,11 @@ public interface HouseTradeMapper extends MyMapper<HouseTrade> {
     List<HouseTrade> getHouseTradeList(Map<String, Object> map);
 
     void auditHouseTradeById(Map<String, Object> map);
+
+    void linkH(Map<String,Object> map);
+
+    String getLjzh(String hid);
+
+    HouseTrade getHouseTradeById(String id);
 }
 

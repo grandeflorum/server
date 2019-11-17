@@ -229,4 +229,13 @@ public final class StrUtil {
         }
         return d.toString();
     }
+
+    public  static String NoNullString(String d){
+        String result = "";
+
+        if(d==null||d.equals("null")) {
+            return result;
+        }
+        return d;
+    }
 }
