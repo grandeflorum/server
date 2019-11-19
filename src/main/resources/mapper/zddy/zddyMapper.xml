@@ -99,4 +99,15 @@ from zddy t
     ,t.bdcdyh = #{bdcdyh},t.dy_type =#{bdcdyh} where t.id=#{id}
   </update>
 
+  <select id="selectBdcdyhByZh" parameterType="map" resultType="String">
+    <choose>
+      <when test="type=='1'">
+        select t.BDCDYH from zrz t where t.zrzh =#{zh}
+      </when>
+      <otherwise>
+        select t.BDCDYH from ljz t where t.ljzh =#{zh}
+      </otherwise>
+    </choose>
+  </select>
+
 </mapper>

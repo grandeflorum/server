@@ -50,7 +50,7 @@ public class ZddyController {
     }
 
     @GetMapping("/restrictedProperty")
-    public ResponseBo restrictedProperty(String id,String zh,String bdcdyh,String type) {
-        return zddyService.restrictedProperty(id, zh, bdcdyh, type);
+    public ResponseBo restrictedProperty(String id,String zh,String type) {
+        return zddyService.restrictedProperty(id, zh,"", type);
     }
 }

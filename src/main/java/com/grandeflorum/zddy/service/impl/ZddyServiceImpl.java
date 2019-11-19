@@ -117,6 +117,10 @@ public class ZddyServiceImpl extends BaseService<Zddy> implements ZddyService {
         map.put("id", id);
         map.put("type", type);
         map.put("zh", zh);
+
+        if(StrUtil.isNullOrEmpty(bdcdyh)){
+            bdcdyh =zddyMapper.selectBdcdyhByZh(map);
+        }
         map.put("bdcdyh", bdcdyh);
 
         zddyMapper.restrictedProperty(map);
