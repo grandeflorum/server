@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.grandeflorum.zddy.dao.ZddyMapper">
+  <resultMap id="BaseResultMap" type="com.grandeflorum.zddy.domain.Zddy">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="YSDM" jdbcType="VARCHAR" property="ysdm" />
+    <result column="BDCDYH" jdbcType="VARCHAR" property="bdcdyh" />
+    <result column="YWH" jdbcType="VARCHAR" property="ywh" />
+    <result column="DYBDCLX" jdbcType="VARCHAR" property="dybdclx" />
+    <result column="DYR" jdbcType="VARCHAR" property="dyr" />
+    <result column="DYFS" jdbcType="VARCHAR" property="dyfs" />
+    <result column="DJLX" jdbcType="VARCHAR" property="djlx" />
+    <result column="DJYY" jdbcType="VARCHAR" property="djyy" />
+    <result column="ZJJZWZL" jdbcType="VARCHAR" property="zjjzwzl" />
+    <result column="ZJJZWDYFW" jdbcType="VARCHAR" property="zjjzwdyfw" />
+    <result column="BDBZZQSE" jdbcType="DECIMAL" property="bdbzzqse" />
+    <result column="ZWLXQSSJ" jdbcType="TIMESTAMP" property="zwlxqssj" />
+    <result column="ZWLXJSSJ" jdbcType="TIMESTAMP" property="zwlxjssj" />
+    <result column="ZGZQQDSS" jdbcType="VARCHAR" property="zgzqqdss" />
+    <result column="ZGZQSE" jdbcType="DECIMAL" property="zgzqse" />
+    <result column="ZXDYYWH" jdbcType="VARCHAR" property="zxdyywh" />
+    <result column="ZXDYYY" jdbcType="VARCHAR" property="zxdyyy" />
+    <result column="ZXSJ" jdbcType="TIMESTAMP" property="zxsj" />
+    <result column="BDCDJZMH" jdbcType="VARCHAR" property="bdcdjzmh" />
+    <result column="QXDM" jdbcType="VARCHAR" property="qxdm" />
+    <result column="DJJG" jdbcType="VARCHAR" property="djjg" />
+    <result column="DBR" jdbcType="VARCHAR" property="dbr" />
+    <result column="DJSJ" jdbcType="TIMESTAMP" property="djsj" />
+    <result column="FJ" jdbcType="VARCHAR" property="fj" />
+    <result column="QSZT" jdbcType="VARCHAR" property="qszt" />
+    <result column="YBDCQZH" jdbcType="VARCHAR" property="ybdcqzh" />
+    <result column="QLLX" jdbcType="VARCHAR" property="qllx" />
+    <result column="ZL" jdbcType="VARCHAR" property="zl" />
+    <result column="ISLOAD" jdbcType="DECIMAL" property="isload" />
+    <result column="LSYWH" jdbcType="VARCHAR" property="lsywh" />
+    <result column="SYS_DATE" jdbcType="TIMESTAMP" property="sysDate" />
+    <result column="SYS_UPD_DATE" jdbcType="TIMESTAMP" property="sysUpdDate" />
+    <result column="DY_TYPE" jdbcType="DECIMAL" property="dyType" />
+    <result column="ZRZH" jdbcType="VARCHAR" property="zrzh"/>
+    <result column="LJZH" jdbcType="VARCHAR" property="ljzh"/>
+  </resultMap>
+
+<select id="getZddyList" parameterType="map" resultType="com.grandeflorum.zddy.domain.ZddyList">
+select m.id,m.bdcdyh,m.dybdclxName,m.dyfsName,m.zjjzwzl,m.dy_type,m.zmj
+  from (select t.id,t.bdcdyh,d1.name dybdclxName,d2.name dyfsName,t.zjjzwzl,t.dy_type,
+  case when t.dy_type =1 then (select sum(SCJZMJ) from h where zrzh = t.zrzh)
+  when t.dy_type =2 then (select sum(SCJZMJ) from h where ljzh = t.ljzh)
+  else 0 end zmj,t.SYS_UPD_DATE
+from zddy t
+left join dictionary d1 on d1.code = t.dybdclx
+left join dictionary d2 on d2.code = t.dyfs)m
+
+  <if test="bdcdyh != null and bdcdyh != ''">
+    and instr(m.bdcdyh,#{bdcdyh})>0
+  </if>
+  <if test="dybdclx != null and dybdclx != ''">
+    and m.dybdclx = #{dybdclx}
+  </if>
+  <if test="zjjzwzl != null and zjjzwzl != ''">
+    and instr(m.zjjzwzl,#{zjjzwzl})>0
+  </if>
+  <if test="dy_type != null and dy_type != ''">
+    and m.dy_type = #{dy_type}
+  </if>
+
+  <choose>
+    <when test="sort!=null and sort.size()>0">
+      <foreach collection="sort" item="item" open="order by " separator=",">
+        ${item}
+      </foreach>
+    </when>
+    <otherwise>
+      order by m.SYS_UPD_DATE desc
+    </otherwise>
+  </choose>
+</select>
+
+  <select id="updateZddyTypeById" parameterType="map">
+    update zddy t set t.dy_type = #{type} where t.id=#{id}
+  </select>
+
+  <select id="selectZrzhByBdcdyh" parameterType="String" resultType="String">
+    select t.ZRZH from zrz t where t.BDCDYH =#{bdcdyh}
+  </select>
+
+</mapper>
