@@ -50,8 +50,8 @@ select m.id,m.bdcdyh,m.dybdclxName,m.dyfsName,m.zjjzwzl,m.dy_type,m.zmj
   when t.dy_type =2 then (select sum(SCJZMJ) from h where ljzh = t.ljzh)
   else 0 end zmj,t.SYS_UPD_DATE
 from zddy t
-left join dictionary d1 on d1.code = t.dybdclx
-left join dictionary d2 on d2.code = t.dyfs)m
+  left join dictionary d1 on d1.code = t.dybdclx and d1.type='dybdclx'
+  left join dictionary d2 on d2.code = t.dyfs and d2.type = 'dylx')m
 
   <if test="bdcdyh != null and bdcdyh != ''">
     and instr(m.bdcdyh,#{bdcdyh})>0
