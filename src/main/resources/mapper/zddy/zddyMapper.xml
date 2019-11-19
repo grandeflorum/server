@@ -89,14 +89,14 @@ from zddy t
   <update id="restrictedProperty" parameterType="map">
       UPDATE zddy t set
     <choose>
-      <when test="type=='1'">
+      <when test="type=='1'.toString()">
           t.zrzh = #{zh}
       </when>
       <otherwise>
         t.ljzh = #{zh}
       </otherwise>
     </choose>
-    ,t.bdcdyh = #{bdcdyh},t.dy_type =#{bdcdyh} where t.id=#{id}
+    ,t.bdcdyh = #{bdcdyh},t.dy_type =#{type} where t.id=#{id}
   </update>
 
   <select id="selectBdcdyhByZh" parameterType="map" resultType="String">
