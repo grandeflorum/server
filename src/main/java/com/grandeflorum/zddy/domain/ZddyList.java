@@ -22,7 +22,7 @@ public class ZddyList {
     @Column(name="zjjzwzl")
     private String zjjzwzl;
 
-    @Column(name="dy_type")
+    @Column(name="dyType")
     private int dyType;
 
     @Column(name="zmj")

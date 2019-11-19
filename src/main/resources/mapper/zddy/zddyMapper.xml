@@ -44,14 +44,14 @@
   </resultMap>
 
 <select id="getZddyList" parameterType="map" resultType="com.grandeflorum.zddy.domain.ZddyList">
-select m.id,m.bdcdyh,m.dybdclxName,m.dyfsName,m.zjjzwzl,m.dy_type,m.zmj
+select m.id,m.bdcdyh,m.dybdclxName,m.dyfsName,m.zjjzwzl,m.dy_type dyType,m.zmj
   from (select t.id,t.bdcdyh,d1.name dybdclxName,d2.name dyfsName,t.zjjzwzl,t.dy_type,
   case when t.dy_type =1 then (select sum(SCJZMJ) from h where zrzh = t.zrzh)
   when t.dy_type =2 then (select sum(SCJZMJ) from h where ljzh = t.ljzh)
-  else 0 end zmj,t.SYS_UPD_DATE
+  else 0 end zmj,t.SYS_UPD_DATE,t.dybdclx
 from zddy t
   left join dictionary d1 on d1.code = t.dybdclx and d1.type='dybdclx'
-  left join dictionary d2 on d2.code = t.dyfs and d2.type = 'dylx')m
+  left join dictionary d2 on d2.code = t.dyfs and d2.type = 'dylx')m where 1=1
 
   <if test="bdcdyh != null and bdcdyh != ''">
     and instr(m.bdcdyh,#{bdcdyh})>0
@@ -101,11 +101,13 @@ from zddy t
 
   <select id="selectBdcdyhByZh" parameterType="map" resultType="String">
     <choose>
-      <when test="type=='1'">
+      <when test="type=='1'.toString()">
         select t.BDCDYH from zrz t where t.zrzh =#{zh}
       </when>
       <otherwise>
-        select t.BDCDYH from ljz t where t.ljzh =#{zh}
+        select z.bdcdyh from ljz t
+        left join zrz z on z.zrzh = t.zrzh
+        where t.ljzh =#{zh}
       </otherwise>
     </choose>
   </select>
