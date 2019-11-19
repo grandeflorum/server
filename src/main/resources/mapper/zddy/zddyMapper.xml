@@ -86,4 +86,17 @@ left join dictionary d2 on d2.code = t.dyfs)m
     select t.ZRZH from zrz t where t.BDCDYH =#{bdcdyh}
   </select>
 
+  <update id="restrictedProperty" parameterType="map">
+      UPDATE zddy t set
+    <choose>
+      <when test="type=='1'">
+          t.zrzh = #{zh}
+      </when>
+      <otherwise>
+        t.ljzh = #{zh}
+      </otherwise>
+    </choose>
+    ,t.bdcdyh = #{bdcdyh},t.dy_type =#{bdcdyh} where t.id=#{id}
+  </update>
+
 </mapper>

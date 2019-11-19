@@ -40,7 +40,17 @@ public class ZddyController {
     }
 
     @GetMapping("/updateZddyTypeById")
-    ResponseBo updateZddyTypeById(String id,int type){
+    public ResponseBo updateZddyTypeById(String id,int type){
         return zddyService.updateZddyTypeById(id,type);
+    }
+
+    @GetMapping("/linkDyxxByBdcdyh")
+    public ResponseBo linkDyxxByBdcdyh(String id,String bdcdyh){
+        return zddyService.linkDyxxByBdcdyh(id,bdcdyh);
+    }
+
+    @GetMapping("/restrictedProperty")
+    public ResponseBo restrictedProperty(String id,String zh,String bdcdyh,String type) {
+        return zddyService.restrictedProperty(id, zh, bdcdyh, type);
     }
 }

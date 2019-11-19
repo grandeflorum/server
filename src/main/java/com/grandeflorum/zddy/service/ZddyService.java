@@ -40,4 +40,14 @@ public interface ZddyService extends IService<Zddy>{
     ResponseBo deleteZddyByIds(List<String> ids);
 
     ResponseBo updateZddyTypeById(String id,int type);
+
+    /**
+     * 自动关联抵押信息
+     * @param id
+     * @param bdcdyh
+     * @return
+     */
+    ResponseBo linkDyxxByBdcdyh(String id,String bdcdyh);
+
+    ResponseBo restrictedProperty(String id,String zh,String bdcdyh,String type);
 }

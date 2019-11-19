@@ -13,4 +13,6 @@ public interface ZddyMapper extends MyMapper<Zddy> {
     void updateZddyTypeById(Map<String,Object> map);
 
     String selectZrzhByBdcdyh(String bdcdyh);
+
+    void restrictedProperty(Map<String,Object> map);
 }

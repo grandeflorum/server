@@ -96,4 +96,30 @@ public class ZddyServiceImpl extends BaseService<Zddy> implements ZddyService {
         zddyMapper.updateZddyTypeById(map);
         return ResponseBo.ok();
     }
+
+    @Override
+    public ResponseBo linkDyxxByBdcdyh(String id,String bdcdyh){
+
+        String zrzh = zddyMapper.selectZrzhByBdcdyh(bdcdyh);
+
+        if(StrUtil.isNullOrEmpty(zrzh)){
+            return ResponseBo.ok("不存在该不动产单元号对应的楼盘");
+        }
+
+        restrictedProperty(id,zrzh,bdcdyh,"1");
+        return ResponseBo.ok();
+    }
+
+    @Override
+    public ResponseBo restrictedProperty(String id,String zh,String bdcdyh,String type) {
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("id", id);
+        map.put("type", type);
+        map.put("zh", zh);
+        map.put("bdcdyh", bdcdyh);
+
+        zddyMapper.restrictedProperty(map);
+        return ResponseBo.ok();
+    }
 }
