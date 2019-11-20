@@ -42,6 +42,13 @@ public class RelationShip {
      */
     @Column(name = "CQRGX")
     public Integer cqrgx;
+
+    /**
+     * 共有方式
+     */
+    @Column(name="GYFS")
+    public Integer gyfs;
+
     /**
      * 项目id
      */
@@ -59,6 +66,15 @@ public class RelationShip {
      */
     @Column(name = "SYS_UPD_DATE")
     public Date sysUpdDate;
+
+
+    public Integer getGyfs() {
+        return gyfs;
+    }
+
+    public void setGyfs(Integer gyfs) {
+        this.gyfs = gyfs;
+    }
 
     public String getId() {
         return id;
