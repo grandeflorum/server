@@ -22,6 +22,25 @@ public class BuildingTableServiceImpl implements BuildingTableService {
     private BuildingTableMapper buildingTableMapper;
 
     @Override
+    public ResponseBo getInfoByZh(String ZH,String Type){
+        if(Type.equals("1")){
+            List<String> zrzId = buildingTableMapper.getZrzId(ZH);
+
+            if(zrzId!=null&&zrzId.size()>0){
+                return getZrz(zrzId.get(0));
+            }
+        }else if(Type.equals("2")){
+            List<String> ljzId = buildingTableMapper.getLjzId(ZH);
+
+            if(ljzId!=null&&ljzId.size()>0){
+                return getLjz(ljzId.get(0));
+            }
+        }
+
+        return null;
+    }
+
+    @Override
     public ResponseBo getBuildingTableList(Page page) {
 
         PageHelper.startPage(page.getPageNo(), page.getPageSize());

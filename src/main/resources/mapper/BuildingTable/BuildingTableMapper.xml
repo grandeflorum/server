@@ -50,6 +50,14 @@
         select z.ID,z.ZRZH,z.XMMC,z.JZWMC from zrz z where z.id = #{id}
     </select>
 
+    <select id="getZrzId" parameterType="java.lang.String" resultType="java.lang.String">
+        select id from zrz where zrzh=#{zh}
+    </select>
+
+    <select id="getLjzId" parameterType="java.lang.String" resultType="java.lang.String">
+        select id from ljz where ljzh=#{zh}
+    </select>
+
     <select id="getHList" parameterType="map" resultType="com.grandeflorum.buildingTable.domain.H">
         select h.ID,h.BDCDYH,h.FWBM,h.CH,h.ZL,h.SJCS,h.HH,h.SHBW,h.HX,h.HXJG,h.FWYT1,h.SCJZMJ,h.FWLX,h.MPH,nvl(h.DYH,1)dyh,nvl(h.HBH,1)hbh,
         Nvl2(d.ID,1,nvl2(cf.ID,2,0)) status from h

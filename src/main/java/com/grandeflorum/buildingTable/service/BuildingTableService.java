@@ -12,4 +12,6 @@ public interface BuildingTableService {
 
     ResponseBo getZrz(String id);
 
+    ResponseBo getInfoByZh(String ZH,String Type);
+
 }

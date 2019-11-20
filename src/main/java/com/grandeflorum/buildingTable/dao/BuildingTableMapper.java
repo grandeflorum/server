@@ -19,4 +19,8 @@ public interface BuildingTableMapper {
 
     ZRZ getZrz(String id);
 
+    List<String> getZrzId(String zh);
+
+    List<String> getLjzId(String zh);
+
 }
