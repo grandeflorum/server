@@ -66,11 +66,16 @@
     <if test="companyId!=null and companyId!=''">
       and e.COMPANY_ID = #{companyId}
     </if>
-   <if test="sort!=null and sort.size()>0">
-     <foreach collection="sort" item="item" open="order by " separator=",">
-       ${item}
-     </foreach>
-   </if>
+    <choose>
+      <when test="sort!=null and sort.size()>0">
+        <foreach collection="sort" item="item" open="order by " separator=",">
+          ${item}
+        </foreach>
+      </when>
+      <otherwise>
+        order by e.SYS_UPD_DATE desc
+      </otherwise>
+    </choose>
   </select>
 
 </mapper>

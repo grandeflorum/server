@@ -60,7 +60,7 @@
             </foreach>
         </if>
         <if test="sort==null or sort.size()==0">
-            order by hst.SYS_DATE desc
+            order by hst.SYS_UPD_DATE desc
         </if>
     </select>
 

@@ -29,7 +29,7 @@
             </foreach>
         </if>
         <if test="sort==null or sort.size()==0">
-            order by p.SYS_DATE desc
+            order by p.SYS_UPD_DATE desc
         </if>
     </select>
 
