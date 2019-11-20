@@ -60,7 +60,7 @@
 
     <select id="getHList" parameterType="map" resultType="com.grandeflorum.buildingTable.domain.H">
         select h.ID,h.BDCDYH,h.FWBM,h.CH,h.ZL,h.SJCS,h.HH,h.SHBW,h.HX,h.HXJG,h.FWYT1,h.SCJZMJ,h.FWLX,h.MPH,nvl(h.DYH,1)dyh,nvl(h.HBH,1)hbh,
-        Nvl2(d.ID,1,nvl2(cf.ID,2,0)) status from h
+        nvl2(d.ID,1,0) status,nvl2(cf.id,1,0)cfStatus from h
         left join dyaq d on d.BDCDYH = h.BDCDYH and d.QSZT='1'
         left join cfdj cf on cf.BDCDYH = h.BDCDYH and cf.QSZT='1'
         where h.zt='1' and h.ZRZH=#{zrzh} and h.ljzh=#{ljzh}

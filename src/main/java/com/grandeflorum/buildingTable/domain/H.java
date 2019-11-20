@@ -100,6 +100,18 @@ public class H {
     @Column(name="status")
     private int status;
 
+    @Column(name="cfStatus")
+    private int cfStatus;
+
+
+    public int getCfStatus() {
+        return cfStatus;
+    }
+
+    public void setCfStatus(int cfStatus) {
+        this.cfStatus = cfStatus;
+    }
+
     public int getStatus() {
         return status;
     }
