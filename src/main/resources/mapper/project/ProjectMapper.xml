@@ -24,10 +24,10 @@
             and p.audit_type=#{auditType}
         </if>
         <if test="kgrq!=null and kgrq != ''">
-            and p.kgrq<![CDATA[>=]]>#{startTime})
+            and p.kgrq<![CDATA[>=]]>to_date(#{kgrq},'yyyy-mm-dd hh24:mi:ss')
         </if>
         <if test="jgrq!=null and jgrq != ''">
-            and p.jgrq<![CDATA[<=]]>#{endTime})
+            and p.jgrq<![CDATA[<=]]>to_date(#{jgrq},'yyyy-mm-dd hh24:mi:ss')
         </if>
         <if test="sort!=null and sort.size()>0">
             <foreach collection="sort" item="item" open="order by " separator=",">
