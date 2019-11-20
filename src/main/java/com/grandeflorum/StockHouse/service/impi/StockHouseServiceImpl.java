@@ -41,6 +41,7 @@ public class StockHouseServiceImpl extends BaseService<StockHouse> implements St
             stockHouse.setId(GuidHelper.getGuid());
             stockHouse.setAuditType(0);
             stockHouse.setSysDate(new Date());
+            stockHouse.setSysUpdDate(new Date());
             stockHouseMapper.insert(stockHouse);
         } else {
             stockHouse.setSysUpdDate(new Date());

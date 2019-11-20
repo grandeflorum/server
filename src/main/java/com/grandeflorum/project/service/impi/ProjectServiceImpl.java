@@ -38,6 +38,7 @@ public class ProjectServiceImpl extends BaseService<Project> implements ProjectS
             project.setId(GuidHelper.getGuid());
             project.setAuditType(0);
             project.setSysDate(new Date());
+            project.setSysUpdDate(new Date());
             projectMapper.insert(project);
         } else {
             project.setSysUpdDate(new Date());

@@ -190,6 +190,7 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
             houseTrade.setId(GuidHelper.getGuid());
             houseTrade.setCurrentStatus(0);
             houseTrade.setSysDate(new Date());
+            houseTrade.setSysUpdDate(new Date());
             houseTradeMapper.insert(houseTrade);
         } else {
             houseTrade.setSysUpdDate(new Date());

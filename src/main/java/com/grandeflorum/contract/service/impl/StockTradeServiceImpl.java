@@ -120,6 +120,7 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
             stockTrade.setId(GuidHelper.getGuid());
             stockTrade.setCurrentStatus(0);
             stockTrade.setSysDate(new Date());
+            stockTrade.setSysUpdDate(new Date());
             stockTradeMapper.insert(stockTrade);
         } else {
             stockTrade.setSysUpdDate(new Date());
