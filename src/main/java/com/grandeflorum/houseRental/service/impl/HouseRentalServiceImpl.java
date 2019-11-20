@@ -16,6 +16,7 @@ import com.grandeflorum.system.service.SysRegionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -43,6 +44,16 @@ public class HouseRentalServiceImpl extends BaseService<HouseRental> implements 
         if(StrUtil.isNullOrEmpty(houseRental.getId())){
             houseRental.setId(GuidHelper.getGuid());
             houseRental.setSysDate(new Date());
+
+            //房屋出租编号
+            String num = houseRental.getRegioncode();
+
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+            String dateString = formatter.format(new Date());
+
+            String nums = StrUtil.FillNum(houseRentalMapper.getHouseRentalLastXh());
+
+            houseRental.setSerialnumber(num+dateString+nums);
 
             houseRentalMapper.insert(houseRental);
             return ResponseBo.ok(houseRental.getId());

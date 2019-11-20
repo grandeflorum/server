@@ -14,4 +14,6 @@ public interface HouseRentalMapper extends MyMapper<HouseRental> {
     void linkH(Map<String,Object> map);
 
     String getLjzh(String hid);
+
+    int getHouseRentalLastXh();
 }

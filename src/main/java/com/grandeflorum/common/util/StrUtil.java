@@ -1,6 +1,7 @@
 package com.grandeflorum.common.util;
 
 import java.io.UnsupportedEncodingException;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -237,5 +238,15 @@ public final class StrUtil {
             return result;
         }
         return d;
+    }
+
+    public static String FillNum(int n) {
+
+        NumberFormat formatter = NumberFormat.getNumberInstance();
+        formatter.setMinimumIntegerDigits(4);
+        formatter.setGroupingUsed(false);
+        String s = formatter.format(n);
+
+        return s;
     }
 }

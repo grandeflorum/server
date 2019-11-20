@@ -52,11 +52,17 @@ where 1=1
       and t.isdecorated = #{isdecorated}
     </if>
 
-    <if test="sort!=null and sort.size()>0">
-      <foreach collection="sort" item="item" open="order by " separator=",">
-        ${item}
-      </foreach>
-    </if>
+
+      <choose>
+          <when test="sort!=null and sort.size()>0">
+              <foreach collection="sort" item="item" open="order by " separator=",">
+                  ${item}
+              </foreach>
+          </when>
+          <otherwise>
+              order by t.SYS_UPD_DATE desc
+          </otherwise>
+      </choose>
   </select>
 
     <select id="linkH" parameterType="map">
@@ -67,6 +73,11 @@ where 1=1
         select t1.id from h t
         left join ljz t1 on t.LJZH = t1.LJZH
         where t.id=#{hid}
+    </select>
+
+    <select id="getHouseRentalLastXh" resultType="int">
+       select nvl(m.nums,0)+1  from (select substr(t.serialnumber,-4) nums from house_rental t
+order by substr(t.serialnumber,-4) desc ) m where rownum=1
     </select>
 
 </mapper>
