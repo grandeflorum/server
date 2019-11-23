@@ -8,7 +8,6 @@ public class StockTradeHistory {
 
     @Id
     @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
     @Column(name = "STOCKTRADEID")

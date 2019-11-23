@@ -19,6 +19,8 @@ import com.grandeflorum.project.domain.AuditParam;
 import com.grandeflorum.project.domain.WFAudit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -51,6 +53,7 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
     }
 
     @Override
+    @Transactional
     public ResponseBo btachAuditStockTrade(AuditParam auditParam) {
 
         WFAudit wf = auditParam.getWfAudit();
@@ -115,7 +118,7 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
     }
 
     @Override
-    public String saveOrUpdateStockTrade(StockTrade stockTrade) {
+    public StockTrade saveOrUpdateStockTrade(StockTrade stockTrade) {
         if (stockTrade.getId() == null) {
             stockTrade.setId(GuidHelper.getGuid());
             stockTrade.setCurrentStatus(0);
@@ -126,7 +129,7 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
             stockTrade.setSysUpdDate(new Date());
             stockTradeMapper.updateByPrimaryKey(stockTrade);
         }
-        return stockTrade.getId();
+        return stockTrade;
     }
 
     @Override
@@ -168,6 +171,23 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
 
         stockTradeMapper.linkH(map);
 
+        return ResponseBo.ok();
+    }
+
+    @Override
+    @Transactional
+    public ResponseBo deleteStockTradeByIds(List<String> ids){
+        for (String id:ids){
+            stockTradeMapper.deleteByPrimaryKey(id);
+
+            Example exampleAudit = new Example(WFAudit.class);
+            exampleAudit.createCriteria().andEqualTo("projectid", id);
+            wFAuditMapper.deleteByExample(exampleAudit);
+
+            Example exampleHistory = new Example(StockTradeHistory.class);
+            exampleHistory.createCriteria().andEqualTo("stocktradeid", id);
+            stockTradeHistoryMapper.deleteByExample(exampleHistory);
+        }
         return ResponseBo.ok();
     }
 

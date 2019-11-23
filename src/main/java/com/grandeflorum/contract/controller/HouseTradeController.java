@@ -5,8 +5,10 @@ import com.grandeflorum.common.domain.ResponseBo;
 import com.grandeflorum.contract.domain.HouseTrade;
 import com.grandeflorum.contract.service.HouseTradeService;
 import com.grandeflorum.project.domain.AuditParam;
+import com.grandeflorum.project.domain.WFAudit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import tk.mybatis.mapper.entity.Example;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -40,8 +42,8 @@ public class HouseTradeController {
      */
     @PostMapping("/saveOrUpdateHouseTrade")
     public ResponseBo saveOrUpdateHouseTrade(@RequestBody HouseTrade houseTrade  ) {
-        String projectId = houseTradeService.saveOrUpdateHouseTrade(houseTrade);
-        return ResponseBo.ok(projectId);
+        HouseTrade houseTrade1 = houseTradeService.saveOrUpdateHouseTrade(houseTrade);
+        return ResponseBo.ok(houseTrade1);
 
     }
 
@@ -65,7 +67,7 @@ public class HouseTradeController {
     @PostMapping("/deleteHouseTradeByIds")
     public ResponseBo deleteHouseTradeByIds(@RequestBody List<String> ids) {
         if ((ids != null) && (ids.size() > 0)) {
-            houseTradeService.batchDelete(ids, "id", HouseTrade.class);
+            houseTradeService.deleteHouseTradeByIds(ids);
         }
         return ResponseBo.ok();
     }

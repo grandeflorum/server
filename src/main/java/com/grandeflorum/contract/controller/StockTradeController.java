@@ -38,8 +38,8 @@ public class StockTradeController {
      */
     @PostMapping("/saveOrUpdateStockTrade")
     public ResponseBo saveOrUpdateStockTrade(@RequestBody StockTrade stockTrade   ) {
-        String projectId = stockTradeService.saveOrUpdateStockTrade(stockTrade);
-        return ResponseBo.ok(projectId);
+        StockTrade stockTrade1 = stockTradeService.saveOrUpdateStockTrade(stockTrade);
+        return ResponseBo.ok(stockTrade1);
 
     }
 
@@ -63,7 +63,7 @@ public class StockTradeController {
     @PostMapping("/deleteStockTradeByIds")
     public ResponseBo deleteStockTradeByIds(@RequestBody List<String> ids) {
         if ((ids != null) && (ids.size() > 0)) {
-            stockTradeService.batchDelete(ids, "id", StockTrade.class);
+            stockTradeService.deleteStockTradeByIds(ids);
         }
         return ResponseBo.ok();
     }

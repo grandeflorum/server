@@ -2,11 +2,11 @@ package com.grandeflorum.contract.domain;
 
 import javax.persistence.*;
 
+@Table(name = "CONTRACTNUM")
 public class Contractnum {
 
     @Id
     @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
     @Column(name = "TYPE")

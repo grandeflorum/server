@@ -7,6 +7,7 @@ import com.grandeflorum.contract.domain.HouseTrade;
 import com.grandeflorum.project.domain.AuditParam;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 public interface HouseTradeService extends IService<HouseTrade> {
 
@@ -18,7 +19,7 @@ public interface HouseTradeService extends IService<HouseTrade> {
      ResponseBo auditHouseTradeById(String id, int type) ;
 
     // 保持或更新存量房源
-    String saveOrUpdateHouseTrade(HouseTrade houseTrade  );
+    HouseTrade saveOrUpdateHouseTrade(HouseTrade houseTrade  );
 
     // 获取存量房源信息
     ResponseBo getHouseTradeById(String id);
@@ -29,4 +30,6 @@ public interface HouseTradeService extends IService<HouseTrade> {
     void printHt(String id , String type,HttpServletResponse response);
 
     ResponseBo linkH(String id,String hid);
+
+    ResponseBo deleteHouseTradeByIds(List<String> ids);
 }

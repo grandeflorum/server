@@ -6,6 +6,8 @@ import com.grandeflorum.common.service.IService;
 import com.grandeflorum.contract.domain.StockTrade;
 import com.grandeflorum.project.domain.AuditParam;
 
+import java.util.List;
+
 public interface StockTradeService extends IService<StockTrade> {
 
 
@@ -16,7 +18,7 @@ public interface StockTradeService extends IService<StockTrade> {
     ResponseBo auditStockTradeById(String id, int type);
 
     // 保持或更新存量房源
-    String saveOrUpdateStockTrade(StockTrade stockTrade);
+    StockTrade saveOrUpdateStockTrade(StockTrade stockTrade);
 
     // 获取存量房源信息
     ResponseBo getStockTradeById(String id);
@@ -25,4 +27,6 @@ public interface StockTradeService extends IService<StockTrade> {
     ResponseBo getStockTradeList(Page page);
 
     ResponseBo linkH(String id,String hid);
+
+    ResponseBo deleteStockTradeByIds(List<String> ids);
 }

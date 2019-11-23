@@ -24,6 +24,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.servlet.http.HttpServletResponse;
@@ -68,6 +69,7 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
     }
 
     @Override
+    @Transactional
     public ResponseBo btachAuditHouseTrade(AuditParam auditParam) {
 
         WFAudit wf = auditParam.getWfAudit();
@@ -185,7 +187,7 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
     }
 
     @Override
-    public String saveOrUpdateHouseTrade(HouseTrade houseTrade) {
+    public HouseTrade saveOrUpdateHouseTrade(HouseTrade houseTrade) {
         if (houseTrade.getId() == null) {
             houseTrade.setId(GuidHelper.getGuid());
             houseTrade.setCurrentStatus(0);
@@ -196,7 +198,7 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
             houseTrade.setSysUpdDate(new Date());
             houseTradeMapper.updateByPrimaryKey(houseTrade);
         }
-        return houseTrade.getId();
+        return houseTrade;
     }
 
     @Override
@@ -301,5 +303,23 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
 
         return ResponseBo.ok();
     }
+
+    @Override
+    @Transactional
+    public ResponseBo deleteHouseTradeByIds(List<String> ids){
+        for (String id:ids){
+            houseTradeMapper.deleteByPrimaryKey(id);
+
+            Example exampleAudit = new Example(WFAudit.class);
+            exampleAudit.createCriteria().andEqualTo("projectid", id);
+            wFAuditMapper.deleteByExample(exampleAudit);
+
+            Example exampleHistory = new Example(HouseTradeHistory.class);
+            exampleHistory.createCriteria().andEqualTo("housetradeid", id);
+            houseTradeHistoryMapper.deleteByExample(exampleHistory);
+        }
+        return ResponseBo.ok();
+    }
+
 
 }
