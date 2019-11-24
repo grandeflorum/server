@@ -23,4 +23,6 @@ public interface BuildingTableMapper {
 
     List<String> getLjzId(String zh);
 
+    String getTradeIdByHouseId(Map<String,Object> map);
+
 }

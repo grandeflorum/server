@@ -103,6 +103,8 @@ public class H {
     @Column(name="cfStatus")
     private int cfStatus;
 
+    @Column(name="tradeType")
+    private int tradeType;
 
     public int getCfStatus() {
         return cfStatus;
@@ -246,5 +248,13 @@ public class H {
 
     public void setHbh(int hbh) {
         this.hbh = hbh;
+    }
+
+    public int getTradeType() {
+        return tradeType;
+    }
+
+    public void setTradeType(int tradeType) {
+        this.tradeType = tradeType;
     }
 }

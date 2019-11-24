@@ -8,9 +8,11 @@ import com.grandeflorum.buildingTable.service.BuildingTableService;
 import com.grandeflorum.common.domain.Page;
 import com.grandeflorum.common.domain.PagingEntity;
 import com.grandeflorum.common.domain.ResponseBo;
+import com.grandeflorum.contract.service.HouseTradeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -20,6 +22,9 @@ import java.util.stream.Collectors;
 public class BuildingTableServiceImpl implements BuildingTableService {
     @Autowired
     private BuildingTableMapper buildingTableMapper;
+
+    @Autowired
+    HouseTradeService houseTradeService;
 
     @Override
     public ResponseBo getInfoByZh(String ZH,String Type){
@@ -254,6 +259,19 @@ public class BuildingTableServiceImpl implements BuildingTableService {
                     count -= 10;
                 }
             }
+        }
+    }
+
+    @Override
+    public void printHt(String id,int type,HttpServletResponse response){
+
+        Map<String,Object> map = new HashMap<String,Object>();
+        map.put("id",id);
+        map.put("type",type);
+
+        String tradeId = buildingTableMapper.getTradeIdByHouseId(map);
+        if(type==1){
+            houseTradeService.printHt(tradeId,"2",response);
         }
     }
 
