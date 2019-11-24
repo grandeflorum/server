@@ -3,6 +3,8 @@ package com.grandeflorum.contract.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.grandeflorum.StockHouse.dao.RelationShipMapper;
+import com.grandeflorum.StockHouse.domin.RelationShip;
 import com.grandeflorum.common.domain.Page;
 import com.grandeflorum.common.domain.PagingEntity;
 import com.grandeflorum.common.domain.ResponseBo;
@@ -41,6 +43,9 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
     @Autowired
     HouseTradeServiceIml houseTradeServiceIml;
 
+    @Autowired
+    RelationShipMapper relationShipMapper;
+
     @Override
     public ResponseBo getStockTradeHistory(String id){
         List<StockTradeHistory> list = stockTradeHistoryMapper.getHistoryList(id);
@@ -70,29 +75,36 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
                 wfAudit.setShry(wf.getShry());
                 wfAudit.setShrq(wf.getShrq());
                 wfAudit.setBz(wf.getBz());
+                wfAudit.setZxly(wf.getZxly());
                 wfAudit.setProjectid(id);
                 wfAudit.setSysDate(new Date());
                 wfAudit.setSysUpdDate(new Date());
                 wfAudit.setCurrentStatus(stockTrade.getCurrentStatus());
                 wFAuditMapper.insert(wfAudit);
-                if(wfAudit.getShjg()==1){
-                    stockTrade.setIsPass(1);
-                    stockTrade.setCurrentStatus(stockTrade.getCurrentStatus() + 1);
+                //合同为已备案状态后可修改为已注销
+                if(stockTrade.getCurrentStatus()==5){
+                    stockTrade.setIsCancel(1);
+                }else{
+                    if(wfAudit.getShjg()==1){
+                        stockTrade.setIsPass(1);
+                        stockTrade.setCurrentStatus(stockTrade.getCurrentStatus() + 1);
 
-                    if(stockTrade.getCurrentStatus()==4){
-                        stockTrade.setHtbah(this.houseTradeServiceIml.getHTBAH("StockTrade"));
+                        if(stockTrade.getCurrentStatus()==4){
+                            stockTrade.setHtbah(this.houseTradeServiceIml.getHTBAH("StockTrade"));
+                        }
+
+                    }else if(wfAudit.getShjg()==2){
+                        stockTrade.setIsPass(2);
+                        StockTradeHistory history = new StockTradeHistory();
+                        history.setId(GuidHelper.getGuid());
+                        history.setStocktradeid(stockTrade.getId());
+                        history.setCurrentstatus(stockTrade.getCurrentStatus().shortValue());
+                        history.setSysDate(new Date());
+                        history.setHistoryobj(JSON.toJSONString(stockTrade));
+                        stockTradeHistoryMapper.insert(history);
                     }
-
-                }else if(wfAudit.getShjg()==2){
-                    stockTrade.setIsPass(2);
-                    StockTradeHistory history = new StockTradeHistory();
-                    history.setId(GuidHelper.getGuid());
-                    history.setStocktradeid(stockTrade.getId());
-                    history.setCurrentstatus(stockTrade.getCurrentStatus().shortValue());
-                    history.setSysDate(new Date());
-                    history.setHistoryobj(JSON.toJSONString(stockTrade));
-                    stockTradeHistoryMapper.insert(history);
                 }
+
             }else{
                 if(stockTrade.getIsPass()!=null&& stockTrade.getIsPass()==2){
                     stockTrade.setIsPass(1);
@@ -118,6 +130,7 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
     }
 
     @Override
+    @Transactional
     public StockTrade saveOrUpdateStockTrade(StockTrade stockTrade) {
         if (stockTrade.getId() == null) {
             stockTrade.setId(GuidHelper.getGuid());
@@ -128,7 +141,20 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
         } else {
             stockTrade.setSysUpdDate(new Date());
             stockTradeMapper.updateByPrimaryKey(stockTrade);
+            //如果更新的话先删除原来关系数据
+            relationShipMapper.deleteRelationShipByProjectId(stockTrade.getId());
         }
+
+        //添加存量房相关的人员信息
+        if (stockTrade.getRelationShips() != null && stockTrade.getRelationShips().size() > 0) {
+        for (RelationShip relationShip : stockTrade.getRelationShips()) {
+            relationShip.setId(GuidHelper.getGuid());
+            relationShip.setProjectId(stockTrade.id);
+            relationShip.setSysDate(new Date());
+            relationShip.setSysUpdDate(new Date());
+            relationShipMapper.insert(relationShip);
+        }
+    }
         return stockTrade;
     }
 
@@ -144,6 +170,7 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
             if(!StrUtil.isNullOrEmpty(result.getHouseId())){
                 result.setLjzid( stockTradeMapper.getLjzh(result.getHouseId()));
             }
+            result.setRelationShips(relationShipMapper.getRelationShipByProjectId(result.getId()));
             return ResponseBo.ok(result);
         }
         return ResponseBo.error("查询失败");
@@ -187,6 +214,10 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
             Example exampleHistory = new Example(StockTradeHistory.class);
             exampleHistory.createCriteria().andEqualTo("stocktradeid", id);
             stockTradeHistoryMapper.deleteByExample(exampleHistory);
+
+            Example exampleRelationShip=new Example(RelationShip.class);
+            exampleRelationShip.createCriteria().andEqualTo("projectId", id);
+            relationShipMapper.deleteByExample(exampleRelationShip);
         }
         return ResponseBo.ok();
     }

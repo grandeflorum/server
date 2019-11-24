@@ -3,6 +3,8 @@ package com.grandeflorum.contract.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.grandeflorum.StockHouse.dao.RelationShipMapper;
+import com.grandeflorum.StockHouse.domin.RelationShip;
 import com.grandeflorum.common.config.GrandeflorumProperties;
 import com.grandeflorum.common.domain.Page;
 import com.grandeflorum.common.domain.PagingEntity;
@@ -57,6 +59,9 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
     @Autowired
     ContractnumMapper contractnumMapper;
 
+    @Autowired
+    RelationShipMapper relationShipMapper;
+
     @Override
     public ResponseBo getHouseTradeHistory(String id){
         List<HouseTradeHistory> list = houseTradeHistoryMapper.getHistoryList(id);
@@ -85,29 +90,36 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
                 wfAudit.setShry(wf.getShry());
                 wfAudit.setShrq(wf.getShrq());
                 wfAudit.setBz(wf.getBz());
+                wfAudit.setZxly(wf.getZxly());
                 wfAudit.setProjectid(id);
                 wfAudit.setSysDate(new Date());
                 wfAudit.setSysUpdDate(new Date());
                 wfAudit.setCurrentStatus(houseTrade.getCurrentStatus());
                 wFAuditMapper.insert(wfAudit);
-                if(wfAudit.getShjg()==1){
-                    houseTrade.setIsPass(1);
-                    houseTrade.setCurrentStatus(houseTrade.getCurrentStatus() + 1);
+                //合同为已备案状态后可修改为已注销
+                if(houseTrade.getCurrentStatus()==5){
+                    houseTrade.setIsCancel(1);
+                }else{
+                    if(wfAudit.getShjg()==1){
+                        houseTrade.setIsPass(1);
+                        houseTrade.setCurrentStatus(houseTrade.getCurrentStatus() + 1);
 
-                    if(houseTrade.getCurrentStatus()==4){
-                        houseTrade.setHtbah(this.getHTBAH("HouseTrade"));
+                        if(houseTrade.getCurrentStatus()==4){
+                            houseTrade.setHtbah(this.getHTBAH("HouseTrade"));
+                        }
+
+                    }else if(wfAudit.getShjg()==2){
+                        houseTrade.setIsPass(2);
+                        HouseTradeHistory history = new HouseTradeHistory();
+                        history.setId(GuidHelper.getGuid());
+                        history.setHousetradeid(houseTrade.getId());
+                        history.setCurrentstatus(houseTrade.getCurrentStatus().shortValue());
+                        history.setSysDate(new Date());
+                        history.setHistoryobj(JSON.toJSONString(houseTrade));
+                        houseTradeHistoryMapper.insert(history);
                     }
-
-                }else if(wfAudit.getShjg()==2){
-                    houseTrade.setIsPass(2);
-                    HouseTradeHistory history = new HouseTradeHistory();
-                    history.setId(GuidHelper.getGuid());
-                    history.setHousetradeid(houseTrade.getId());
-                    history.setCurrentstatus(houseTrade.getCurrentStatus().shortValue());
-                    history.setSysDate(new Date());
-                    history.setHistoryobj(JSON.toJSONString(houseTrade));
-                    houseTradeHistoryMapper.insert(history);
                 }
+
             }else{
                 if(houseTrade.getIsPass()!=null&&houseTrade.getIsPass()==2){
                     houseTrade.setIsPass(1);
@@ -187,6 +199,7 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
     }
 
     @Override
+    @Transactional
     public HouseTrade saveOrUpdateHouseTrade(HouseTrade houseTrade) {
         if (houseTrade.getId() == null) {
             houseTrade.setId(GuidHelper.getGuid());
@@ -197,6 +210,18 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
         } else {
             houseTrade.setSysUpdDate(new Date());
             houseTradeMapper.updateByPrimaryKey(houseTrade);
+            //如果更新的话先删除原来关系数据
+            relationShipMapper.deleteRelationShipByProjectId(houseTrade.getId());
+        }
+        //添加存量房相关的人员信息
+        if (houseTrade.getRelationShips() != null && houseTrade.getRelationShips().size() > 0) {
+            for (RelationShip relationShip : houseTrade.getRelationShips()) {
+                relationShip.setId(GuidHelper.getGuid());
+                relationShip.setProjectId(houseTrade.id);
+                relationShip.setSysDate(new Date());
+                relationShip.setSysUpdDate(new Date());
+                relationShipMapper.insert(relationShip);
+            }
         }
         return houseTrade;
     }
@@ -213,6 +238,7 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
             if(!StrUtil.isNullOrEmpty(result.getHouseId())){
                 result.setLjzid( houseTradeMapper.getLjzh(result.getHouseId()));
             }
+            result.setRelationShips(relationShipMapper.getRelationShipByProjectId(result.getId()));
             return ResponseBo.ok(result);
         }
         return ResponseBo.error("查询失败");
@@ -317,6 +343,10 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
             Example exampleHistory = new Example(HouseTradeHistory.class);
             exampleHistory.createCriteria().andEqualTo("housetradeid", id);
             houseTradeHistoryMapper.deleteByExample(exampleHistory);
+
+            Example exampleRelationShip=new Example(RelationShip.class);
+            exampleRelationShip.createCriteria().andEqualTo("projectId", id);
+            relationShipMapper.deleteByExample(exampleRelationShip);
         }
         return ResponseBo.ok();
     }

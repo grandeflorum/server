@@ -1,5 +1,6 @@
 package com.grandeflorum.contract.domain;
 
+import com.grandeflorum.StockHouse.domin.RelationShip;
 import com.grandeflorum.project.domain.WFAudit;
 
 import javax.persistence.Column;
@@ -94,7 +95,24 @@ public class HouseTrade {
     @Column(name = "SYS_UPD_DATE")
     public Date sysUpdDate;
 
+    /**
+     * 是否注销
+     */
+    @Column(name = "ISCANCEL")
+    public Integer isCancel;
+
+    /**
+     * 交易方式
+     */
+    @Column(name = "JYFS")
+    public Integer jyfs;
+
     public List<WFAudit>  wfAuditList;
+
+    /**
+     * 多个购买人
+     */
+    public List<RelationShip> relationShips;
 
     @Transient
     private String ljzid;
@@ -321,5 +339,29 @@ public class HouseTrade {
 
     public void setFh(String fh) {
         this.fh = fh;
+    }
+
+    public Integer getIsCancel() {
+        return isCancel;
+    }
+
+    public void setIsCancel(Integer isCancel) {
+        this.isCancel = isCancel;
+    }
+
+    public Integer getJyfs() {
+        return jyfs;
+    }
+
+    public void setJyfs(Integer jyfs) {
+        this.jyfs = jyfs;
+    }
+
+    public List<RelationShip> getRelationShips() {
+        return relationShips;
+    }
+
+    public void setRelationShips(List<RelationShip> relationShips) {
+        this.relationShips = relationShips;
     }
 }

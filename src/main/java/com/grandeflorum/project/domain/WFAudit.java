@@ -11,19 +11,30 @@ public class WFAudit extends EntityBase {
     @Id
     @Column(name = "ID")
     private String id;
-
+    /**
+     * 审核结果1：通过2：不通过
+     */
     @Column(name = "SHJG")
     private Short shjg;
-
+    /**
+     * 审核人员（注销人员）
+     */
     @Column(name = "SHRY")
     private String shry;
-
+    /**
+     * 审核日期（注销日期）
+     */
     @Column(name = "SHRQ")
     private Date shrq;
-
+    /**
+     * 备注
+     */
     @Column(name = "BZ")
     private String bz;
 
+    /**
+     * 外键
+     */
     @Column(name = "PROJECTID")
     private String projectid;
 
@@ -39,6 +50,11 @@ public class WFAudit extends EntityBase {
     @Column(name = "SYS_UPD_DATE")
     private Date sysUpdDate;
 
+    /**
+     * 注销理由
+     */
+    @Column(name = "ZXLY")
+    private String zxly;
     /**
      * @return ID
      */
@@ -157,5 +173,13 @@ public class WFAudit extends EntityBase {
      */
     public void setSysUpdDate(Date sysUpdDate) {
         this.sysUpdDate = sysUpdDate;
+    }
+
+    public String getZxly() {
+        return zxly;
+    }
+
+    public void setZxly(String zxly) {
+        this.zxly = zxly;
     }
 }

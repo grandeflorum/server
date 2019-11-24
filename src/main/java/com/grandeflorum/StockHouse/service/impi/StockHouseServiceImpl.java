@@ -17,6 +17,7 @@ import com.grandeflorum.project.domain.AuditParam;
 import com.grandeflorum.project.domain.WFAudit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -36,6 +37,7 @@ public class StockHouseServiceImpl extends BaseService<StockHouse> implements St
     WFAuditMapper wFAuditMapper;
 
     @Override
+    @Transactional
     public String saveOrUpdateStockHouse(StockHouse stockHouse) {
         if (stockHouse.getId() == null) {
             stockHouse.setId(GuidHelper.getGuid());
@@ -54,6 +56,8 @@ public class StockHouseServiceImpl extends BaseService<StockHouse> implements St
             for (RelationShip relationShip : stockHouse.getRelationShips()) {
                 relationShip.setId(GuidHelper.getGuid());
                 relationShip.setProjectId(stockHouse.id);
+                relationShip.setSysDate(new Date());
+                relationShip.setSysUpdDate(new Date());
                 relationShipMapper.insert(relationShip);
             }
         }

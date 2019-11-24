@@ -50,6 +50,12 @@ public class RelationShip {
     public Integer gyfs;
 
     /**
+     * 证件类别
+     */
+    @Column(name="ZJLB")
+    public Integer zjlb;
+
+    /**
      * 项目id
      */
     @Column(name = "PROJECTID")
@@ -146,5 +152,13 @@ public class RelationShip {
 
     public void setSysUpdDate(Date sysUpdDate) {
         this.sysUpdDate = sysUpdDate;
+    }
+
+    public Integer getZjlb() {
+        return zjlb;
+    }
+
+    public void setZjlb(Integer zjlb) {
+        this.zjlb = zjlb;
     }
 }
