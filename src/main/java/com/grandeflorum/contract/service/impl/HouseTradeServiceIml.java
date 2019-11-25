@@ -14,6 +14,7 @@ import com.grandeflorum.common.util.*;
 import com.grandeflorum.contract.dao.ContractnumMapper;
 import com.grandeflorum.contract.dao.HouseTradeHistoryMapper;
 import com.grandeflorum.contract.dao.HouseTradeMapper;
+import com.grandeflorum.contract.domain.ContractCancel;
 import com.grandeflorum.contract.domain.Contractnum;
 import com.grandeflorum.contract.domain.HouseTrade;
 import com.grandeflorum.contract.domain.HouseTradeHistory;
@@ -255,6 +256,19 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
         PagingEntity<HouseTrade> result = new PagingEntity<>(pageInfo);
         return ResponseBo.ok(result);
     }
+
+    @Override
+    public ResponseBo getHouseTradeCancelList(Page page) {
+        PageHelper.startPage(page.getPageNo(), page.getPageSize());
+        Map<String, Object> map = page.getQueryParameter();
+        List<ContractCancel> list = houseTradeMapper.getHouseTradeCancelList(map);
+
+        PageInfo<ContractCancel> pageInfo = new PageInfo<ContractCancel>(list);
+
+        PagingEntity<ContractCancel> result = new PagingEntity<>(pageInfo);
+        return ResponseBo.ok(result);
+    }
+
 
     //打印
     @Override

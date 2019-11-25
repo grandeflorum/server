@@ -18,14 +18,17 @@ public interface HouseTradeService extends IService<HouseTrade> {
 
      ResponseBo auditHouseTradeById(String id, int type) ;
 
-    // 保持或更新存量房源
+    // 保存或更新商品房合同
     HouseTrade saveOrUpdateHouseTrade(HouseTrade houseTrade  );
 
-    // 获取存量房源信息
+    // 获取商品房合同
     ResponseBo getHouseTradeById(String id);
 
-    //获取存量房源列表
+    //获取商品房合同列表
     ResponseBo getHouseTradeList(Page page);
+
+    //获取商品房注销列表
+    ResponseBo getHouseTradeCancelList(Page page);
 
     void printHt(String id , String type,HttpServletResponse response);
 

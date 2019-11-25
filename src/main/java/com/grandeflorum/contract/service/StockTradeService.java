@@ -17,14 +17,17 @@ public interface StockTradeService extends IService<StockTrade> {
 
     ResponseBo auditStockTradeById(String id, int type);
 
-    // 保持或更新存量房源
+    // 保存或更新存量合同
     StockTrade saveOrUpdateStockTrade(StockTrade stockTrade);
 
-    // 获取存量房源信息
+    // 获取存量合同
     ResponseBo getStockTradeById(String id);
 
-    //获取存量房源列表
+    //获取存量合同列表
     ResponseBo getStockTradeList(Page page);
+
+    //获取存量合同注销列表
+    ResponseBo getStockTradeCancelList(Page page);
 
     ResponseBo linkH(String id,String hid);
 

@@ -13,6 +13,7 @@ import com.grandeflorum.common.util.GuidHelper;
 import com.grandeflorum.common.util.StrUtil;
 import com.grandeflorum.contract.dao.StockTradeHistoryMapper;
 import com.grandeflorum.contract.dao.StockTradeMapper;
+import com.grandeflorum.contract.domain.ContractCancel;
 import com.grandeflorum.contract.domain.StockTrade;
 import com.grandeflorum.contract.domain.StockTradeHistory;
 import com.grandeflorum.contract.service.StockTradeService;
@@ -188,6 +189,17 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
         return ResponseBo.ok(result);
     }
 
+    @Override
+    public ResponseBo getStockTradeCancelList(Page page) {
+        PageHelper.startPage(page.getPageNo(), page.getPageSize());
+        Map<String, Object> map = page.getQueryParameter();
+        List<ContractCancel> list = stockTradeMapper.getStockTradeCancelList(map);
+
+        PageInfo<ContractCancel> pageInfo = new PageInfo<ContractCancel>(list);
+
+        PagingEntity<ContractCancel> result = new PagingEntity<>(pageInfo);
+        return ResponseBo.ok(result);
+    }
 
     @Override
     public ResponseBo linkH(String id,String hid){
