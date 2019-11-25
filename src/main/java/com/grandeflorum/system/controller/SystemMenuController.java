@@ -85,4 +85,16 @@ public class SystemMenuController {
         }
         return ResponseBo.ok("获取失败!");
     }
+
+    @PostMapping("/getUserMenu")
+    public ResponseBo getUserMenu() {
+        List<SystemMenu> result = menuService.getUserMenu();
+
+        if (result != null) {
+            return ResponseBo.ok(result);
+        }
+
+        return ResponseBo.error("获取目录失败!");
+    }
+
 }

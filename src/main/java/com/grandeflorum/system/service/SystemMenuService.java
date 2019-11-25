@@ -12,4 +12,7 @@ public interface SystemMenuService extends IService<SystemMenu> {
 
     int addSystemMenu(SystemMenu systemMenu);
 
+
+    List<SystemMenu> getUserMenu();
+
 }

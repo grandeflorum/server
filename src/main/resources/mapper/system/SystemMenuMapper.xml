@@ -12,4 +12,20 @@
     <result column="MENU_LEVEL" jdbcType="DECIMAL" property="menuLevel" />
     <result column="MENU_ORDER" jdbcType="DECIMAL" property="menuOrder" />
   </resultMap>
+
+
+  <select id="getUserMenu" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select distinct m.* from system_menu m
+     left join system_role_menu srm on srm.menu_id = m.id
+     left join system_user_role sur on sur.role_id = srm.role_id
+    where sur.user_id=#{userId} order by m.menu_order,m.menu_level
+  </select>
+
+  <select id="getUserMenuByParentId" parameterType="java.util.List" resultMap="BaseResultMap">
+    select * from system_menu where id in
+    <foreach item="item" collection="list" separator="," open="(" close=")" index="">
+           #{item}
+    </foreach>
+  </select>
+
 </mapper>
