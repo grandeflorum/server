@@ -24,4 +24,6 @@ public interface SystemUserMapper extends MyMapper<SystemUser> {
     List<SystemUser> getUserList(Map<String, Object> map);
 
     int changePassword(SystemUser user);
+
+    List<String> getRoleByUserId(String id);
 }

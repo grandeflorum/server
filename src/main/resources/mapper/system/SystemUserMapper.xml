@@ -69,4 +69,12 @@
   <update id="changePassword" parameterType="com.grandeflorum.system.domain.SystemUser">
     update system_user set password=#{password} where id =#{id}
   </update>
+
+  <select id="getRoleByUserId" parameterType="java.lang.String" resultType="java.lang.String">
+    select sr.name from system_role sr
+    left join system_user_role sur on sur.role_id = sr.id
+    where sur.user_id =#{id}
+  </select>
+
+
 </mapper>
