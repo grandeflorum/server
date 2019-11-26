@@ -5,6 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.grandeflorum.StockHouse.dao.RelationShipMapper;
 import com.grandeflorum.StockHouse.domin.RelationShip;
+import com.grandeflorum.attachment.service.FileInfoService;
 import com.grandeflorum.common.domain.Page;
 import com.grandeflorum.common.domain.PagingEntity;
 import com.grandeflorum.common.domain.ResponseBo;
@@ -47,6 +48,9 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
     @Autowired
     RelationShipMapper relationShipMapper;
 
+    @Autowired
+    FileInfoService fileInfoService;
+
     @Override
     public ResponseBo getStockTradeHistory(String id){
         List<StockTradeHistory> list = stockTradeHistoryMapper.getHistoryList(id);
@@ -82,6 +86,9 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
                 wfAudit.setSysUpdDate(new Date());
                 wfAudit.setCurrentStatus(stockTrade.getCurrentStatus());
                 wFAuditMapper.insert(wfAudit);
+                if(wf.getFileInfoList()!=null&&wf.getFileInfoList().size()>0){
+                    fileInfoService.updateFileInfoByIds(wf.getFileInfoList(),wfAudit.getId());
+                }
                 //合同为已备案状态后可修改为已注销
                 if(stockTrade.getCurrentStatus()==5){
                     stockTrade.setIsCancel(1);

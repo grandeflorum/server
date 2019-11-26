@@ -5,6 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.grandeflorum.StockHouse.dao.RelationShipMapper;
 import com.grandeflorum.StockHouse.domin.RelationShip;
+import com.grandeflorum.attachment.service.FileInfoService;
 import com.grandeflorum.common.config.GrandeflorumProperties;
 import com.grandeflorum.common.domain.Page;
 import com.grandeflorum.common.domain.PagingEntity;
@@ -63,6 +64,9 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
     @Autowired
     RelationShipMapper relationShipMapper;
 
+    @Autowired
+    FileInfoService fileInfoService ;
+
     @Override
     public ResponseBo getHouseTradeHistory(String id){
         List<HouseTradeHistory> list = houseTradeHistoryMapper.getHistoryList(id);
@@ -97,6 +101,9 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
                 wfAudit.setSysUpdDate(new Date());
                 wfAudit.setCurrentStatus(houseTrade.getCurrentStatus());
                 wFAuditMapper.insert(wfAudit);
+                if(wf.getFileInfoList()!=null&&wf.getFileInfoList().size()>0){
+                    fileInfoService.updateFileInfoByIds(wf.getFileInfoList(),wfAudit.getId());
+                }
                 //合同为已备案状态后可修改为已注销
                 if(houseTrade.getCurrentStatus()==5){
                     houseTrade.setIsCancel(1);
