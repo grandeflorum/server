@@ -63,12 +63,12 @@ public class CompanyServiceImpl extends BaseService<Company> implements CompanyS
             companyMapper.insert(company);
 
             fileInfoService.updateFileInfoByIds(company.getFileInfoList(),company.getId());
-            return ResponseBo.ok(company.getId());
+            return ResponseBo.ok(company);
 
         }
 
         companyMapper.updateByPrimaryKey(company);
-        return ResponseBo.ok(company.getId());
+        return ResponseBo.ok(company);
     }
 
     /**
