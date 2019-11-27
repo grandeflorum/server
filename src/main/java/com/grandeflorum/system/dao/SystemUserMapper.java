@@ -26,4 +26,6 @@ public interface SystemUserMapper extends MyMapper<SystemUser> {
     int changePassword(SystemUser user);
 
     List<String> getRoleByUserId(String id);
+
+    void updateUserRoleManage(SystemUser user);
 }

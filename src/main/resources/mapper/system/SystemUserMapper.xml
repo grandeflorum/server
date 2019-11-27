@@ -76,5 +76,8 @@
     where sur.user_id =#{id}
   </select>
 
+  <update id="updateUserRoleManage" parameterType="com.grandeflorum.system.domain.SystemUser">
+      update system_user set USERNAME =#{username} ,password=#{password},IS_VAILD=#{isVaild} where id =#{id}
+  </update>
 
 </mapper>

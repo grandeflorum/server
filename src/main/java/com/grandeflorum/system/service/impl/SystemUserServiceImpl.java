@@ -7,6 +7,7 @@ import com.grandeflorum.common.domain.PagingEntity;
 import com.grandeflorum.common.domain.ResponseBo;
 import com.grandeflorum.common.service.impl.BaseService;
 import com.grandeflorum.common.util.GuidHelper;
+import com.grandeflorum.common.util.StrUtil;
 import com.grandeflorum.system.dao.SystemOrganizationMapper;
 import com.grandeflorum.system.dao.SystemUserMapper;
 import com.grandeflorum.system.domain.SystemUser;
@@ -119,10 +120,28 @@ public class SystemUserServiceImpl extends BaseService<SystemUser> implements Sy
     @Override
     public ResponseBo insertRoleManage(SystemUser user) {
 
-        user.setId(GuidHelper.getGuid());
-        String orgId =  systemOrganizationMapper.getTopOrganization();
-        user.setOrgId(orgId);
-        userMapper.insert(user);
+        SystemUser user1 = findUserByUsername(user.getUsername());
+        if(StrUtil.isNullOrEmpty(user.getId())){
+
+            //判断是否重复
+            if(user1!=null){
+                return ResponseBo.error("账号重复");
+            }
+
+            user.setId(GuidHelper.getGuid());
+            String orgId =  systemOrganizationMapper.getTopOrganization();
+            user.setOrgId(orgId);
+            userMapper.insert(user);
+        }else{
+
+            //判断是否重复
+            if(user1!=null&&!user.getId().equals(user1.getId())) {
+                return ResponseBo.error("账号重复");
+            }
+            userMapper.updateUserRoleManage(user);
+        }
+
+
         return ResponseBo.ok();
     }
 }
