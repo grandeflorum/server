@@ -27,5 +27,9 @@ public interface SystemUserMapper extends MyMapper<SystemUser> {
 
     List<String> getRoleByUserId(String id);
 
+
     void updateUserRoleManage(SystemUser user);
+
+    int vaildCard(Map<String,Object> map);
+
 }

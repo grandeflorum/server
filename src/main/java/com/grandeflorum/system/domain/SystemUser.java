@@ -30,6 +30,9 @@ public class SystemUser {
     @Column(name = "IS_VAILD")
     private Integer isVaild;
 
+    @Column(name="CARD")
+    private String card;
+
     private List<SystemRole> roleList;
 
     public List<SystemRole> getRoleList() {
@@ -38,6 +41,15 @@ public class SystemUser {
 
     public void setRoleList(List<SystemRole> roleList) {
         this.roleList = roleList;
+    }
+
+
+    public String getCard() {
+        return card;
+    }
+
+    public void setCard(String card) {
+        this.card = card;
     }
 
     /**

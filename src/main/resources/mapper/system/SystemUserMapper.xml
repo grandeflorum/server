@@ -13,6 +13,7 @@
     <result column="MOBILE" jdbcType="VARCHAR" property="mobile" />
     <result column="ORG_ID" jdbcType="VARCHAR" property="orgId" />
     <result column="IS_VAILD" jdbcType="INTEGER" property="isVaild" />
+    <result column="CARD" jdbcType="VARCHAR" property="card"/>
   </resultMap>
 
   <resultMap id="UserWithRoleMap" extends="BaseResultMap" type="com.grandeflorum.system.domain.SystemUser">
@@ -76,8 +77,17 @@
     where sur.user_id =#{id}
   </select>
 
+
   <update id="updateUserRoleManage" parameterType="com.grandeflorum.system.domain.SystemUser">
       update system_user set USERNAME =#{username} ,password=#{password},IS_VAILD=#{isVaild} where id =#{id}
   </update>
+
+  <select id="vaildCard" parameterType="map" resultType="int">
+    select count(1) from system_user where card=#{card} and IS_VAILD =1
+    <if test="id != null and id != ''">
+      and id<![CDATA[ <> ]]>#{id}
+    </if>
+  </select>
+
 
 </mapper>

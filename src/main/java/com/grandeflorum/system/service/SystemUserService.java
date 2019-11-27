@@ -35,4 +35,6 @@ public interface SystemUserService extends IService<SystemUser> {
 
     List<String> getRoleByUserId(String id);
 
+    ResponseBo vaildCard(String id,String card);
+
 }
