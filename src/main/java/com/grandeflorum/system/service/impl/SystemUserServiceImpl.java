@@ -7,6 +7,7 @@ import com.grandeflorum.common.domain.PagingEntity;
 import com.grandeflorum.common.domain.ResponseBo;
 import com.grandeflorum.common.service.impl.BaseService;
 import com.grandeflorum.common.util.GuidHelper;
+import com.grandeflorum.common.util.StrUtil;
 import com.grandeflorum.system.dao.SystemOrganizationMapper;
 import com.grandeflorum.system.dao.SystemUserMapper;
 import com.grandeflorum.system.domain.SystemUser;
@@ -15,6 +16,7 @@ import com.grandeflorum.system.service.SystemUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -32,6 +34,29 @@ public class SystemUserServiceImpl extends BaseService<SystemUser> implements Sy
 
     @Autowired
     SystemOrganizationMapper systemOrganizationMapper;
+
+    @Override
+    public ResponseBo vaildCard(String id,String card){
+        Map<String,Object> map = new HashMap<>();
+
+        if(!StrUtil.isNullOrEmpty(id)){
+            map.put("id",id);
+        }
+        if(!StrUtil.isNullOrEmpty(card)){
+            map.put("card",card);
+        }else{
+            return ResponseBo.error("请输入身份证号");
+        }
+
+
+        int res = userMapper.vaildCard(map);
+
+        if(res>0){
+            return ResponseBo.error("身份证号重复");
+        }
+
+        return ResponseBo.ok();
+    }
 
     @Override
     public int addUser(SystemUser user) {

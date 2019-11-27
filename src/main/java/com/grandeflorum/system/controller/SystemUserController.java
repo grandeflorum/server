@@ -67,6 +67,12 @@ public class SystemUserController {
     @PostMapping("/addUser")
     public ResponseBo addUser(@RequestBody SystemUser user) {
 
+        ResponseBo bo = userService.vaildCard(user.getId(),user.getCard());
+
+        if(!bo.get("code").toString().equals("200")){
+            return bo;
+        }
+
         int result = this.userService.addUser(user);
         if (result == 1) {
             return ResponseBo.ok("新增用户成功！");
@@ -83,6 +89,13 @@ public class SystemUserController {
      */
     @PostMapping("/modifyUser")
     public ResponseBo modify(@RequestBody SystemUser user) {
+
+        ResponseBo bo = userService.vaildCard(user.getId(),user.getCard());
+
+        if(!bo.get("code").toString().equals("200")){
+            return bo;
+        }
+
         int result = userService.modifyUser(user);
         if (result == 1) {
             return ResponseBo.ok("修改成功");
