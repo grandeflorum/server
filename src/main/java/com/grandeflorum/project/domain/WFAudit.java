@@ -1,8 +1,10 @@
 package com.grandeflorum.project.domain;
 
+import com.grandeflorum.attachment.domain.FileInfo;
 import com.grandeflorum.common.domain.EntityBase;
 
 import java.util.Date;
+import java.util.List;
 import javax.persistence.*;
 
 @Table(name = "WF_AUDIT")
@@ -55,6 +57,8 @@ public class WFAudit extends EntityBase {
      */
     @Column(name = "ZXLY")
     private String zxly;
+
+    private List<FileInfo> fileInfoList;
     /**
      * @return ID
      */
@@ -181,5 +185,13 @@ public class WFAudit extends EntityBase {
 
     public void setZxly(String zxly) {
         this.zxly = zxly;
+    }
+
+    public List<FileInfo> getFileInfoList() {
+        return fileInfoList;
+    }
+
+    public void setFileInfoList(List<FileInfo> fileInfoList) {
+        this.fileInfoList = fileInfoList;
     }
 }

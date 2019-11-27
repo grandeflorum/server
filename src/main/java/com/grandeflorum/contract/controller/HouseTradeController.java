@@ -84,6 +84,18 @@ public class HouseTradeController {
         return houseTradeService.getHouseTradeList(page);
     }
 
+    /**
+     * 查询商品房注销合同信息
+     *
+     * @param page
+     * @return
+     */
+    @PostMapping("/getHouseTradeCancelList")
+    public ResponseBo getHouseTradeCancelList(@RequestBody Page page) {
+
+        return houseTradeService.getHouseTradeCancelList(page);
+    }
+
     @RequestMapping(value = "/printHt", method = RequestMethod.GET)
     public void printHt(@RequestParam(value = "id", required = false) String id,
                         @RequestParam(value = "type", required = false) String type

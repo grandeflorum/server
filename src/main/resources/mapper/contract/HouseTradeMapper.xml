@@ -32,13 +32,13 @@
         <result column="FH" jdbcType="VARCHAR" property="fh" />
     </resultMap>
 
-    <!--获取存量房源查询列表-->
+    <!--获取商品房合同查询列表-->
     <select id="getHouseTradeList" resultMap="listMap">
         select t2.xmmc ,t2.JZWMC,t1.mph zh,t.dymc dyh, t.ch,t.mph fh,hnt.* from house_new_trade hnt
         left join h t on hnt.houseid=t.id
         left join ljz t1 on t.ljzh=t1.ljzh
         left join zrz t2 on t1.zrzh=t2.zrzh
-        where 1=1
+        where 1=1 and nvl(hnt.iscancel,0)!=1
         <if test="jzwmc!=null and jzwmc != ''">
             and (t2.jzwmc like '%'||#{jzwmc}||'%' )
         </if>
@@ -56,6 +56,23 @@
         <if test="sort==null or sort.size()==0">
             order by hnt.SYS_UPD_DATE desc
         </if>
+    </select>
+
+    <!--获取商品房注销查询列表-->
+    <select id="getHouseTradeCancelList" resultType="com.grandeflorum.contract.domain.ContractCancel">
+        select hnt.id as id, hnt.htbah,hnt.lxdz as zl, hnt.buyer as cqr, hnt.buyer as gmr,wa.shrq as zxrq,wa.zxly from house_new_trade hnt
+        left join wf_audit wa on hnt.id=wa.projectid
+        where hnt.iscancel=1 and wa.currentstatus=5
+        <if test="htbah!=null and htbah != ''">
+            and (hnt.htbah like '%'||#{htbah}||'%' )
+        </if>
+        <if test="ksrq!=null and ksrq != ''">
+            and wa.shrq<![CDATA[>=]]>to_date(#{ksrq},'yyyy-mm-dd hh24:mi:ss')
+        </if>
+        <if test="jsrq!=null and jsrq != ''">
+            and wa.shrq<![CDATA[<=]]>to_date(#{jsrq},'yyyy-mm-dd hh24:mi:ss')
+        </if>
+            order by hnt.SYS_UPD_DATE desc
     </select>
 
     <update id="auditHouseTradeById" parameterType="map">

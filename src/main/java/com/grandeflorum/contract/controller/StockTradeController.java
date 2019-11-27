@@ -80,6 +80,18 @@ public class StockTradeController {
         return stockTradeService.getStockTradeList(page);
     }
 
+    /**
+     * 查询存量房注销合同信息
+     *
+     * @param page
+     * @return
+     */
+    @PostMapping("/getStockTradeCancelList")
+    public ResponseBo getStockTradeCancelList(@RequestBody Page page) {
+
+        return stockTradeService.getStockTradeCancelList(page);
+    }
+
     @GetMapping("/linkH")
     public ResponseBo linkH(String id,String hid){
         return stockTradeService.linkH(id,hid);

@@ -5,6 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.grandeflorum.StockHouse.dao.RelationShipMapper;
 import com.grandeflorum.StockHouse.domin.RelationShip;
+import com.grandeflorum.attachment.service.FileInfoService;
 import com.grandeflorum.common.domain.Page;
 import com.grandeflorum.common.domain.PagingEntity;
 import com.grandeflorum.common.domain.ResponseBo;
@@ -13,6 +14,7 @@ import com.grandeflorum.common.util.GuidHelper;
 import com.grandeflorum.common.util.StrUtil;
 import com.grandeflorum.contract.dao.StockTradeHistoryMapper;
 import com.grandeflorum.contract.dao.StockTradeMapper;
+import com.grandeflorum.contract.domain.ContractCancel;
 import com.grandeflorum.contract.domain.StockTrade;
 import com.grandeflorum.contract.domain.StockTradeHistory;
 import com.grandeflorum.contract.service.StockTradeService;
@@ -45,6 +47,9 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
 
     @Autowired
     RelationShipMapper relationShipMapper;
+
+    @Autowired
+    FileInfoService fileInfoService;
 
     @Override
     public ResponseBo getStockTradeHistory(String id){
@@ -81,6 +86,9 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
                 wfAudit.setSysUpdDate(new Date());
                 wfAudit.setCurrentStatus(stockTrade.getCurrentStatus());
                 wFAuditMapper.insert(wfAudit);
+                if(wf.getFileInfoList()!=null&&wf.getFileInfoList().size()>0){
+                    fileInfoService.updateFileInfoByIds(wf.getFileInfoList(),wfAudit.getId());
+                }
                 //合同为已备案状态后可修改为已注销
                 if(stockTrade.getCurrentStatus()==5){
                     stockTrade.setIsCancel(1);
@@ -188,6 +196,17 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
         return ResponseBo.ok(result);
     }
 
+    @Override
+    public ResponseBo getStockTradeCancelList(Page page) {
+        PageHelper.startPage(page.getPageNo(), page.getPageSize());
+        Map<String, Object> map = page.getQueryParameter();
+        List<ContractCancel> list = stockTradeMapper.getStockTradeCancelList(map);
+
+        PageInfo<ContractCancel> pageInfo = new PageInfo<ContractCancel>(list);
+
+        PagingEntity<ContractCancel> result = new PagingEntity<>(pageInfo);
+        return ResponseBo.ok(result);
+    }
 
     @Override
     public ResponseBo linkH(String id,String hid){

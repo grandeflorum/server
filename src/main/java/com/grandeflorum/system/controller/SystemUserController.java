@@ -40,8 +40,12 @@ public class SystemUserController {
             return ResponseBo.error("用户名或密码错误，请重试！");
         } else {
             List<String> permissions = userService.getAllPermissionByUserId(systemUser.getId());
+
+            List<String> roles = userService.getRoleByUserId(systemUser.getId());
+
             result.put("userinfo", systemUser);
             result.put("permission", permissions);
+            result.put("roles",roles);
 
             String ticket = GuidHelper.getGuid();
             result.put("ticket", ticket);

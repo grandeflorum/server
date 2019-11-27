@@ -81,6 +81,12 @@ public class SystemUserServiceImpl extends BaseService<SystemUser> implements Sy
     }
 
     @Override
+    public List<String> getRoleByUserId(String id){
+        List<String> result = userMapper.getRoleByUserId(id);
+        return result;
+    }
+
+    @Override
     public ResponseBo getUserList(Page page) {
         PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();

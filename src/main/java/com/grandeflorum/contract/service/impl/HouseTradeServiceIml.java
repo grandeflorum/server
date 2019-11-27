@@ -5,6 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.grandeflorum.StockHouse.dao.RelationShipMapper;
 import com.grandeflorum.StockHouse.domin.RelationShip;
+import com.grandeflorum.attachment.service.FileInfoService;
 import com.grandeflorum.common.config.GrandeflorumProperties;
 import com.grandeflorum.common.domain.Page;
 import com.grandeflorum.common.domain.PagingEntity;
@@ -14,6 +15,7 @@ import com.grandeflorum.common.util.*;
 import com.grandeflorum.contract.dao.ContractnumMapper;
 import com.grandeflorum.contract.dao.HouseTradeHistoryMapper;
 import com.grandeflorum.contract.dao.HouseTradeMapper;
+import com.grandeflorum.contract.domain.ContractCancel;
 import com.grandeflorum.contract.domain.Contractnum;
 import com.grandeflorum.contract.domain.HouseTrade;
 import com.grandeflorum.contract.domain.HouseTradeHistory;
@@ -62,6 +64,9 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
     @Autowired
     RelationShipMapper relationShipMapper;
 
+    @Autowired
+    FileInfoService fileInfoService ;
+
     @Override
     public ResponseBo getHouseTradeHistory(String id){
         List<HouseTradeHistory> list = houseTradeHistoryMapper.getHistoryList(id);
@@ -96,6 +101,9 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
                 wfAudit.setSysUpdDate(new Date());
                 wfAudit.setCurrentStatus(houseTrade.getCurrentStatus());
                 wFAuditMapper.insert(wfAudit);
+                if(wf.getFileInfoList()!=null&&wf.getFileInfoList().size()>0){
+                    fileInfoService.updateFileInfoByIds(wf.getFileInfoList(),wfAudit.getId());
+                }
                 //合同为已备案状态后可修改为已注销
                 if(houseTrade.getCurrentStatus()==5){
                     houseTrade.setIsCancel(1);
@@ -255,6 +263,19 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
         PagingEntity<HouseTrade> result = new PagingEntity<>(pageInfo);
         return ResponseBo.ok(result);
     }
+
+    @Override
+    public ResponseBo getHouseTradeCancelList(Page page) {
+        PageHelper.startPage(page.getPageNo(), page.getPageSize());
+        Map<String, Object> map = page.getQueryParameter();
+        List<ContractCancel> list = houseTradeMapper.getHouseTradeCancelList(map);
+
+        PageInfo<ContractCancel> pageInfo = new PageInfo<ContractCancel>(list);
+
+        PagingEntity<ContractCancel> result = new PagingEntity<>(pageInfo);
+        return ResponseBo.ok(result);
+    }
+
 
     //打印
     @Override

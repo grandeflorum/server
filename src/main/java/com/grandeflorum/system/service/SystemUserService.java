@@ -33,4 +33,6 @@ public interface SystemUserService extends IService<SystemUser> {
 
     ResponseBo insertRoleManage(SystemUser user);
 
+    List<String> getRoleByUserId(String id);
+
 }
