@@ -263,19 +263,10 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
         try{
 
             HouseTrade houseTrade = houseTradeMapper.selectByPrimaryKey(id);
-            //读入流中
-            String path = this.getClass().getResource("/").getPath()+ "templates/htTemplates.docx";
-            //新建一个word文档
-            XWPFDocument doc = new XWPFDocument(new FileInputStream(path));
-            Map<String, Object> params = new HashMap<String, Object>();
-            params.put("htbh", StrUtil.NoNullString(houseTrade.getHtbah()));
-            params.put("gmr",StrUtil.NoNullString(houseTrade.getBuyer()));
-            params.put("dj", StrUtil.DoubleToString(houseTrade.getDj()));
-            params.put("zj", StrUtil.DoubleToString(houseTrade.getZj()));
-            params.put("rwsj", DateUtils.DateToString(houseTrade.getRwsj()));
+            OutputStream os = response.getOutputStream();
 
-            XwpfTUtil xwpfTUtil = new XwpfTUtil();
-            xwpfTUtil.replaceInPara(doc, params);
+            response.setContentType("application/vnd.ms-excel");
+            response.setHeader("content-disposition", "Attachment;filename=" + URLEncoder.encode("《商品房买卖合同(预售)示范文本》(GF-2014-0171).docx", "utf-8"));
 
             //转化为pdf
             String sourcePath = grandeflorumProperties.getUploadFolder()+"ht";
@@ -286,27 +277,51 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
             }
             String fileSavePath = sourcePath+"/"+id+".docx";
             File file1 = new File(fileSavePath);
-            doc.write(new FileOutputStream(fileSavePath));
-            office2PDF.office2PDF(fileSavePath,sourcePath+"/"+id+".pdf",grandeflorumProperties.getOpenoffice());
 
-            OutputStream os = response.getOutputStream();
-            response.setContentType("application/vnd.ms-excel");
+            if(file1.exists()){
 
-            String fileName = type.equals("1")?"合同模版.docx":"合同模版.pdf";
-            response.setHeader("content-disposition", "Attachment;filename=" + URLEncoder.encode("合同模版.docx", "utf-8"));
-
-
-            if(type.equals("1")){
-                doc.write(os);
-            }else{
-                File filePdf = new File(sourcePath+"/"+id+".pdf");
-                if(filePdf.exists()){
-                    os.write(FileUtils.readFileToByteArray(filePdf));
+                if(type.equals("1")){
+                    os.write(FileUtils.readFileToByteArray(file1));
+                }else{
+                    File filePdf = new File(sourcePath+"/"+id+".pdf");
+                    if(filePdf.exists()){
+                        os.write(FileUtils.readFileToByteArray(filePdf));
+                    }else{
+                        office2PDF.office2PDF(fileSavePath,sourcePath+"/"+id+".pdf",grandeflorumProperties.getOpenoffice());
+                        os.write(FileUtils.readFileToByteArray(filePdf));
+                    }
                 }
+            }else{
+
+                //读入流中
+                String path = this.getClass().getResource("/").getPath()+ "templates/《商品房买卖合同(预售)示范文本》(GF-2014-0171).docx";
+                //新建一个word文档
+                XWPFDocument doc = new XWPFDocument(new FileInputStream(path));
+                Map<String, Object> params = new HashMap<String, Object>();
+                params.put("htbh", StrUtil.NoNullString(houseTrade.getHtbah()));
+                params.put("buyer",StrUtil.NoNullString(houseTrade.getBuyer()));
+
+                XwpfTUtil xwpfTUtil = new XwpfTUtil();
+                xwpfTUtil.replaceInPara(doc, params);
+
+
+                doc.write(new FileOutputStream(fileSavePath));
+                office2PDF.office2PDF(fileSavePath,sourcePath+"/"+id+".pdf",grandeflorumProperties.getOpenoffice());
+
+
+                if(type.equals("1")){
+                    doc.write(os);
+                }else{
+                    File filePdf = new File(sourcePath+"/"+id+".pdf");
+                    if(filePdf.exists()){
+                        os.write(FileUtils.readFileToByteArray(filePdf));
+                    }
+                }
+
+                xwpfTUtil.close(os);
             }
 
 
-            xwpfTUtil.close(os);
 
             os.flush();
             os.close();
