@@ -287,7 +287,7 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
             OutputStream os = response.getOutputStream();
 
             response.setContentType("application/vnd.ms-excel");
-            response.setHeader("content-disposition", "Attachment;filename=" + URLEncoder.encode("《商品房买卖合同(预售)示范文本》(GF-2014-0171).docx", "utf-8"));
+            response.setHeader("content-disposition", "Attachment;filename=" + URLEncoder.encode("htTemplates.docx", "utf-8"));
 
             //转化为pdf
             String sourcePath = grandeflorumProperties.getUploadFolder()+"ht";
@@ -315,7 +315,7 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
             }else{
 
                 //读入流中
-                String path = this.getClass().getResource("/").getPath()+ "templates/《商品房买卖合同(预售)示范文本》(GF-2014-0171).docx";
+                String path = this.getClass().getResource("/").getPath()+ "templates/htTemplates.docx";
                 //新建一个word文档
                 XWPFDocument doc = new XWPFDocument(new FileInputStream(path));
                 Map<String, Object> params = new HashMap<String, Object>();
