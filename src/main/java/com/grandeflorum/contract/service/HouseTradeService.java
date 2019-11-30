@@ -30,7 +30,10 @@ public interface HouseTradeService extends IService<HouseTrade> {
     //获取商品房注销列表
     ResponseBo getHouseTradeCancelList(Page page);
 
-    void printHt(String id , String type,HttpServletResponse response);
+    void printHt(String id ,HttpServletResponse response);
+
+    //预览合同
+    void previewHt(String id,HttpServletResponse response);
 
     ResponseBo linkH(String id,String hid);
 

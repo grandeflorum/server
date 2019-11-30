@@ -12,13 +12,11 @@ import com.grandeflorum.common.domain.PagingEntity;
 import com.grandeflorum.common.domain.ResponseBo;
 import com.grandeflorum.common.service.impl.BaseService;
 import com.grandeflorum.common.util.*;
+import com.grandeflorum.contract.dao.ContractTemplateMapper;
 import com.grandeflorum.contract.dao.ContractnumMapper;
 import com.grandeflorum.contract.dao.HouseTradeHistoryMapper;
 import com.grandeflorum.contract.dao.HouseTradeMapper;
-import com.grandeflorum.contract.domain.ContractCancel;
-import com.grandeflorum.contract.domain.Contractnum;
-import com.grandeflorum.contract.domain.HouseTrade;
-import com.grandeflorum.contract.domain.HouseTradeHistory;
+import com.grandeflorum.contract.domain.*;
 import com.grandeflorum.contract.service.HouseTradeService;
 import com.grandeflorum.project.dao.WFAuditMapper;
 import com.grandeflorum.project.domain.AuditParam;
@@ -66,6 +64,9 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
 
     @Autowired
     FileInfoService fileInfoService ;
+
+    @Autowired
+    ContractTemplateMapper contractTemplateMapper;
 
     @Override
     public ResponseBo getHouseTradeHistory(String id){
@@ -279,43 +280,75 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
 
     //打印
     @Override
-    public void printHt(String id ,String type, HttpServletResponse response){
+    public void printHt(String id, HttpServletResponse response){
 
         try{
 
-            HouseTrade houseTrade = houseTradeMapper.selectByPrimaryKey(id);
+            response.setContentType("application/vnd.ms-excel");
+            response.setHeader("content-disposition", "Attachment;filename=" + URLEncoder.encode("《商品房买卖合同(预售)示范文本》(GF-2014-0171).docx", "utf-8"));
             OutputStream os = response.getOutputStream();
 
-            response.setContentType("application/vnd.ms-excel");
-            response.setHeader("content-disposition", "Attachment;filename=" + URLEncoder.encode("htTemplates.docx", "utf-8"));
+            creatWord(id,os);
+            os.flush();
+            os.close();
 
-            //转化为pdf
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    //预览
+    @Override
+    public void previewHt(String id, HttpServletResponse response){
+
+
+        String content = "";
+        File file = creatWord(id,null);
+        try {
+            content =  WordHelper.wordToHtml(file.getPath());
             String sourcePath = grandeflorumProperties.getUploadFolder()+"ht";
-            File file = new File(sourcePath);
+            String filePath = sourcePath+"/"+id+".html";
+            File file1 = new File(filePath);
 
-            if (!file.exists()) {
-                file.mkdirs();
-            }
-            String fileSavePath = sourcePath+"/"+id+".docx";
-            File file1 = new File(fileSavePath);
+            OutputStream os = response.getOutputStream();
 
+            response.setContentType("text/html");
+            response.setHeader("content-disposition", "inline;filename=" + URLEncoder.encode(filePath, "utf-8"));
+
+            os.write(FileUtils.readFileToByteArray(file1));
+            os.flush();
+            os.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    public File creatWord(String id,OutputStream os){
+
+        HouseTrade houseTrade = houseTradeMapper.selectByPrimaryKey(id);
+        String sourcePath = grandeflorumProperties.getUploadFolder()+"ht";
+        File file = new File(sourcePath);
+
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+        String fileSavePath = sourcePath+"/"+id+".docx";
+        File file1 = new File(fileSavePath);
+
+        try{
             if(file1.exists()){
-
-                if(type.equals("1")){
+                if(os!=null){
                     os.write(FileUtils.readFileToByteArray(file1));
-                }else{
-                    File filePdf = new File(sourcePath+"/"+id+".pdf");
-                    if(filePdf.exists()){
-                        os.write(FileUtils.readFileToByteArray(filePdf));
-                    }else{
-                        office2PDF.office2PDF(fileSavePath,sourcePath+"/"+id+".pdf",grandeflorumProperties.getOpenoffice());
-                        os.write(FileUtils.readFileToByteArray(filePdf));
-                    }
                 }
-            }else{
 
+            }else{
                 //读入流中
-                String path = this.getClass().getResource("/").getPath()+ "templates/htTemplates.docx";
+                String path = this.getClass().getResource("/").getPath()+ "templates/《商品房买卖合同(预售)示范文本》(GF-2014-0171).docx";
                 //新建一个word文档
                 XWPFDocument doc = new XWPFDocument(new FileInputStream(path));
                 Map<String, Object> params = new HashMap<String, Object>();
@@ -325,33 +358,16 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
                 XwpfTUtil xwpfTUtil = new XwpfTUtil();
                 xwpfTUtil.replaceInPara(doc, params);
 
-
                 doc.write(new FileOutputStream(fileSavePath));
-                office2PDF.office2PDF(fileSavePath,sourcePath+"/"+id+".pdf",grandeflorumProperties.getOpenoffice());
-
-
-                if(type.equals("1")){
+                if(os!=null){
                     doc.write(os);
-                }else{
-                    File filePdf = new File(sourcePath+"/"+id+".pdf");
-                    if(filePdf.exists()){
-                        os.write(FileUtils.readFileToByteArray(filePdf));
-                    }
                 }
-
-                xwpfTUtil.close(os);
             }
-
-
-
-            os.flush();
-            os.close();
-
-        }catch (Exception e) {
+        }catch (Exception e){
             e.printStackTrace();
         }
 
-
+        return file1;
     }
 
     @Override

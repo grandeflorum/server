@@ -97,10 +97,15 @@ public class HouseTradeController {
     }
 
     @RequestMapping(value = "/printHt", method = RequestMethod.GET)
-    public void printHt(@RequestParam(value = "id", required = false) String id,
-                        @RequestParam(value = "type", required = false) String type
+    public void printHt(@RequestParam(value = "id", required = false) String id
             , HttpServletResponse response) {
-        houseTradeService.printHt(id,type,response);
+        houseTradeService.printHt(id,response);
+    }
+
+    @RequestMapping(value = "/previewHt", method = RequestMethod.GET)
+    public void previewHt(@RequestParam(value = "id", required = false) String id,
+                                HttpServletResponse response){
+        houseTradeService.previewHt(id,response);
     }
 
     @GetMapping("/linkH")

@@ -6,6 +6,7 @@ import com.grandeflorum.common.service.IService;
 import com.grandeflorum.contract.domain.StockTrade;
 import com.grandeflorum.project.domain.AuditParam;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public interface StockTradeService extends IService<StockTrade> {
@@ -32,4 +33,9 @@ public interface StockTradeService extends IService<StockTrade> {
     ResponseBo linkH(String id,String hid);
 
     ResponseBo deleteStockTradeByIds(List<String> ids);
+
+    void printHt(String id ,HttpServletResponse response);
+
+    //预览合同
+    void previewHt(String id,HttpServletResponse response);
 }

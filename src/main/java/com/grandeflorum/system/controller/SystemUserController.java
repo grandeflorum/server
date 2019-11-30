@@ -211,7 +211,7 @@ public class SystemUserController {
     }
 
     @PostMapping("/insertRoleManage")
-    public ResponseBo insertRoleManage(@RequestBody SystemUser user){
-        return userService.insertRoleManage(user);
+    public ResponseBo insertRoleManage(@RequestBody SystemUser user,@RequestParam(value = "type", required = true)  int type){
+        return userService.insertRoleManage(user,type);
     }
 }

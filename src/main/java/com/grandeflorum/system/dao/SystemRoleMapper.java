@@ -5,6 +5,7 @@ import com.grandeflorum.common.domain.Page;
 import com.grandeflorum.common.domain.ResponseBo;
 import com.grandeflorum.system.domain.SystemRole;
 import com.grandeflorum.system.domain.SystemRoleMenu;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -18,4 +19,6 @@ public interface SystemRoleMapper extends MyMapper<SystemRole> {
     SystemRole getRoleById(String roleId);
 
     List<SystemRole> getRoleList(Map<String,Object> map);
+
+    String getRoleIdByName(@Param("type") int type);
 }
