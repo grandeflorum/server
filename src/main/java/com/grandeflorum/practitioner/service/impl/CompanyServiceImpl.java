@@ -9,7 +9,9 @@ import com.grandeflorum.common.domain.ResponseBo;
 import com.grandeflorum.common.service.impl.BaseService;
 import com.grandeflorum.common.util.GuidHelper;
 import com.grandeflorum.common.util.StrUtil;
+import com.grandeflorum.practitioner.dao.AssociatedCompanyMapper;
 import com.grandeflorum.practitioner.dao.CompanyMapper;
+import com.grandeflorum.practitioner.domain.AssociatedCompany;
 import com.grandeflorum.practitioner.domain.Company;
 import com.grandeflorum.practitioner.service.CompanyService;
 import com.grandeflorum.project.dao.WFAuditMapper;
@@ -37,6 +39,9 @@ public class CompanyServiceImpl extends BaseService<Company> implements CompanyS
 
     @Autowired
     FileInfoService fileInfoService;
+
+    @Autowired
+    AssociatedCompanyMapper associatedCompanyMapper;
 
 
     @Override
@@ -154,6 +159,45 @@ public class CompanyServiceImpl extends BaseService<Company> implements CompanyS
 
         return ResponseBo.ok();
 
+    }
+
+
+    @Override
+    public ResponseBo SaveOrUpdateAssociatedCompany(AssociatedCompany associatedCompany){
+        associatedCompany.setSysDate(new Date());
+
+        //新增
+        if(StrUtil.isNullOrEmpty(associatedCompany.getId())){
+            associatedCompany.setId(GuidHelper.getGuid());
+
+            associatedCompanyMapper.insert(associatedCompany);
+
+            return ResponseBo.ok(associatedCompany);
+        }
+
+        associatedCompanyMapper.updateByPrimaryKey(associatedCompany);
+
+        return ResponseBo.ok(associatedCompany);
+    }
+
+    @Override
+    public ResponseBo GetAssociatedCompany(String id,String module){
+        Map<String,String> map = new HashMap<>();
+
+        map.put("associatedId",id);
+        map.put("module",module);
+
+        AssociatedCompany result = associatedCompanyMapper.GetAssociatedCompany(map);
+
+        return ResponseBo.ok(result);
+    }
+
+
+    @Override
+    public ResponseBo DeleteAssociatedCompany(AssociatedCompany associatedCompany){
+        associatedCompanyMapper.delete(associatedCompany);
+
+        return ResponseBo.ok();
     }
 
 

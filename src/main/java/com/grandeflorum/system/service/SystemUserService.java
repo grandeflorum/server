@@ -4,6 +4,7 @@ import com.grandeflorum.common.domain.Page;
 import com.grandeflorum.common.domain.ResponseBo;
 import com.grandeflorum.common.service.IService;
 import com.grandeflorum.system.domain.SystemUser;
+import com.grandeflorum.system.domain.UserCompany;
 
 import java.util.List;
 import java.util.Map;
@@ -36,5 +37,9 @@ public interface SystemUserService extends IService<SystemUser> {
     List<String> getRoleByUserId(String id);
 
     ResponseBo vaildCard(String id,String card);
+
+    ResponseBo insertUserCompany(UserCompany userCompany);
+
+    Map<String,Object> getSelectInfo();
 
 }

@@ -5,8 +5,10 @@ import com.grandeflorum.common.domain.Page;
 import com.grandeflorum.common.domain.ResponseBo;
 import com.grandeflorum.common.util.GuidHelper;
 import com.grandeflorum.system.domain.SystemUser;
+import com.grandeflorum.system.domain.UserCompany;
 import com.grandeflorum.system.service.SystemUserService;
 import net.sf.ehcache.CacheManager;
+import oracle.jdbc.proxy.annotation.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,6 +44,8 @@ public class SystemUserController {
             List<String> permissions = userService.getAllPermissionByUserId(systemUser.getId());
 
             List<String> roles = userService.getRoleByUserId(systemUser.getId());
+
+            systemUser.setRoles(roles);
 
             result.put("userinfo", systemUser);
             result.put("permission", permissions);
@@ -214,4 +218,10 @@ public class SystemUserController {
     public ResponseBo insertRoleManage(@RequestBody SystemUser user){
         return userService.insertRoleManage(user);
     }
+
+    @PostMapping("/insertUserCompany")
+    public ResponseBo insertUserCompany(@RequestBody UserCompany userCompany){
+        return userService.insertUserCompany(userCompany);
+    }
+
 }

@@ -2,20 +2,28 @@ package com.grandeflorum.system.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.grandeflorum.common.cache.EHCacheUtils;
 import com.grandeflorum.common.domain.Page;
 import com.grandeflorum.common.domain.PagingEntity;
 import com.grandeflorum.common.domain.ResponseBo;
 import com.grandeflorum.common.service.impl.BaseService;
 import com.grandeflorum.common.util.GuidHelper;
 import com.grandeflorum.common.util.StrUtil;
+import com.grandeflorum.practitioner.domain.Company;
+import com.grandeflorum.practitioner.service.CompanyService;
 import com.grandeflorum.system.dao.SystemOrganizationMapper;
 import com.grandeflorum.system.dao.SystemUserMapper;
 import com.grandeflorum.system.domain.SystemUser;
+import com.grandeflorum.system.domain.UserCompany;
 import com.grandeflorum.system.service.SystemUserRoleService;
 import com.grandeflorum.system.service.SystemUserService;
+import net.sf.ehcache.CacheManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.beans.Transient;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +42,12 @@ public class SystemUserServiceImpl extends BaseService<SystemUser> implements Sy
 
     @Autowired
     SystemOrganizationMapper systemOrganizationMapper;
+
+    @Autowired
+    CompanyService companyService;
+
+    @Autowired
+    private CacheManager cacheManager;
 
     @Override
     public ResponseBo vaildCard(String id,String card){
@@ -168,4 +182,62 @@ public class SystemUserServiceImpl extends BaseService<SystemUser> implements Sy
 
         return ResponseBo.ok();
     }
+
+    @Override
+    @Transactional
+    public ResponseBo insertUserCompany(UserCompany userCompany){
+        Company company = new Company();
+
+        company.setQymc(userCompany.getQymc());
+        company.setShxydm(userCompany.getShxydm());
+        company.setYyzz(userCompany.getYyzz());
+        company.setCompanyType(Short.parseShort(userCompany.getCompanyType()));
+
+        company.setQyfr(userCompany.getRealname());
+        company.setZjh(userCompany.getCard());
+        company.setDzyx(userCompany.getEmail());
+        company.setPhone(userCompany.getMobile());
+
+        ResponseBo bo = companyService.SaveOrUpdateCompany(company);
+
+        if(bo.get("msg").equals("repeat")){
+            return ResponseBo.error("企业名称重复");
+        }
+
+        userCompany.setIsVaild(2);
+
+        return insertRoleManage(userCompany);
+    }
+
+
+    @Override
+    public Map<String,Object> getSelectInfo(){
+        Map<String,Object> map = new HashMap<>();
+
+        map.put("needFilter",false);
+
+        SystemUser user = EHCacheUtils.getCurrentUser(cacheManager);
+
+        List<String> roles = user.getRoles();
+
+        if(roles.contains("管理员")||roles.contains("录入员")||roles.contains("审核员")){
+            map.put("needFilter",false);
+        }else if(roles.contains("开发企业")||roles.contains("经济公司")){
+            map.put("needFilter",true);
+        }
+
+        if(StrUtil.isNullOrEmpty(user.getCard())){
+            map.put("companyList",new ArrayList<String>());
+        }else{
+            List<String> CompanyList = userMapper.getCompanyIdByCard(user.getCard());
+
+            if(CompanyList!=null&&CompanyList.size()>0){
+                map.put("companyList",CompanyList);
+            }else{
+                map.put("companyList",new ArrayList<String>());
+            }
+        }
+        return map;
+    }
+
 }

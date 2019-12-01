@@ -2,6 +2,7 @@ package com.grandeflorum.practitioner.controller;
 
 import com.grandeflorum.common.domain.Page;
 import com.grandeflorum.common.domain.ResponseBo;
+import com.grandeflorum.practitioner.domain.AssociatedCompany;
 import com.grandeflorum.practitioner.domain.Company;
 import com.grandeflorum.practitioner.service.CompanyService;
 import com.grandeflorum.project.domain.AuditParam;
@@ -51,4 +52,20 @@ public class CompanyController {
 
         return companyService.btachAuditCompany(auditParam);
     }
+
+    @PostMapping("/SaveOrUpdateAssociatedCompany")
+    public ResponseBo SaveOrUpdateAssociatedCompany(@RequestBody AssociatedCompany associatedCompany){
+        return companyService.SaveOrUpdateAssociatedCompany(associatedCompany);
+    }
+
+    @GetMapping("/GetAssociatedCompany")
+    public ResponseBo GetAssociatedCompany(String id,String module){
+        return companyService.GetAssociatedCompany(id, module);
+    }
+
+    @PostMapping("/DeleteAssociatedCompany")
+    public ResponseBo DeleteAssociatedCompany(@RequestBody AssociatedCompany associatedCompany){
+        return companyService.DeleteAssociatedCompany(associatedCompany);
+    }
+
 }

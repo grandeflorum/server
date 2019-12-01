@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.grandeflorum.practitioner.dao.AssociatedCompanyMapper">
+  <resultMap id="BaseResultMap" type="com.grandeflorum.practitioner.domain.AssociatedCompany">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="COMPANYID" jdbcType="VARCHAR" property="companyid" />
+    <result column="ASSOCIATEDID" jdbcType="VARCHAR" property="associatedid" />
+    <result column="MODULENAME" jdbcType="VARCHAR" property="modulename" />
+    <result column="SYS_DATE" jdbcType="TIMESTAMP" property="sysDate" />
+  </resultMap>
+
+
+  <select id="GetAssociatedCompany" parameterType="map" resultMap="BaseResultMap">
+    select * from ASSOCIATED_COMPANY where ASSOCIATEDID=#{associatedId} and MODULENAME=#{module}
+  </select>
+
+
+</mapper>

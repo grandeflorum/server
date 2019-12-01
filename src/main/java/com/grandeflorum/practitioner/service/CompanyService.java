@@ -3,6 +3,7 @@ package com.grandeflorum.practitioner.service;
 import com.grandeflorum.common.domain.Page;
 import com.grandeflorum.common.domain.ResponseBo;
 import com.grandeflorum.common.service.IService;
+import com.grandeflorum.practitioner.domain.AssociatedCompany;
 import com.grandeflorum.practitioner.domain.Company;
 import com.grandeflorum.project.domain.AuditParam;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -55,4 +56,27 @@ public interface CompanyService extends IService<Company>{
      * @return
      */
     ResponseBo btachAuditCompany(AuditParam auditParam);
+
+    /**
+     * 关联企业
+     * @param associatedCompany
+     * @return
+     */
+    ResponseBo SaveOrUpdateAssociatedCompany(AssociatedCompany associatedCompany);
+
+    /**
+     * 获取关联对象
+     * @param id
+     * @param module
+     * @return
+     */
+    ResponseBo GetAssociatedCompany(String id,String module);
+
+
+    /**
+     * 删除关联关系
+     * @param associatedCompany
+     * @return
+     */
+    ResponseBo DeleteAssociatedCompany( AssociatedCompany associatedCompany);
 }

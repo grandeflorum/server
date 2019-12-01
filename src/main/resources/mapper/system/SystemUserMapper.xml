@@ -90,4 +90,8 @@
   </select>
 
 
+  <select id="getCompanyIdByCard" parameterType="java.lang.String" resultType="java.lang.String">
+    select ID from COMPANY where ZJH = #{zjh}
+  </select>
+
 </mapper>

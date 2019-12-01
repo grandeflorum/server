@@ -32,4 +32,7 @@ public interface SystemUserMapper extends MyMapper<SystemUser> {
 
     int vaildCard(Map<String,Object> map);
 
+
+    List<String> getCompanyIdByCard(String zjh);
+
 }
