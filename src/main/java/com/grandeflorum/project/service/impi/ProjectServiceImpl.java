@@ -73,10 +73,19 @@ public class ProjectServiceImpl extends BaseService<Project> implements ProjectS
         WFAudit wf = param.getWfAudit();
         for (String id : param.ids) {
             //更新项目表信息
-            if(param.getWfAudit().getShjg()==1){
-                auditProjectById(id, 2);
-            }else{
-                auditProjectById(id, 3);
+
+            if(param.getType()==0){
+                if(param.getWfAudit().getShjg()==1){
+                    auditProjectById(id, 2);
+                }else{
+                    auditProjectById(id, 3);
+                }
+            }else if(param.getType() == 1){
+                if(param.getWfAudit().getShjg()==1){
+                    auditProjectById(id, 4);
+                }else{
+                    auditProjectById(id, 3);
+                }
             }
 
             //添加或更新审核表信息

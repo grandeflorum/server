@@ -126,11 +126,11 @@ public class CompanyServiceImpl extends BaseService<Company> implements CompanyS
     }
 
     @Override
-    public ResponseBo btachAuditCompany(AuditParam auditParam){
+    public ResponseBo btachAuditCompany(AuditParam auditParam) {
 
         WFAudit wf = auditParam.getWfAudit();
 
-        for (String id:auditParam.getIds() ) {
+        for (String id : auditParam.getIds()) {
 
             WFAudit wfAudit = new WFAudit();
             wfAudit.setId(GuidHelper.getGuid());
@@ -147,12 +147,21 @@ public class CompanyServiceImpl extends BaseService<Company> implements CompanyS
             wFAuditMapper.insert(wfAudit);
 
             //更新企业审核状态
-            Map<String,Object> map =new HashMap<>();
-            map.put("id",id);
-            if(wf.getShjg()==1){
-                map.put("type",2);
-            }else{
-                map.put("type",3);
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", id);
+
+            if (auditParam.getType() == 0) {
+                if (wf.getShjg() == 1) {
+                    map.put("type", 2);
+                } else {
+                    map.put("type", 3);
+                }
+            } else if (auditParam.getType() == 1) {
+                if (wf.getShjg() == 1) {
+                    map.put("type", 4);
+                } else {
+                    map.put("type", 3);
+                }
             }
             companyMapper.auditCompanyById(map);
         }
