@@ -123,7 +123,7 @@ public class StockHouse {
      * 面积单位
      */
     @Column(name = "MJDW")
-    public String mjdw;
+    public Integer mjdw;
 
     /**
      * 实际层数
@@ -147,31 +147,31 @@ public class StockHouse {
      * 户型
      */
     @Column(name = "HX")
-    public Double hx;
+    public Integer hx;
 
     /**
      * 户型结构
      */
     @Column(name = "HXJG")
-    public Double hxjg;
+    public Integer hxjg;
 
     /**
      * 房屋用途1
      */
     @Column(name = "FWYT1")
-    public Double fwyt1;
+    public Integer fwyt1;
 
     /**
      * 房屋用途2
      */
     @Column(name = "FWYT2")
-    public Double fwyt2;
+    public Integer fwyt2;
 
     /**
      * 房屋用途3
      */
     @Column(name = "FWYT3")
-    public Double fwyt3;
+    public Integer fwyt3;
 
     /**
      * 预测建筑面积
@@ -267,13 +267,13 @@ public class StockHouse {
      * 房屋类型
      */
     @Column(name = "FWLX")
-    public Double fwlx;
+    public Integer fwlx;
 
     /**
      * 房屋性质
      */
     @Column(name = "FWXZ")
-    public Double fwxz;
+    public Integer fwxz;
 
     /**
      * 房产分户图
@@ -426,11 +426,11 @@ public class StockHouse {
         this.zl = zl;
     }
 
-    public String getMjdw() {
+    public Integer getMjdw() {
         return mjdw;
     }
 
-    public void setMjdw(String mjdw) {
+    public void setMjdw(Integer mjdw) {
         this.mjdw = mjdw;
     }
 
@@ -458,43 +458,43 @@ public class StockHouse {
         this.shbw = shbw;
     }
 
-    public Double getHx() {
+    public Integer getHx() {
         return hx;
     }
 
-    public void setHx(Double hx) {
+    public void setHx(Integer hx) {
         this.hx = hx;
     }
 
-    public Double getHxjg() {
+    public Integer getHxjg() {
         return hxjg;
     }
 
-    public void setHxjg(Double hxjg) {
+    public void setHxjg(Integer hxjg) {
         this.hxjg = hxjg;
     }
 
-    public Double getFwyt1() {
+    public Integer getFwyt1() {
         return fwyt1;
     }
 
-    public void setFwyt1(Double fwyt1) {
+    public void setFwyt1(Integer fwyt1) {
         this.fwyt1 = fwyt1;
     }
 
-    public Double getFwyt2() {
+    public Integer getFwyt2() {
         return fwyt2;
     }
 
-    public void setFwyt2(Double fwyt2) {
+    public void setFwyt2(Integer fwyt2) {
         this.fwyt2 = fwyt2;
     }
 
-    public Double getFwyt3() {
+    public Integer getFwyt3() {
         return fwyt3;
     }
 
-    public void setFwyt3(Double fwyt3) {
+    public void setFwyt3(Integer fwyt3) {
         this.fwyt3 = fwyt3;
     }
 
@@ -618,19 +618,19 @@ public class StockHouse {
         this.dytdmj = dytdmj;
     }
 
-    public Double getFwlx() {
+    public Integer getFwlx() {
         return fwlx;
     }
 
-    public void setFwlx(Double fwlx) {
+    public void setFwlx(Integer fwlx) {
         this.fwlx = fwlx;
     }
 
-    public Double getFwxz() {
+    public Integer getFwxz() {
         return fwxz;
     }
 
-    public void setFwxz(Double fwxz) {
+    public void setFwxz(Integer fwxz) {
         this.fwxz = fwxz;
     }
 

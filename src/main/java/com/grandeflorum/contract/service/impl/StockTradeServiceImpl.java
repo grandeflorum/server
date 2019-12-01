@@ -6,26 +6,38 @@ import com.github.pagehelper.PageInfo;
 import com.grandeflorum.StockHouse.dao.RelationShipMapper;
 import com.grandeflorum.StockHouse.domin.RelationShip;
 import com.grandeflorum.attachment.service.FileInfoService;
+import com.grandeflorum.common.config.GrandeflorumProperties;
 import com.grandeflorum.common.domain.Page;
 import com.grandeflorum.common.domain.PagingEntity;
 import com.grandeflorum.common.domain.ResponseBo;
 import com.grandeflorum.common.service.impl.BaseService;
 import com.grandeflorum.common.util.GuidHelper;
 import com.grandeflorum.common.util.StrUtil;
+import com.grandeflorum.common.util.WordHelper;
+import com.grandeflorum.common.util.XwpfTUtil;
 import com.grandeflorum.contract.dao.StockTradeHistoryMapper;
 import com.grandeflorum.contract.dao.StockTradeMapper;
 import com.grandeflorum.contract.domain.ContractCancel;
+import com.grandeflorum.contract.domain.HouseTrade;
 import com.grandeflorum.contract.domain.StockTrade;
 import com.grandeflorum.contract.domain.StockTradeHistory;
 import com.grandeflorum.contract.service.StockTradeService;
 import com.grandeflorum.project.dao.WFAuditMapper;
 import com.grandeflorum.project.domain.AuditParam;
 import com.grandeflorum.project.domain.WFAudit;
+import org.apache.commons.io.FileUtils;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -50,6 +62,9 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
 
     @Autowired
     FileInfoService fileInfoService;
+
+    @Autowired
+    GrandeflorumProperties grandeflorumProperties;
 
     @Override
     public ResponseBo getStockTradeHistory(String id){
@@ -239,6 +254,100 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
             relationShipMapper.deleteByExample(exampleRelationShip);
         }
         return ResponseBo.ok();
+    }
+
+    //打印
+    @Override
+    public void printHt(String id, HttpServletResponse response){
+
+        try{
+
+            response.setContentType("application/vnd.ms-excel");
+            response.setHeader("content-disposition", "Attachment;filename=" + URLEncoder.encode("住建部商品房买卖合同(现售)示范文本(2014WORD版).docx", "utf-8"));
+            OutputStream os = response.getOutputStream();
+
+            creatWord(id,os);
+            os.flush();
+            os.close();
+
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    //预览
+    @Override
+    public void previewHt(String id, HttpServletResponse response){
+
+
+        String content = "";
+        File file = creatWord(id,null);
+        try {
+            content =  WordHelper.wordToHtml(file.getPath());
+            String sourcePath = grandeflorumProperties.getUploadFolder()+"ht";
+            String filePath = sourcePath+"/"+id+".html";
+            File file1 = new File(filePath);
+
+            OutputStream os = response.getOutputStream();
+
+            response.setContentType("text/html");
+            response.setHeader("content-disposition", "inline;filename=" + URLEncoder.encode(filePath, "utf-8"));
+
+            os.write(FileUtils.readFileToByteArray(file1));
+            os.flush();
+            os.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    public File creatWord(String id,OutputStream os){
+
+        StockTrade stockTrade = stockTradeMapper.selectByPrimaryKey(id);
+        String sourcePath = grandeflorumProperties.getUploadFolder()+"ht";
+        File file = new File(sourcePath);
+
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+        String fileSavePath = sourcePath+"/"+id+".docx";
+        File file1 = new File(fileSavePath);
+
+        try{
+            if(file1.exists()){
+                if(os!=null){
+                    os.write(FileUtils.readFileToByteArray(file1));
+                }
+
+            }else{
+                //读入流中
+                String path = this.getClass().getResource("/").getPath()+ "templates/住建部商品房买卖合同(现售)示范文本(2014WORD版).docx";
+                //新建一个word文档
+                XWPFDocument doc = new XWPFDocument(new FileInputStream(path));
+                Map<String, Object> params = new HashMap<String, Object>();
+
+                params.put("htbah",StrUtil.NoNullString(stockTrade.getHtbah()));
+                params.put("cmr",StrUtil.NoNullString(stockTrade.getJf()));
+                params.put("yf",StrUtil.NoNullString(stockTrade.getYf()));
+
+                XwpfTUtil xwpfTUtil = new XwpfTUtil();
+                xwpfTUtil.replaceInPara(doc, params);
+
+                doc.write(new FileOutputStream(fileSavePath));
+                if(os!=null){
+                    doc.write(os);
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return file1;
     }
 
 }

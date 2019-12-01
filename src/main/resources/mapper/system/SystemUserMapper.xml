@@ -28,7 +28,7 @@
   </select>
 
   <select id="findUserByUsername" resultMap="BaseResultMap">
-    select * from system_user t where t.username = #{username}
+    select * from system_user t where t.CARD = #{username}
   </select>
 
   <select id="getUserList" parameterType="map" resultMap="BaseResultMap">

@@ -9,6 +9,7 @@ import com.grandeflorum.common.domain.Page;
 import com.grandeflorum.common.domain.PagingEntity;
 import com.grandeflorum.common.domain.ResponseBo;
 import com.grandeflorum.contract.service.HouseTradeService;
+import com.grandeflorum.contract.service.StockTradeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,9 @@ public class BuildingTableServiceImpl implements BuildingTableService {
 
     @Autowired
     HouseTradeService houseTradeService;
+
+    @Autowired
+    StockTradeService stockTradeService;
 
     @Override
     public ResponseBo getInfoByZh(String ZH,String Type){
@@ -271,7 +275,9 @@ public class BuildingTableServiceImpl implements BuildingTableService {
 
         String tradeId = buildingTableMapper.getTradeIdByHouseId(map);
         if(type==1){
-            houseTradeService.printHt(tradeId,"2",response);
+            houseTradeService.previewHt(tradeId,response);
+        }else{
+            stockTradeService.previewHt(tradeId,response);
         }
     }
 

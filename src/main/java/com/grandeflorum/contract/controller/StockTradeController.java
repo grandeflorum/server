@@ -8,6 +8,7 @@ import com.grandeflorum.project.domain.AuditParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
@@ -90,6 +91,18 @@ public class StockTradeController {
     public ResponseBo getStockTradeCancelList(@RequestBody Page page) {
 
         return stockTradeService.getStockTradeCancelList(page);
+    }
+
+    @RequestMapping(value = "/printHt", method = RequestMethod.GET)
+    public void printHt(@RequestParam(value = "id", required = false) String id
+            , HttpServletResponse response) {
+        stockTradeService.printHt(id,response);
+    }
+
+    @RequestMapping(value = "/previewHt", method = RequestMethod.GET)
+    public void previewHt(@RequestParam(value = "id", required = false) String id,
+                          HttpServletResponse response){
+        stockTradeService.previewHt(id,response);
     }
 
     @GetMapping("/linkH")

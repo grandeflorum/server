@@ -12,9 +12,12 @@ import com.grandeflorum.common.util.StrUtil;
 import com.grandeflorum.practitioner.domain.Company;
 import com.grandeflorum.practitioner.service.CompanyService;
 import com.grandeflorum.system.dao.SystemOrganizationMapper;
+import com.grandeflorum.system.dao.SystemRoleMapper;
 import com.grandeflorum.system.dao.SystemUserMapper;
+import com.grandeflorum.system.dao.SystemUserRoleMapper;
 import com.grandeflorum.system.domain.SystemUser;
 import com.grandeflorum.system.domain.UserCompany;
+import com.grandeflorum.system.domain.SystemUserRole;
 import com.grandeflorum.system.service.SystemUserRoleService;
 import com.grandeflorum.system.service.SystemUserService;
 import net.sf.ehcache.CacheManager;
@@ -48,6 +51,10 @@ public class SystemUserServiceImpl extends BaseService<SystemUser> implements Sy
 
     @Autowired
     private CacheManager cacheManager;
+    SystemUserRoleMapper systemUserRoleMapper;
+
+    @Autowired
+    SystemRoleMapper systemRoleMapper;
 
     @Override
     public ResponseBo vaildCard(String id,String card){
@@ -156,7 +163,7 @@ public class SystemUserServiceImpl extends BaseService<SystemUser> implements Sy
     }
 
     @Override
-    public ResponseBo insertRoleManage(SystemUser user) {
+    public ResponseBo insertRoleManage(SystemUser user,int type) {
 
         SystemUser user1 = findUserByUsername(user.getUsername());
         if(StrUtil.isNullOrEmpty(user.getId())){
@@ -170,6 +177,15 @@ public class SystemUserServiceImpl extends BaseService<SystemUser> implements Sy
             String orgId =  systemOrganizationMapper.getTopOrganization();
             user.setOrgId(orgId);
             userMapper.insert(user);
+
+            SystemUserRole sut = new SystemUserRole();
+            sut.setId(GuidHelper.getGuid());
+            sut.setUserId(user.getId());
+
+            String roleId = systemRoleMapper.getRoleIdByName(type);
+            sut.setRoleId(roleId);
+            //插入权限
+            systemUserRoleMapper.insert(sut);
         }else{
 
             //判断是否重复
@@ -178,8 +194,6 @@ public class SystemUserServiceImpl extends BaseService<SystemUser> implements Sy
             }
             userMapper.updateUserRoleManage(user);
         }
-
-
         return ResponseBo.ok();
     }
 
@@ -206,7 +220,7 @@ public class SystemUserServiceImpl extends BaseService<SystemUser> implements Sy
 
         userCompany.setIsVaild(2);
 
-        return insertRoleManage(userCompany);
+        return insertRoleManage(userCompany,Integer.parseInt(userCompany.getCompanyType()));
     }
 
 
