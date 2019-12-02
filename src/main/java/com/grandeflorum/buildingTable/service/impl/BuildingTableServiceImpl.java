@@ -2,16 +2,19 @@ package com.grandeflorum.buildingTable.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.grandeflorum.buildingTable.dao.BuildingTableMapper;
+import com.grandeflorum.buildingTable.dao.*;
 import com.grandeflorum.buildingTable.domain.*;
 import com.grandeflorum.buildingTable.service.BuildingTableService;
 import com.grandeflorum.common.domain.Page;
 import com.grandeflorum.common.domain.PagingEntity;
 import com.grandeflorum.common.domain.ResponseBo;
+import com.grandeflorum.common.util.GuidHelper;
 import com.grandeflorum.contract.service.HouseTradeService;
 import com.grandeflorum.contract.service.StockTradeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import tk.mybatis.mapper.entity.Example;
 
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
@@ -29,6 +32,18 @@ public class BuildingTableServiceImpl implements BuildingTableService {
 
     @Autowired
     StockTradeService stockTradeService;
+
+    @Autowired
+    private ZRZMapper zrzMapper;
+
+    @Autowired
+    private LJZMapper ljzMapper;
+
+    @Autowired
+    private CMapper cMapper;
+
+    @Autowired
+    private HMapper hMapper;
 
     @Override
     public ResponseBo getInfoByZh(String ZH,String Type){
@@ -280,5 +295,148 @@ public class BuildingTableServiceImpl implements BuildingTableService {
             stockTradeService.previewHt(tradeId,response);
         }
     }
+
+    @Override
+    public ResponseBo saveOrUpdateZRZ(ZRZ zrz) {
+        if (zrz.getId() == null) {
+            zrz.setId(GuidHelper.getGuid());
+            zrz.setZt("1");
+//            zrz.setZrzh();
+            zrzMapper.insert(zrz);
+
+        }else{
+            zrzMapper.updateByPrimaryKey(zrz);
+        }
+        return ResponseBo.ok(zrz);
+    }
+
+    @Override
+    public ResponseBo getZRZById(String id) {
+        ZRZ zrz=zrzMapper.selectByPrimaryKey(id);
+        return ResponseBo.ok(zrz);
+    }
+
+
+    @Override
+    public ResponseBo saveOrUpdateLJZ(LJZ ljz) {
+        if(ljz.getZrzh()!=null&&ljz.getLjzh()!=null){
+            Example exampleLJZRepeat = new Example(LJZ.class);
+            exampleLJZRepeat.createCriteria().andEqualTo("zrzh", ljz.getZrzh()).andEqualTo("ljzh",ljz.getLjzh()).andEqualTo("mph",ljz.getMph());
+            List<LJZ> ljzRepeatList=ljzMapper.selectByExample(exampleLJZRepeat);
+            if(ljzRepeatList!=null&&ljzRepeatList.size()>0){
+                return ResponseBo.error("该楼幢门牌号重复");
+            }
+        }
+        if(ljz.getId()==null){
+            ljz.setId(GuidHelper.getGuid());
+//            ljz.setLjzh();
+            ljz.setZt("1");
+            ljzMapper.insert(ljz);
+        }else{
+            ljzMapper.updateByPrimaryKey(ljz);
+        }
+        return ResponseBo.ok(ljz);
+    }
+
+    @Override
+    public ResponseBo getLJZById(String id) {
+        LJZ ljz=ljzMapper.selectByPrimaryKey(id);
+        return ResponseBo.ok(ljz);
+    }
+
+
+    @Override
+    public ResponseBo saveOrUpdateC(C c) {
+        Example exampleCRepeat = new Example(C.class);
+        exampleCRepeat.createCriteria().andEqualTo("zrzh", c.getZrzh()).andEqualTo("ljzh",c.getLjzh()).andEqualTo("ch",c.getCh());
+        List<C> cRepeatList=cMapper.selectByExample(exampleCRepeat);
+        if(cRepeatList!=null&&cRepeatList.size()>0){
+            return ResponseBo.error("该楼幢存在相同的层");
+        }
+        if(c.getId()==null){
+            c.setId(GuidHelper.getGuid());
+            c.setZt("1");
+            cMapper.insert(c);
+        }else{
+            cMapper.updateByPrimaryKey(c);
+        }
+        return ResponseBo.ok(c);
+    }
+
+    @Override
+    public ResponseBo getCById(String id) {
+        C c=cMapper.selectByPrimaryKey(id);
+        return ResponseBo.ok(c);
+    }
+
+
+    @Override
+    public ResponseBo deleteC(String id) {
+        C c= cMapper.selectByPrimaryKey(id);
+        if(c!=null&&c.getZrzh()!=null&&c.getLjzh()!=null){
+            Example exampleH = new Example(C.class);
+            exampleH.createCriteria().andEqualTo("zrzh", c.getZrzh()).andEqualTo("ljzh",c.getLjzh()).andEqualTo("ch",c.getCh());
+            List<H> hList=hMapper.selectByExample(exampleH);
+            if(hList!=null&&hList.size()>0){
+                return ResponseBo.error("该层下存在户信息，不能删除");
+            }else{
+                cMapper.deleteByPrimaryKey(id);
+            }
+        }
+        return ResponseBo.ok();
+    }
+
+
+    @Override
+    public ResponseBo saveOrUpdateH(H h){
+        Example exampleHbhRepeat = new Example(H.class);
+        exampleHbhRepeat.createCriteria().andEqualTo("ljzh", h.getLjzh()).andEqualTo("dyh",h.getDyh()).andEqualTo("hbh",h.getHbh());
+        List<H> hbhRepeatlist=hMapper.selectByExample(exampleHbhRepeat);
+        if(hbhRepeatlist!=null&&hbhRepeatlist.size()>0){
+            return ResponseBo.error("同一单元内户编号重复");
+        }
+        Example exampleSHBWRepeat = new Example(H.class);
+        exampleSHBWRepeat.createCriteria().andEqualTo("zrzh", h.getZrzh()).andEqualTo("shbw",h.getShbw());
+        List<H> shbwRepeatlist=hMapper.selectByExample(exampleSHBWRepeat);
+        if(shbwRepeatlist!=null&&shbwRepeatlist.size()>0){
+            return ResponseBo.error("同一楼幢内室号部位重复");
+        }
+        if (h.getId() == null) {
+            h.setId(GuidHelper.getGuid());
+            h.setZt("1");
+            hMapper.insert(h);
+        }else{
+            hMapper.updateByPrimaryKey(h);
+        }
+        return ResponseBo.ok(h);
+    }
+
+    @Override
+    public ResponseBo getHById(String id) {
+        H h=hMapper.selectByPrimaryKey(id);
+        return ResponseBo.ok(h);
+    }
+
+
+    @Override
+    public ResponseBo deleteH(String id){
+        hMapper.deleteByPrimaryKey(id);
+        return ResponseBo.ok();
+    }
+
+    @Override
+    public ResponseBo getChildHList(Page page) {
+        PageHelper.startPage(page.getPageNo(), page.getPageSize());
+        Map<String, Object> map = page.getQueryParameter();
+
+        List<H> list = buildingTableMapper.getChildHList(map);
+
+        PageInfo<H> pageInfo = new PageInfo<>(list);
+
+        PagingEntity<H> result = new PagingEntity<>(pageInfo);
+
+        return ResponseBo.ok(result);
+    }
+
 
 }

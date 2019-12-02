@@ -25,4 +25,6 @@ public interface BuildingTableMapper {
 
     String getTradeIdByHouseId(Map<String,Object> map);
 
+    List<H> getChildHList (Map<String,Object> map);
+
 }

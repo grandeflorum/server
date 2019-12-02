@@ -2,6 +2,209 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.grandeflorum.buildingTable.dao.BuildingTableMapper">
 
+    <resultMap id="BaseZRZResultMap" type="com.grandeflorum.buildingTable.domain.ZRZ">
+        <id column="ID" jdbcType="VARCHAR" property="id" />
+        <result column="BDCDYH" jdbcType="VARCHAR" property="bdcdyh" />
+        <result column="ZRZH" jdbcType="VARCHAR" property="zrzh" />
+        <result column="YSDM" jdbcType="VARCHAR" property="ysdm" />
+        <result column="BSM" jdbcType="DECIMAL" property="bsm" />
+        <result column="XMMC" jdbcType="VARCHAR" property="xmmc" />
+        <result column="JZWMC" jdbcType="VARCHAR" property="jzwmc" />
+        <result column="JGRQ" jdbcType="DECIMAL" property="jgrq" />
+        <result column="JZWGD" jdbcType="DECIMAL" property="jzwgd" />
+        <result column="ZZDMJ" jdbcType="DECIMAL" property="zzdmj" />
+        <result column="ZYDMJ" jdbcType="DECIMAL" property="zydmj" />
+        <result column="YCJZMJ" jdbcType="DECIMAL" property="ycjzmj" />
+        <result column="SCJZMJ" jdbcType="DECIMAL" property="scjzmj" />
+        <result column="ZCS" jdbcType="DECIMAL" property="zcs" />
+        <result column="DSCS" jdbcType="DECIMAL" property="dscs" />
+        <result column="DXCS" jdbcType="DECIMAL" property="dxcs" />
+        <result column="GHYT" jdbcType="VARCHAR" property="ghyt" />
+        <result column="FWJG" jdbcType="VARCHAR" property="fwjg" />
+        <result column="ZTS" jdbcType="DECIMAL" property="zts" />
+        <result column="JZWJBYT" jdbcType="VARCHAR" property="jzwjbyt" />
+        <result column="DAH" jdbcType="VARCHAR" property="dah" />
+        <result column="BZ" jdbcType="VARCHAR" property="bz" />
+        <result column="ZDDM" jdbcType="VARCHAR" property="zddm" />
+        <result column="DXSD" jdbcType="FLOAT" property="dxsd" />
+        <result column="ZT" jdbcType="VARCHAR" property="zt" />
+        <result column="YZRZH" jdbcType="VARCHAR" property="yzrzh" />
+        <result column="YTMC" jdbcType="VARCHAR" property="ytmc" />
+        <result column="ZRZID" jdbcType="DECIMAL" property="zrzid" />
+        <result column="YBDCDYH" jdbcType="VARCHAR" property="ybdcdyh" />
+        <result column="QXDM" jdbcType="VARCHAR" property="qxdm" />
+        <result column="GXSJ" jdbcType="TIMESTAMP" property="gxsj" />
+        <result column="XMID" jdbcType="VARCHAR" property="xmid" />
+    </resultMap>
+
+    <resultMap id="BaseLJZResultMap" type="com.grandeflorum.buildingTable.domain.LJZ">
+        <id column="ID" jdbcType="VARCHAR" property="id" />
+        <result column="LJZH" jdbcType="VARCHAR" property="ljzh" />
+        <result column="ZRZH" jdbcType="VARCHAR" property="zrzh" />
+        <result column="YSDM" jdbcType="VARCHAR" property="ysdm" />
+        <result column="MPH" jdbcType="VARCHAR" property="mph" />
+        <result column="YCJZMJ" jdbcType="DECIMAL" property="ycjzmj" />
+        <result column="YCDXMJ" jdbcType="DECIMAL" property="ycdxmj" />
+        <result column="YCQTMJ" jdbcType="DECIMAL" property="ycqtmj" />
+        <result column="SCJZMJ" jdbcType="DECIMAL" property="scjzmj" />
+        <result column="SCDXMJ" jdbcType="DECIMAL" property="scdxmj" />
+        <result column="SCQTMJ" jdbcType="DECIMAL" property="scqtmj" />
+        <result column="JGRQ" jdbcType="DECIMAL" property="jgrq" />
+        <result column="FWJG1" jdbcType="VARCHAR" property="fwjg1" />
+        <result column="FWJG2" jdbcType="VARCHAR" property="fwjg2" />
+        <result column="FWJG3" jdbcType="VARCHAR" property="fwjg3" />
+        <result column="JZWZT" jdbcType="VARCHAR" property="jzwzt" />
+        <result column="FWYT1" jdbcType="VARCHAR" property="fwyt1" />
+        <result column="FWYT2" jdbcType="VARCHAR" property="fwyt2" />
+        <result column="FWYT3" jdbcType="VARCHAR" property="fwyt3" />
+        <result column="ZCS" jdbcType="DECIMAL" property="zcs" />
+        <result column="DSCS" jdbcType="DECIMAL" property="dscs" />
+        <result column="DXCS" jdbcType="DECIMAL" property="dxcs" />
+        <result column="BZ" jdbcType="VARCHAR" property="bz" />
+        <result column="ZL" jdbcType="VARCHAR" property="zl" />
+        <result column="ZT" jdbcType="VARCHAR" property="zt" />
+        <result column="ZID" jdbcType="DECIMAL" property="zid" />
+        <result column="TLJZMJ" jdbcType="DECIMAL" property="tljzmj" />
+        <result column="FTJZMJ" jdbcType="DECIMAL" property="ftjzmj" />
+        <result column="DH" jdbcType="VARCHAR" property="dh" />
+        <result column="ZBM" jdbcType="VARCHAR" property="zbm" />
+        <result column="CHZT" jdbcType="VARCHAR" property="chzt" />
+        <result column="JLX" jdbcType="VARCHAR" property="jlx" />
+        <result column="XQMC" jdbcType="VARCHAR" property="xqmc" />
+        <result column="DYZS" jdbcType="DECIMAL" property="dyzs" />
+        <result column="ZZMJ" jdbcType="DECIMAL" property="zzmj" />
+        <result column="BGMJ" jdbcType="DECIMAL" property="bgmj" />
+        <result column="SFMJ" jdbcType="DECIMAL" property="sfmj" />
+        <result column="ZZTS" jdbcType="DECIMAL" property="zzts" />
+        <result column="BGTS" jdbcType="DECIMAL" property="bgts" />
+        <result column="SFTS" jdbcType="DECIMAL" property="sfts" />
+        <result column="QTTS" jdbcType="DECIMAL" property="qtts" />
+        <result column="ZLY" jdbcType="VARCHAR" property="zly" />
+        <result column="YZBM" jdbcType="VARCHAR" property="yzbm" />
+        <result column="DZZH" jdbcType="VARCHAR" property="dzzh" />
+        <result column="DZBDCDYH" jdbcType="VARCHAR" property="dzbdcdyh" />
+        <result column="YLJZH" jdbcType="VARCHAR" property="yljzh" />
+        <result column="YTMC" jdbcType="VARCHAR" property="ytmc" />
+        <result column="LJZID" jdbcType="DECIMAL" property="ljzid" />
+        <result column="GHYT" jdbcType="VARCHAR" property="ghyt" />
+        <result column="ZZDMJ" jdbcType="DECIMAL" property="zzdmj" />
+        <result column="QXDM" jdbcType="VARCHAR" property="qxdm" />
+        <result column="ISNEWSTOCK" jdbcType="VARCHAR" property="isnewstock"/>
+    </resultMap>
+
+    <resultMap id="BaseCResultMap" type="com.grandeflorum.buildingTable.domain.C">
+        <id column="ID" jdbcType="VARCHAR" property="id" />
+        <result column="ZRZH" jdbcType="VARCHAR" property="zrzh" />
+        <result column="YSDM" jdbcType="VARCHAR" property="ysdm" />
+        <result column="SJC" jdbcType="DECIMAL" property="sjc" />
+        <result column="MYC" jdbcType="VARCHAR" property="myc" />
+        <result column="CJZMJ" jdbcType="DECIMAL" property="cjzmj" />
+        <result column="CTNJZMJ" jdbcType="DECIMAL" property="ctnjzmj" />
+        <result column="CYTMJ" jdbcType="DECIMAL" property="cytmj" />
+        <result column="CGYJZMJ" jdbcType="DECIMAL" property="cgyjzmj" />
+        <result column="CFTJZMJ" jdbcType="DECIMAL" property="cftjzmj" />
+        <result column="CBQMJ" jdbcType="DECIMAL" property="cbqmj" />
+        <result column="CG" jdbcType="DECIMAL" property="cg" />
+        <result column="SPTYMJ" jdbcType="DECIMAL" property="sptymj" />
+        <result column="CH" jdbcType="DECIMAL" property="ch" />
+        <result column="LJZH" jdbcType="VARCHAR" property="ljzh" />
+        <result column="ZL" jdbcType="VARCHAR" property="zl" />
+        <result column="ZT" jdbcType="VARCHAR" property="zt" />
+        <result column="YLJZH" jdbcType="VARCHAR" property="yljzh" />
+        <result column="CID" jdbcType="DECIMAL" property="cid" />
+        <result column="SFQFDY" jdbcType="VARCHAR" property="sfqfdy" />
+        <result column="QXDM" jdbcType="VARCHAR" property="qxdm" />
+    </resultMap>
+
+    <resultMap id="BaseHResultMap" type="com.grandeflorum.buildingTable.domain.H">
+        <id column="ID" jdbcType="VARCHAR" property="id" />
+        <result column="BDCDYH" jdbcType="VARCHAR" property="bdcdyh" />
+        <result column="FWBM" jdbcType="VARCHAR" property="fwbm" />
+        <result column="YSDM" jdbcType="VARCHAR" property="ysdm" />
+        <result column="ZRZH" jdbcType="VARCHAR" property="zrzh" />
+        <result column="LJZH" jdbcType="VARCHAR" property="ljzh" />
+        <result column="CH" jdbcType="DECIMAL" property="ch" />
+        <result column="ZL" jdbcType="VARCHAR" property="zl" />
+        <result column="MJDW" jdbcType="VARCHAR" property="mjdw" />
+        <result column="SJCS" jdbcType="DECIMAL" property="sjcs" />
+        <result column="HH" jdbcType="DECIMAL" property="hh" />
+        <result column="SHBW" jdbcType="VARCHAR" property="shbw" />
+        <result column="HX" jdbcType="VARCHAR" property="hx" />
+        <result column="HXJG" jdbcType="VARCHAR" property="hxjg" />
+        <result column="FWYT1" jdbcType="VARCHAR" property="fwyt1" />
+        <result column="FWYT2" jdbcType="VARCHAR" property="fwyt2" />
+        <result column="FWYT3" jdbcType="VARCHAR" property="fwyt3" />
+        <result column="YCJZMJ" jdbcType="DECIMAL" property="ycjzmj" />
+        <result column="YCTNJZMJ" jdbcType="DECIMAL" property="yctnjzmj" />
+        <result column="YCFTJZMJ" jdbcType="DECIMAL" property="ycftjzmj" />
+        <result column="YCDXBFJZMJ" jdbcType="DECIMAL" property="ycdxbfjzmj" />
+        <result column="YCQTJZMJ" jdbcType="DECIMAL" property="ycqtjzmj" />
+        <result column="YCFTXS" jdbcType="DECIMAL" property="ycftxs" />
+        <result column="SCJZMJ" jdbcType="DECIMAL" property="scjzmj" />
+        <result column="SCTNJZMJ" jdbcType="DECIMAL" property="sctnjzmj" />
+        <result column="SCFTJZMJ" jdbcType="DECIMAL" property="scftjzmj" />
+        <result column="SCDXBFJZMJ" jdbcType="DECIMAL" property="scdxbfjzmj" />
+        <result column="SCQTJZMJ" jdbcType="DECIMAL" property="scqtjzmj" />
+        <result column="SCFTXS" jdbcType="DECIMAL" property="scftxs" />
+        <result column="GYTDMJ" jdbcType="DECIMAL" property="gytdmj" />
+        <result column="FTTDMJ" jdbcType="DECIMAL" property="fttdmj" />
+        <result column="DYTDMJ" jdbcType="DECIMAL" property="dytdmj" />
+        <result column="FWLX" jdbcType="VARCHAR" property="fwlx" />
+        <result column="FWXZ" jdbcType="VARCHAR" property="fwxz" />
+        <result column="FCFHT" jdbcType="VARCHAR" property="fcfht" />
+        <result column="BZ" jdbcType="VARCHAR" property="bz" />
+        <result column="MPH" jdbcType="VARCHAR" property="mph" />
+        <result column="ZT" jdbcType="VARCHAR" property="zt" />
+        <result column="FWID" jdbcType="DECIMAL" property="fwid" />
+        <result column="ZID" jdbcType="DECIMAL" property="zid" />
+        <result column="DH" jdbcType="VARCHAR" property="dh" />
+        <result column="DYH" jdbcType="DECIMAL" property="dyh" />
+        <result column="DYMC" jdbcType="VARCHAR" property="dymc" />
+        <result column="ZCS" jdbcType="DECIMAL" property="zcs" />
+        <result column="ZBM" jdbcType="VARCHAR" property="zbm" />
+        <result column="ZDDM" jdbcType="VARCHAR" property="zddm" />
+        <result column="CHZT" jdbcType="VARCHAR" property="chzt" />
+        <result column="FGHBZT" jdbcType="DECIMAL" property="fghbzt" />
+        <result column="FWLY" jdbcType="VARCHAR" property="fwly" />
+        <result column="FWSYZ" jdbcType="VARCHAR" property="fwsyz" />
+        <result column="FWZJ" jdbcType="DECIMAL" property="fwzj" />
+        <result column="HBH" jdbcType="DECIMAL" property="hbh" />
+        <result column="FWBH" jdbcType="VARCHAR" property="fwbh" />
+        <result column="FWSYQR" jdbcType="VARCHAR" property="fwsyqr" />
+        <result column="QLRLX" jdbcType="VARCHAR" property="qlrlx" />
+        <result column="ZJZL" jdbcType="VARCHAR" property="zjzl" />
+        <result column="ZJHM" jdbcType="VARCHAR" property="zjhm" />
+        <result column="ZZ" jdbcType="VARCHAR" property="zz" />
+        <result column="TEL" jdbcType="VARCHAR" property="tel" />
+        <result column="YZBM" jdbcType="VARCHAR" property="yzbm" />
+        <result column="CQLY" jdbcType="VARCHAR" property="cqly" />
+        <result column="CB" jdbcType="VARCHAR" property="cb" />
+        <result column="GYQK" jdbcType="VARCHAR" property="gyqk" />
+        <result column="GHYT" jdbcType="VARCHAR" property="ghyt" />
+        <result column="ZYJZMJ" jdbcType="DECIMAL" property="zyjzmj" />
+        <result column="FJSM" jdbcType="VARCHAR" property="fjsm" />
+        <result column="DCYJ" jdbcType="VARCHAR" property="dcyj" />
+        <result column="ZTS" jdbcType="DECIMAL" property="zts" />
+        <result column="JGRQ" jdbcType="TIMESTAMP" property="jgrq" />
+        <result column="XMMC" jdbcType="VARCHAR" property="xmmc" />
+        <result column="DQ" jdbcType="VARCHAR" property="dq" />
+        <result column="NQ" jdbcType="VARCHAR" property="nq" />
+        <result column="XQ" jdbcType="VARCHAR" property="xq" />
+        <result column="BQ" jdbcType="VARCHAR" property="bq" />
+        <result column="GGBW" jdbcType="VARCHAR" property="ggbw" />
+        <result column="TDYT" jdbcType="VARCHAR" property="tdyt" />
+        <result column="QLXZ" jdbcType="VARCHAR" property="qlxz" />
+        <result column="TDSYQX" jdbcType="VARCHAR" property="tdsyqx" />
+        <result column="TDSYQQSSJ" jdbcType="TIMESTAMP" property="tdsyqqssj" />
+        <result column="TDSYQJSSJ" jdbcType="TIMESTAMP" property="tdsyqjssj" />
+        <result column="YBDCDYH" jdbcType="VARCHAR" property="ybdcdyh" />
+        <result column="YTMC" jdbcType="VARCHAR" property="ytmc" />
+        <result column="FWXZMC" jdbcType="VARCHAR" property="fwxzmc" />
+        <result column="FWLXMC" jdbcType="VARCHAR" property="fwlxmc" />
+        <result column="YLJZH" jdbcType="VARCHAR" property="yljzh" />
+        <result column="HID" jdbcType="DECIMAL" property="hid" />
+        <result column="QXDM" jdbcType="VARCHAR" property="qxdm" />
+    </resultMap>
 
     <select id="getBuildingTableList" parameterType="map" resultType="com.grandeflorum.buildingTable.domain.ResultList">
         select z.ID,z.XMMC,z.JZWMC,lj.LZZS,t.ZTS,t.ZMJ from zrz z
@@ -81,5 +284,37 @@
             </otherwise>
         </choose>
     </select>
+
+    <select id="getChildHList" parameterType="map" resultType="com.grandeflorum.buildingTable.domain.H">
+        select h.ID,h.BDCDYH,h.FWBM,h.CH,h.ZL,h.SJCS,h.HH,h.SHBW,h.HX,h.HXJG,h.FWYT1,h.SCJZMJ,h.FWLX,h.MPH,nvl(h.DYH,1)dyh,nvl(h.HBH,1)hbh
+         from fg_zrz a INNER  join fg_h on a.zrzh=h.zrzh and h.zt='1'where 1=1
+         <if test="zrzh!=null and zrzh!=''">
+             and  h.ZRZH=#{zrzh}
+         </if>
+        <if test="ljzh!=null and ljzh!=''">
+            and h.ljzh=#{ljzh}
+        </if>
+        <if test="zrzmc!=null and zrzmc!=''">
+            and instr(a.JZWMC,#{zrzmc})>0
+        </if>
+        <if test="zl!=null and zl!=''">
+            and instr(h.zl,#{zl})>0
+        </if>
+        <if test="shbw!=null and shbw!=''">
+            and instr(h.SHBW,#{shbw})>0
+        </if>
+        <if test="mph!=null and mph!=''">
+            and instr(h.mph,#{mph})>0
+        </if>
+        <if test="bdcdyh!=null and bdcdyh!=''">
+            and instr(h.bdcdyh,#{bdcdyh})>0
+        </if>
+        <if test="ch!=null and ch!=''">
+            and h.ch=#{ch}
+        </if>
+        ORDER BY h.MPH NULLS LAST
+
+    </select>
+
 
 </mapper>
