@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.grandeflorum.statistic.dao.StatisticMapper">
+
+<sql id="dateFilter">
+    <choose>
+        <when test="type==1">
+            to_char(t.rentdate,'yyyy-MM')
+        </when>
+        <when test="type==2">
+            to_char(t.rentdate,'q') 
+        </when>
+        <otherwise>
+            to_char(t.rentdate,'yyyy')
+        </otherwise>
+    </choose>
+</sql>
+
+<sql id="dateWhere">
+    <choose>
+        <when test="type==1">
+            and to_char(t.rentdate, 'yyyy') = #{startDate}
+        </when>
+        <when test="type==2">
+            and to_char(t.rentdate, 'yyyy') = #{startDate}
+        </when>
+        <otherwise>
+           and  to_char(t.rentdate, 'yyyy') <![CDATA[  >=  ]]> #{startDate}
+           and to_char(t.rentdate, 'yyyy')  <![CDATA[  <=  ]]> #{endDate}
+        </otherwise>
+    </choose>
+</sql>
+
+<select id="getHouseRentalStatisticDate" parameterType="map" resultType="com.grandeflorum.statistic.domain.StatisticValue">
+
+    select <include refid="dateFilter"></include> as dateValue,avg(t.RENTAL) as zj,count(t.id) ts from house_rental t
+        where t.rentdate is not null
+        <include refid="dateWhere"></include>
+        group by <include refid="dateFilter"></include>
+
+</select>
+
+
+<select id="getHouseRentalStatisticRegion" parameterType="map" resultType="com.grandeflorum.statistic.domain.StatisticValue">
+
+  select sr.name as regionName,nvl(avg(t.RENTAL),0) as zj,count(t.id) ts from house_rental t
+    left join sys_region sr on t.regioncode = sr.code
+    where sr.name is not null
+    <include refid="dateWhere"></include>
+    group by sr.name
+
+</select>
+
+
+</mapper>
