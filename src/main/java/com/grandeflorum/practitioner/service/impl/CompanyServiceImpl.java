@@ -17,6 +17,7 @@ import com.grandeflorum.practitioner.service.CompanyService;
 import com.grandeflorum.project.dao.WFAuditMapper;
 import com.grandeflorum.project.domain.AuditParam;
 import com.grandeflorum.project.domain.WFAudit;
+import com.grandeflorum.system.service.SystemUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Created by 13260 on 2019/11/2.
@@ -42,6 +45,9 @@ public class CompanyServiceImpl extends BaseService<Company> implements CompanyS
 
     @Autowired
     AssociatedCompanyMapper associatedCompanyMapper;
+
+    @Autowired
+    SystemUserService systemUserService;
 
 
     @Override
@@ -86,6 +92,10 @@ public class CompanyServiceImpl extends BaseService<Company> implements CompanyS
 
         PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
+
+        //获取过滤条件
+        systemUserService.getSelectInfo(map);
+
         List<Company> list = companyMapper.getCompanyList(map);
 
         PageInfo<Company> pageInfo = new PageInfo<Company>(list);

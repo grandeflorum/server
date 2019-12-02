@@ -15,6 +15,7 @@ import com.grandeflorum.project.domain.Project;
 import com.grandeflorum.project.domain.ProjectDialog;
 import com.grandeflorum.project.domain.WFAudit;
 import com.grandeflorum.project.service.ProjectService;
+import com.grandeflorum.system.service.SystemUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +32,9 @@ public class ProjectServiceImpl extends BaseService<Project> implements ProjectS
 
     @Autowired
     WFAuditMapper wFAuditMapper;
+
+    @Autowired
+    SystemUserService systemUserService;
 
     @Override
     public String saveOrUpdateProject(Project project) {
@@ -60,6 +64,10 @@ public class ProjectServiceImpl extends BaseService<Project> implements ProjectS
     public ResponseBo getProjectList(Page page) {
         PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
+
+        //获取过滤条件
+        systemUserService.getSelectInfo(map);
+
         List<Project> list = projectMapper.getProjectList(map);
 
         PageInfo<Project> pageInfo = new PageInfo<Project>(list);
