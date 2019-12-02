@@ -29,6 +29,14 @@
         <if test="jgrq!=null and jgrq != ''">
             and p.jgrq<![CDATA[<=]]>to_date(#{jgrq},'yyyy-mm-dd hh24:mi:ss')
         </if>
+
+        <if test="needFilter">
+            and p.COMPANY_ID in
+            <foreach collection="companyList" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+
         <if test="sort!=null and sort.size()>0">
             <foreach collection="sort" item="item" open="order by " separator=",">
                 ${item}

@@ -40,6 +40,6 @@ public interface SystemUserService extends IService<SystemUser> {
 
     ResponseBo insertUserCompany(UserCompany userCompany);
 
-    Map<String,Object> getSelectInfo();
+    Map<String,Object> getSelectInfo(Map<String,Object> map);
 
 }

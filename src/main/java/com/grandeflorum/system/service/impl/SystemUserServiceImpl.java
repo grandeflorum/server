@@ -225,16 +225,14 @@ public class SystemUserServiceImpl extends BaseService<SystemUser> implements Sy
 
 
     @Override
-    public Map<String,Object> getSelectInfo(){
-        Map<String,Object> map = new HashMap<>();
-
+    public Map<String,Object> getSelectInfo(Map<String,Object> map){
         map.put("needFilter",false);
 
         SystemUser user = EHCacheUtils.getCurrentUser(cacheManager);
 
         List<String> roles = user.getRoles();
 
-        if(roles.contains("管理员")||roles.contains("录入员")||roles.contains("审核员")){
+        if(roles.contains("管理员")||roles.contains("录入员")||roles.contains("审核员")||roles.contains("领导")){
             map.put("needFilter",false);
         }else if(roles.contains("开发企业")||roles.contains("经济公司")){
             map.put("needFilter",true);

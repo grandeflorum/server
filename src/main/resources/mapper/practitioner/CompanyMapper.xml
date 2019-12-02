@@ -57,6 +57,13 @@
       and t.audit_type = #{auditType}
     </if>
 
+    <if test="needFilter">
+          and t.id in
+        <foreach collection="companyList" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </if>
+
   <choose>
       <when test="sort!=null and sort.size()>0">
           <foreach collection="sort" item="item" open="order by " separator=",">
