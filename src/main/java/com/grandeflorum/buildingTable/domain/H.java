@@ -7,7 +7,6 @@ import javax.persistence.Transient;
 import java.util.Date;
 
 @Table(name = "FG_H")
-
 public class H {
     @Id
     @Column(name="ID")
@@ -37,7 +36,7 @@ public class H {
      * 层号
      */
     @Column(name="CH")
-    private Integer ch;
+    private String ch;
 
     /**
      * 坐落
@@ -51,7 +50,7 @@ public class H {
      * 实际层数
      */
     @Column(name="SJCS")
-    private Integer sjcs;
+    private Double sjcs;
 
     /**
      * 户号
@@ -168,7 +167,7 @@ public class H {
      * 单元号
      */
     @Column(name="DYH")
-    private Integer dyh;
+    private Double dyh;
 
     @Column(name = "DYMC")
     private String dymc;
@@ -201,7 +200,7 @@ public class H {
      * 户编号
      */
     @Column(name="HBH")
-    private Integer hbh;
+    private String hbh;
 
     @Column(name = "FWBH")
     private String fwbh;
@@ -366,11 +365,11 @@ public class H {
         this.fwbm = fwbm;
     }
 
-    public Integer getCh() {
+    public String getCh() {
         return ch;
     }
 
-    public void setCh(Integer ch) {
+    public void setCh(String ch) {
         this.ch = ch;
     }
 
@@ -382,11 +381,11 @@ public class H {
         this.zl = zl;
     }
 
-    public Integer getSjcs() {
+    public Double getSjcs() {
         return sjcs;
     }
 
-    public void setSjcs(Integer sjcs) {
+    public void setSjcs(Double sjcs) {
         this.sjcs = sjcs;
     }
 
@@ -454,19 +453,19 @@ public class H {
         this.mph = mph;
     }
 
-    public Integer getDyh() {
+    public Double getDyh() {
         return dyh;
     }
 
-    public void setDyh(Integer dyh) {
+    public void setDyh(Double dyh) {
         this.dyh = dyh;
     }
 
-    public Integer getHbh() {
+    public String getHbh() {
         return hbh;
     }
 
-    public void setHbh(Integer hbh) {
+    public void setHbh(String hbh) {
         this.hbh = hbh;
     }
 

@@ -85,7 +85,7 @@ public class C {
      * 层号
      */
     @Column(name="CH")
-    private Integer ch;
+    private String ch;
 
     /**
      * 逻辑幢号
@@ -170,11 +170,11 @@ public class C {
         this.sjc = sjc;
     }
 
-    public Integer getCh() {
+    public String getCh() {
         return ch;
     }
 
-    public void setCh(Integer ch) {
+    public void setCh(String ch) {
         this.ch = ch;
     }
 

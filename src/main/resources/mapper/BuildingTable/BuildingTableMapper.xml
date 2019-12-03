@@ -26,14 +26,13 @@
         <result column="DAH" jdbcType="VARCHAR" property="dah" />
         <result column="BZ" jdbcType="VARCHAR" property="bz" />
         <result column="ZDDM" jdbcType="VARCHAR" property="zddm" />
-        <result column="DXSD" jdbcType="FLOAT" property="dxsd" />
+        <result column="DXSD" jdbcType="DECIMAL" property="dxsd" />
         <result column="ZT" jdbcType="VARCHAR" property="zt" />
         <result column="YZRZH" jdbcType="VARCHAR" property="yzrzh" />
         <result column="YTMC" jdbcType="VARCHAR" property="ytmc" />
         <result column="ZRZID" jdbcType="DECIMAL" property="zrzid" />
         <result column="YBDCDYH" jdbcType="VARCHAR" property="ybdcdyh" />
         <result column="QXDM" jdbcType="VARCHAR" property="qxdm" />
-        <result column="GXSJ" jdbcType="TIMESTAMP" property="gxsj" />
         <result column="XMID" jdbcType="VARCHAR" property="xmid" />
     </resultMap>
 
@@ -89,7 +88,6 @@
         <result column="GHYT" jdbcType="VARCHAR" property="ghyt" />
         <result column="ZZDMJ" jdbcType="DECIMAL" property="zzdmj" />
         <result column="QXDM" jdbcType="VARCHAR" property="qxdm" />
-        <result column="ISNEWSTOCK" jdbcType="VARCHAR" property="isnewstock"/>
     </resultMap>
 
     <resultMap id="BaseCResultMap" type="com.grandeflorum.buildingTable.domain.C">
@@ -106,7 +104,7 @@
         <result column="CBQMJ" jdbcType="DECIMAL" property="cbqmj" />
         <result column="CG" jdbcType="DECIMAL" property="cg" />
         <result column="SPTYMJ" jdbcType="DECIMAL" property="sptymj" />
-        <result column="CH" jdbcType="DECIMAL" property="ch" />
+        <result column="CH" jdbcType="VARCHAR" property="ch" />
         <result column="LJZH" jdbcType="VARCHAR" property="ljzh" />
         <result column="ZL" jdbcType="VARCHAR" property="zl" />
         <result column="ZT" jdbcType="VARCHAR" property="zt" />
@@ -123,7 +121,7 @@
         <result column="YSDM" jdbcType="VARCHAR" property="ysdm" />
         <result column="ZRZH" jdbcType="VARCHAR" property="zrzh" />
         <result column="LJZH" jdbcType="VARCHAR" property="ljzh" />
-        <result column="CH" jdbcType="DECIMAL" property="ch" />
+        <result column="CH" jdbcType="VARCHAR" property="ch" />
         <result column="ZL" jdbcType="VARCHAR" property="zl" />
         <result column="MJDW" jdbcType="VARCHAR" property="mjdw" />
         <result column="SJCS" jdbcType="DECIMAL" property="sjcs" />
@@ -168,7 +166,7 @@
         <result column="FWLY" jdbcType="VARCHAR" property="fwly" />
         <result column="FWSYZ" jdbcType="VARCHAR" property="fwsyz" />
         <result column="FWZJ" jdbcType="DECIMAL" property="fwzj" />
-        <result column="HBH" jdbcType="DECIMAL" property="hbh" />
+        <result column="HBH" jdbcType="VARCHAR" property="hbh" />
         <result column="FWBH" jdbcType="VARCHAR" property="fwbh" />
         <result column="FWSYQR" jdbcType="VARCHAR" property="fwsyqr" />
         <result column="QLRLX" jdbcType="VARCHAR" property="qlrlx" />
@@ -204,6 +202,8 @@
         <result column="YLJZH" jdbcType="VARCHAR" property="yljzh" />
         <result column="HID" jdbcType="DECIMAL" property="hid" />
         <result column="QXDM" jdbcType="VARCHAR" property="qxdm" />
+        <result column="ISNEWSTOCK" jdbcType="VARCHAR" property="isnewstock"/>
+
     </resultMap>
 
     <select id="getBuildingTableList" parameterType="map" resultType="com.grandeflorum.buildingTable.domain.ResultList">
