@@ -11,6 +11,7 @@ import com.grandeflorum.common.domain.ResponseBo;
 import com.grandeflorum.common.util.GuidHelper;
 import com.grandeflorum.contract.service.HouseTradeService;
 import com.grandeflorum.contract.service.StockTradeService;
+import com.grandeflorum.system.service.SystemUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,6 +46,9 @@ public class BuildingTableServiceImpl implements BuildingTableService {
     @Autowired
     private HMapper hMapper;
 
+    @Autowired
+    SystemUserService systemUserService;
+
     @Override
     public ResponseBo getInfoByZh(String ZH,String Type){
         if(Type.equals("1")){
@@ -69,6 +73,9 @@ public class BuildingTableServiceImpl implements BuildingTableService {
 
         PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
+
+        //获取过滤条件
+        systemUserService.getSelectInfo(map);
 
         List<ResultList> list = buildingTableMapper.getBuildingTableList(map);
 
