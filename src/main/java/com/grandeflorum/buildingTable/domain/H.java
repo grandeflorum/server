@@ -36,7 +36,7 @@ public class H {
      * 层号
      */
     @Column(name="CH")
-    private String ch;
+    private Integer ch;
 
     /**
      * 坐落
@@ -50,7 +50,7 @@ public class H {
      * 实际层数
      */
     @Column(name="SJCS")
-    private Double sjcs;
+    private Integer sjcs;
 
     /**
      * 户号
@@ -167,7 +167,7 @@ public class H {
      * 单元号
      */
     @Column(name="DYH")
-    private Double dyh;
+    private Integer dyh;
 
     @Column(name = "DYMC")
     private String dymc;
@@ -200,7 +200,7 @@ public class H {
      * 户编号
      */
     @Column(name="HBH")
-    private String hbh;
+    private Integer hbh;
 
     @Column(name = "FWBH")
     private String fwbh;
@@ -365,11 +365,11 @@ public class H {
         this.fwbm = fwbm;
     }
 
-    public String getCh() {
+    public Integer getCh() {
         return ch;
     }
 
-    public void setCh(String ch) {
+    public void setCh(Integer ch) {
         this.ch = ch;
     }
 
@@ -381,11 +381,11 @@ public class H {
         this.zl = zl;
     }
 
-    public Double getSjcs() {
+    public Integer getSjcs() {
         return sjcs;
     }
 
-    public void setSjcs(Double sjcs) {
+    public void setSjcs(Integer sjcs) {
         this.sjcs = sjcs;
     }
 
@@ -453,19 +453,19 @@ public class H {
         this.mph = mph;
     }
 
-    public Double getDyh() {
+    public Integer getDyh() {
         return dyh;
     }
 
-    public void setDyh(Double dyh) {
+    public void setDyh(Integer dyh) {
         this.dyh = dyh;
     }
 
-    public String getHbh() {
+    public Integer getHbh() {
         return hbh;
     }
 
-    public void setHbh(String hbh) {
+    public void setHbh(Integer hbh) {
         this.hbh = hbh;
     }
 

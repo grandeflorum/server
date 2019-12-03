@@ -104,7 +104,7 @@
         <result column="CBQMJ" jdbcType="DECIMAL" property="cbqmj" />
         <result column="CG" jdbcType="DECIMAL" property="cg" />
         <result column="SPTYMJ" jdbcType="DECIMAL" property="sptymj" />
-        <result column="CH" jdbcType="VARCHAR" property="ch" />
+        <result column="CH" jdbcType="DECIMAL" property="ch" />
         <result column="LJZH" jdbcType="VARCHAR" property="ljzh" />
         <result column="ZL" jdbcType="VARCHAR" property="zl" />
         <result column="ZT" jdbcType="VARCHAR" property="zt" />
@@ -121,7 +121,7 @@
         <result column="YSDM" jdbcType="VARCHAR" property="ysdm" />
         <result column="ZRZH" jdbcType="VARCHAR" property="zrzh" />
         <result column="LJZH" jdbcType="VARCHAR" property="ljzh" />
-        <result column="CH" jdbcType="VARCHAR" property="ch" />
+        <result column="CH" jdbcType="DECIMAL" property="ch" />
         <result column="ZL" jdbcType="VARCHAR" property="zl" />
         <result column="MJDW" jdbcType="VARCHAR" property="mjdw" />
         <result column="SJCS" jdbcType="DECIMAL" property="sjcs" />
@@ -166,7 +166,7 @@
         <result column="FWLY" jdbcType="VARCHAR" property="fwly" />
         <result column="FWSYZ" jdbcType="VARCHAR" property="fwsyz" />
         <result column="FWZJ" jdbcType="DECIMAL" property="fwzj" />
-        <result column="HBH" jdbcType="VARCHAR" property="hbh" />
+        <result column="HBH" jdbcType="DECIMAL" property="hbh" />
         <result column="FWBH" jdbcType="VARCHAR" property="fwbh" />
         <result column="FWSYQR" jdbcType="VARCHAR" property="fwsyqr" />
         <result column="QLRLX" jdbcType="VARCHAR" property="qlrlx" />
@@ -287,7 +287,7 @@
 
     <select id="getChildHList" parameterType="map" resultType="com.grandeflorum.buildingTable.domain.H">
         select h.ID,h.BDCDYH,h.FWBM,h.CH,h.ZL,h.SJCS,h.HH,h.SHBW,h.HX,h.HXJG,h.FWYT1,h.SCJZMJ,h.FWLX,h.MPH,nvl(h.DYH,1)dyh,nvl(h.HBH,1)hbh
-         from fg_zrz a INNER  join fg_h on a.zrzh=h.zrzh and h.zt='1'where 1=1
+         from fg_zrz a INNER  join fg_h h on a.zrzh=h.zrzh and h.zt='1'where 1=1
          <if test="zrzh!=null and zrzh!=''">
              and  h.ZRZH=#{zrzh}
          </if>
