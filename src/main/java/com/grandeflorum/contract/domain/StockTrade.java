@@ -183,6 +183,18 @@ public class StockTrade {
     @Column(name = "JYFS")
     public Integer jyfs;
 
+    /**
+     * 不动产权证号
+     */
+    @Column(name = "BDCQZH")
+    public String bdcqzh;
+
+    /**
+     * 登记时间
+     */
+    @Column(name = "DJSJ")
+    public Date djsj;
+
     public String getId() {
         return id;
     }
@@ -445,5 +457,21 @@ public class StockTrade {
 
     public void setRelationShips(List<RelationShip> relationShips) {
         this.relationShips = relationShips;
+    }
+
+    public String getBdcqzh() {
+        return bdcqzh;
+    }
+
+    public void setBdcqzh(String bdcqzh) {
+        this.bdcqzh = bdcqzh;
+    }
+
+    public Date getDjsj() {
+        return djsj;
+    }
+
+    public void setDjsj(Date djsj) {
+        this.djsj = djsj;
     }
 }

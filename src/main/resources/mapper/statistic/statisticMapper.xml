@@ -8,7 +8,7 @@
             to_char(t.rentdate,'yyyy-MM')
         </when>
         <when test="type==2">
-            to_char(t.rentdate,'q') 
+            to_char(t.rentdate,'q')
         </when>
         <otherwise>
             to_char(t.rentdate,'yyyy')

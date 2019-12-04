@@ -27,6 +27,8 @@
         <result column="ISPASS" jdbcType="DECIMAL" property="isPass"/>
         <result column="SYS_DATE" jdbcType="TIMESTAMP" property="sysDate"/>
         <result column="SYS_UPD_DATE" jdbcType="TIMESTAMP" property="sysUpdDate"/>
+        <result column="BDCQZH" jdbcType="VARCHAR" property="bdcqzh"/>
+        <result column="DJSJ" jdbcType="TIMESTAMP" property="djsj"/>
     </resultMap>
 
     <resultMap id="listMap" type="com.grandeflorum.contract.domain.StockTrade" extends="BaseResultMap">
@@ -102,6 +104,26 @@
         left join ljz t1 on t.ljzh=t1.ljzh
         left join zrz t2 on t1.zrzh=t2.zrzh
         where hst.id=#{id}
+    </select>
+
+    <select id="queryHinfoByStockId" parameterType="String" resultType="map">
+        select h.*
+          from house_stock_trade hst
+          left join (select h.id, h.zl, h.SCJZMJ, h.FWYT1, ljz.fwjg1
+                       from h
+                       left join ljz
+                         on h.LJZH = ljz.LJZH
+                     union all
+                     select utl_raw.cast_to_raw(fg_h.id) id,
+                            fg_h.zl,
+                            fg_h.SCJZMJ,
+                            fg_h.FWYT1,
+                            fg_ljz.fwjg1
+                       from fg_h
+                       left join fg_ljz
+                         on fg_h.ljzh = fg_ljz.ljzh) h
+            on hst.houseid = h.id
+         where hst.id = #{id}
     </select>
 
 </mapper>

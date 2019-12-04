@@ -11,10 +11,7 @@ import com.grandeflorum.common.domain.Page;
 import com.grandeflorum.common.domain.PagingEntity;
 import com.grandeflorum.common.domain.ResponseBo;
 import com.grandeflorum.common.service.impl.BaseService;
-import com.grandeflorum.common.util.GuidHelper;
-import com.grandeflorum.common.util.StrUtil;
-import com.grandeflorum.common.util.WordHelper;
-import com.grandeflorum.common.util.XwpfTUtil;
+import com.grandeflorum.common.util.*;
 import com.grandeflorum.contract.dao.StockTradeHistoryMapper;
 import com.grandeflorum.contract.dao.StockTradeMapper;
 import com.grandeflorum.contract.domain.ContractCancel;
@@ -25,6 +22,7 @@ import com.grandeflorum.contract.service.StockTradeService;
 import com.grandeflorum.project.dao.WFAuditMapper;
 import com.grandeflorum.project.domain.AuditParam;
 import com.grandeflorum.project.domain.WFAudit;
+import com.grandeflorum.system.service.SystemDictionaryService;
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +40,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.grandeflorum.common.util.StrUtil.DoubleToString;
 
 @Service("StockTradeService")
 public class StockTradeServiceImpl extends BaseService<StockTrade> implements StockTradeService {
@@ -65,6 +65,9 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
 
     @Autowired
     GrandeflorumProperties grandeflorumProperties;
+
+    @Autowired
+    SystemDictionaryService systemDictionaryService;
 
     @Override
     public ResponseBo getStockTradeHistory(String id){
@@ -263,7 +266,7 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
         try{
 
             response.setContentType("application/vnd.ms-excel");
-            response.setHeader("content-disposition", "Attachment;filename=" + URLEncoder.encode("住建部商品房买卖合同(现售)示范文本(2014WORD版).docx", "utf-8"));
+            response.setHeader("content-disposition", "Attachment;filename=" + URLEncoder.encode("万年县存量房买卖合同.docx", "utf-8"));
             OutputStream os = response.getOutputStream();
 
             creatWord(id,os);
@@ -308,7 +311,6 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
 
     public File creatWord(String id,OutputStream os){
 
-        StockTrade stockTrade = stockTradeMapper.selectByPrimaryKey(id);
         String sourcePath = grandeflorumProperties.getUploadFolder()+"ht";
         File file = new File(sourcePath);
 
@@ -325,15 +327,57 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
                 }
 
             }else{
+
+                StockTrade stockTrade = stockTradeMapper.selectByPrimaryKey(id);
                 //读入流中
-                String path = this.getClass().getResource("/").getPath()+ "templates/住建部商品房买卖合同(现售)示范文本(2014WORD版).docx";
+                String path = this.getClass().getResource("/").getPath()+ "templates/万年县存量房买卖合同.docx";
                 //新建一个word文档
                 XWPFDocument doc = new XWPFDocument(new FileInputStream(path));
                 Map<String, Object> params = new HashMap<String, Object>();
 
-                params.put("htbah",StrUtil.NoNullString(stockTrade.getHtbah()));
+                params.put("htbh",StrUtil.NoNullString(stockTrade.getHtbah()));
                 params.put("cmr",StrUtil.NoNullString(stockTrade.getJf()));
-                params.put("yf",StrUtil.NoNullString(stockTrade.getYf()));
+                params.put("msr",StrUtil.NoNullString(stockTrade.getYf()));
+
+                //甲方
+                params.put("jflxdz",StrUtil.NoNullString(stockTrade.getJflxdz()));
+                params.put("jfzjlx",StrUtil.NoNullString(systemDictionaryService.getDicName("zjlb",stockTrade.getJfzjlx())));
+                params.put("jfzjh",StrUtil.NoNullString(stockTrade.getJfzjhm()));
+                params.put("jflxdh",StrUtil.NoNullString(stockTrade.getJflxdz()));
+
+                //乙方
+                params.put("yflxdz",StrUtil.NoNullString(stockTrade.getYflxdz()));
+                params.put("yfzjlx",StrUtil.NoNullString(systemDictionaryService.getDicName("zjlb",stockTrade.getYfzjlx())));
+                params.put("yfzjh",StrUtil.NoNullString(stockTrade.getYfzjhm()));
+                params.put("yflxdh",StrUtil.NoNullString(stockTrade.getYflxdh()));
+
+
+                params.put("zj",DoubleToString(stockTrade.getZj()));
+                params.put("dj",DoubleToString(stockTrade.getDj()));
+
+                params.put("bdcqzh",StrUtil.NoNullString(stockTrade.getBdcqzh()));
+                params.put("djsj", DateUtils.DateToString(stockTrade.getDjsj()));
+
+                Map<String,String> map = stockTradeMapper.queryHinfoByStockId(id);
+
+                if(map!=null) {
+                    params.put("zl",map.get("ZL")!=null?map.get("ZL").toString():"");
+
+                    String fwyt = systemDictionaryService.getDicName("fwyt",map.get("FWYT")!=null?Integer.parseInt(map.get("FWYT").toString()):null);
+                    params.put("fwyt",fwyt);
+
+                    params.put("jzmj",map.get("SCJZMJ")!=null?map.get("SCJZMJ").toString():"");
+
+                    String jzjg = systemDictionaryService.getDicName("jzjg",map.get("FWJG1")!=null?Integer.parseInt(map.get("FWJG1").toString()):null);
+                    params.put("jzjg",jzjg);
+                }else{
+                    params.put("zl","");
+                    params.put("fwyt","");
+                    params.put("jzmj","");
+                    params.put("jzjg","");
+                }
+
+
 
                 XwpfTUtil xwpfTUtil = new XwpfTUtil();
                 xwpfTUtil.replaceInPara(doc, params);

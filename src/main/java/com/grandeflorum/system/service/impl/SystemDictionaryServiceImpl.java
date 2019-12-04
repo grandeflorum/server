@@ -49,4 +49,15 @@ public class SystemDictionaryServiceImpl extends BaseService<DataDictionaryItem>
         return dictionariesMap;
     }
 
+    @Override
+    public String getDicName(String type,Integer code){
+
+        if(code==null){
+            return "";
+        }
+        Map<String,Object> map = new HashMap<>();
+        map.put("type",type);
+        map.put("code",code);
+        return systemDictionaryMapper.getDicName(map);
+    }
 }

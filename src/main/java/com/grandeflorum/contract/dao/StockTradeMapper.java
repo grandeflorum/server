@@ -20,4 +20,6 @@ public interface StockTradeMapper extends MyMapper<StockTrade> {
     String getLjzh(String hid);
 
     StockTrade getStockTradeById(String id);
+
+    Map<String,String> queryHinfoByStockId(String id);
 }

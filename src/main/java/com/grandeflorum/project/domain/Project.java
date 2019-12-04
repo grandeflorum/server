@@ -219,6 +219,15 @@ public class Project {
     @Column(name = "AUDIT_TYPE")
     public Integer auditType;
 
+    @Column(name = "TDSYZZZRQ")
+    public Date tdsyzzzrq;
+
+    @Column(name = "JSGCGHXKZH")
+    public String jsgcghxkzh;
+
+    @Column(name = "JSGCSGXKZH")
+    public String jsgcsgxkzh;
+
     public String getId() {
         return id;
     }
@@ -497,5 +506,29 @@ public class Project {
 
     public void setAuditType(Integer auditType) {
         this.auditType = auditType;
+    }
+
+    public Date getTdsyzzzrq() {
+        return tdsyzzzrq;
+    }
+
+    public void setTdsyzzzrq(Date tdsyzzzrq) {
+        this.tdsyzzzrq = tdsyzzzrq;
+    }
+
+    public String getJsgcghxkzh() {
+        return jsgcghxkzh;
+    }
+
+    public void setJsgcghxkzh(String jsgcghxkzh) {
+        this.jsgcghxkzh = jsgcghxkzh;
+    }
+
+    public String getJsgcsgxkzh() {
+        return jsgcsgxkzh;
+    }
+
+    public void setJsgcsgxkzh(String jsgcsgxkzh) {
+        this.jsgcsgxkzh = jsgcsgxkzh;
     }
 }

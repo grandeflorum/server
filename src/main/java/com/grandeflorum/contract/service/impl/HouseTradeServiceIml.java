@@ -18,10 +18,14 @@ import com.grandeflorum.contract.dao.HouseTradeHistoryMapper;
 import com.grandeflorum.contract.dao.HouseTradeMapper;
 import com.grandeflorum.contract.domain.*;
 import com.grandeflorum.contract.service.HouseTradeService;
+import com.grandeflorum.practitioner.dao.CompanyMapper;
+import com.grandeflorum.practitioner.domain.Company;
 import com.grandeflorum.project.dao.WFAuditMapper;
 import com.grandeflorum.project.domain.AuditParam;
+import com.grandeflorum.project.domain.Project;
 import com.grandeflorum.project.domain.WFAudit;
 
+import com.grandeflorum.system.service.SystemDictionaryService;
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +44,9 @@ import java.util.*;
 
 import java.util.Date;
 import java.util.List;
+
+import static com.grandeflorum.common.util.StrUtil.DoubleToString;
+import static com.grandeflorum.common.util.StrUtil.NoNullString;
 
 @Service("HouseTradeService")
 public class HouseTradeServiceIml extends BaseService<HouseTrade> implements HouseTradeService {
@@ -67,6 +74,12 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
 
     @Autowired
     ContractTemplateMapper contractTemplateMapper;
+
+    @Autowired
+    CompanyMapper companyMapper;
+
+    @Autowired
+    SystemDictionaryService systemDictionaryService;
 
     @Override
     public ResponseBo getHouseTradeHistory(String id){
@@ -285,7 +298,7 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
         try{
 
             response.setContentType("application/vnd.ms-excel");
-            response.setHeader("content-disposition", "Attachment;filename=" + URLEncoder.encode("《商品房买卖合同(预售)示范文本》(GF-2014-0171).docx", "utf-8"));
+            response.setHeader("content-disposition", "Attachment;filename=" + URLEncoder.encode("商品房买卖合同（预售）.docx", "utf-8"));
             OutputStream os = response.getOutputStream();
 
             creatWord(id,os);
@@ -348,12 +361,112 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
 
             }else{
                 //读入流中
-                String path = this.getClass().getResource("/").getPath()+ "templates/《商品房买卖合同(预售)示范文本》(GF-2014-0171).docx";
+                String path = this.getClass().getResource("/").getPath()+ "templates/商品房买卖合同（预售）.docx";
                 //新建一个word文档
                 XWPFDocument doc = new XWPFDocument(new FileInputStream(path));
                 Map<String, Object> params = new HashMap<String, Object>();
-                params.put("htbh", StrUtil.NoNullString(houseTrade.getHtbah()));
-                params.put("buyer",StrUtil.NoNullString(houseTrade.getBuyer()));
+                params.put("htbh", NoNullString(houseTrade.getHtbah()));
+
+                //企业
+                Company company =  houseTradeMapper.getCompanyByAssociatedId(id);
+                if(company!=null) {
+                    params.put("cmr",company.getQymc());
+                    params.put("txdz",NoNullString(company.getAddress()));
+                    params.put("yzbm",NoNullString(company.getYzbm()));
+                    params.put("yyzz",NoNullString(company.getYyzz()));
+                    params.put("zzzsh",NoNullString(company.getZzzsh()));
+                    params.put("qyfr",NoNullString(company.getQyfr()));
+                    params.put("lxdh",NoNullString(company.getPhone()));
+
+                    //开发项目
+                    String companyId = company.getId();
+                    Project project = houseTradeMapper.getProjectByCompanyId(companyId);
+                    if(project!=null) {
+
+                        String qdfs = systemDictionaryService.getDicName("ydqdfs",project.getYdqdfs());
+                        params.put("qdfs",qdfs);
+                        params.put("xmzl",NoNullString(project.getAddress()));
+
+                        params.put("tdsyzh",NoNullString(project.getTdsyzh()));
+                        params.put("zdmj",DoubleToString(project.getZdmj()));
+
+                        String xmyt = systemDictionaryService.getDicName("xmyt",project.getXmyt());
+                        params.put("xmyt",xmyt);
+
+                        params.put("xmmc",project.getXmmc());
+
+                        params.put("tdsyzzzrq",DateUtils.DateToString(project.getTdsyzzzrq()));
+                        params.put("jsgcghxkzh",NoNullString(project.getJsgcghxkzh()));
+                        params.put("jsgcsgxkzh",NoNullString(project.getJsgcsgxkzh()));
+
+                    }else{
+                        params.put("qdfs","");
+                        params.put("xmzl","");
+                        params.put("tdsyzh","");
+                        params.put("zdmj","");
+                        params.put("xmyt","");
+                        params.put("xmmc","");
+                        params.put("tdsyzzzrq","");
+                        params.put("jsgcghxkzh","");
+                        params.put("jsgcsgxkzh","");
+                    }
+
+                }else{
+                    params.put("cmr","");
+                    params.put("txdz","");
+                    params.put("yzbm","");
+                    params.put("yyzz","");
+                    params.put("zzzsh","");
+                    params.put("qyfr","");
+                    params.put("lxdh","");
+                    params.put("qdfs","");
+                    params.put("xmzl","");
+                    params.put("tdsyzh","");
+                    params.put("zdmj","");
+                    params.put("xmyt","");
+                    params.put("xmmc","");
+                    params.put("tdsyzzzrq","");
+                    params.put("jsgcghxkzh","");
+                    params.put("jsgcsgxkzh","");
+                }
+
+                params.put("msr", NoNullString(houseTrade.getBuyer()));
+                params.put("zh", NoNullString(houseTrade.getZh()));
+                params.put("txdz", NoNullString(houseTrade.getLxdz()));
+
+                params.put("birthday",IDCardUtil.getBirthday(houseTrade.getSfzh()));
+                params.put("sex",IDCardUtil.getSex(houseTrade.getSfzh()));
+                params.put("ysxkz",houseTrade.getYsxkz());
+
+                Map<String,String> map = houseTradeMapper.queryHinfoByTradeId(id);
+                if(map!=null) {
+
+                    String fwyt = systemDictionaryService.getDicName("fwyt",map.get("FWYT")!=null?Integer.parseInt(map.get("FWYT").toString()):null);
+                    params.put("fwyt",fwyt);
+
+                    String jzjg = systemDictionaryService.getDicName("jzjg",map.get("FWJG1")!=null?Integer.parseInt(map.get("FWJG1").toString()):null);
+                    params.put("jzjg",jzjg);
+
+                    params.put("zcs",map.get("ZCS")!=null?String.valueOf(map.get("ZCS")):"");
+                    params.put("dscs",map.get("DSCS")!=null?String.valueOf(map.get("DSCS")):"");
+                    params.put("dxcs",map.get("DXCS")!=null?String.valueOf(map.get("DXCS")):"");
+
+                    params.put("ycjzmj",map.get("YCJZMJ")!=null?String.valueOf(map.get("YCJZMJ")):"");
+                    params.put("yctnjzmj",map.get("YCTNJZMJ")!=null?String.valueOf(map.get("YCTNJZMJ")):"");
+                    params.put("ycftjzmj",map.get("YCFTJZMJ")!=null?String.valueOf(map.get("YCFTJZMJ")):"");
+
+
+                }else{
+                    params.put("fwyt","");
+                    params.put("jzjg","");
+                    params.put("zcs","");
+                    params.put("dscs","");
+                    params.put("dxcs","");
+
+                    params.put("ycjzmj","");
+                    params.put("yctnjzmj","");
+                    params.put("ycftjzmj","");
+                }
 
                 XwpfTUtil xwpfTUtil = new XwpfTUtil();
                 xwpfTUtil.replaceInPara(doc, params);

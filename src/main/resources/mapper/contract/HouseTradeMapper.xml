@@ -98,6 +98,39 @@
       where hnt.id=#{id}
     </select>
 
+    <select id="getCompanyByAssociatedId" parameterType="String" resultType="com.grandeflorum.practitioner.domain.Company">
+           select c.* from associated_company ac
+            left join company c on ac.companyid = c.id
+            where ac.associatedid =#{id}
+    </select>
 
+    <select id="getProjectByCompanyId" parameterType="String" resultType="com.grandeflorum.project.domain.Project">
+          select *from project t where t.company_id = #{companyId}
+    </select>
+
+    <select id="queryHinfoByTradeId" parameterType="String" resultType="map">
+      select h.*
+  from house_new_trade hnt
+  left join (select h.id, h.YCJZMJ,h.YCTNJZMJ,h.YCFTJZMJ, h.FWYT1, ljz.fwjg1,ljz.ZCS,ljz.dscs,0 as dxcs
+               from h
+               left join ljz
+                 on h.LJZH = ljz.LJZH
+             union all
+             select utl_raw.cast_to_raw(fg_h.id) id,
+
+                    fg_h.YCJZMJ,
+                    fg_h.YCTNJZMJ,
+                    fg_h.YCFTJZMJ,
+                    fg_h.FWYT1,
+                    fg_ljz.fwjg1,
+                    fg_ljz.zcs,
+                    fg_ljz.dscs,
+                    fg_ljz.dxcs
+               from fg_h
+               left join fg_ljz
+                 on fg_h.ljzh = fg_ljz.ljzh) h
+    on hnt.houseid = h.id
+ where hnt.id = #{id}
+    </select>
 
 </mapper>

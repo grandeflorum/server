@@ -8,4 +8,6 @@ import java.util.Map;
 
 public interface SystemDictionaryService extends IService<DataDictionaryItem> {
     Map<String, List<DataDictionaryItem>> getAllDictionary();
+
+    String getDicName(String type,Integer code);
 }
