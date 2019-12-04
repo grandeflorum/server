@@ -1044,4 +1044,12 @@ public class H {
     public void setQxdm(String qxdm) {
         this.qxdm = qxdm;
     }
+
+    public Integer getIsnewstock() {
+        return isnewstock;
+    }
+
+    public void setIsnewstock(Integer isnewstock) {
+        this.isnewstock = isnewstock;
+    }
 }

@@ -170,5 +170,16 @@ public class BuildingTableController {
         return buildingTableService.getChildHList(page);
     }
 
+    /**
+     * 保存楼盘表信息
+     *
+     * @param
+     * @return
+     */
+    @PostMapping("/saveOrUpdateZRZandLJZ")
+    public ResponseBo saveOrUpdateZRZandLJZ(@RequestBody ZRZ zrz) {
+        return buildingTableService.saveOrUpdateZRZandLJZ(zrz);
+    }
+
 
 }

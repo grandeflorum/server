@@ -305,13 +305,24 @@ public class BuildingTableServiceImpl implements BuildingTableService {
 
     @Override
     public ResponseBo saveOrUpdateZRZ(ZRZ zrz) {
+        Example exampleZRZRepeat = new Example(ZRZ.class);
+        exampleZRZRepeat.createCriteria().andEqualTo("jzwmc",zrz.getJzwmc()).andEqualTo("xmmc",zrz.getXmmc());
+        List<ZRZ> zrzRepeatList=zrzMapper.selectByExample(exampleZRZRepeat);
         if (zrz.getId() == null) {
+            if(zrzRepeatList!=null&&zrzRepeatList.size()>0){
+                return ResponseBo.error("存在相同项目名称与建筑物名称数据");
+            }
             zrz.setId(GuidHelper.getGuid());
             zrz.setZt("1");
 //            zrz.setZrzh();
             zrzMapper.insert(zrz);
 
         }else{
+            if(zrzRepeatList!=null&&zrzRepeatList.size()>0){
+                if(!zrzRepeatList.get(0).getId().equals(zrz.getId()))
+                return ResponseBo.error("存在相同项目名称与建筑物名称数据");
+            }
+
             zrzMapper.updateByPrimaryKey(zrz);
         }
         return ResponseBo.ok(zrz);
@@ -326,20 +337,22 @@ public class BuildingTableServiceImpl implements BuildingTableService {
 
     @Override
     public ResponseBo saveOrUpdateLJZ(LJZ ljz) {
-        if(ljz.getZrzh()!=null&&ljz.getLjzh()!=null){
-            Example exampleLJZRepeat = new Example(LJZ.class);
-            exampleLJZRepeat.createCriteria().andEqualTo("zrzh", ljz.getZrzh()).andEqualTo("ljzh",ljz.getLjzh()).andEqualTo("mph",ljz.getMph());
-            List<LJZ> ljzRepeatList=ljzMapper.selectByExample(exampleLJZRepeat);
+        Example exampleLJZRepeat = new Example(LJZ.class);
+        exampleLJZRepeat.createCriteria().andEqualTo("zrzh", ljz.getZrzh()).andEqualTo("mph",ljz.getMph());
+        List<LJZ> ljzRepeatList=ljzMapper.selectByExample(exampleLJZRepeat);
+        if(ljz.getId()==null){
             if(ljzRepeatList!=null&&ljzRepeatList.size()>0){
                 return ResponseBo.error("该楼幢门牌号重复");
             }
-        }
-        if(ljz.getId()==null){
             ljz.setId(GuidHelper.getGuid());
 //            ljz.setLjzh();
             ljz.setZt("1");
             ljzMapper.insert(ljz);
         }else{
+            if(ljzRepeatList!=null&&ljzRepeatList.size()>0){
+                if(!ljzRepeatList.get(0).getId().equals(ljz.getId()))
+                    return ResponseBo.error("存在相同项目名称与建筑物名称数据");
+            }
             ljzMapper.updateByPrimaryKey(ljz);
         }
         return ResponseBo.ok(ljz);
@@ -357,14 +370,20 @@ public class BuildingTableServiceImpl implements BuildingTableService {
         Example exampleCRepeat = new Example(C.class);
         exampleCRepeat.createCriteria().andEqualTo("zrzh", c.getZrzh()).andEqualTo("ljzh",c.getLjzh()).andEqualTo("ch",c.getCh());
         List<C> cRepeatList=cMapper.selectByExample(exampleCRepeat);
-        if(cRepeatList!=null&&cRepeatList.size()>0){
-            return ResponseBo.error("该楼幢存在相同的层");
-        }
+
         if(c.getId()==null){
+            if(cRepeatList!=null&&cRepeatList.size()>0){
+                return ResponseBo.error("该楼幢存在相同的层");
+            }
             c.setId(GuidHelper.getGuid());
             c.setZt("1");
             cMapper.insert(c);
         }else{
+            if(cRepeatList!=null&&cRepeatList.size()>0){
+                if(!cRepeatList.get(0).getId().equals(c.getId())){
+                    return ResponseBo.error("该楼幢存在相同的层");
+                }
+            }
             cMapper.updateByPrimaryKey(c);
         }
         return ResponseBo.ok(c);
@@ -399,20 +418,32 @@ public class BuildingTableServiceImpl implements BuildingTableService {
         Example exampleHbhRepeat = new Example(H.class);
         exampleHbhRepeat.createCriteria().andEqualTo("ljzh", h.getLjzh()).andEqualTo("dyh",h.getDyh()).andEqualTo("hbh",h.getHbh());
         List<H> hbhRepeatlist=hMapper.selectByExample(exampleHbhRepeat);
-        if(hbhRepeatlist!=null&&hbhRepeatlist.size()>0){
-            return ResponseBo.error("同一单元内户编号重复");
-        }
+
         Example exampleSHBWRepeat = new Example(H.class);
         exampleSHBWRepeat.createCriteria().andEqualTo("zrzh", h.getZrzh()).andEqualTo("shbw",h.getShbw());
         List<H> shbwRepeatlist=hMapper.selectByExample(exampleSHBWRepeat);
-        if(shbwRepeatlist!=null&&shbwRepeatlist.size()>0){
-            return ResponseBo.error("同一楼幢内室号部位重复");
-        }
+
         if (h.getId() == null) {
+            if(hbhRepeatlist!=null&&hbhRepeatlist.size()>0){
+                return ResponseBo.error("同一单元内户编号重复");
+            }
+            if(shbwRepeatlist!=null&&shbwRepeatlist.size()>0){
+                return ResponseBo.error("同一楼幢内室号部位重复");
+            }
             h.setId(GuidHelper.getGuid());
             h.setZt("1");
             hMapper.insert(h);
         }else{
+            if(hbhRepeatlist!=null&&hbhRepeatlist.size()>0){
+                if(!hbhRepeatlist.get(0).getId().equals(h.getId())){
+                    return ResponseBo.error("同一单元内户编号重复");
+                }
+            }
+            if(shbwRepeatlist!=null&&shbwRepeatlist.size()>0){
+                if(!shbwRepeatlist.get(0).getId().equals(h.getId())){
+                    return ResponseBo.error("同一楼幢内室号部位重复");
+                }
+            }
             hMapper.updateByPrimaryKey(h);
         }
         return ResponseBo.ok(h);
@@ -443,6 +474,14 @@ public class BuildingTableServiceImpl implements BuildingTableService {
         PagingEntity<H> result = new PagingEntity<>(pageInfo);
 
         return ResponseBo.ok(result);
+    }
+
+    @Override
+    @Transactional
+    public ResponseBo saveOrUpdateZRZandLJZ(ZRZ zrz) {
+        saveOrUpdateZRZ(zrz);
+        saveOrUpdateLJZ(zrz.getLjzList().get(0));
+        return ResponseBo.ok(zrz);
     }
 
 

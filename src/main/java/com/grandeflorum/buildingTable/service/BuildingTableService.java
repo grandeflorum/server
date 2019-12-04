@@ -44,5 +44,7 @@ public interface BuildingTableService {
 
     ResponseBo getChildHList(Page page);
 
+    ResponseBo saveOrUpdateZRZandLJZ(ZRZ zrz);
+
 
 }
