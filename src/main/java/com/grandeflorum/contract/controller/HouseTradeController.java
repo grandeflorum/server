@@ -112,4 +112,14 @@ public class HouseTradeController {
     public ResponseBo linkH(String id,String hid){
         return houseTradeService.linkH(id,hid);
     }
+
+    /**
+     * 获取户详细信息
+     * @param hid
+     * @return
+     */
+    @GetMapping("/getHInfo")
+    public ResponseBo getHInfo(String hid) {
+        return houseTradeService.getHInfo(hid);
+    }
 }

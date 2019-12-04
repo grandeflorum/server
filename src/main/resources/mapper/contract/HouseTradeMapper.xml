@@ -132,5 +132,17 @@
     on hnt.houseid = h.id
  where hnt.id = #{id}
     </select>
+    <select id="getHInfo"  parameterType="String" resultType="com.grandeflorum.contract.domain.HouseTrade">
+        select t2.xmmc ,t2.JZWMC,t1.mph zh,t.dymc dyh, t.ch,t.mph fh,t.id as houseId,t1.id as ljzid
+        from  h t
+        left join ljz t1 on t.ljzh=t1.ljzh
+        left join zrz t2 on t1.zrzh=t2.zrzh
+        where t.id=#{id}
+    </select>
+
+
+
+
+
 
 </mapper>

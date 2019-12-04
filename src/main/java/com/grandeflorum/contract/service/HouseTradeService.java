@@ -38,4 +38,6 @@ public interface HouseTradeService extends IService<HouseTrade> {
     ResponseBo linkH(String id,String hid);
 
     ResponseBo deleteHouseTradeByIds(List<String> ids);
+
+    ResponseBo getHInfo(String hid);
 }

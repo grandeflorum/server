@@ -211,7 +211,7 @@
         <choose>
             <when test="needFilter">
                 (
-                select z1.* from fg_zrz z1
+                select z1.* from zrz z1
                 left join project p on p.id = z1.xmid
                   where p.COMPANY_ID in
                 <foreach collection="companyList" item="item" open="(" close=")" separator=",">
@@ -220,12 +220,12 @@
                 )
             </when>
             <otherwise>
-                fg_zrz
+                zrz
             </otherwise>
         </choose>
          z
-        left join (select l.ZRZH,count(1)LZZS from fg_ljz l where l.zt='1' group by l.ZRZH) lj on lj.zrzh  = z.ZRZH
-        left join (select h.ZRZH,sum(h.SCJZMJ) ZMJ,count(1)ZTS,sum(nvl2(d.ID,1,0))dy,sum(nvl2(f.ID,1,0))cf from fg_h h
+        left join (select l.ZRZH,count(1)LZZS from ljz l where l.zt='1' group by l.ZRZH) lj on lj.zrzh  = z.ZRZH
+        left join (select h.ZRZH,sum(h.SCJZMJ) ZMJ,count(1)ZTS,sum(nvl2(d.ID,1,0))dy,sum(nvl2(f.ID,1,0))cf from h h
         left join dyaq d on d.BDCDYH=h.BDCDYH and d.QSZT='1'
         left join cfdj f on f.BDCDYH = h.BDCDYH and f.QSZT='1'
         where h.zt='1' group by h.ZRZH) t on t.zrzh = z.zrzh
@@ -254,27 +254,27 @@
     </select>
 
     <select id="getCList" parameterType="map" resultType="com.grandeflorum.buildingTable.domain.C">
-        select c.ID,c.SJC,c.CH,c.SFQFDY from fg_c c where c.zrzh=#{zrzh} and c.ljzh=#{ljzh} and c.zt='1' order by c.sjc desc
+        select c.ID,c.SJC,c.CH,c.SFQFDY from c c where c.zrzh=#{zrzh} and c.ljzh=#{ljzh} and c.zt='1' order by c.sjc desc
     </select>
 
     <select id="getLjz" parameterType="java.lang.String" resultType="com.grandeflorum.buildingTable.domain.LJZ">
-        select l.ID,l.LJZH,l.ZRZH,l.MPH,l.SCJZMJ,l.FWYT1,l.ZCS from fg_ljz l where l.id = #{id}
+        select l.ID,l.LJZH,l.ZRZH,l.MPH,l.SCJZMJ,l.FWYT1,l.ZCS from ljz l where l.id = #{id}
     </select>
 
     <select id="getLjzList" parameterType="java.lang.String" resultType="com.grandeflorum.buildingTable.domain.LJZ">
-        select l.ID,l.LJZH,l.ZRZH,l.MPH,l.SCJZMJ,l.FWYT1,l.ZCS from fg_ljz l where l.zrzh = #{zrzh}
+        select l.ID,l.LJZH,l.ZRZH,l.MPH,l.SCJZMJ,l.FWYT1,l.ZCS from ljz l where l.zrzh = #{zrzh}
     </select>
 
     <select id="getZrz" parameterType="java.lang.String" resultType="com.grandeflorum.buildingTable.domain.ZRZ">
-        select z.ID,z.ZRZH,z.XMMC,z.JZWMC from fg_zrz z where z.id = #{id}
+        select z.ID,z.ZRZH,z.XMMC,z.JZWMC from zrz z where z.id = #{id}
     </select>
 
     <select id="getZrzId" parameterType="java.lang.String" resultType="java.lang.String">
-        select id from fg_zrz where zrzh=#{zh}
+        select id from zrz where zrzh=#{zh}
     </select>
 
     <select id="getLjzId" parameterType="java.lang.String" resultType="java.lang.String">
-        select id from fg_ljz where ljzh=#{zh}
+        select id from ljz where ljzh=#{zh}
     </select>
 
     <select id="getHList" parameterType="map" resultType="com.grandeflorum.buildingTable.domain.H">
@@ -282,7 +282,7 @@
         nvl2(d.ID,1,0) status,nvl2(cf.id,1,0)cfStatus,
          case when hnt.id is not null then 1
              when hst.id is not null then 2
-             else 0 end as tradeType from fg_h h
+             else 0 end as tradeType from h h
         left join dyaq d on d.BDCDYH = h.BDCDYH and d.QSZT='1'
         left join cfdj cf on cf.BDCDYH = h.BDCDYH and cf.QSZT='1'
         left join house_new_trade hnt on hnt.houseid = h.id and hnt.currentstatus = 5
@@ -303,7 +303,7 @@
 
     <select id="getChildHList" parameterType="map" resultType="com.grandeflorum.buildingTable.domain.H">
         select h.ID,h.BDCDYH,h.FWBM,h.CH,h.ZL,h.SJCS,h.HH,h.SHBW,h.HX,h.HXJG,h.FWYT1,h.SCJZMJ,h.FWLX,h.MPH,nvl(h.DYH,1)dyh,nvl(h.HBH,1)hbh
-         from fg_zrz a INNER  join fg_h h on a.zrzh=h.zrzh and h.zt='1'where 1=1
+         from fg_zrz a INNER  join h h on a.zrzh=h.zrzh and h.zt='1'where 1=1
          <if test="zrzh!=null and zrzh!=''">
              and  h.ZRZH=#{zrzh}
          </if>

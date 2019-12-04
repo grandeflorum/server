@@ -516,5 +516,11 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
         return ResponseBo.ok();
     }
 
+    @Override
+    public ResponseBo getHInfo(String hid) {
+        HouseTrade result=houseTradeMapper.getHInfo(hid);
+        return ResponseBo.ok(result);
+    }
+
 
 }
