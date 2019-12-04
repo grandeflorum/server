@@ -191,6 +191,12 @@ public class BuildingTableServiceImpl implements BuildingTableService {
 
                 C info = cList.get(i);
                 int count = info.getCount();
+
+                //暂时处理 户信息为空时层出不来
+//                if(count==0&&result.getDyList().size()>0&&result.getDyList().get(0).getRowSpan()>0) {
+//                    count = 1;
+//                }
+
                 int index = 0;
 
                 int[] list = new int[Dys];
@@ -214,14 +220,28 @@ public class BuildingTableServiceImpl implements BuildingTableService {
                     }
                 }
 
+                C c = new C();
+                c.setId(info.getId());
+                c.setCh(info.getCh());
+                c.setCount(info.getCount());
+                c.setSfqfdy(info.getSfqfdy());
+                c.setSjc(info.getSjc());
+                c.sethList(new ArrayList<>());
+
+                result.getcList().add(c);
+
+
                 while (count > 0) {
-                    C c = new C();
-                    c.setId(info.getId());
-                    c.setCh(info.getCh());
-                    c.setCount(info.getCount());
-                    c.setSfqfdy(info.getSfqfdy());
-                    c.setSjc(info.getSjc());
-                    c.sethList(new ArrayList<>());
+
+                    if(index != 0 ){
+                        c = new C();
+                        c.setId(info.getId());
+                        c.setCh(info.getCh());
+                        c.setCount(info.getCount());
+                        c.setSfqfdy(info.getSfqfdy());
+                        c.setSjc(info.getSjc());
+                        c.sethList(new ArrayList<>());
+                    }
 
                     for (int j = 0; j < result.getDyList().size(); j++) {
                         int dy = j + 1;
@@ -248,7 +268,8 @@ public class BuildingTableServiceImpl implements BuildingTableService {
                                                 int ini = inz;
 
                                                 H h;
-                                                List<H> filter = hList.stream().filter(x -> x.getDyh() == dd && x.getCh() == c.getSjc() && x.getHbh() == ini).collect(Collectors.toList());
+                                                C cp = c;
+                                                List<H> filter = hList.stream().filter(x -> x.getDyh() == dd && x.getCh() == cp.getSjc() && x.getHbh() == ini).collect(Collectors.toList());
 
                                                 if (filter != null && filter.size() > 0) {
                                                     h = filter.stream().findFirst().get();
@@ -266,8 +287,8 @@ public class BuildingTableServiceImpl implements BuildingTableService {
                             } else {
 
                                 H h;
-
-                                List<H> filter = hList.stream().filter(x -> x.getDyh() == dy && x.getCh() == c.getSjc() && x.getHbh() == inx).collect(Collectors.toList());
+                                C cp = c;
+                                List<H> filter = hList.stream().filter(x -> x.getDyh() == dy && x.getCh() == cp.getSjc() && x.getHbh() == inx).collect(Collectors.toList());
 
                                 if (filter != null && filter.size() > 0) {
                                     h = filter.stream().findFirst().get();
@@ -279,7 +300,9 @@ public class BuildingTableServiceImpl implements BuildingTableService {
                         }
                     }
 
-                    result.getcList().add(c);
+                    if(index!=0){
+                        result.getcList().add(c);
+                    }
 
                     index++;
                     count -= 10;
