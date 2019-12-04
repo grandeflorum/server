@@ -366,7 +366,7 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
                     String fwyt = systemDictionaryService.getDicName("fwyt",map.get("FWYT")!=null?Integer.parseInt(map.get("FWYT").toString()):null);
                     params.put("fwyt",fwyt);
 
-                    params.put("jzmj",map.get("SCJZMJ")!=null?map.get("SCJZMJ").toString():"");
+                    params.put("jzmj",map.get("SCJZMJ")!=null?String.valueOf(map.get("SCJZMJ")):"");
 
                     String jzjg = systemDictionaryService.getDicName("jzjg",map.get("FWJG1")!=null?Integer.parseInt(map.get("FWJG1").toString()):null);
                     params.put("jzjg",jzjg);
