@@ -353,7 +353,7 @@ public class BuildingTableServiceImpl implements BuildingTableService {
 
     @Override
     public ResponseBo getZRZById(String id) {
-        ZRZ zrz=zrzMapper.selectByPrimaryKey(id);
+        ZRZ zrz=buildingTableMapper.getZrz(id);
         return ResponseBo.ok(zrz);
     }
 
@@ -383,7 +383,7 @@ public class BuildingTableServiceImpl implements BuildingTableService {
 
     @Override
     public ResponseBo getLJZById(String id) {
-        LJZ ljz=ljzMapper.selectByPrimaryKey(id);
+        LJZ ljz=buildingTableMapper.getLjz(id);
         return ResponseBo.ok(ljz);
     }
 
@@ -414,7 +414,7 @@ public class BuildingTableServiceImpl implements BuildingTableService {
 
     @Override
     public ResponseBo getCById(String id) {
-        C c=cMapper.selectByPrimaryKey(id);
+        C c=buildingTableMapper.getC(id);
         return ResponseBo.ok(c);
     }
 
@@ -439,19 +439,19 @@ public class BuildingTableServiceImpl implements BuildingTableService {
     @Override
     public ResponseBo saveOrUpdateH(H h){
         Example exampleHbhRepeat = new Example(H.class);
-        exampleHbhRepeat.createCriteria().andEqualTo("ljzh", h.getLjzh()).andEqualTo("dyh",h.getDyh()).andEqualTo("hbh",h.getHbh());
+        exampleHbhRepeat.createCriteria().andEqualTo("ljzh", h.getLjzh()).andEqualTo("dyh",h.getDyh()).andEqualTo("ch",h.getCh()).andEqualTo("hbh",h.getHbh());
         List<H> hbhRepeatlist=hMapper.selectByExample(exampleHbhRepeat);
 
         Example exampleSHBWRepeat = new Example(H.class);
-        exampleSHBWRepeat.createCriteria().andEqualTo("zrzh", h.getZrzh()).andEqualTo("shbw",h.getShbw());
+        exampleSHBWRepeat.createCriteria().andEqualTo("ljzh", h.getLjzh()).andEqualTo("dyh",h.getDyh()).andEqualTo("shbw",h.getShbw());
         List<H> shbwRepeatlist=hMapper.selectByExample(exampleSHBWRepeat);
 
         if (h.getId() == null) {
             if(hbhRepeatlist!=null&&hbhRepeatlist.size()>0){
-                return ResponseBo.error("同一单元内户编号重复");
+                return ResponseBo.error("同一单元同一层内户编号重复");
             }
             if(shbwRepeatlist!=null&&shbwRepeatlist.size()>0){
-                return ResponseBo.error("同一楼幢内室号部位重复");
+                return ResponseBo.error("同一单元内室号部位重复");
             }
             h.setId(GuidHelper.getGuid());
             h.setZt("1");
@@ -459,12 +459,12 @@ public class BuildingTableServiceImpl implements BuildingTableService {
         }else{
             if(hbhRepeatlist!=null&&hbhRepeatlist.size()>0){
                 if(!hbhRepeatlist.get(0).getId().equals(h.getId())){
-                    return ResponseBo.error("同一单元内户编号重复");
+                    return ResponseBo.error("同一单元同一层内户编号重复");
                 }
             }
             if(shbwRepeatlist!=null&&shbwRepeatlist.size()>0){
                 if(!shbwRepeatlist.get(0).getId().equals(h.getId())){
-                    return ResponseBo.error("同一楼幢内室号部位重复");
+                    return ResponseBo.error("同一单元内室号部位重复");
                 }
             }
             hMapper.updateByPrimaryKey(h);
@@ -474,7 +474,7 @@ public class BuildingTableServiceImpl implements BuildingTableService {
 
     @Override
     public ResponseBo getHById(String id) {
-        H h=hMapper.selectByPrimaryKey(id);
+        H h=buildingTableMapper.getH(id);
         return ResponseBo.ok(h);
     }
 
