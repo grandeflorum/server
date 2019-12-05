@@ -258,15 +258,15 @@
     </select>
 
     <select id="getLjz" parameterType="java.lang.String" resultType="com.grandeflorum.buildingTable.domain.LJZ">
-        select l.ID,l.LJZH,l.ZRZH,l.MPH,l.SCJZMJ,l.FWYT1,l.ZCS from ljz l where l.id = #{id}
+        select l.* from ljz l where l.id = #{id}
     </select>
 
     <select id="getLjzList" parameterType="java.lang.String" resultType="com.grandeflorum.buildingTable.domain.LJZ">
-        select l.ID,l.LJZH,l.ZRZH,l.MPH,l.SCJZMJ,l.FWYT1,l.ZCS from ljz l where l.zrzh = #{zrzh}
+        select l.* from ljz l where l.zrzh = #{zrzh}
     </select>
 
     <select id="getZrz" parameterType="java.lang.String" resultType="com.grandeflorum.buildingTable.domain.ZRZ">
-        select z.ID,z.ZRZH,z.XMMC,z.JZWMC from zrz z where z.id = #{id}
+        select z.* from zrz z where z.id = #{id}
     </select>
 
     <select id="getZrzId" parameterType="java.lang.String" resultType="java.lang.String">
