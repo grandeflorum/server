@@ -73,6 +73,17 @@ public class BuildingTableController {
     }
 
     /**
+     * 删除自然幢详情
+     *
+     * @param
+     * @return
+     */
+    @GetMapping("/deleteZRZ")
+    public ResponseBo deleteZRZ(String id) {
+        return buildingTableService.deleteZRZ(id);
+    }
+
+    /**
      * 添加或修改自然幢
      *
      * @param
@@ -92,6 +103,17 @@ public class BuildingTableController {
     @GetMapping("/getLJZById")
     public ResponseBo getLJZById(String id) {
         return buildingTableService.getLJZById(id);
+    }
+
+    /**
+     * 删除逻辑幢
+     *
+     * @param
+     * @return
+     */
+    @GetMapping("/deleteLJZ")
+    public ResponseBo deleteLJZ(String id) {
+        return buildingTableService.deleteLJZ(id);
     }
 
     /**

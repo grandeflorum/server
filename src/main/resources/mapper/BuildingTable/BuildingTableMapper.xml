@@ -34,6 +34,7 @@
         <result column="YBDCDYH" jdbcType="VARCHAR" property="ybdcdyh" />
         <result column="QXDM" jdbcType="VARCHAR" property="qxdm" />
         <result column="XMID" jdbcType="VARCHAR" property="xmid" />
+        <result column="GXSJ" jdbcType="TIMESTAMP" property="gxsj" />
     </resultMap>
 
     <resultMap id="BaseLJZResultMap" type="com.grandeflorum.buildingTable.domain.LJZ">
@@ -207,7 +208,7 @@
     </resultMap>
 
     <select id="getBuildingTableList" parameterType="map" resultType="com.grandeflorum.buildingTable.domain.ResultList">
-        select z.ID,z.XMMC,z.JZWMC,lj.LZZS,t.ZTS,t.ZMJ from
+        select z.ID,z.XMMC,z.JZWMC,lj.LZZS,t.ZTS,t.ZMJ,z.DATASOURCE from
         <choose>
             <when test="needFilter">
                 (
@@ -251,6 +252,7 @@
                 ${item}
             </foreach>
         </if>
+        order by z.gxsj  desc NULLS LAST
     </select>
 
     <select id="getCList" parameterType="map" resultType="com.grandeflorum.buildingTable.domain.C">
@@ -262,7 +264,7 @@
     </select>
 
     <select id="getLjzList" parameterType="java.lang.String" resultType="com.grandeflorum.buildingTable.domain.LJZ">
-        select l.* from ljz l where l.zrzh = #{zrzh}
+        select l.* from ljz l  where l.zrzh = #{zrzh} order by l.mph
     </select>
 
     <select id="getZrz" parameterType="java.lang.String" resultType="com.grandeflorum.buildingTable.domain.ZRZ">
@@ -282,7 +284,7 @@
     </select>
 
     <select id="getH" parameterType="java.lang.String" resultType="com.grandeflorum.buildingTable.domain.H">
-        select h.* from H h where c.id = #{id}
+        select h.* from H h where h.id = #{id}
     </select>
 
     <select id="getHList" parameterType="map" resultType="com.grandeflorum.buildingTable.domain.H">

@@ -3,6 +3,7 @@ package com.grandeflorum.buildingTable.domain;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.util.Date;
 import java.util.List;
 
@@ -129,6 +130,18 @@ public class ZRZ {
      */
     @Column(name = "QXDM")
     private String qxdm;
+
+    /**
+     * 更新时间
+     */
+    @Column(name = "GXSJ")
+    private Date gxsj;
+
+    /**
+     * 数据来源1:备案系统数据，2：登记系统数据
+     */
+    @Transient
+    private Integer datasource;
 
 
     /**
@@ -392,4 +405,19 @@ public class ZRZ {
         this.qxdm = qxdm;
     }
 
+    public Date getGxsj() {
+        return gxsj;
+    }
+
+    public void setGxsj(Date gxsj) {
+        this.gxsj = gxsj;
+    }
+
+    public Integer getDatasource() {
+        return datasource;
+    }
+
+    public void setDatasource(Integer datasource) {
+        this.datasource = datasource;
+    }
 }

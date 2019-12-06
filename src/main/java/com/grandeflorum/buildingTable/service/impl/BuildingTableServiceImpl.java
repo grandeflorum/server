@@ -328,6 +328,7 @@ public class BuildingTableServiceImpl implements BuildingTableService {
 
     @Override
     public ResponseBo saveOrUpdateZRZ(ZRZ zrz) {
+        zrz.setGxsj(new Date());
         Example exampleZRZRepeat = new Example(ZRZ.class);
         exampleZRZRepeat.createCriteria().andEqualTo("jzwmc",zrz.getJzwmc()).andEqualTo("xmmc",zrz.getXmmc());
         List<ZRZ> zrzRepeatList=zrzMapper.selectByExample(exampleZRZRepeat);
@@ -355,6 +356,22 @@ public class BuildingTableServiceImpl implements BuildingTableService {
     public ResponseBo getZRZById(String id) {
         ZRZ zrz=buildingTableMapper.getZrz(id);
         return ResponseBo.ok(zrz);
+    }
+
+    @Override
+    public ResponseBo deleteZRZ(String id){
+        ZRZ zrz= zrzMapper.selectByPrimaryKey(id);
+        if(zrz!=null&&zrz.getZrzh()!=null){
+            Example exampleLJZ = new Example(LJZ.class);
+            exampleLJZ.createCriteria().andEqualTo("zrzh", zrz.getZrzh());
+            List<LJZ> ljzList=ljzMapper.selectByExample(exampleLJZ);
+            if(ljzList!=null&&ljzList.size()>0){
+                return ResponseBo.error("该逻辑幢下存在层信息，不能删除");
+            }else{
+                zrzMapper.deleteByPrimaryKey(id);
+            }
+        }
+        return ResponseBo.ok();
     }
 
 
@@ -385,6 +402,22 @@ public class BuildingTableServiceImpl implements BuildingTableService {
     public ResponseBo getLJZById(String id) {
         LJZ ljz=buildingTableMapper.getLjz(id);
         return ResponseBo.ok(ljz);
+    }
+
+    @Override
+    public ResponseBo deleteLJZ(String id) {
+        LJZ ljz= ljzMapper.selectByPrimaryKey(id);
+        if(ljz!=null&&ljz.getZrzh()!=null&&ljz.getLjzh()!=null){
+            Example exampleC = new Example(C.class);
+            exampleC.createCriteria().andEqualTo("zrzh", ljz.getZrzh()).andEqualTo("ljzh",ljz.getLjzh());
+            List<C> cList=cMapper.selectByExample(exampleC);
+            if(cList!=null&&cList.size()>0){
+                return ResponseBo.error("该逻辑幢下存在层信息，不能删除");
+            }else{
+                ljzMapper.deleteByPrimaryKey(id);
+            }
+        }
+        return ResponseBo.ok();
     }
 
 
@@ -423,7 +456,7 @@ public class BuildingTableServiceImpl implements BuildingTableService {
     public ResponseBo deleteC(String id) {
         C c= cMapper.selectByPrimaryKey(id);
         if(c!=null&&c.getZrzh()!=null&&c.getLjzh()!=null){
-            Example exampleH = new Example(C.class);
+            Example exampleH = new Example(H.class);
             exampleH.createCriteria().andEqualTo("zrzh", c.getZrzh()).andEqualTo("ljzh",c.getLjzh()).andEqualTo("ch",c.getCh());
             List<H> hList=hMapper.selectByExample(exampleH);
             if(hList!=null&&hList.size()>0){

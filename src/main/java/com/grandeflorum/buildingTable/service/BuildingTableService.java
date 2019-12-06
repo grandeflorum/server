@@ -26,9 +26,13 @@ public interface BuildingTableService {
 
     ResponseBo getZRZById(String id);
 
+    ResponseBo deleteZRZ(String id);
+
     ResponseBo saveOrUpdateLJZ(LJZ ljz);
 
     ResponseBo getLJZById(String id);
+
+    ResponseBo deleteLJZ(String id);
 
     ResponseBo saveOrUpdateC(C c);
 

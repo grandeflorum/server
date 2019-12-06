@@ -37,6 +37,14 @@ public class ResultList {
     @Column(name="ID")
     private String id;
 
+    /**
+     * 数据来源1:备案系统数据，2：登记系统数据
+     */
+    @Column(name="DATASOURCE")
+    private Integer datasource;
+
+
+
 
     public String getId() {
         return id;
@@ -84,5 +92,13 @@ public class ResultList {
 
     public void setZmj(double zmj) {
         this.zmj = zmj;
+    }
+
+    public Integer getDatasource() {
+        return datasource;
+    }
+
+    public void setDatasource(Integer datasource) {
+        this.datasource = datasource;
     }
 }
