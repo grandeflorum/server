@@ -93,8 +93,11 @@ public class CompanyServiceImpl extends BaseService<Company> implements CompanyS
         PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
 
+
         //获取过滤条件
         systemUserService.getSelectInfo(map);
+
+
 
         List<Company> list = companyMapper.getCompanyList(map);
 

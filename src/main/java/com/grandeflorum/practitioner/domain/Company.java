@@ -80,7 +80,7 @@ public class Company {
     private Date pzsj;
 
     @Column(name = "YXQX")
-    private String yxqx;
+    private Date yxqx;
 
     @Column(name = "PZBM")
     private String pzbm;
@@ -427,18 +427,12 @@ public class Company {
         this.pzsj = pzsj;
     }
 
-    /**
-     * @return YXQX
-     */
-    public String getYxqx() {
+    public Date getYxqx() {
         return yxqx;
     }
 
-    /**
-     * @param yxqx
-     */
-    public void setYxqx(String yxqx) {
-        this.yxqx = yxqx == null ? null : yxqx.trim();
+    public void setYxqx(Date yxqx) {
+        this.yxqx = yxqx;
     }
 
     /**

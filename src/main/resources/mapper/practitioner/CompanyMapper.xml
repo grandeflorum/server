@@ -28,7 +28,7 @@
     <result column="ZZZSH" jdbcType="VARCHAR" property="zzzsh" />
     <result column="ZZDJ" jdbcType="DECIMAL" property="zzdj" />
     <result column="PZSJ" jdbcType="TIMESTAMP" property="pzsj" />
-    <result column="YXQX" jdbcType="VARCHAR" property="yxqx" />
+    <result column="YXQX" jdbcType="TIMESTAMP" property="yxqx" />
     <result column="PZBM" jdbcType="VARCHAR" property="pzbm" />
     <result column="BZ" jdbcType="OTHER" property="bz" />
     <result column="SYS_DATE" jdbcType="TIMESTAMP" property="sysDate" />
