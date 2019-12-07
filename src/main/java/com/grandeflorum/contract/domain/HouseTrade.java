@@ -107,6 +107,13 @@ public class HouseTrade {
     @Column(name = "JYFS")
     public Integer jyfs;
 
+    /**
+     * 登记人
+     */
+    @Column(name="DJR")
+    public String djr;
+
+
     public List<WFAudit>  wfAuditList;
 
     /**
@@ -148,6 +155,15 @@ public class HouseTrade {
      */
     @Transient
     private String fh;
+
+
+    public String getDjr() {
+        return djr;
+    }
+
+    public void setDjr(String djr) {
+        this.djr = djr;
+    }
 
     public String getId() {
         return id;

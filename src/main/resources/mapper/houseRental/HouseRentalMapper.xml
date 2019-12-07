@@ -35,6 +35,12 @@
   <select id="getHouseRentalList" parameterType="map" resultMap="listMap">
 select t.id,t.serialnumber,t.linker,r.name regionname,t.area,t.rental,t.houseage from house_rental t
 left join sys_region r on t.regioncode = r.code
+      <if test="needFilter">
+          left join h on h.id = t.house_id
+          left join zrz t2 on h.zrzh=t2.zrzh
+          left join project p on p.ID = t2.XMID
+          left join ASSOCIATED_COMPANY ac on ac.ASSOCIATEDID=t.id and ac.MODULENAME='houseRental'
+      </if>
 where 1=1
     <if test="regioncode !=null and regioncode != ''">
       and instr(t.regioncode,#{regioncode})>0
@@ -51,6 +57,19 @@ where 1=1
     <if test="isdecorated != null and isdecorated != ''">
       and t.isdecorated = #{isdecorated}
     </if>
+      <if test="needFilter">
+          and (
+          p.COMPANY_ID in
+          <foreach collection="companyList" item="item" open="(" close=")" separator=",">
+              #{item}
+          </foreach>
+          or ac.COMPANYID in
+          <foreach collection="companyList" item="item" open="(" close=")" separator=",">
+              #{item}
+          </foreach>
+          or t.DJR=#{userId}
+          )
+      </if>
 
 
       <choose>

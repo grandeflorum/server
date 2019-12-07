@@ -2,15 +2,19 @@ package com.grandeflorum.zddy.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.grandeflorum.common.cache.EHCacheUtils;
 import com.grandeflorum.common.domain.Page;
 import com.grandeflorum.common.domain.PagingEntity;
 import com.grandeflorum.common.domain.ResponseBo;
 import com.grandeflorum.common.service.impl.BaseService;
 import com.grandeflorum.common.util.GuidHelper;
 import com.grandeflorum.common.util.StrUtil;
+import com.grandeflorum.system.domain.SystemUser;
+import com.grandeflorum.system.service.SystemUserService;
 import com.grandeflorum.zddy.dao.ZddyMapper;
 import com.grandeflorum.zddy.domain.Zddy;
 import com.grandeflorum.zddy.service.ZddyService;
+import net.sf.ehcache.CacheManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,9 +32,15 @@ public class ZddyServiceImpl extends BaseService<Zddy> implements ZddyService {
     @Autowired
     ZddyMapper zddyMapper;
 
+    @Autowired
+    private CacheManager cacheManager;
+
+    @Autowired
+    SystemUserService systemUserService;
+
     @Override
     public ResponseBo SaveOrUpdateZddy(Zddy dy){
-
+        SystemUser user = EHCacheUtils.getCurrentUser(cacheManager);
 
         dy.setSysUpdDate(new Date());
 
@@ -40,6 +50,11 @@ public class ZddyServiceImpl extends BaseService<Zddy> implements ZddyService {
             dy.setSysDate(new Date());
 
             dy.setDyType((short)0);
+
+            if(user!=null){
+                dy.setDjr(user.getId());
+            }
+
             zddyMapper.insert(dy);
 
             return ResponseBo.ok(dy.getId());
@@ -60,6 +75,10 @@ public class ZddyServiceImpl extends BaseService<Zddy> implements ZddyService {
 
         PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
+
+        //获取过滤条件
+        systemUserService.getSelectInfo(map);
+
         List<Zddy> list = zddyMapper.getZddyList(map);
 
         PageInfo<Zddy> pageInfo = new PageInfo<Zddy>(list);

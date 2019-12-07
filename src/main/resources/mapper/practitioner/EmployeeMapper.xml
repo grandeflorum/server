@@ -66,6 +66,12 @@
     <if test="companyId!=null and companyId!=''">
       and e.COMPANY_ID = #{companyId}
     </if>
+    <if test="needFilter">
+      and e.COMPANY_ID in
+      <foreach collection="companyList" item="item" open="(" close=")" separator=",">
+        #{item}
+      </foreach>
+    </if>
     <choose>
       <when test="sort!=null and sort.size()>0">
         <foreach collection="sort" item="item" open="order by " separator=",">

@@ -29,6 +29,7 @@
         <result column="SYS_UPD_DATE" jdbcType="TIMESTAMP" property="sysUpdDate"/>
         <result column="BDCQZH" jdbcType="VARCHAR" property="bdcqzh"/>
         <result column="DJSJ" jdbcType="TIMESTAMP" property="djsj"/>
+        <result column="DJR" jdbcType="VARCHAR" property="djr"/>
     </resultMap>
 
     <resultMap id="listMap" type="com.grandeflorum.contract.domain.StockTrade" extends="BaseResultMap">
@@ -46,6 +47,10 @@
         left join h t on hst.houseid=t.id
         left join ljz t1 on t.ljzh=t1.ljzh
         left join zrz t2 on t1.zrzh=t2.zrzh
+        <if test="needFilter">
+            left join project p on p.ID = t2.XMID
+            left join ASSOCIATED_COMPANY ac on ac.ASSOCIATEDID=hst.id and ac.MODULENAME='stockTrade'
+        </if>
         where 1=1 and  nvl(hst.iscancel,0)!=1
         <if test="jzwmc!=null and jzwmc != ''">
             and (t2.jzwmc like '%'||#{jzwmc}||'%' )
@@ -55,6 +60,19 @@
         </if>
         <if test="currentStatus!=null and currentStatus != ''">
             and hst.currentStatus=#{currentStatus}
+        </if>
+        <if test="needFilter">
+            and (
+              p.COMPANY_ID in
+            <foreach collection="companyList" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+              or ac.COMPANYID in
+            <foreach collection="companyList" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+            or hst.DJR=#{userId}
+            )
         </if>
         <if test="sort!=null and sort.size()>0">
             <foreach collection="sort" item="item" open="order by " separator=",">

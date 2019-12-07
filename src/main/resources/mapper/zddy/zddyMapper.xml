@@ -41,6 +41,7 @@
     <result column="DY_TYPE" jdbcType="DECIMAL" property="dyType" />
     <result column="ZRZH" jdbcType="VARCHAR" property="zrzh"/>
     <result column="LJZH" jdbcType="VARCHAR" property="ljzh"/>
+    <result column="DJR" jdbcType="VARCHAR" property="djr"/>
   </resultMap>
 
 <select id="getZddyList" parameterType="map" resultType="com.grandeflorum.zddy.domain.ZddyList">
@@ -51,7 +52,17 @@ select m.id,m.bdcdyh,m.dybdclxName,m.dyfsName,m.zjjzwzl,m.dy_type dyType,m.zmj
   else 0 end zmj,t.SYS_UPD_DATE,t.dybdclx
 from zddy t
   left join dictionary d1 on d1.code = t.dybdclx and d1.type='dybdclx'
-  left join dictionary d2 on d2.code = t.dyfs and d2.type = 'dylx')m where 1=1
+  left join dictionary d2 on d2.code = t.dyfs and d2.type = 'dylx'
+  <if test="needFilter">
+    left join zrz on zrz.ZRZH = t.ZRZH
+    left join PROJECT p on p.id = zrz.XMID
+    where p.COMPANY_ID in
+    <foreach collection="companyList" item="item" open="(" close=")" separator=",">
+      #{item}
+    </foreach>
+    or t.DJR=#{userId}
+  </if>
+    )m where 1=1
 
   <if test="bdcdyh != null and bdcdyh != ''">
     and instr(m.bdcdyh,#{bdcdyh})>0

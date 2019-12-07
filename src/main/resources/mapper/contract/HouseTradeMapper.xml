@@ -21,6 +21,7 @@
         <result column="CONTRACTID" jdbcType="VARCHAR" property="contractId"/>
         <result column="SYS_DATE" jdbcType="TIMESTAMP" property="sysDate"/>
         <result column="SYS_UPD_DATE" jdbcType="TIMESTAMP" property="sysUpdDate"/>
+        <result column="DJR" jdbcType="VARCHAR" property="djr"/>
     </resultMap>
 
     <resultMap id="listMap" type="com.grandeflorum.contract.domain.HouseTrade" extends="BaseResultMap">
@@ -38,6 +39,10 @@
         left join h t on hnt.houseid=t.id
         left join ljz t1 on t.ljzh=t1.ljzh
         left join zrz t2 on t1.zrzh=t2.zrzh
+        <if test="needFilter">
+            left join project p on p.ID = t2.XMID
+            left join ASSOCIATED_COMPANY ac on ac.ASSOCIATEDID=hnt.id and ac.MODULENAME='houseTrade'
+        </if>
         where 1=1 and nvl(hnt.iscancel,0)!=1
         <if test="jzwmc!=null and jzwmc != ''">
             and (t2.jzwmc like '%'||#{jzwmc}||'%' )
@@ -47,6 +52,19 @@
         </if>
         <if test="currentStatus!=null and currentStatus != ''">
             and hnt.currentStatus=#{currentStatus}
+        </if>
+        <if test="needFilter">
+            and (
+              p.COMPANY_ID in
+            <foreach collection="companyList" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+              or ac.COMPANYID in
+            <foreach collection="companyList" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+              or hnt.DJR=#{userId}
+            )
         </if>
         <if test="sort!=null and sort.size()>0">
             <foreach collection="sort" item="item" open="order by " separator=",">

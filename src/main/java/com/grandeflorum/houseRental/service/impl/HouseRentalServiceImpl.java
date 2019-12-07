@@ -2,6 +2,7 @@ package com.grandeflorum.houseRental.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.grandeflorum.common.cache.EHCacheUtils;
 import com.grandeflorum.common.domain.Page;
 import com.grandeflorum.common.domain.PagingEntity;
 import com.grandeflorum.common.domain.ResponseBo;
@@ -12,7 +13,10 @@ import com.grandeflorum.houseRental.dao.HouseRentalMapper;
 import com.grandeflorum.houseRental.domain.HouseRental;
 import com.grandeflorum.houseRental.domain.HouseRentalExtend;
 import com.grandeflorum.houseRental.service.HouseRentalService;
+import com.grandeflorum.system.domain.SystemUser;
 import com.grandeflorum.system.service.SysRegionService;
+import com.grandeflorum.system.service.SystemUserService;
+import net.sf.ehcache.CacheManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,16 +38,26 @@ public class HouseRentalServiceImpl extends BaseService<HouseRental> implements 
     @Autowired
     SysRegionService sysRegionService;
 
+    @Autowired
+    private CacheManager cacheManager;
+
+    @Autowired
+    SystemUserService systemUserService;
+
     @Override
     public ResponseBo SaveOrUpdateHouseRental(HouseRental houseRental){
 
-
+        SystemUser user = EHCacheUtils.getCurrentUser(cacheManager);
         houseRental.setSysUpdDate(new Date());
 
         //新增
         if(StrUtil.isNullOrEmpty(houseRental.getId())){
             houseRental.setId(GuidHelper.getGuid());
             houseRental.setSysDate(new Date());
+
+            if(user!=null){
+                houseRental.setDjr(user.getId());
+            }
 
             //房屋出租编号
             String num = houseRental.getRegioncode();
@@ -73,6 +87,9 @@ public class HouseRentalServiceImpl extends BaseService<HouseRental> implements 
 
         PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
+
+        //获取过滤条件
+        systemUserService.getSelectInfo(map);
 
         if(map.containsKey("regioncode")) {
             String code = sysRegionService.getFilterCode(map.get("regioncode").toString());

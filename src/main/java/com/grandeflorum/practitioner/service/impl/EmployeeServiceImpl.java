@@ -13,6 +13,7 @@ import com.grandeflorum.practitioner.dao.EmployeeMapper;
 import com.grandeflorum.practitioner.domain.Employee;
 import com.grandeflorum.practitioner.domain.EmployeeList;
 import com.grandeflorum.practitioner.service.EmployeeService;
+import com.grandeflorum.system.service.SystemUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,9 @@ public class EmployeeServiceImpl extends BaseService<Employee> implements Employ
 
     @Autowired
     FileInfoService fileInfoService;
+
+    @Autowired
+    SystemUserService systemUserService;
 
     @Override
     public int addEmployee(Employee employee) {
@@ -74,6 +78,10 @@ public class EmployeeServiceImpl extends BaseService<Employee> implements Employ
     public ResponseBo getEmployeeList(Page page) {
         PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
+
+        //获取过滤条件
+        systemUserService.getSelectInfo(map);
+
         List<EmployeeList> list = employeeMapper.getEmployeeList(map);
 
         PageInfo<EmployeeList> pageInfo = new PageInfo<EmployeeList>(list);

@@ -69,8 +69,24 @@ public class HouseRental {
     @Column(name = "SYS_UPD_DATE")
     private Date sysUpdDate;
 
+    /**
+     * 登记人
+     */
+    @Column(name="DJR")
+    public String djr;
+
     @Transient
     private String ljzid;
+
+
+    public String getDjr() {
+        return djr;
+    }
+
+    public void setDjr(String djr) {
+        this.djr = djr;
+    }
+
     /**
      * @return ID
      */

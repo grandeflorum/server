@@ -6,6 +6,7 @@ import com.github.pagehelper.PageInfo;
 import com.grandeflorum.StockHouse.dao.RelationShipMapper;
 import com.grandeflorum.StockHouse.domin.RelationShip;
 import com.grandeflorum.attachment.service.FileInfoService;
+import com.grandeflorum.common.cache.EHCacheUtils;
 import com.grandeflorum.common.config.GrandeflorumProperties;
 import com.grandeflorum.common.domain.Page;
 import com.grandeflorum.common.domain.PagingEntity;
@@ -25,7 +26,10 @@ import com.grandeflorum.project.domain.AuditParam;
 import com.grandeflorum.project.domain.Project;
 import com.grandeflorum.project.domain.WFAudit;
 
+import com.grandeflorum.system.domain.SystemUser;
 import com.grandeflorum.system.service.SystemDictionaryService;
+import com.grandeflorum.system.service.SystemUserService;
+import net.sf.ehcache.CacheManager;
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,6 +84,12 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
 
     @Autowired
     SystemDictionaryService systemDictionaryService;
+
+    @Autowired
+    private CacheManager cacheManager;
+
+    @Autowired
+    SystemUserService systemUserService;
 
     @Override
     public ResponseBo getHouseTradeHistory(String id){
@@ -223,11 +233,17 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
     @Override
     @Transactional
     public HouseTrade saveOrUpdateHouseTrade(HouseTrade houseTrade) {
+
+        SystemUser user = EHCacheUtils.getCurrentUser(cacheManager);
+
         if (houseTrade.getId() == null) {
             houseTrade.setId(GuidHelper.getGuid());
             houseTrade.setCurrentStatus(0);
             houseTrade.setSysDate(new Date());
             houseTrade.setSysUpdDate(new Date());
+            if(user!=null){
+                houseTrade.setDjr(user.getId());
+            }
             houseTradeMapper.insert(houseTrade);
         } else {
             houseTrade.setSysUpdDate(new Date());
@@ -270,6 +286,10 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
     public ResponseBo getHouseTradeList(Page page) {
         PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
+
+        //获取过滤条件
+        systemUserService.getSelectInfo(map);
+
         List<HouseTrade> list = houseTradeMapper.getHouseTradeList(map);
 
         PageInfo<HouseTrade> pageInfo = new PageInfo<HouseTrade>(list);

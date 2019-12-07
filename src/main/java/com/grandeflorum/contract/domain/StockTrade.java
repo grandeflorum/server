@@ -126,6 +126,12 @@ public class StockTrade {
     public Date sysUpdDate;
 
     /**
+     * 登记人
+     */
+    @Column(name="DJR")
+    public String djr;
+
+    /**
      * 流程信息
      */
     public List<WFAudit> wfAuditList;
@@ -194,6 +200,14 @@ public class StockTrade {
      */
     @Column(name = "DJSJ")
     public Date djsj;
+
+    public String getDjr() {
+        return djr;
+    }
+
+    public void setDjr(String djr) {
+        this.djr = djr;
+    }
 
     public String getId() {
         return id;

@@ -115,6 +115,22 @@ public class Zddy {
     @Column(name = "LJZH")
     private String ljzh;
 
+
+    /**
+     * 登记人
+     */
+    @Column(name="DJR")
+    public String djr;
+
+
+    public String getDjr() {
+        return djr;
+    }
+
+    public void setDjr(String djr) {
+        this.djr = djr;
+    }
+
     /**
      * @return ID
      */

@@ -6,6 +6,7 @@ import com.github.pagehelper.PageInfo;
 import com.grandeflorum.StockHouse.dao.RelationShipMapper;
 import com.grandeflorum.StockHouse.domin.RelationShip;
 import com.grandeflorum.attachment.service.FileInfoService;
+import com.grandeflorum.common.cache.EHCacheUtils;
 import com.grandeflorum.common.config.GrandeflorumProperties;
 import com.grandeflorum.common.domain.Page;
 import com.grandeflorum.common.domain.PagingEntity;
@@ -22,7 +23,10 @@ import com.grandeflorum.contract.service.StockTradeService;
 import com.grandeflorum.project.dao.WFAuditMapper;
 import com.grandeflorum.project.domain.AuditParam;
 import com.grandeflorum.project.domain.WFAudit;
+import com.grandeflorum.system.domain.SystemUser;
 import com.grandeflorum.system.service.SystemDictionaryService;
+import com.grandeflorum.system.service.SystemUserService;
+import net.sf.ehcache.CacheManager;
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +72,12 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
 
     @Autowired
     SystemDictionaryService systemDictionaryService;
+
+    @Autowired
+    private CacheManager cacheManager;
+
+    @Autowired
+    SystemUserService systemUserService;
 
     @Override
     public ResponseBo getStockTradeHistory(String id){
@@ -158,11 +168,19 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
     @Override
     @Transactional
     public StockTrade saveOrUpdateStockTrade(StockTrade stockTrade) {
+
+        SystemUser user = EHCacheUtils.getCurrentUser(cacheManager);
+
         if (stockTrade.getId() == null) {
             stockTrade.setId(GuidHelper.getGuid());
             stockTrade.setCurrentStatus(0);
             stockTrade.setSysDate(new Date());
             stockTrade.setSysUpdDate(new Date());
+
+            if(user!=null){
+                stockTrade.setDjr(user.getId());
+            }
+
             stockTradeMapper.insert(stockTrade);
         } else {
             stockTrade.setSysUpdDate(new Date());
@@ -206,6 +224,10 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
     public ResponseBo getStockTradeList(Page page) {
         PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
+
+        //获取过滤条件
+        systemUserService.getSelectInfo(map);
+
         List<StockTrade> list = stockTradeMapper.getStockTradeList(map);
 
         PageInfo<StockTrade> pageInfo = new PageInfo<StockTrade>(list);

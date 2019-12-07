@@ -51,6 +51,8 @@ public class SystemUserServiceImpl extends BaseService<SystemUser> implements Sy
 
     @Autowired
     private CacheManager cacheManager;
+
+    @Autowired
     SystemUserRoleMapper systemUserRoleMapper;
 
     @Autowired
@@ -229,6 +231,8 @@ public class SystemUserServiceImpl extends BaseService<SystemUser> implements Sy
         map.put("needFilter",false);
 
         SystemUser user = EHCacheUtils.getCurrentUser(cacheManager);
+
+        map.put("userId",user.getId());
 
         List<String> roles = user.getRoles();
 
