@@ -25,8 +25,8 @@ public class StockHouseController {
      */
     @PostMapping("/saveOrUpdateStockHouse")
     public ResponseBo saveOrUpdateStockHouse(@RequestBody StockHouse stockHouse ) {
-        String projectId = stockHouseService.saveOrUpdateStockHouse(stockHouse);
-        return ResponseBo.ok(projectId);
+        StockHouse stockHouse1 = stockHouseService.saveOrUpdateStockHouse(stockHouse);
+        return ResponseBo.ok(stockHouse1);
     }
 
     /**

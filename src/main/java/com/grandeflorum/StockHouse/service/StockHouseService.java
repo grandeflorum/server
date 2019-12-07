@@ -8,7 +8,7 @@ import com.grandeflorum.project.domain.AuditParam;
 
 public interface StockHouseService  extends IService<StockHouse> {
     // 保持或更新存量房源
-    String saveOrUpdateStockHouse(StockHouse stockHouse );
+    StockHouse saveOrUpdateStockHouse(StockHouse stockHouse );
 
     // 获取存量房源信息
     ResponseBo getStockHouseById(String id);

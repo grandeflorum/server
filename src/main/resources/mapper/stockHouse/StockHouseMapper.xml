@@ -8,17 +8,19 @@
         <id column="ID" jdbcType="VARCHAR" property="id"/>
         <result column="CQRXM" jdbcType="VARCHAR" property="cqrxm"/>
         <result column="ADDRESS" jdbcType="VARCHAR" property="address"/>
+        <result column="FX" jdbcType="DECIMAL" property="fx"/>
+        <result column="JZMJ" jdbcType="DECIMAL" property="jzmj"/>
         <result column="AUDIT_TYPE" jdbcType="DECIMAL" property="auditType"/>
     </resultMap>
 
     <!--获取存量房源查询列表-->
     <select id="getStockHouseList" resultMap="BaseResultMap">
-        select * from StockHouse p where 1=1
+        select * from FG_H p where 1=1 and isnewstock=2
         <if test="cqrxm!=null and cqrxm != ''">
             and (p.cqrxm like '%'||#{cqrxm}||'%' )
         </if>
         <if test="address!=null and address != ''">
-            and (p.address like '%'||#{address}||'%' )
+            and (p.address like '%'||#{address}||'%' or p.zl like '%'||#{address}||'%')
         </if>
         <if test="auditType!=null and auditType != ''">
             and p.audit_type=#{auditType}
@@ -70,7 +72,7 @@
     </insert>
 
     <update id="auditStockHouseById" parameterType="map">
-        update stockhouse t set t.audit_type = #{type} WHERE  t.id = #{id}
+        update FG_H t set t.audit_type = #{type} WHERE  t.id = #{id}
     </update>
 
 </mapper>

@@ -38,9 +38,35 @@ public class StockHouseServiceImpl extends BaseService<StockHouse> implements St
 
     @Override
     @Transactional
-    public String saveOrUpdateStockHouse(StockHouse stockHouse) {
+    public StockHouse saveOrUpdateStockHouse(StockHouse stockHouse) {
         if (stockHouse.getId() == null) {
+
+            if(stockHouse.getZrzh()==null){
+                stockHouse.setZrzh(" ");
+            }
+            if(stockHouse.getLjzh()==null){
+                stockHouse.setLjzh(" ");
+            }
+            if(stockHouse.getCh()==null){
+                stockHouse.setCh(0);
+            }
+            if(stockHouse.getZl()==null){
+                stockHouse.setZl(" ");
+            }
+            if(stockHouse.getMjdw()==null){
+                stockHouse.setMjdw(" ");
+            }
+            if(stockHouse.getHh()==null){
+                stockHouse.setHh(0);
+            }
+            if(stockHouse.getZt()==null){
+                stockHouse.setZt("1");
+            }
+            if(stockHouse.getQxdm()==null){
+                stockHouse.setQxdm("361129");
+            }
             stockHouse.setId(GuidHelper.getGuid());
+            stockHouse.setIsnewstock(2);
             stockHouse.setAuditType(0);
             stockHouse.setSysDate(new Date());
             stockHouse.setSysUpdDate(new Date());
@@ -55,13 +81,13 @@ public class StockHouseServiceImpl extends BaseService<StockHouse> implements St
         if (stockHouse.getRelationShips() != null && stockHouse.getRelationShips().size() > 0) {
             for (RelationShip relationShip : stockHouse.getRelationShips()) {
                 relationShip.setId(GuidHelper.getGuid());
-                relationShip.setProjectId(stockHouse.id);
+                relationShip.setProjectId(stockHouse.getId());
                 relationShip.setSysDate(new Date());
                 relationShip.setSysUpdDate(new Date());
                 relationShipMapper.insert(relationShip);
             }
         }
-        return stockHouse.getId();
+        return stockHouse;
     }
 
     @Override
