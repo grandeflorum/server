@@ -16,6 +16,7 @@
         <result column="LXDZ" jdbcType="VARCHAR" property="lxdz"/>
         <result column="YSXKZ" jdbcType="VARCHAR" property="ysxkz"/>
         <result column="ISPASS" jdbcType="DECIMAL" property="isPass"/>
+        <result column="ISCANCEL" jdbcType="DECIMAL" property="isCancel"/>
         <result column="CURRENTSTATUS" jdbcType="DECIMAL" property="currentStatus"/>
         <result column="HOUSEID" jdbcType="VARCHAR" property="houseId"/>
         <result column="CONTRACTID" jdbcType="VARCHAR" property="contractId"/>
@@ -79,9 +80,9 @@
 
     <!--获取商品房注销查询列表-->
     <select id="getHouseTradeCancelList" resultType="com.grandeflorum.contract.domain.ContractCancel">
-        select hnt.id as id, hnt.htbah,hnt.lxdz as zl, hnt.buyer as cqr, hnt.buyer as gmr,wa.shrq as zxrq,wa.zxly from house_new_trade hnt
+        select hnt.id as id, hnt.htbah,hnt.lxdz as zl, hnt.buyer as cqr, hnt.buyer as gmr,wa.shrq as zxrq,wa.zxly,hnt.iscancel as status from house_new_trade hnt
         left join wf_audit wa on hnt.id=wa.projectid
-        where hnt.iscancel=1 and wa.currentstatus=5
+        where hnt.iscancel in (1,2) and wa.currentstatus=5
         <if test="htbah!=null and htbah != ''">
             and (hnt.htbah like '%'||#{htbah}||'%' )
         </if>

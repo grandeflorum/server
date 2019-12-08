@@ -3,7 +3,7 @@ package com.grandeflorum.contract.domain;
 import java.util.Date;
 
 /**
- * 合同注销列表
+ * 合同历史列表
  */
 public class ContractCancel {
     /**
@@ -23,13 +23,18 @@ public class ContractCancel {
      */
     public String gmr;
     /**
-     * 注销日期
+     * 日期
      */
     public Date zxrq;
     /**
-     * 注销理由
+     * 理由
      */
     public String zxly;
+
+    /**
+     * 状态 1 注销 2变更
+     */
+    public int status;
 
     public String getId() {
         return id;
@@ -77,5 +82,13 @@ public class ContractCancel {
 
     public void setZxly(String zxly) {
         this.zxly = zxly;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

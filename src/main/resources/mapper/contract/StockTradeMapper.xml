@@ -31,6 +31,7 @@
         <result column="DJSJ" jdbcType="TIMESTAMP" property="djsj"/>
         <result column="DJR" jdbcType="VARCHAR" property="djr"/>
         <result column="BASJ" jdbcType="TIMESTAMP" property="basj"/>
+        <result column="ISCANCEL" jdbcType="DECIMAL" property="isCancel"/>
     </resultMap>
 
     <resultMap id="listMap" type="com.grandeflorum.contract.domain.StockTrade" extends="BaseResultMap">
@@ -87,9 +88,9 @@
 
     <!--获取商品房注销查询列表-->
     <select id="getStockTradeCancelList" resultType="com.grandeflorum.contract.domain.ContractCancel">
-        select hst.id as id, hst.htbah,hst.jflxdz as zl, hst.jf as cqr, hst.yf as gmr,wa.shrq as zxrq,wa.zxly from house_stock_trade hst
+        select hst.id as id, hst.htbah,hst.jflxdz as zl, hst.jf as cqr, hst.yf as gmr,wa.shrq as zxrq,wa.zxly,hst.iscancel as status from house_stock_trade hst
         left join wf_audit wa on hst.id=wa.projectid
-        where hst.iscancel=1 and wa.currentstatus=5
+        where hst.iscancel in (1,2) and wa.currentstatus=5
         <if test="htbah!=null and htbah != ''">
             and (hst.htbah like '%'||#{htbah}||'%' )
         </if>

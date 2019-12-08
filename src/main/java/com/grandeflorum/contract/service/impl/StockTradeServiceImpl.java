@@ -117,9 +117,16 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
                 if(wf.getFileInfoList()!=null&&wf.getFileInfoList().size()>0){
                     fileInfoService.updateFileInfoByIds(wf.getFileInfoList(),wfAudit.getId());
                 }
+
+                if(stockTrade.getCurrentStatus()==4){
+                    stockTrade.setBasj(new Date());
+                }
                 //合同为已备案状态后可修改为已注销
                 if(stockTrade.getCurrentStatus()==5){
                     stockTrade.setIsCancel(1);
+                    if(auditParam.getStatus()==2){
+                        stockTrade.setIsCancel(2);
+                    }
                 }else{
                     if(wfAudit.getShjg()==1){
                         stockTrade.setIsPass(1);
