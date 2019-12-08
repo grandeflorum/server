@@ -124,15 +124,15 @@
         <result column="LJZH" jdbcType="VARCHAR" property="ljzh" />
         <result column="CH" jdbcType="DECIMAL" property="ch" />
         <result column="ZL" jdbcType="VARCHAR" property="zl" />
-        <result column="MJDW" jdbcType="VARCHAR" property="mjdw" />
+        <result column="MJDW" jdbcType="DECIMAL" property="mjdw" />
         <result column="SJCS" jdbcType="DECIMAL" property="sjcs" />
         <result column="HH" jdbcType="DECIMAL" property="hh" />
         <result column="SHBW" jdbcType="VARCHAR" property="shbw" />
-        <result column="HX" jdbcType="VARCHAR" property="hx" />
-        <result column="HXJG" jdbcType="VARCHAR" property="hxjg" />
-        <result column="FWYT1" jdbcType="VARCHAR" property="fwyt1" />
-        <result column="FWYT2" jdbcType="VARCHAR" property="fwyt2" />
-        <result column="FWYT3" jdbcType="VARCHAR" property="fwyt3" />
+        <result column="HX" jdbcType="DECIMAL" property="hx" />
+        <result column="HXJG" jdbcType="DECIMAL" property="hxjg" />
+        <result column="FWYT1" jdbcType="DECIMAL" property="fwyt1" />
+        <result column="FWYT2" jdbcType="DECIMAL" property="fwyt2" />
+        <result column="FWYT3" jdbcType="DECIMAL" property="fwyt3" />
         <result column="YCJZMJ" jdbcType="DECIMAL" property="ycjzmj" />
         <result column="YCTNJZMJ" jdbcType="DECIMAL" property="yctnjzmj" />
         <result column="YCFTJZMJ" jdbcType="DECIMAL" property="ycftjzmj" />

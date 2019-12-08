@@ -59,9 +59,9 @@ public class StockHouseServiceImpl extends BaseService<StockHouse> implements St
             if(stockHouse.getZl()==null){
                 stockHouse.setZl(" ");
             }
-            if(stockHouse.getMjdw()==null){
-                stockHouse.setMjdw(" ");
-            }
+//            if(stockHouse.getMjdw()==null){
+//                stockHouse.setMjdw(" ");
+//            }
             if(stockHouse.getHh()==null){
                 stockHouse.setHh(0);
             }
@@ -130,11 +130,20 @@ public class StockHouseServiceImpl extends BaseService<StockHouse> implements St
         WFAudit wf = param.getWfAudit();
         for (String id : param.ids) {
             //更新项目表信息
-            if(param.getWfAudit().getShjg()==1){
-                auditStockHouseById(id, 2);
-            }else{
-                auditStockHouseById(id, 3);
+            if(param.getType()==0){
+                if(param.getWfAudit().getShjg()==1){
+                    auditStockHouseById(id, 2);
+                }else{
+                    auditStockHouseById(id, 3);
+                }
+            }else if(param.getType() == 1){
+                if(param.getWfAudit().getShjg()==1){
+                    auditStockHouseById(id, 4);
+                }else{
+                    auditStockHouseById(id, 3);
+                }
             }
+
 
             //添加或更新审核表信息
             WFAudit wfAudit = new WFAudit();

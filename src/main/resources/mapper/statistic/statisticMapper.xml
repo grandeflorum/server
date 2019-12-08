@@ -70,10 +70,10 @@
 
     <sql id="BasjFilter">
         <if test="kssj!=null and kssj!=''">
-            and <![CDATA[ basj >= #{kssj,jdbcType=DATE}  ]]>
+            and <![CDATA[ basj >= to_date(#{kssj},'yyyy-mm-dd')  ]]>
         </if>
           <if test="jssj!=null and jssj!=''">
-              and <![CDATA[ basj >= #{jssj,jdbcType=DATE}  ]]>
+              and <![CDATA[ basj <= to_date(#{jssj},'yyyy-mm-dd')  ]]>
           </if>
     </sql>
     
@@ -82,7 +82,7 @@
             left join company c on p.company_id = c.id
             left join zrz z on z.xmid = p.id
             left join h on h.ZRZH = z.ZRZH
-            left join dictionary d on d.code = p.xmyt and d.type='xmyt'
+            left join dictionary d on d.code = p.xmyt and d.type='fwyt'
             left join (select hnt.houseid, hnt.zj,hnt.dj
             from house_new_trade hnt
             where hnt.currentstatus = 5
