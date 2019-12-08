@@ -30,6 +30,7 @@
         <result column="BDCQZH" jdbcType="VARCHAR" property="bdcqzh"/>
         <result column="DJSJ" jdbcType="TIMESTAMP" property="djsj"/>
         <result column="DJR" jdbcType="VARCHAR" property="djr"/>
+        <result column="BASJ" jdbcType="TIMESTAMP" property="basj"/>
     </resultMap>
 
     <resultMap id="listMap" type="com.grandeflorum.contract.domain.StockTrade" extends="BaseResultMap">

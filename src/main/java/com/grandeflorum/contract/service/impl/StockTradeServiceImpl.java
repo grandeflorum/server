@@ -129,6 +129,10 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
                             stockTrade.setHtbah(this.houseTradeServiceIml.getHTBAH("StockTrade"));
                         }
 
+                        if(stockTrade.getCurrentStatus()==5){
+                            stockTrade.setBasj(new Date());
+                        }
+
                     }else if(wfAudit.getShjg()==2){
                         stockTrade.setIsPass(2);
                         StockTradeHistory history = new StockTradeHistory();

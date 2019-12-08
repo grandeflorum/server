@@ -201,6 +201,21 @@ public class StockTrade {
     @Column(name = "DJSJ")
     public Date djsj;
 
+    /**
+     * 办案时间
+     */
+    @Column(name="BASJ")
+    public Date basj;
+
+
+    public Date getBasj() {
+        return basj;
+    }
+
+    public void setBasj(Date basj) {
+        this.basj = basj;
+    }
+
     public String getDjr() {
         return djr;
     }

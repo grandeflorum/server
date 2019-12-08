@@ -140,6 +140,10 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
                             houseTrade.setHtbah(this.getHTBAH("HouseTrade"));
                         }
 
+                        if(houseTrade.getCurrentStatus()==5){
+                            houseTrade.setBasj(new Date());
+                        }
+
                     }else if(wfAudit.getShjg()==2){
                         houseTrade.setIsPass(2);
                         HouseTradeHistory history = new HouseTradeHistory();
