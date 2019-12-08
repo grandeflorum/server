@@ -31,6 +31,8 @@ public class GrandeflorumProperties {
 
     private String openoffice;
 
+    private String qrCodePath;
+
     public String getUploadFolder() {
         return uploadFolder;
     }
@@ -61,5 +63,13 @@ public class GrandeflorumProperties {
 
     public void setOpenoffice(String openoffice) {
         this.openoffice = openoffice;
+    }
+
+    public String getQrCodePath() {
+        return qrCodePath;
+    }
+
+    public void setQrCodePath(String qrCodePath) {
+        this.qrCodePath = qrCodePath;
     }
 }

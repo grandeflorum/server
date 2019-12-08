@@ -205,22 +205,24 @@ public class StatisticServiceImpl implements StatisticService {
             }else{
                 statisticValue.setHbFlag("None");
             }
+        }else{
+            BigDecimal b1 = new BigDecimal(num1);
+            BigDecimal b2 = new BigDecimal(num2);
+
+
+            b1 = b1.subtract(b2,new MathContext(2));
+
+            double rate = b1.divide(b2, 2, BigDecimal.ROUND_HALF_UP).doubleValue();
+
+            if(type ==1){
+                statisticValue.setTbFlag(rate>0?"Up":rate==0?"Equal":"Down");
+                statisticValue.setTs(Math.abs(rate));
+            }else {
+                statisticValue.setHbFlag(rate>0?"Up":rate==0?"Equal":"Down");
+                statisticValue.setHb(Math.abs(rate));
+            }
         }
-        BigDecimal b1 = new BigDecimal(num1);
-        BigDecimal b2 = new BigDecimal(num2);
 
-
-        b1 = b1.subtract(b2,new MathContext(2));
-
-        double rate = b1.divide(b2, 2, BigDecimal.ROUND_HALF_UP).doubleValue();
-
-        if(type ==1){
-            statisticValue.setTbFlag(rate>0?"Up":rate==0?"Equal":"Down");
-            statisticValue.setTs(Math.abs(rate));
-        }else {
-            statisticValue.setHbFlag(rate>0?"Up":rate==0?"Equal":"Down");
-            statisticValue.setHb(Math.abs(rate));
-        }
 
     }
 

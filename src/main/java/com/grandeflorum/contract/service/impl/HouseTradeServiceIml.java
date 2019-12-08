@@ -31,7 +31,11 @@ import com.grandeflorum.system.service.SystemDictionaryService;
 import com.grandeflorum.system.service.SystemUserService;
 import net.sf.ehcache.CacheManager;
 import org.apache.commons.io.FileUtils;
+import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.apache.poi.xwpf.usermodel.XWPFRun;
+import org.apache.xmlbeans.XmlCursor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -420,6 +424,9 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
 
             }else{
 
+                //生成二维码
+                QrCodeUtil.createQrCode(grandeflorumProperties.getQrCodePath(),sourcePath+"/",id+".png");
+
                 //读入流中
                 String path = this.getClass().getResource("/").getPath()+ "templates/"+name;
                 //新建一个word文档
@@ -430,6 +437,7 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
                 //企业
                 Company company =  houseTradeMapper.getCompanyByAssociatedId(id);
                 if(company!=null) {
+
                     params.put("cmr",company.getQymc());
                     params.put("txdz",NoNullString(company.getAddress()));
                     params.put("yzbm",NoNullString(company.getYzbm()));
