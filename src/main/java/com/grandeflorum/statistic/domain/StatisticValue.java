@@ -18,9 +18,37 @@ public class StatisticValue {
     private double ts;
 
     /**
+     * 面积
+     */
+    private double mj;
+
+    /**
+     * 名称
+     */
+    private String name;
+
+    /**
      * 行政区划名
      */
     private String regionName;
+
+
+    public double getMj() {
+        return mj;
+    }
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setMj(double mj) {
+        this.mj = mj;
+    }
 
     public String getDateValue() {
         return dateValue;

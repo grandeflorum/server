@@ -7,6 +7,7 @@ import org.aspectj.asm.internal.Relationship;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.util.Date;
 import java.util.List;
 
@@ -37,6 +38,12 @@ public class StockHouse extends H {
      */
     @Column(name = "JZMJ")
     public Double jzmj;
+
+    /**
+     * 逻辑幢id
+     */
+    @Transient
+    public String ljzid;
 //
 //    /**
 //     * 所属地区行政区划代码
@@ -643,4 +650,12 @@ public class StockHouse extends H {
 //    public void setFcfht(String fcfht) {
 //        this.fcfht = fcfht;
 //    }
+
+    public String getLjzid() {
+        return ljzid;
+    }
+
+    public void setLjzid(String ljzid) {
+        this.ljzid = ljzid;
+    }
 }

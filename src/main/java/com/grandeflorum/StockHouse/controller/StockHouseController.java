@@ -91,4 +91,15 @@ public class StockHouseController {
     public ResponseBo auditStockHouseById(String id,int type) {
         return stockHouseService.auditStockHouseById(id, type);
     }
+
+    /**
+     * 关联户
+     *
+     * @param
+     * @return
+     */
+    @GetMapping("/linkH")
+    public ResponseBo linkH(String ljzid,String hid) {
+        return stockHouseService.linkH(ljzid, hid);
+    }
 }

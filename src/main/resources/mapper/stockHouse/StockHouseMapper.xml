@@ -75,4 +75,14 @@
         update FG_H t set t.audit_type = #{type} WHERE  t.id = #{id}
     </update>
 
+    <update id="linkH" parameterType="map">
+        update FG_H t set t.zrzh = #{zrzh} ,t.ljzh=#{ljzh} WHERE  t.id = #{id}
+    </update>
+
+    <select id="getLjzh" parameterType="String" resultType="String">
+        select t1.id from h t
+        left join ljz t1 on t.LJZH = t1.LJZH
+        where t.id=#{id} and t1.zrzh=#{zrzh} and t1.ljzh=#{ljzh}
+    </select>
+
 </mapper>
