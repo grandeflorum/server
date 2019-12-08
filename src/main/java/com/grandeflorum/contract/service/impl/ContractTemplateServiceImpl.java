@@ -100,9 +100,13 @@ public class ContractTemplateServiceImpl extends BaseService<ContractTemplate> i
                 contractTemplate.setUploadDate(new Date());
                 if (type.equals("1")) {
                     contractTemplate.setType(1);
-                    contractTemplate.setName("商品房合同模板");
+                    contractTemplate.setName("商品房买卖合同（现售）模板");
                 } else if (type.equals("2")) {
                     contractTemplate.setType(2);
+                    contractTemplate.setName("商品房买卖合同（预售）模板");
+                }
+                else if (type.equals("3")) {
+                    contractTemplate.setType(3);
                     contractTemplate.setName("存量房合同模板");
                 }
                 contractTemplateMapper.insert(contractTemplate);
