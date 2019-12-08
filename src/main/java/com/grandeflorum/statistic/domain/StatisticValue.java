@@ -32,6 +32,26 @@ public class StatisticValue {
      */
     private String regionName;
 
+    /**
+     * 同比
+     */
+    private double tb;
+
+    /**
+     * 同比标志
+     */
+    private String tbFlag;
+
+    /**
+     * 环比
+     */
+    private double hb;
+
+    /**
+     * 环比标志
+     */
+    private String hbFlag;
+
 
     public double getMj() {
         return mj;
@@ -80,5 +100,38 @@ public class StatisticValue {
 
     public void setRegionName(String regionName) {
         this.regionName = regionName;
+    }
+
+    public double getTb() {
+        return tb;
+    }
+
+    public void setTb(double tb) {
+        this.tb = tb;
+    }
+
+
+    public double getHb() {
+        return hb;
+    }
+
+    public void setHb(double hb) {
+        this.hb = hb;
+    }
+
+    public String getTbFlag() {
+        return tbFlag;
+    }
+
+    public void setTbFlag(String tbFlag) {
+        this.tbFlag = tbFlag;
+    }
+
+    public String getHbFlag() {
+        return hbFlag;
+    }
+
+    public void setHbFlag(String hbFlag) {
+        this.hbFlag = hbFlag;
     }
 }

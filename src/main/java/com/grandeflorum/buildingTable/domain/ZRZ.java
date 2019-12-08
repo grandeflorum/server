@@ -143,6 +143,12 @@ public class ZRZ {
     @Transient
     private Integer datasource;
 
+    /**
+     * 审核状态(只有新建的数据有审核状态，登记系统同步过来的数据没有)
+     */
+    @Column(name = "AUDIT_TYPE")
+    public Integer auditType;
+
 
     /**
      * 逻辑幢集合
@@ -419,5 +425,13 @@ public class ZRZ {
 
     public void setDatasource(Integer datasource) {
         this.datasource = datasource;
+    }
+
+    public Integer getAuditType() {
+        return auditType;
+    }
+
+    public void setAuditType(Integer auditType) {
+        this.auditType = auditType;
     }
 }

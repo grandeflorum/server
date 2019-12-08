@@ -181,4 +181,13 @@ public class StatisticController {
         workbook.write(response.getOutputStream());
     }
 
+    /**
+     * 获取交易汇总统计
+     * @param map
+     * @return
+     */
+    @RequestMapping("/getTransactionSummaryStatistic")
+    public ResponseBo getTransactionSummaryStatistic(@RequestBody Map<String,Object> map) {
+        return statisticService.getTransactionSummaryStatistic(map);
+    }
 }

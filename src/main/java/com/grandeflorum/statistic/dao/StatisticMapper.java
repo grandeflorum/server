@@ -2,6 +2,7 @@ package com.grandeflorum.statistic.dao;
 
 import com.grandeflorum.statistic.domain.SalesStatisticInfo;
 import com.grandeflorum.statistic.domain.StatisticValue;
+import com.grandeflorum.statistic.domain.TransactionSummaryInfo;
 
 import java.util.List;
 import java.util.Map;
@@ -22,4 +23,6 @@ public interface StatisticMapper {
     List<StatisticValue> getTimeQueryStatistics(Map<String,Object> map);
 
     List<StatisticValue> getSummarySalesPurposes(Map<String,Object> map);
+
+    TransactionSummaryInfo getTransactionSummaryInfo(Map<String,Object> map);
 }

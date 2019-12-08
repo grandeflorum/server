@@ -154,4 +154,33 @@
         group by d.name order by ts desc
     </select>
 
+    <select id="getTransactionSummaryInfo" parameterType="map" resultType="com.grandeflorum.statistic.domain.TransactionSummaryInfo">
+
+        select
+        nvl(sum(case when t.currentstatus = 5 then  1 else 0 end),0) as AlreadySoldCount,
+        nvl(sum(case when t.currentstatus != 5 then  1 else 0 end),0) as UnsoldCount,
+        nvl(sum(case when t.currentstatus = 5 then t.SCJZMJ else 0 end),0) as AlreadySoldArea,
+        nvl(sum(case when t.currentstatus != 5 then t.SCJZMJ else 0 end),0) as UnsoldCountArea
+        from (
+        <if test="type=='new' or type=='all'">
+            select hnt.houseid
+            from house_new_trade hnt
+            where hnt.currentstatus = 5
+            and hnt.houseid is not null
+            <include refid="BasjFilter"></include>
+        </if>
+        <if test="type=='all'">
+            union all
+        </if>
+        <if test="type=='stock'">
+            select hst.houseid
+            from house_stock_trade hst
+            where hst.currentstatus = 5
+            and hst.houseid is not null
+            <include refid="BasjFilter"></include>
+        </if>
+        )t
+        left join h on h.id = t.houseid
+    </select>
+
 </mapper>
