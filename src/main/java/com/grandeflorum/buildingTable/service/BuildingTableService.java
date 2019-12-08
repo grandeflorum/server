@@ -6,6 +6,7 @@ import com.grandeflorum.buildingTable.domain.LJZ;
 import com.grandeflorum.buildingTable.domain.ZRZ;
 import com.grandeflorum.common.domain.Page;
 import com.grandeflorum.common.domain.ResponseBo;
+import com.grandeflorum.project.domain.AuditParam;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -49,6 +50,11 @@ public interface BuildingTableService {
     ResponseBo getChildHList(Page page);
 
     ResponseBo saveOrUpdateZRZandLJZ(ZRZ zrz);
+
+    //审核项目
+    ResponseBo auditZRZs(AuditParam param);
+
+    ResponseBo auditZRZById(String id,int type);
 
 
 }

@@ -8,6 +8,7 @@ import com.grandeflorum.buildingTable.domain.ZRZ;
 import com.grandeflorum.buildingTable.service.BuildingTableService;
 import com.grandeflorum.common.domain.Page;
 import com.grandeflorum.common.domain.ResponseBo;
+import com.grandeflorum.project.domain.AuditParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -201,6 +202,30 @@ public class BuildingTableController {
     @PostMapping("/saveOrUpdateZRZandLJZ")
     public ResponseBo saveOrUpdateZRZandLJZ(@RequestBody ZRZ zrz) {
         return buildingTableService.saveOrUpdateZRZandLJZ(zrz);
+    }
+
+    /**
+     * 审核项目
+     *
+     * @param param
+     * @return
+     */
+    @PostMapping("/auditZRZs")
+    public ResponseBo auditProjects(@RequestBody AuditParam param) {
+        if ((param.ids != null) && (param.ids.size() > 0)) {
+            buildingTableService.auditZRZs(param);
+        }
+        return ResponseBo.ok();
+    }
+    /**
+     * 提交审核
+     *
+     * @param
+     * @return
+     */
+    @GetMapping("/auditZRZById")
+    public ResponseBo auditZRZById(String id,int type) {
+        return buildingTableService.auditZRZById(id, type);
     }
 
 

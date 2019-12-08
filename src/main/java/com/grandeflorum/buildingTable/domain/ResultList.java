@@ -43,8 +43,11 @@ public class ResultList {
     @Column(name="DATASOURCE")
     private Integer datasource;
 
-
-
+    /**
+     * 数据来源1:备案系统数据，2：登记系统数据
+     */
+    @Column(name="AUDIT_TYPE")
+    private Integer auditType;
 
     public String getId() {
         return id;
@@ -100,5 +103,13 @@ public class ResultList {
 
     public void setDatasource(Integer datasource) {
         this.datasource = datasource;
+    }
+
+    public Integer getAuditType() {
+        return auditType;
+    }
+
+    public void setAuditType(Integer auditType) {
+        this.auditType = auditType;
     }
 }

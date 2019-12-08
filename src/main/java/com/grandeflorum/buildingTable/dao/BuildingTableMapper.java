@@ -31,4 +31,6 @@ public interface BuildingTableMapper {
 
     List<H> getChildHList (Map<String,Object> map);
 
+    void auditZRZById(Map<String,Object> map);
+
 }
