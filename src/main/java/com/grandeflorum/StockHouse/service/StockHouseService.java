@@ -21,4 +21,7 @@ public interface StockHouseService  extends IService<StockHouse> {
 
     //提交审核
     ResponseBo auditStockHouseById(String id,int type);
+
+    //关联户
+    ResponseBo linkH(String ljzid,String hid);
 }

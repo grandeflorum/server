@@ -7,6 +7,9 @@ import com.grandeflorum.StockHouse.dao.StockHouseMapper;
 import com.grandeflorum.StockHouse.domin.RelationShip;
 import com.grandeflorum.StockHouse.domin.StockHouse;
 import com.grandeflorum.StockHouse.service.StockHouseService;
+import com.grandeflorum.buildingTable.dao.BuildingTableMapper;
+import com.grandeflorum.buildingTable.dao.LJZMapper;
+import com.grandeflorum.buildingTable.domain.LJZ;
 import com.grandeflorum.common.domain.Page;
 import com.grandeflorum.common.domain.PagingEntity;
 import com.grandeflorum.common.domain.ResponseBo;
@@ -35,6 +38,9 @@ public class StockHouseServiceImpl extends BaseService<StockHouse> implements St
 
     @Autowired
     WFAuditMapper wFAuditMapper;
+
+    @Autowired
+    BuildingTableMapper buildingTableMapper ;
 
     @Override
     @Transactional
@@ -94,6 +100,13 @@ public class StockHouseServiceImpl extends BaseService<StockHouse> implements St
     public ResponseBo getStockHouseById(String id) {
         StockHouse result = stockHouseMapper.selectByPrimaryKey(id);
         result.setRelationShips(relationShipMapper.getRelationShipByProjectId(result.getId()));
+        if(result.getZrzh()!=null&&result.getLjzh()!=null){
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", id);
+            map.put("zrzh", result.getZrzh());
+            map.put("ljzh", result.getLjzh());
+            result.setLjzid(stockHouseMapper.getLjzh(map));
+        }
         if (result != null) {
             return ResponseBo.ok(result);
         }
@@ -152,4 +165,21 @@ public class StockHouseServiceImpl extends BaseService<StockHouse> implements St
         stockHouseMapper.auditStockHouseById(map);
         return ResponseBo.ok();
     }
+
+    @Override
+    public ResponseBo linkH(String ljzid, String hid) {
+        LJZ ljz = buildingTableMapper.getLjz(ljzid);
+        if (ljz.getZrzh() != null && ljz.getLjzh() != null) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", hid);
+            map.put("zrzh", ljz.getZrzh());
+            map.put("ljzh", ljz.getLjzh());
+            stockHouseMapper.linkH(map);
+        } else {
+            return ResponseBo.error("未找到该逻辑幢相关信息");
+        }
+        return ResponseBo.ok();
+    }
+
+
 }

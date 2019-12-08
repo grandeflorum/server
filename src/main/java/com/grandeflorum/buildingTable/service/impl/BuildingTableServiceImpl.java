@@ -206,7 +206,7 @@ public class BuildingTableServiceImpl implements BuildingTableService {
 
                         int ct = 0;
 
-                        List<H> filter = hList.stream().filter(x -> x.getCh() == info.getCh() && x.getDyh() == dy).collect(Collectors.toList());
+                        List<H> filter = hList.stream().filter(x -> x.getCh() == info.getSjc() && x.getDyh() == dy).collect(Collectors.toList());
 
                         if (filter != null && filter.size() > 0) {
                             ct = filter.stream().max(Comparator.comparingInt(H::getHbh)).map(x -> x.getHbh()).get();
@@ -450,7 +450,7 @@ public class BuildingTableServiceImpl implements BuildingTableService {
     @Override
     public ResponseBo saveOrUpdateC(C c) {
         Example exampleCRepeat = new Example(C.class);
-        exampleCRepeat.createCriteria().andEqualTo("zrzh", c.getZrzh()).andEqualTo("ljzh",c.getLjzh()).andEqualTo("ch",c.getCh());
+        exampleCRepeat.createCriteria().andEqualTo("zrzh", c.getZrzh()).andEqualTo("ljzh",c.getLjzh()).andEqualTo("sjc",c.getSjc());
         List<C> cRepeatList=cMapper.selectByExample(exampleCRepeat);
 
         if(c.getId()==null){
@@ -483,7 +483,7 @@ public class BuildingTableServiceImpl implements BuildingTableService {
         C c= cMapper.selectByPrimaryKey(id);
         if(c!=null&&c.getZrzh()!=null&&c.getLjzh()!=null){
             Example exampleH = new Example(H.class);
-            exampleH.createCriteria().andEqualTo("zrzh", c.getZrzh()).andEqualTo("ljzh",c.getLjzh()).andEqualTo("ch",c.getCh());
+            exampleH.createCriteria().andEqualTo("zrzh", c.getZrzh()).andEqualTo("ljzh",c.getLjzh()).andEqualTo("sjc",c.getSjc());
             List<H> hList=hMapper.selectByExample(exampleH);
             if(hList!=null&&hList.size()>0){
                 return ResponseBo.error("该层下存在户信息，不能删除");

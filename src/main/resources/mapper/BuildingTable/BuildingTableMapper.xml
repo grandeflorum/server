@@ -105,7 +105,7 @@
         <result column="CBQMJ" jdbcType="DECIMAL" property="cbqmj" />
         <result column="CG" jdbcType="DECIMAL" property="cg" />
         <result column="SPTYMJ" jdbcType="DECIMAL" property="sptymj" />
-        <result column="CH" jdbcType="DECIMAL" property="ch" />
+        <result column="CH" jdbcType="VARCHAR" property="ch" />
         <result column="LJZH" jdbcType="VARCHAR" property="ljzh" />
         <result column="ZL" jdbcType="VARCHAR" property="zl" />
         <result column="ZT" jdbcType="VARCHAR" property="zt" />
