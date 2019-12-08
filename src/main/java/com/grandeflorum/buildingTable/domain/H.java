@@ -45,7 +45,7 @@ public class H {
     private String zl;
 
     @Column(name = "MJDW")
-    private String mjdw;
+    private Integer mjdw;
     /**
      * 实际层数
      */
@@ -65,25 +65,25 @@ public class H {
      * 户型
      */
     @Column(name="HX")
-    private String hx;
+    private Integer hx;
 
     /**
      * 户型结构
      */
     @Column(name="HXJG")
-    private String hxjg;
+    private Integer hxjg;
 
     /***
      * 房屋用途
      */
     @Column(name="FWYT1")
-    private String fwyt1;
+    private Integer fwyt1;
 
     @Column(name = "FWYT2")
-    private String fwyt2;
+    private Integer fwyt2;
 
     @Column(name = "FWYT3")
-    private String fwyt3;
+    private Integer fwyt3;
 
     @Column(name = "YCJZMJ")
     private Double ycjzmj;
@@ -135,10 +135,10 @@ public class H {
      * 房屋类型
      */
     @Column(name="FWLX")
-    private String fwlx;
+    private Integer fwlx;
 
     @Column(name = "FWXZ")
-    private String fwxz;
+    private Integer fwxz;
 
     @Column(name = "FCFHT")
     private String fcfht;
@@ -417,27 +417,27 @@ public class H {
         this.shbw = shbw;
     }
 
-    public String getHx() {
+    public Integer getHx() {
         return hx;
     }
 
-    public void setHx(String hx) {
+    public void setHx(Integer hx) {
         this.hx = hx;
     }
 
-    public String getHxjg() {
+    public Integer getHxjg() {
         return hxjg;
     }
 
-    public void setHxjg(String hxjg) {
+    public void setHxjg(Integer hxjg) {
         this.hxjg = hxjg;
     }
 
-    public String getFwyt1() {
+    public Integer getFwyt1() {
         return fwyt1;
     }
 
-    public void setFwyt1(String fwyt1) {
+    public void setFwyt1(Integer fwyt1) {
         this.fwyt1 = fwyt1;
     }
 
@@ -449,11 +449,11 @@ public class H {
         this.scjzmj = scjzmj;
     }
 
-    public String getFwlx() {
+    public Integer getFwlx() {
         return fwlx;
     }
 
-    public void setFwlx(String fwlx) {
+    public void setFwlx(Integer fwlx) {
         this.fwlx = fwlx;
     }
 
@@ -513,27 +513,27 @@ public class H {
         this.ljzh = ljzh;
     }
 
-    public String getMjdw() {
+    public Integer getMjdw() {
         return mjdw;
     }
 
-    public void setMjdw(String mjdw) {
+    public void setMjdw(Integer mjdw) {
         this.mjdw = mjdw;
     }
 
-    public String getFwyt2() {
+    public Integer getFwyt2() {
         return fwyt2;
     }
 
-    public void setFwyt2(String fwyt2) {
+    public void setFwyt2(Integer fwyt2) {
         this.fwyt2 = fwyt2;
     }
 
-    public String getFwyt3() {
+    public Integer getFwyt3() {
         return fwyt3;
     }
 
-    public void setFwyt3(String fwyt3) {
+    public void setFwyt3(Integer fwyt3) {
         this.fwyt3 = fwyt3;
     }
 
@@ -649,11 +649,11 @@ public class H {
         this.dytdmj = dytdmj;
     }
 
-    public String getFwxz() {
+    public Integer getFwxz() {
         return fwxz;
     }
 
-    public void setFwxz(String fwxz) {
+    public void setFwxz(Integer fwxz) {
         this.fwxz = fwxz;
     }
 

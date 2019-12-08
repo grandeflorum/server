@@ -348,6 +348,7 @@ public class BuildingTableServiceImpl implements BuildingTableService {
             }
             zrz.setId(GuidHelper.getGuid());
             zrz.setZt("1");
+            zrz.setAuditType(0);
 //            zrz.setZrzh();
             zrzMapper.insert(zrz);
 
