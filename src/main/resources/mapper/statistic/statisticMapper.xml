@@ -52,4 +52,106 @@
 </select>
 
 
+    <select id="getOverallSalesTrend" parameterType="map" resultType="com.grandeflorum.statistic.domain.StatisticValue">
+        select t.yf dateValue,count(t.houseid)ts
+        from (select hnt.houseid, to_char(hnt.basj,'mm')yf
+              from house_new_trade hnt
+              where hnt.currentstatus = 5
+                and hnt.houseid is not null
+                and to_char(hnt.basj, 'yyyy') = #{year}
+              union all
+              select hst.houseid, to_char(hst.basj,'mm') yf
+              from house_stock_trade hst
+              where hst.currentstatus = 5
+                and hst.houseid is not null
+                and to_char(hst.basj, 'yyyy') = #{year}) t
+        group by t.yf order by to_number(t.yf)
+    </select>
+
+    <sql id="BasjFilter">
+        <if test="kssj!=null and kssj!=''">
+            and <![CDATA[ basj >= #{kssj,jdbcType=DATE}  ]]>
+        </if>
+          <if test="jssj!=null and jssj!=''">
+              and <![CDATA[ basj >= #{jssj,jdbcType=DATE}  ]]>
+          </if>
+    </sql>
+    
+    <select id="getProjectSalesVolumeList" parameterType="map" resultType="com.grandeflorum.statistic.domain.SalesStatisticInfo">
+        select  min(c.qymc)qymc,min(p.xmmc) xmmc,min(d.name)yt,avg(t.dj)dj,sum(h.SCJZMJ)sxmj,count(t.houseid)ct,sum(t.zj)zj from project p
+            left join company c on p.company_id = c.id
+            left join zrz z on z.xmid = p.id
+            left join h on h.ZRZH = z.ZRZH
+            left join dictionary d on d.code = p.xmyt and d.type='xmyt'
+            left join (select hnt.houseid, hnt.zj,hnt.dj
+            from house_new_trade hnt
+            where hnt.currentstatus = 5
+            and hnt.houseid is not null
+            <include refid="BasjFilter"></include>
+            union all
+            select hst.houseid, hst.zj,hst.dj
+            from house_stock_trade hst
+            where hst.currentstatus = 5
+            and hst.houseid is not null
+            <include refid="BasjFilter"></include>
+          )t on t.houseid = h.id
+          <where>
+            <if test="mc!=null and mc!=''">
+                (instr(c.qymc,#{mc})>0 or instr(p.xmmc,#{mc})>0)
+            </if>
+            <if test="yt!=null and yt!=''">
+                and p.xmyt = #{yt}
+            </if>
+          </where>
+        group by p.id
+        <choose>
+            <when test="sort!=null and sort.size()>0">
+                <foreach collection="sort" item="item" open="order by " separator=",">
+                    ${item}
+                </foreach>
+            </when>
+        </choose>
+    </select>
+    
+    <select id="getTimeQueryStatistics" parameterType="map" resultType="com.grandeflorum.statistic.domain.StatisticValue">
+        select count(1)ts,sum(h.SCJZMJ)mj,sum(t.zj)zj from (
+          select hnt.houseid, hnt.zj
+            from house_new_trade hnt
+            where hnt.currentstatus = 5
+              and hnt.houseid is not null
+          <include refid="BasjFilter"></include>
+            union all
+            select hst.houseid, hst.zj
+            from house_stock_trade hst
+            where hst.currentstatus = 5
+              and hst.houseid is not null
+          <include refid="BasjFilter"></include>)t
+               left join h on h.id = t.houseid
+    </select>
+
+    <select id="getSummarySalesPurposes" parameterType="map" resultType="com.grandeflorum.statistic.domain.StatisticValue">
+        select nvl(d.name,'未知')name ,count(1)ts,sum(h.SCJZMJ)mj from (
+          <if test="type=='new' or type=='all'">
+              select hnt.houseid, hnt.zj,hnt.dj
+              from house_new_trade hnt
+              where hnt.currentstatus = 5
+              and hnt.houseid is not null
+              <include refid="BasjFilter"></include>
+          </if>
+          <if test="type=='all'">
+              union all
+          </if>
+           <if test="type=='stock'">
+               select hst.houseid, hst.zj,hst.dj
+               from house_stock_trade hst
+               where hst.currentstatus = 5
+               and hst.houseid is not null
+               <include refid="BasjFilter"></include>
+           </if>
+          )t
+          left join h on h.id = t.houseid
+          left join dictionary d on d.code = h.FWYT1 and d.type='fwyt'
+        group by d.name order by ts desc
+    </select>
+
 </mapper>

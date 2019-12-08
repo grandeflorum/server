@@ -59,4 +59,23 @@ public class DateUtils {
 
         return 0;
     }
+
+    public static Date StringToDate(String date){
+
+        if(StrUtil.isNullOrEmpty(date)){
+            return null;
+        }
+
+        Date  result = null;
+
+        SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+
+        try{
+            result = format1.parse(date);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return result;
+    }
 }
