@@ -186,7 +186,8 @@ public class StatisticController {
      * @param map
      * @return
      */
-    public ResponseBo getTransactionSummaryStatistic(@RequestBody Map<String,Object> map){
-
+    @RequestMapping("/getTransactionSummaryStatistic")
+    public ResponseBo getTransactionSummaryStatistic(@RequestBody Map<String,Object> map) {
+        return statisticService.getTransactionSummaryStatistic(map);
     }
 }
