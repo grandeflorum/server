@@ -19,4 +19,6 @@ public interface StatisticService {
     ResponseBo getTimeQueryStatistics(Map<String,Object> map);
 
     ResponseBo getSummarySalesPurposes(Map<String,Object> map);
+
+    ResponseBo getTransactionSummaryStatistic(Map<String,Object> map);
 }

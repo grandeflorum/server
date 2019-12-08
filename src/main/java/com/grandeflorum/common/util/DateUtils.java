@@ -78,4 +78,51 @@ public class DateUtils {
 
         return result;
     }
+
+    public static String getUpDate(String date,String type){
+
+        String result = "";
+        if(StrUtil.isNullOrEmpty(date)){
+            return null;
+        }
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+        try{
+            Date now = format.parse(date);
+            Calendar c = Calendar.getInstance();
+            c.setTime(now);
+            switch (type){
+                //前一天
+                case "Day":
+                    c.add(Calendar.DATE, -1);
+                    break;
+                //前一周
+                case "Week":
+                    c.add(Calendar.DATE, -7);
+                    break;
+                //前一月
+                case "Month":
+                    c.add(Calendar.MONTH, -1);
+                    break;
+                //前季度
+                case "Quarter":
+                    c.add(Calendar.MONTH, -3);
+                    break;
+                //前一年
+                case "Year":
+                    c.add(Calendar.YEAR, -1);
+                    break;
+
+            }
+
+            result= format.format(c.getTime());
+        }catch (Exception e){
+
+        }
+
+        return result;
+    }
+
+
 }
