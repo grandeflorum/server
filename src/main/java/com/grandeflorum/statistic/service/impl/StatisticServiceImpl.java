@@ -58,7 +58,12 @@ public class StatisticServiceImpl implements StatisticService {
 
             if (list != null) {
                 int yf = i;
-                StatisticValue s = list.stream().filter(x -> Integer.parseInt(x.getDateValue()) == yf).findFirst().get();
+
+                StatisticValue s = null;
+
+                if(list.stream().anyMatch(x->Integer.parseInt(x.getDateValue())==yf)){
+                    s = list.stream().filter(x -> Integer.parseInt(x.getDateValue()) == yf).findFirst().get();
+                }
 
                 if (s != null) {
                     v = s.getTs();
