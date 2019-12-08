@@ -141,7 +141,7 @@
           <if test="type=='all'">
               union all
           </if>
-           <if test="type=='stock'">
+           <if test="type=='stock' or type=='all'">
                select hst.houseid, hst.zj,hst.dj
                from house_stock_trade hst
                where hst.currentstatus = 5
