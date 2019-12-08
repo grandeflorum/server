@@ -122,4 +122,14 @@ public class HouseTradeController {
     public ResponseBo getHInfo(String hid) {
         return houseTradeService.getHInfo(hid);
     }
+
+    /**
+     * 通过完工验收材料判断预售与现售
+     * @param id
+     * @return
+     */
+    @GetMapping("/checkExistCompletionFile")
+    public ResponseBo checkExistCompletionFile(String id){
+        return houseTradeService.checkExistCompletionFile(id);
+    }
 }

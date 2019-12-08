@@ -53,7 +53,7 @@ public class H {
     private Integer sjcs;
 
     /**
-     * 户号
+     * 户号(排序用的)
      */
     @Column(name="HH")
     private Integer hh;
@@ -169,6 +169,9 @@ public class H {
     @Column(name="DYH")
     private Integer dyh;
 
+    /**
+     * 单元名称
+     */
     @Column(name = "DYMC")
     private String dymc;
 
@@ -197,7 +200,7 @@ public class H {
     private Double fwzj;
 
     /**
-     * 户编号
+     * 户编号(在一层里面的第几户里面)
      */
     @Column(name="HBH")
     private Integer hbh;
@@ -289,12 +292,21 @@ public class H {
     @Column(name = "YBDCDYH")
     private String ybdcdyh;
 
+    /**
+     * 用途名称
+     */
     @Column(name = "YTMC")
     private String ytmc;
 
+    /**
+     * 房屋性质名称
+     */
     @Column(name = "FWXZMC")
     private String fwxzmc;
 
+    /**
+     * 房屋类型名称
+     */
     @Column(name = "FWLXMC")
     private String fwlxmc;
 

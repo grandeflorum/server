@@ -202,7 +202,7 @@ public class StockTrade {
     public Date djsj;
 
     /**
-     * 办案时间
+     * 备案时间
      */
     @Column(name="BASJ")
     public Date basj;

@@ -24,12 +24,12 @@ public class C {
     @Column(name = "YSDM")
     private String ysdm;
     /**
-     * 实际层
+     * 实际层(实际的层数)
      */
     @Column(name="SJC")
     private Integer sjc;
     /**
-     * 名义层
+     * 名义层（没用到）
      */
     @Column(name = "MYC")
     private String myc;
@@ -82,10 +82,10 @@ public class C {
     private Double sptymj;
 
     /**
-     * 层号
+     * 层号(户ch==层sjc)
      */
     @Column(name="CH")
-    private Integer ch;
+    private String ch;
 
     /**
      * 逻辑幢号
@@ -170,11 +170,11 @@ public class C {
         this.sjc = sjc;
     }
 
-    public Integer getCh() {
+    public String getCh() {
         return ch;
     }
 
-    public void setCh(Integer ch) {
+    public void setCh(String ch) {
         this.ch = ch;
     }
 

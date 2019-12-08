@@ -30,5 +30,7 @@ public interface HouseTradeMapper extends MyMapper<HouseTrade> {
     Map<String,String> queryHinfoByTradeId(String id);
 
     HouseTrade getHInfo(String hid);
+
+    int checkExistCompletionFile(String tradeId);
 }
 

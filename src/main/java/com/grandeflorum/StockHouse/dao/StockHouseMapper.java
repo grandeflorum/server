@@ -14,4 +14,8 @@ public interface StockHouseMapper  extends MyMapper<StockHouse> {
     int addOrUpdateAudit(WFAudit param);
 
     void auditStockHouseById(Map<String,Object> map);
+
+    void linkH(Map<String,Object> map);
+
+    String  getLjzh(Map<String, Object> map);
 }
