@@ -11,6 +11,9 @@ import com.grandeflorum.common.domain.ResponseBo;
 import com.grandeflorum.common.util.GuidHelper;
 import com.grandeflorum.contract.service.HouseTradeService;
 import com.grandeflorum.contract.service.StockTradeService;
+import com.grandeflorum.project.dao.WFAuditMapper;
+import com.grandeflorum.project.domain.AuditParam;
+import com.grandeflorum.project.domain.WFAudit;
 import com.grandeflorum.system.service.SystemUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,6 +51,9 @@ public class BuildingTableServiceImpl implements BuildingTableService {
 
     @Autowired
     SystemUserService systemUserService;
+
+    @Autowired
+    WFAuditMapper wFAuditMapper;
 
     @Override
     public ResponseBo getInfoByZh(String ZH,String Type){
@@ -565,6 +571,56 @@ public class BuildingTableServiceImpl implements BuildingTableService {
         saveOrUpdateZRZ(zrz);
         saveOrUpdateLJZ(zrz.getLjzList().get(0));
         return ResponseBo.ok(zrz);
+    }
+
+    @Override
+    public ResponseBo auditZRZs(AuditParam param) {
+        WFAudit wf = param.getWfAudit();
+        for (String id : param.ids) {
+            //更新项目表信息
+
+            if(param.getType()==0){
+                if(param.getWfAudit().getShjg()==1){
+                    auditZRZById(id, 2);
+                }else{
+                    auditZRZById(id, 3);
+                }
+            }else if(param.getType() == 1){
+                if(param.getWfAudit().getShjg()==1){
+                    auditZRZById(id, 4);
+                }else{
+                    auditZRZById(id, 3);
+                }
+            }
+
+            //添加或更新审核表信息
+            WFAudit wfAudit = new WFAudit();
+            wfAudit.setId(GuidHelper.getGuid());
+
+            wfAudit.setShjg(wf.getShjg());
+            wfAudit.setShry(wf.getShry());
+            wfAudit.setShrq(wf.getShrq());
+            wfAudit.setBz(wf.getBz());
+
+            wfAudit.setProjectid(id);
+            wfAudit.setSysDate(new Date());
+            wfAudit.setSysUpdDate(new Date());
+
+            wFAuditMapper.insert(wfAudit);
+        }
+        return ResponseBo.ok();
+    }
+
+
+    @Override
+    public ResponseBo auditZRZById(String id, int type) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("id", id);
+        map.put("type", type);
+
+        buildingTableMapper.auditZRZById(map);
+
+        return ResponseBo.ok();
     }
 
 

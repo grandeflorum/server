@@ -208,7 +208,7 @@
     </resultMap>
 
     <select id="getBuildingTableList" parameterType="map" resultType="com.grandeflorum.buildingTable.domain.ResultList">
-        select z.ID,z.XMMC,z.JZWMC,lj.LZZS,t.ZTS,t.ZMJ,z.DATASOURCE from
+        select z.ID,z.XMMC,z.JZWMC,lj.LZZS,t.ZTS,t.ZMJ,z.DATASOURCE,z.AUDITTYPE from
         <choose>
             <when test="needFilter">
                 (
@@ -237,6 +237,9 @@
         <if test="jzwmc != null and jzwmc != ''">
             and instr(z.jzwmc,#{jzwmc})>0
         </if>
+        <if test="auditType!=null and auditType != ''">
+            and z.AUDITTYPE=#{auditType}
+        </if>
         <if test="type!=null and type!=''">
             <choose>
                 <when test="type=='dy'">
@@ -247,12 +250,18 @@
                 </when>
             </choose>
         </if>
-        <if test="sort!=null and sort.size()>0">
-            <foreach collection="sort" item="item" open="order by " separator=",">
-                ${item}
-            </foreach>
-        </if>
-        order by z.gxsj  desc NULLS LAST
+        <choose>
+            <when test="sort!=null and sort.size()>0">
+                <foreach collection="sort" item="item" open="order by " separator=",">
+                    ${item}
+                </foreach>
+                  NULLS LAST
+            </when>
+            <otherwise>
+                order by z.gxsj  desc NULLS LAST
+            </otherwise>
+        </choose>
+
     </select>
 
     <select id="getCList" parameterType="map" resultType="com.grandeflorum.buildingTable.domain.C">
@@ -341,6 +350,10 @@
         ORDER BY h.MPH NULLS LAST
 
     </select>
+
+    <update id="auditZRZById" parameterType="map">
+        update fg_zrz t set t.audit_type = #{type} WHERE  t.id = #{id}
+    </update>
 
 
 </mapper>
