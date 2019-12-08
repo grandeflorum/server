@@ -126,22 +126,10 @@
     </select>
 
     <select id="queryHinfoByStockId" parameterType="String" resultType="map">
-        select h.*
+        selecth.id, h.zl, h.SCJZMJ, h.FWYT1, ljz.fwjg1
           from house_stock_trade hst
-          left join (select h.id, h.zl, h.SCJZMJ, h.FWYT1, ljz.fwjg1
-                       from h
-                       left join ljz
-                         on h.LJZH = ljz.LJZH
-                     union all
-                     select utl_raw.cast_to_raw(fg_h.id) id,
-                            fg_h.zl,
-                            fg_h.SCJZMJ,
-                            fg_h.FWYT1,
-                            fg_ljz.fwjg1
-                       from fg_h
-                       left join fg_ljz
-                         on fg_h.ljzh = fg_ljz.ljzh) h
-            on hst.houseid = h.id
+          left join  h on hst.houseid = h.id
+          left join ljz on h.LJZH = ljz.LJZH
          where hst.id = #{id}
     </select>
 

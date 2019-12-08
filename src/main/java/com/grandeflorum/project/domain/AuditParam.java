@@ -20,6 +20,11 @@ public class AuditParam {
      */
     public int type;
 
+    /**
+     * 判断1注销还是2变更
+     */
+    public int status;
+
 
     public int getType() {
         return type;
@@ -43,5 +48,13 @@ public class AuditParam {
 
     public void setWfAudit(WFAudit wfAudit) {
         this.wfAudit = wfAudit;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

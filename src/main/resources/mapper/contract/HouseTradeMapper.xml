@@ -22,6 +22,7 @@
         <result column="SYS_DATE" jdbcType="TIMESTAMP" property="sysDate"/>
         <result column="SYS_UPD_DATE" jdbcType="TIMESTAMP" property="sysUpdDate"/>
         <result column="DJR" jdbcType="VARCHAR" property="djr"/>
+        <result column="HOUSE_TYPE" jdbcType="DECIMAL" property="houseType"/>
     </resultMap>
 
     <resultMap id="listMap" type="com.grandeflorum.contract.domain.HouseTrade" extends="BaseResultMap">
@@ -127,29 +128,13 @@
     </select>
 
     <select id="queryHinfoByTradeId" parameterType="String" resultType="map">
-      select h.*
+      select h.id, h.YCJZMJ,h.YCTNJZMJ,h.YCFTJZMJ,h.SCJZMJ,h.sCTNJZMJ,h.sCFTJZMJ, h.FWYT1, ljz.fwjg1,ljz.ZCS,ljz.dscs,0 as dxcs
   from house_new_trade hnt
-  left join (select h.id, h.YCJZMJ,h.YCTNJZMJ,h.YCFTJZMJ, h.FWYT1, ljz.fwjg1,ljz.ZCS,ljz.dscs,0 as dxcs
-               from h
-               left join ljz
-                 on h.LJZH = ljz.LJZH
-             union all
-             select utl_raw.cast_to_raw(fg_h.id) id,
-
-                    fg_h.YCJZMJ,
-                    fg_h.YCTNJZMJ,
-                    fg_h.YCFTJZMJ,
-                    fg_h.FWYT1,
-                    fg_ljz.fwjg1,
-                    fg_ljz.zcs,
-                    fg_ljz.dscs,
-                    fg_ljz.dxcs
-               from fg_h
-               left join fg_ljz
-                 on fg_h.ljzh = fg_ljz.ljzh) h
-    on hnt.houseid = h.id
+  left join  h on hnt.houseid = h.id
+  left join ljz on h.LJZH = ljz.LJZH
  where hnt.id = #{id}
     </select>
+
     <select id="getHInfo"  parameterType="String" resultType="com.grandeflorum.contract.domain.HouseTrade">
         select t2.xmmc ,t2.JZWMC,t1.mph zh,t.dymc dyh, t.ch,t.mph fh,t.id as houseId,t1.id as ljzid
         from  h t
@@ -158,7 +143,12 @@
         where t.id=#{id}
     </select>
 
-
+    <!--判断是否存在完工验收材料-->
+<select id="checkExistCompletionFile" parameterType="String" resultType="Integer">
+    select count(1) from house_new_trade t
+left join file_info fi on t.id =fi.ref_id
+where fi.file_type = 8 and t.id = #{tradeId}
+</select>
 
 
 

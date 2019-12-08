@@ -128,9 +128,17 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
                 if(wf.getFileInfoList()!=null&&wf.getFileInfoList().size()>0){
                     fileInfoService.updateFileInfoByIds(wf.getFileInfoList(),wfAudit.getId());
                 }
+                //备案记录备案时间
+                if(houseTrade.getCurrentStatus()==4){
+                    houseTrade.setBasj(new Date());
+                }
                 //合同为已备案状态后可修改为已注销
                 if(houseTrade.getCurrentStatus()==5){
                     houseTrade.setIsCancel(1);
+                    if(auditParam.getStatus()==2){
+                        houseTrade.setIsCancel(2);
+                    }
+
                 }else{
                     if(wfAudit.getShjg()==1){
                         houseTrade.setIsPass(1);
@@ -281,9 +289,26 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
                 result.setLjzid( houseTradeMapper.getLjzh(result.getHouseId()));
             }
             result.setRelationShips(relationShipMapper.getRelationShipByProjectId(result.getId()));
+
+            //通过完工验收材料判断预售与现售
+            Integer count = houseTradeMapper.checkExistCompletionFile(id);
+            result.setHouseType(2);
+            if(count>0){
+                result.setHouseType(1);
+            }
             return ResponseBo.ok(result);
         }
         return ResponseBo.error("查询失败");
+    }
+
+    /**
+     * 通过完工验收材料判断预售与现售
+     * @param id
+     * @return
+     */
+    @Override
+    public ResponseBo checkExistCompletionFile(String id){
+        return ResponseBo.ok(houseTradeMapper.checkExistCompletionFile(id));
     }
 
     @Override
@@ -321,8 +346,13 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
 
         try{
 
+            HouseTrade houseTrade = houseTradeMapper.selectByPrimaryKey(id);
+            String name = "商品房买卖合同（预售）.docx";
+            if(1==houseTrade.getHouseType()) {
+                name = "商品房买卖合同（现售）.docx";
+            }
             response.setContentType("application/vnd.ms-excel");
-            response.setHeader("content-disposition", "Attachment;filename=" + URLEncoder.encode("商品房买卖合同（预售）.docx", "utf-8"));
+            response.setHeader("content-disposition", "Attachment;filename=" + URLEncoder.encode(name, "utf-8"));
             OutputStream os = response.getOutputStream();
 
             creatWord(id,os);
@@ -368,6 +398,11 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
     public File creatWord(String id,OutputStream os){
 
         HouseTrade houseTrade = houseTradeMapper.selectByPrimaryKey(id);
+        String name = "商品房买卖合同（预售）.docx";
+        if(1==houseTrade.getHouseType()) {
+            name = "商品房买卖合同（现售）.docx";
+        }
+
         String sourcePath = grandeflorumProperties.getUploadFolder()+"ht";
         File file = new File(sourcePath);
 
@@ -384,8 +419,9 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
                 }
 
             }else{
+
                 //读入流中
-                String path = this.getClass().getResource("/").getPath()+ "templates/商品房买卖合同（预售）.docx";
+                String path = this.getClass().getResource("/").getPath()+ "templates/"+name;
                 //新建一个word文档
                 XWPFDocument doc = new XWPFDocument(new FileInputStream(path));
                 Map<String, Object> params = new HashMap<String, Object>();
@@ -475,11 +511,15 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
                     params.put("dscs",map.get("DSCS")!=null?String.valueOf(map.get("DSCS")):"");
                     params.put("dxcs",map.get("DXCS")!=null?String.valueOf(map.get("DXCS")):"");
 
-                    params.put("ycjzmj",map.get("YCJZMJ")!=null?String.valueOf(map.get("YCJZMJ")):"");
-                    params.put("yctnjzmj",map.get("YCTNJZMJ")!=null?String.valueOf(map.get("YCTNJZMJ")):"");
-                    params.put("ycftjzmj",map.get("YCFTJZMJ")!=null?String.valueOf(map.get("YCFTJZMJ")):"");
-
-
+                    if(1==houseTrade.getHouseType()){
+                        params.put("scjzmj",map.get("SCJZMJ")!=null?String.valueOf(map.get("SCJZMJ")):"");
+                        params.put("sctnjzmj",map.get("SCTNJZMJ")!=null?String.valueOf(map.get("SCTNJZMJ")):"");
+                        params.put("scftjzmj",map.get("SCFTJZMJ")!=null?String.valueOf(map.get("SCFTJZMJ")):"");
+                    }else{
+                        params.put("ycjzmj",map.get("YCJZMJ")!=null?String.valueOf(map.get("YCJZMJ")):"");
+                        params.put("yctnjzmj",map.get("YCTNJZMJ")!=null?String.valueOf(map.get("YCTNJZMJ")):"");
+                        params.put("ycftjzmj",map.get("YCFTJZMJ")!=null?String.valueOf(map.get("YCFTJZMJ")):"");
+                    }
                 }else{
                     params.put("fwyt","");
                     params.put("jzjg","");
@@ -487,9 +527,16 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
                     params.put("dscs","");
                     params.put("dxcs","");
 
-                    params.put("ycjzmj","");
-                    params.put("yctnjzmj","");
-                    params.put("ycftjzmj","");
+                    if(1==houseTrade.getHouseType()){
+                        params.put("scjzmj","");
+                        params.put("sctnjzmj","");
+                        params.put("scftjzmj","");
+                    }else{
+                        params.put("ycjzmj","");
+                        params.put("yctnjzmj","");
+                        params.put("ycftjzmj","");
+                    }
+
                 }
 
                 XwpfTUtil xwpfTUtil = new XwpfTUtil();

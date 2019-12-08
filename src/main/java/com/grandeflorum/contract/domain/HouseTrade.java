@@ -113,6 +113,12 @@ public class HouseTrade {
     @Column(name="DJR")
     public String djr;
 
+    /**
+     * 1 现售 2预售
+     */
+    @Column(name="HOUSE_TYPE")
+    private Integer houseType;
+
 
     public List<WFAudit>  wfAuditList;
 
@@ -379,5 +385,13 @@ public class HouseTrade {
 
     public void setRelationShips(List<RelationShip> relationShips) {
         this.relationShips = relationShips;
+    }
+
+    public Integer getHouseType() {
+        return houseType;
+    }
+
+    public void setHouseType(Integer houseType) {
+        this.houseType = houseType;
     }
 }

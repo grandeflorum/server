@@ -40,4 +40,6 @@ public interface HouseTradeService extends IService<HouseTrade> {
     ResponseBo deleteHouseTradeByIds(List<String> ids);
 
     ResponseBo getHInfo(String hid);
+
+    ResponseBo checkExistCompletionFile(String id);
 }
