@@ -33,4 +33,6 @@ public interface BuildingTableMapper {
 
     void auditZRZById(Map<String,Object> map);
 
+    List<BAHistory> getBAHistory(Map<String,Object> map);
+
 }

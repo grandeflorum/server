@@ -629,5 +629,19 @@ public class BuildingTableServiceImpl implements BuildingTableService {
         return ResponseBo.ok();
     }
 
+    @Override
+    public ResponseBo getBAHistory(Page page) {
+        PageHelper.startPage(page.getPageNo(), page.getPageSize());
+        Map<String, Object> map = page.getQueryParameter();
+
+        List<BAHistory> list = buildingTableMapper.getBAHistory(map);
+
+        PageInfo<BAHistory> pageInfo = new PageInfo<>(list);
+
+        PagingEntity<BAHistory> result = new PagingEntity<>(pageInfo);
+
+        return ResponseBo.ok(result);
+    }
+
 
 }

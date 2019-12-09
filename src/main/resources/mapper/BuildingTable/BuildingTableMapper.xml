@@ -355,5 +355,27 @@
         update fg_zrz t set t.audit_type = #{type} WHERE  t.id = #{id}
     </update>
 
+    <select id="getBAHistory" parameterType="map" resultType="com.grandeflorum.buildingTable.domain.BAHistory">
+        select con.id,con.htbah,con.gmr,con.basj,con.isnewhouse,con.houseid,h.mph as fh
+        from (
+        select id,htbah,buyer as gmr,basj,1 as isnewhouse,houseid from house_new_trade
+        union all
+        select id,htbah,jf as gmr,basj,2 as isnewhouse,houseid from house_stock_trade
+        ) con
+        inner join h on h.id=con.houseid
+        where con.houseid=#{id}
+        <choose>
+            <when test="sort!=null and sort.size()>0">
+                <foreach collection="sort" item="item" open="order by " separator=",">
+                    ${item}
+                </foreach>
+            </when>
+            <otherwise>
+                order by con.basj desc
+            </otherwise>
+        </choose>
+
+    </select>
+
 
 </mapper>
