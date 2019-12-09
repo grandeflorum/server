@@ -78,7 +78,7 @@
     </sql>
     
     <select id="getProjectSalesVolumeList" parameterType="map" resultType="com.grandeflorum.statistic.domain.SalesStatisticInfo">
-        select  min(c.qymc)qymc,min(p.xmmc) xmmc,min(d.name)yt,avg(t.dj)jj,sum(h.SCJZMJ)xsmj,count(t.houseid)xsl,sum(t.zj)zj from project p
+        select  min(c.qymc)qymc,min(p.xmmc) xmmc,min(d.name)yt,avg(t.dj)jj,sum(nvl2(t.houseid,h.SCJZMJ,0))xsmj,count(t.houseid)xsl,sum(t.zj)zj from project p
             left join company c on p.company_id = c.id
             left join zrz z on z.xmid = p.id
             left join h on h.ZRZH = z.ZRZH

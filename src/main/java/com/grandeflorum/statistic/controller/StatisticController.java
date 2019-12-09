@@ -97,8 +97,8 @@ public class StatisticController {
 
         List<Condition> list = new ArrayList<>();
 
-        list.add(new Condition("kssj", DateUtils.StringToDate(kssj)));
-        list.add(new Condition("jssj",DateUtils.StringToDate(jssj)));
+        list.add(new Condition("kssj", kssj));
+        list.add(new Condition("jssj",jssj));
         list.add(new Condition("mc",mc));
         list.add(new Condition("yt",yt));
 
@@ -145,7 +145,7 @@ public class StatisticController {
 
             for(int i = 0;i<res.size();i++){
 
-                SalesStatisticInfo ssi = res.get(0);
+                SalesStatisticInfo ssi = res.get(i);
 
                 HSSFRow row = sheet.createRow(i+1);
 
@@ -172,7 +172,7 @@ public class StatisticController {
         response.setContentType("application/octet-stream");
 
         //这后面可以设置导出Excel的名称，此例中名为student.xls
-        response.setHeader("Content-disposition", "attachment;filename=导出.xls");
+        response.setHeader("Content-disposition", "attachment;filename=Statistic.xls");
 
         //刷新缓冲
         response.flushBuffer();
