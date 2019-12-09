@@ -56,5 +56,5 @@ public interface BuildingTableService {
 
     ResponseBo auditZRZById(String id,int type);
 
-
+    ResponseBo getBAHistory(Page page);
 }

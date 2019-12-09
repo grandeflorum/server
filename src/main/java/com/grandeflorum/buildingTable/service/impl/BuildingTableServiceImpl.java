@@ -449,6 +449,8 @@ public class BuildingTableServiceImpl implements BuildingTableService {
             }else{
                 ljzMapper.deleteByPrimaryKey(id);
             }
+        }else{
+            return ResponseBo.error("删除失败，数据信息有误");
         }
         return ResponseBo.ok();
     }
@@ -497,6 +499,8 @@ public class BuildingTableServiceImpl implements BuildingTableService {
             }else{
                 cMapper.deleteByPrimaryKey(id);
             }
+        }else{
+            return ResponseBo.error("删除失败，数据信息有误");
         }
         return ResponseBo.ok();
     }
@@ -569,7 +573,9 @@ public class BuildingTableServiceImpl implements BuildingTableService {
     @Transactional
     public ResponseBo saveOrUpdateZRZandLJZ(ZRZ zrz) {
         saveOrUpdateZRZ(zrz);
-        saveOrUpdateLJZ(zrz.getLjzList().get(0));
+        if(zrz.getLjzList()!=null&&zrz.getLjzList().size()>0){
+            saveOrUpdateLJZ(zrz.getLjzList().get(0));
+        }
         return ResponseBo.ok(zrz);
     }
 
@@ -621,6 +627,20 @@ public class BuildingTableServiceImpl implements BuildingTableService {
         buildingTableMapper.auditZRZById(map);
 
         return ResponseBo.ok();
+    }
+
+    @Override
+    public ResponseBo getBAHistory(Page page) {
+        PageHelper.startPage(page.getPageNo(), page.getPageSize());
+        Map<String, Object> map = page.getQueryParameter();
+
+        List<BAHistory> list = buildingTableMapper.getBAHistory(map);
+
+        PageInfo<BAHistory> pageInfo = new PageInfo<>(list);
+
+        PagingEntity<BAHistory> result = new PagingEntity<>(pageInfo);
+
+        return ResponseBo.ok(result);
     }
 
 

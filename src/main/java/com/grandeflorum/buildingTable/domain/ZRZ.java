@@ -78,10 +78,10 @@ public class ZRZ {
     private Short dxcs;
 
     @Column(name = "GHYT")
-    private String ghyt;
+    private Integer ghyt;
 
     @Column(name = "FWJG")
-    private String fwjg;
+    private Integer fwjg;
 
     @Column(name = "ZTS")
     private Integer zts;
@@ -291,19 +291,19 @@ public class ZRZ {
         this.dxcs = dxcs;
     }
 
-    public String getGhyt() {
+    public Integer getGhyt() {
         return ghyt;
     }
 
-    public void setGhyt(String ghyt) {
+    public void setGhyt(Integer ghyt) {
         this.ghyt = ghyt;
     }
 
-    public String getFwjg() {
+    public Integer getFwjg() {
         return fwjg;
     }
 
-    public void setFwjg(String fwjg) {
+    public void setFwjg(Integer fwjg) {
         this.fwjg = fwjg;
     }
 

@@ -229,4 +229,16 @@ public class BuildingTableController {
     }
 
 
+    /**
+     * 获取合同备案历史记录
+     *
+     * @param
+     * @return
+     */
+    @PostMapping("/getBAHistory")
+    public ResponseBo getBAHistory(@RequestBody Page page) {
+        return buildingTableService.getBAHistory(page);
+    }
+
+
 }

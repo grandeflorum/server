@@ -19,8 +19,8 @@
         <result column="ZCS" jdbcType="DECIMAL" property="zcs" />
         <result column="DSCS" jdbcType="DECIMAL" property="dscs" />
         <result column="DXCS" jdbcType="DECIMAL" property="dxcs" />
-        <result column="GHYT" jdbcType="VARCHAR" property="ghyt" />
-        <result column="FWJG" jdbcType="VARCHAR" property="fwjg" />
+        <result column="GHYT" jdbcType="DECIMAL" property="ghyt" />
+        <result column="FWJG" jdbcType="DECIMAL" property="fwjg" />
         <result column="ZTS" jdbcType="DECIMAL" property="zts" />
         <result column="JZWJBYT" jdbcType="VARCHAR" property="jzwjbyt" />
         <result column="DAH" jdbcType="VARCHAR" property="dah" />
@@ -50,13 +50,13 @@
         <result column="SCDXMJ" jdbcType="DECIMAL" property="scdxmj" />
         <result column="SCQTMJ" jdbcType="DECIMAL" property="scqtmj" />
         <result column="JGRQ" jdbcType="DECIMAL" property="jgrq" />
-        <result column="FWJG1" jdbcType="VARCHAR" property="fwjg1" />
-        <result column="FWJG2" jdbcType="VARCHAR" property="fwjg2" />
-        <result column="FWJG3" jdbcType="VARCHAR" property="fwjg3" />
-        <result column="JZWZT" jdbcType="VARCHAR" property="jzwzt" />
-        <result column="FWYT1" jdbcType="VARCHAR" property="fwyt1" />
-        <result column="FWYT2" jdbcType="VARCHAR" property="fwyt2" />
-        <result column="FWYT3" jdbcType="VARCHAR" property="fwyt3" />
+        <result column="FWJG1" jdbcType="DECIMAL" property="fwjg1" />
+        <result column="FWJG2" jdbcType="DECIMAL" property="fwjg2" />
+        <result column="FWJG3" jdbcType="DECIMAL" property="fwjg3" />
+        <result column="JZWZT" jdbcType="DECIMAL" property="jzwzt" />
+        <result column="FWYT1" jdbcType="DECIMAL" property="fwyt1" />
+        <result column="FWYT2" jdbcType="DECIMAL" property="fwyt2" />
+        <result column="FWYT3" jdbcType="DECIMAL" property="fwyt3" />
         <result column="ZCS" jdbcType="DECIMAL" property="zcs" />
         <result column="DSCS" jdbcType="DECIMAL" property="dscs" />
         <result column="DXCS" jdbcType="DECIMAL" property="dxcs" />
@@ -354,6 +354,28 @@
     <update id="auditZRZById" parameterType="map">
         update fg_zrz t set t.audit_type = #{type} WHERE  t.id = #{id}
     </update>
+
+    <select id="getBAHistory" parameterType="map" resultType="com.grandeflorum.buildingTable.domain.BAHistory">
+        select con.id,con.htbah,con.gmr,con.basj,con.isnewhouse,con.houseid,h.mph as fh
+        from (
+        select id,htbah,buyer as gmr,basj,1 as isnewhouse,houseid from house_new_trade
+        union all
+        select id,htbah,jf as gmr,basj,2 as isnewhouse,houseid from house_stock_trade
+        ) con
+        inner join h on h.id=con.houseid
+        where con.houseid=#{id}
+        <choose>
+            <when test="sort!=null and sort.size()>0">
+                <foreach collection="sort" item="item" open="order by " separator=",">
+                    ${item}
+                </foreach>
+            </when>
+            <otherwise>
+                order by con.basj desc
+            </otherwise>
+        </choose>
+
+    </select>
 
 
 </mapper>
