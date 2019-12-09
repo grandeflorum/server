@@ -425,8 +425,10 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
         try{
             if(file1.exists()){
                 if(os!=null){
+
                     os.write(FileUtils.readFileToByteArray(file1));
                 }
+                office2PDF.office2PDF(sourcePath+"/"+id+".docx",sourcePath+"/"+id+".pdf",grandeflorumProperties.getOpenoffice());
 
             }else{
 
