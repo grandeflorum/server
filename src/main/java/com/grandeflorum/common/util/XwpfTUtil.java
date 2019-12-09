@@ -1,7 +1,11 @@
 package com.grandeflorum.common.util;
 
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.util.Units;
 import org.apache.poi.xwpf.usermodel.*;
+import org.apache.xmlbeans.XmlCursor;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -22,12 +26,12 @@ public class XwpfTUtil {
      * @param doc    要替换的文档
      * @param params 参数
      */
-    public void replaceInPara(XWPFDocument doc, Map<String, Object> params) {
+    public void replaceInPara(XWPFDocument doc, Map<String, Object> params,String id,String path) {
         Iterator<XWPFParagraph> iterator = doc.getParagraphsIterator();
         XWPFParagraph para;
         while (iterator.hasNext()) {
             para = iterator.next();
-            this.replaceInPara1(para, params);
+            this.replaceInPara1(para, params,id,path);
         }
     }
 
@@ -77,7 +81,7 @@ public class XwpfTUtil {
 
             for (String key : params.keySet()) {
                 if (str.equals(key)) {
-                    para.createRun().setText((String) params.get(key));
+                        para.createRun().setText((String) params.get(key));
                     break;
                 }
             }
@@ -92,7 +96,7 @@ public class XwpfTUtil {
      * @param para
      * @param params
      */
-    private  void replaceInPara1(XWPFParagraph para, Map<String, Object> params) {
+    private  void replaceInPara1(XWPFParagraph para, Map<String, Object> params,String id,String path) {
         List<XWPFRun> runs;
         Matcher matcher;
         if (matcher(para.getParagraphText()).find()) {
@@ -102,38 +106,25 @@ public class XwpfTUtil {
                 String runText = run.toString();
                 matcher = matcher(runText);
                 if (matcher.find()) {
-                    while ((matcher = matcher(runText)).find()) {
-                        runText = matcher.replaceFirst(String.valueOf(params.get(matcher.group(1))));
+
+                    if("${ewm}".equalsIgnoreCase(runText)){
+                        try{
+                            para.removeRun(i);
+                            para.insertNewRun(i).addPicture(new FileInputStream(path),XWPFDocument.PICTURE_TYPE_PNG,id+".png",Units.toEMU(150), Units.toEMU(150));
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+
+
+                    }else{
+                        while ((matcher = matcher(runText)).find()) {
+                            runText = matcher.replaceFirst(String.valueOf(params.get(matcher.group(1))));
+                        }
+                        para.removeRun(i);
+                        //重新插入run里内容格式可能与原来模板的格式不一致
+                        para.insertNewRun(i).setText(runText);
                     }
-                    para.removeRun(i);
-                    //重新插入run里内容格式可能与原来模板的格式不一致
-                    para.insertNewRun(i).setText(runText);
-                }
-            }
-        }
-    }
-    /**
-     * 替换表格里面的变量
-     *
-     * @param doc    要替换的文档
-     * @param params 参数
-     */
-    public void replaceInTable(XWPFDocument doc, Map<String, Object> params) {
-        Iterator<XWPFTable> iterator = doc.getTablesIterator();
-        XWPFTable table;
-        List<XWPFTableRow> rows;
-        List<XWPFTableCell> cells;
-        List<XWPFParagraph> paras;
-        while (iterator.hasNext()) {
-            table = iterator.next();
-            rows = table.getRows();
-            for (XWPFTableRow row : rows) {
-                cells = row.getTableCells();
-                for (XWPFTableCell cell : cells) {
-                    paras = cell.getParagraphs();
-                    for (XWPFParagraph para : paras) {
-                        this.replaceInPara(para, params);
-                    }
+
                 }
             }
         }

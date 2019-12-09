@@ -132,4 +132,9 @@ public class HouseTradeController {
     public ResponseBo checkExistCompletionFile(String id){
         return houseTradeService.checkExistCompletionFile(id);
     }
+
+    @GetMapping("/getEwmCheckInfo")
+    public ResponseBo getEwmCheckInfo(String id,String type){
+        return houseTradeService.getEwmCheckInfo(id,type);
+    }
 }

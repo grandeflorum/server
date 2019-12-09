@@ -35,10 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.URLEncoder;
 import java.util.Date;
 import java.util.HashMap;
@@ -318,27 +315,32 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
     public void previewHt(String id, HttpServletResponse response){
 
 
-        String content = "";
-        File file = creatWord(id,null);
         try {
-            content =  WordHelper.wordToHtml(file.getPath());
+
             String sourcePath = grandeflorumProperties.getUploadFolder()+"ht";
-            String filePath = sourcePath+"/"+id+".html";
+            String filePath = sourcePath+"/"+id+".pdf";
             File file1 = new File(filePath);
 
+
+
             OutputStream os = response.getOutputStream();
+            if(file1.exists()){
+                os.write(FileUtils.readFileToByteArray(file1));
+            }else{
+                creatWord(id,null);
 
-            response.setContentType("text/html");
-            response.setHeader("content-disposition", "inline;filename=" + URLEncoder.encode(filePath, "utf-8"));
+                File file2 = new File(filePath);
+                os.write(FileUtils.readFileToByteArray(file2));
+            }
 
-            os.write(FileUtils.readFileToByteArray(file1));
+            response.setContentType("application/vnd.ms-excel");
+            response.setHeader("content-disposition", "Attachment;filename=" + URLEncoder.encode(id+".pdf", "utf-8"));
             os.flush();
             os.close();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-
 
     }
 
@@ -367,6 +369,9 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
                 //新建一个word文档
                 XWPFDocument doc = new XWPFDocument(new FileInputStream(path));
                 Map<String, Object> params = new HashMap<String, Object>();
+
+                //生成二维码
+                QrCodeUtil.createQrCode(grandeflorumProperties.getQrCodePath()+"?id="+id+"&type=2",sourcePath+"/",id+".png");
 
                 params.put("htbh",StrUtil.NoNullString(stockTrade.getHtbah()));
                 params.put("cmr",StrUtil.NoNullString(stockTrade.getJf()));
@@ -413,12 +418,14 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
 
 
                 XwpfTUtil xwpfTUtil = new XwpfTUtil();
-                xwpfTUtil.replaceInPara(doc, params);
+                xwpfTUtil.replaceInPara(doc, params,id,sourcePath+"/"+id+".png");
 
                 doc.write(new FileOutputStream(fileSavePath));
                 if(os!=null){
                     doc.write(os);
                 }
+
+                office2PDF.office2PDF(sourcePath+"/"+id+".docx",sourcePath+"/"+id+".pdf",grandeflorumProperties.getOpenoffice());
             }
         }catch (Exception e){
             e.printStackTrace();

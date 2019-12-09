@@ -86,5 +86,33 @@ public class WordHelper {
         return htmlContent1;
     }
 
+    /**
+     * 将输入流中的数据写入字节数组
+     * @param in
+     * @return
+     */
+    public static byte[] inputStream2ByteArray(InputStream in, boolean isClose){
+        byte[] byteArray = null;
+        try {
+            int total = in.available();
+            byteArray = new byte[total];
+            in.read(byteArray);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally{
+            if(isClose){
+                try {
+                    in.close();
+                } catch (Exception e2) {
+                    System.out.println("关闭流失败");
+                }
+            }
+        }
+        return byteArray;
+    }
+
+
+
+
 
 }

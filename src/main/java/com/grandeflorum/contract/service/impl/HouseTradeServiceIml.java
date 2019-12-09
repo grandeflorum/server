@@ -13,10 +13,7 @@ import com.grandeflorum.common.domain.PagingEntity;
 import com.grandeflorum.common.domain.ResponseBo;
 import com.grandeflorum.common.service.impl.BaseService;
 import com.grandeflorum.common.util.*;
-import com.grandeflorum.contract.dao.ContractTemplateMapper;
-import com.grandeflorum.contract.dao.ContractnumMapper;
-import com.grandeflorum.contract.dao.HouseTradeHistoryMapper;
-import com.grandeflorum.contract.dao.HouseTradeMapper;
+import com.grandeflorum.contract.dao.*;
 import com.grandeflorum.contract.domain.*;
 import com.grandeflorum.contract.service.HouseTradeService;
 import com.grandeflorum.practitioner.dao.CompanyMapper;
@@ -31,6 +28,7 @@ import com.grandeflorum.system.service.SystemDictionaryService;
 import com.grandeflorum.system.service.SystemUserService;
 import net.sf.ehcache.CacheManager;
 import org.apache.commons.io.FileUtils;
+import org.apache.poi.util.Units;
 import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
@@ -94,6 +92,9 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
 
     @Autowired
     SystemUserService systemUserService;
+
+    @Autowired
+    StockTradeMapper stockTradeMapper ;
 
     @Override
     public ResponseBo getHouseTradeHistory(String id){
@@ -374,21 +375,25 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
     @Override
     public void previewHt(String id, HttpServletResponse response){
 
-
-        String content = "";
-        File file = creatWord(id,null);
         try {
-            content =  WordHelper.wordToHtml(file.getPath());
+
             String sourcePath = grandeflorumProperties.getUploadFolder()+"ht";
-            String filePath = sourcePath+"/"+id+".html";
+            String filePath = sourcePath+"/"+id+".pdf";
             File file1 = new File(filePath);
 
+
+
             OutputStream os = response.getOutputStream();
+            if(file1.exists()){
+                os.write(FileUtils.readFileToByteArray(file1));
+            }else{
+                creatWord(id,null);
 
-            response.setContentType("text/html");
-            response.setHeader("content-disposition", "inline;filename=" + URLEncoder.encode(filePath, "utf-8"));
-
-            os.write(FileUtils.readFileToByteArray(file1));
+                File file2 = new File(filePath);
+                os.write(FileUtils.readFileToByteArray(file2));
+            }
+            response.setContentType("application/vnd.ms-excel");
+            response.setHeader("content-disposition", "Attachment;filename=" + URLEncoder.encode(id+".pdf", "utf-8"));
             os.flush();
             os.close();
 
@@ -398,6 +403,7 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
 
 
     }
+
 
     public File creatWord(String id,OutputStream os){
 
@@ -425,7 +431,7 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
             }else{
 
                 //生成二维码
-                QrCodeUtil.createQrCode(grandeflorumProperties.getQrCodePath(),sourcePath+"/",id+".png");
+                QrCodeUtil.createQrCode(grandeflorumProperties.getQrCodePath()+"?id="+id+"&type=1",sourcePath+"/",id+".png");
 
                 //读入流中
                 String path = this.getClass().getResource("/").getPath()+ "templates/"+name;
@@ -548,12 +554,14 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
                 }
 
                 XwpfTUtil xwpfTUtil = new XwpfTUtil();
-                xwpfTUtil.replaceInPara(doc, params);
+                xwpfTUtil.replaceInPara(doc, params,id,sourcePath+"/"+id+".png");
 
                 doc.write(new FileOutputStream(fileSavePath));
                 if(os!=null){
                     doc.write(os);
                 }
+
+                office2PDF.office2PDF(sourcePath+"/"+id+".docx",sourcePath+"/"+id+".pdf",grandeflorumProperties.getOpenoffice());
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -601,5 +609,13 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
         return ResponseBo.ok(result);
     }
 
+    @Override
+    public ResponseBo getEwmCheckInfo(String id,String type){
 
+        if("1".equalsIgnoreCase(type)){
+            return ResponseBo.ok(houseTradeMapper.selectByPrimaryKey(id));
+        }
+
+        return ResponseBo.ok(stockTradeMapper.selectByPrimaryKey(id));
+    }
 }

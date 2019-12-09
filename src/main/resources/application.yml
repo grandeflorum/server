@@ -78,7 +78,7 @@ grandeflorum:
 
   openoffice : C:\\Program Files (x86)\\OpenOffice 4
 
-  qrCodePath: http://115.29.47.210:3000/
+  qrCodePath: http://115.29.47.210:3000/contract/ewmCheck
 
   shiro:
     #shiro redis缓存时长,默认1800秒

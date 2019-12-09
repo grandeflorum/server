@@ -127,7 +127,7 @@
     </select>
 
     <select id="queryHinfoByStockId" parameterType="String" resultType="map">
-        selecth.id, h.zl, h.SCJZMJ, h.FWYT1, ljz.fwjg1
+        select h.id, h.zl, h.SCJZMJ, h.FWYT1, ljz.fwjg1
           from house_stock_trade hst
           left join  h on hst.houseid = h.id
           left join ljz on h.LJZH = ljz.LJZH
