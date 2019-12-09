@@ -19,8 +19,8 @@
         <result column="ZCS" jdbcType="DECIMAL" property="zcs" />
         <result column="DSCS" jdbcType="DECIMAL" property="dscs" />
         <result column="DXCS" jdbcType="DECIMAL" property="dxcs" />
-        <result column="GHYT" jdbcType="VARCHAR" property="ghyt" />
-        <result column="FWJG" jdbcType="VARCHAR" property="fwjg" />
+        <result column="GHYT" jdbcType="DECIMAL" property="ghyt" />
+        <result column="FWJG" jdbcType="DECIMAL" property="fwjg" />
         <result column="ZTS" jdbcType="DECIMAL" property="zts" />
         <result column="JZWJBYT" jdbcType="VARCHAR" property="jzwjbyt" />
         <result column="DAH" jdbcType="VARCHAR" property="dah" />
@@ -50,13 +50,13 @@
         <result column="SCDXMJ" jdbcType="DECIMAL" property="scdxmj" />
         <result column="SCQTMJ" jdbcType="DECIMAL" property="scqtmj" />
         <result column="JGRQ" jdbcType="DECIMAL" property="jgrq" />
-        <result column="FWJG1" jdbcType="VARCHAR" property="fwjg1" />
-        <result column="FWJG2" jdbcType="VARCHAR" property="fwjg2" />
-        <result column="FWJG3" jdbcType="VARCHAR" property="fwjg3" />
-        <result column="JZWZT" jdbcType="VARCHAR" property="jzwzt" />
-        <result column="FWYT1" jdbcType="VARCHAR" property="fwyt1" />
-        <result column="FWYT2" jdbcType="VARCHAR" property="fwyt2" />
-        <result column="FWYT3" jdbcType="VARCHAR" property="fwyt3" />
+        <result column="FWJG1" jdbcType="DECIMAL" property="fwjg1" />
+        <result column="FWJG2" jdbcType="DECIMAL" property="fwjg2" />
+        <result column="FWJG3" jdbcType="DECIMAL" property="fwjg3" />
+        <result column="JZWZT" jdbcType="DECIMAL" property="jzwzt" />
+        <result column="FWYT1" jdbcType="DECIMAL" property="fwyt1" />
+        <result column="FWYT2" jdbcType="DECIMAL" property="fwyt2" />
+        <result column="FWYT3" jdbcType="DECIMAL" property="fwyt3" />
         <result column="ZCS" jdbcType="DECIMAL" property="zcs" />
         <result column="DSCS" jdbcType="DECIMAL" property="dscs" />
         <result column="DXCS" jdbcType="DECIMAL" property="dxcs" />

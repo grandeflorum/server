@@ -78,40 +78,40 @@ public class LJZ {
      * 房屋结构1
      */
     @Column(name = "FWJG1")
-    private String fwjg1;
+    private Integer fwjg1;
 
     /**
      * 房屋结构1
      */
     @Column(name = "FWJG2")
-    private String fwjg2;
+    private Integer fwjg2;
 
     /**
      * 房屋结构1
      */
     @Column(name = "FWJG3")
-    private String fwjg3;
+    private Integer fwjg3;
 
     /**
      * 建筑物状态
      */
     @Column(name = "JZWZT")
-    private String jzwzt;
+    private Integer jzwzt;
     /**
      * 房屋用途
      */
     @Column(name="FWYT1")
-    private String fwyt1;
+    private Integer fwyt1;
     /**
      * 房屋用途2
      */
     @Column(name = "FWYT2")
-    private String fwyt2;
+    private Integer fwyt2;
     /**
      * 房屋用途3
      */
     @Column(name = "FWYT3")
-    private String fwyt3;
+    private Integer fwyt3;
     /**
      * 总层数
      */
@@ -294,11 +294,11 @@ public class LJZ {
         this.scjzmj = scjzmj;
     }
 
-    public String getFwyt1() {
+    public Integer getFwyt1() {
         return fwyt1;
     }
 
-    public void setFwyt1(String fwyt1) {
+    public void setFwyt1(Integer fwyt1) {
         this.fwyt1 = fwyt1;
     }
 
@@ -366,51 +366,51 @@ public class LJZ {
         this.jgrq = jgrq;
     }
 
-    public String getFwjg1() {
+    public Integer getFwjg1() {
         return fwjg1;
     }
 
-    public void setFwjg1(String fwjg1) {
+    public void setFwjg1(Integer fwjg1) {
         this.fwjg1 = fwjg1;
     }
 
-    public String getFwjg2() {
+    public Integer getFwjg2() {
         return fwjg2;
     }
 
-    public void setFwjg2(String fwjg2) {
+    public void setFwjg2(Integer fwjg2) {
         this.fwjg2 = fwjg2;
     }
 
-    public String getFwjg3() {
+    public Integer getFwjg3() {
         return fwjg3;
     }
 
-    public void setFwjg3(String fwjg3) {
+    public void setFwjg3(Integer fwjg3) {
         this.fwjg3 = fwjg3;
     }
 
-    public String getJzwzt() {
+    public Integer getJzwzt() {
         return jzwzt;
     }
 
-    public void setJzwzt(String jzwzt) {
+    public void setJzwzt(Integer jzwzt) {
         this.jzwzt = jzwzt;
     }
 
-    public String getFwyt2() {
+    public Integer getFwyt2() {
         return fwyt2;
     }
 
-    public void setFwyt2(String fwyt2) {
+    public void setFwyt2(Integer fwyt2) {
         this.fwyt2 = fwyt2;
     }
 
-    public String getFwyt3() {
+    public Integer getFwyt3() {
         return fwyt3;
     }
 
-    public void setFwyt3(String fwyt3) {
+    public void setFwyt3(Integer fwyt3) {
         this.fwyt3 = fwyt3;
     }
 
