@@ -23,7 +23,7 @@ public class CompanyController {
 
     @PostMapping("/saveOrUpdateCompany")
     public ResponseBo saveOrUpdateCompany(@RequestBody Company company) {
-        return companyService.SaveOrUpdateCompany(company);
+        return companyService.SaveOrUpdateCompany(company,1);
     }
 
     @PostMapping("/getCompanyList")

@@ -17,6 +17,9 @@ import com.grandeflorum.practitioner.service.CompanyService;
 import com.grandeflorum.project.dao.WFAuditMapper;
 import com.grandeflorum.project.domain.AuditParam;
 import com.grandeflorum.project.domain.WFAudit;
+import com.grandeflorum.system.domain.SystemUser;
+import com.grandeflorum.system.domain.SystemUserRole;
+import com.grandeflorum.system.service.SystemUserRoleService;
 import com.grandeflorum.system.service.SystemUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,9 +52,12 @@ public class CompanyServiceImpl extends BaseService<Company> implements CompanyS
     @Autowired
     SystemUserService systemUserService;
 
+    @Autowired
+    private SystemUserRoleService userRoleService;
+
 
     @Override
-    public ResponseBo SaveOrUpdateCompany(Company company){
+    public ResponseBo SaveOrUpdateCompany(Company company,int type){
 
 
         company.setSysUpdDate(new Date());
@@ -74,8 +80,46 @@ public class CompanyServiceImpl extends BaseService<Company> implements CompanyS
             companyMapper.insert(company);
 
             fileInfoService.updateFileInfoByIds(company.getFileInfoList(),company.getId());
+
+            if(type==1){
+                SystemUser user = systemUserService.findUserByCard(company.getZjh());
+
+                if(user==null){
+
+                    user = new SystemUser();
+
+                    user.setUsername(company.getZjh());
+                    user.setPassword(!StrUtil.isNullOrEmpty(company.getZjh())&&company.getZjh().length()>=6?company.getZjh().substring(company.getZjh().length() - 6):"abc123");
+                    user.setRealname(company.getQyfr());
+                    user.setEmail(company.getDzyx());
+                    user.setMobile(company.getPhone());
+                    user.setIsVaild(1);
+                    user.setCard(company.getZjh());
+
+                    ResponseBo bo = systemUserService.insertRoleManage(user,(int)company.getCompanyType());
+                    if(!bo.get("code").toString().equals("200")){
+                        return bo;
+                    }
+                }
+            }
+
             return ResponseBo.ok(company);
 
+        }else{
+            if(type==1){
+                Company c = companyMapper.selectByPrimaryKey(company.getId());
+
+                SystemUser user = systemUserService.findUserByCard(c.getZjh());
+
+                if(user!=null){
+                    user.setRealname(company.getQyfr());
+                    user.setEmail(company.getDzyx());
+                    user.setMobile(company.getPhone());
+                    user.setCard(company.getZjh());
+
+                    systemUserService.updateUser(user);
+                }
+            }
         }
 
         companyMapper.updateByPrimaryKey(company);
@@ -168,12 +212,16 @@ public class CompanyServiceImpl extends BaseService<Company> implements CompanyS
                     map.put("type", 2);
                 } else {
                     map.put("type", 3);
+
+                    UpdateRoles(id);
                 }
             } else if (auditParam.getType() == 1) {
                 if (wf.getShjg() == 1) {
                     map.put("type", 4);
                 } else {
                     map.put("type", 3);
+
+                    UpdateRoles(id);
                 }
             }
             companyMapper.auditCompanyById(map);
@@ -181,6 +229,18 @@ public class CompanyServiceImpl extends BaseService<Company> implements CompanyS
 
         return ResponseBo.ok();
 
+    }
+
+    private void UpdateRoles(String id){
+        Company c= companyMapper.selectByPrimaryKey(id);
+
+        SystemUser user = systemUserService.findUserByCard(c.getZjh());
+
+        if(user!=null){
+            userRoleService.deleteUserRoleByUserId(user.getId());
+
+            systemUserService.SaveRoles(user.getId(),(int)c.getCompanyType());
+        }
     }
 
 

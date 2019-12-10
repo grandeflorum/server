@@ -107,6 +107,16 @@ public class SystemUserServiceImpl extends BaseService<SystemUser> implements Sy
     }
 
     @Override
+    public int updateUser(SystemUser user){
+        try {
+            userMapper.updateByPrimaryKey(user);
+            return 1;
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+    @Override
     public int deleteUserById(String id) {
         try {
             userMapper.deleteByPrimaryKey(id);
@@ -160,6 +170,11 @@ public class SystemUserServiceImpl extends BaseService<SystemUser> implements Sy
     }
 
     @Override
+    public SystemUser findUserByCard(String Card){
+        return userMapper.findUserByCard(Card);
+    }
+
+    @Override
     public int changePassword(SystemUser user) {
         return userMapper.changePassword(user);
     }
@@ -167,37 +182,48 @@ public class SystemUserServiceImpl extends BaseService<SystemUser> implements Sy
     @Override
     public ResponseBo insertRoleManage(SystemUser user,int type) {
 
-        SystemUser user1 = findUserByUsername(user.getUsername());
-        if(StrUtil.isNullOrEmpty(user.getId())){
+        SystemUser user1 = userMapper.findUserByCard(user.getCard());
+        if (StrUtil.isNullOrEmpty(user.getId())) {
 
             //判断是否重复
-            if(user1!=null){
+            if (user1 != null) {
                 return ResponseBo.error("账号重复");
             }
 
             user.setId(GuidHelper.getGuid());
-            String orgId =  systemOrganizationMapper.getTopOrganization();
+            String orgId = systemOrganizationMapper.getTopOrganization();
             user.setOrgId(orgId);
             userMapper.insert(user);
 
-            SystemUserRole sut = new SystemUserRole();
-            sut.setId(GuidHelper.getGuid());
-            sut.setUserId(user.getId());
-
-            String roleId = systemRoleMapper.getRoleIdByName(type);
-            sut.setRoleId(roleId);
-            //插入权限
-            systemUserRoleMapper.insert(sut);
-        }else{
+            SaveRoles(user.getId(),type);
+        } else {
 
             //判断是否重复
-            if(user1!=null&&!user.getId().equals(user1.getId())) {
+            if (user1 != null && !user.getId().equals(user1.getId())) {
                 return ResponseBo.error("账号重复");
             }
+
+            if (user.getIsVaild() == 1) {
+                SaveRoles(user.getId(),type == 1 ? 3 : 4);
+            }
+
             userMapper.updateUserRoleManage(user);
         }
         return ResponseBo.ok();
     }
+
+    @Override
+    public void SaveRoles(String userId,int type){
+        SystemUserRole sut = new SystemUserRole();
+        sut.setId(GuidHelper.getGuid());
+        sut.setUserId(userId);
+
+        String roleId = systemRoleMapper.getRoleIdByName(type);
+        sut.setRoleId(roleId);
+        //插入权限
+        systemUserRoleMapper.insert(sut);
+    }
+
 
     @Override
     @Transactional
@@ -213,14 +239,15 @@ public class SystemUserServiceImpl extends BaseService<SystemUser> implements Sy
         company.setZjh(userCompany.getCard());
         company.setDzyx(userCompany.getEmail());
         company.setPhone(userCompany.getMobile());
+        company.setAuditType((short)0);
 
-        ResponseBo bo = companyService.SaveOrUpdateCompany(company);
+        ResponseBo bo = companyService.SaveOrUpdateCompany(company,2);
 
-        if(bo.get("msg").equals("repeat")){
-            return ResponseBo.error("企业名称重复");
+        if(!bo.get("code").toString().equals("200")){
+            return bo;
         }
 
-        userCompany.setIsVaild(2);
+        userCompany.setIsVaild(1);
 
         return insertRoleManage(userCompany,Integer.parseInt(userCompany.getCompanyType()));
     }
@@ -238,7 +265,7 @@ public class SystemUserServiceImpl extends BaseService<SystemUser> implements Sy
 
         if(roles.contains("管理员")||roles.contains("录入员")||roles.contains("审核员")||roles.contains("领导")){
             map.put("needFilter",false);
-        }else if(roles.contains("开发企业")||roles.contains("经济公司")){
+        }else if(roles.contains("开发企业")||roles.contains("经济公司")||roles.contains("默认开发企业")||roles.contains("默认经济公司")){
             map.put("needFilter",true);
         }
 

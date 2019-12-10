@@ -18,6 +18,8 @@ public interface SystemUserService extends IService<SystemUser> {
 
     int modifyUser(SystemUser userWithRole);
 
+    int updateUser(SystemUser user);
+
     int deleteUserById(String id);
 
     SystemUser getUserWithRoleByUserId(String id);
@@ -27,6 +29,8 @@ public interface SystemUserService extends IService<SystemUser> {
     SystemUser login(Map<String, String> map);
 
     SystemUser findUserByUsername(String username);
+
+    SystemUser findUserByCard(String Card);
 
     ResponseBo getUserList(Page page);
 
@@ -41,5 +45,7 @@ public interface SystemUserService extends IService<SystemUser> {
     ResponseBo insertUserCompany(UserCompany userCompany);
 
     Map<String,Object> getSelectInfo(Map<String,Object> map);
+
+    void SaveRoles(String userId,int type);
 
 }

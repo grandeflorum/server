@@ -21,6 +21,8 @@ public interface SystemUserMapper extends MyMapper<SystemUser> {
 
     SystemUser findUserByUsername(String username);
 
+    SystemUser findUserByCard(String username);
+
     List<SystemUser> getUserList(Map<String, Object> map);
 
     int changePassword(SystemUser user);

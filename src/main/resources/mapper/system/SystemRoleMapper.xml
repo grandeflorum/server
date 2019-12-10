@@ -38,11 +38,17 @@
     select t.id from system_role t where 1=1
     <choose>
       <when test="1 == type">
+        and t.name='默认开发企业'
+      </when>
+      <when test="2 == type">
+        and t.name='默认经济公司'
+      </when>
+      <when test="3 == type">
         and t.name='开发企业'
       </when>
-      <otherwise>
-        and t.name='经济公司'
-      </otherwise>
+      <when test="4 == type">
+        and t.name='经纪公司'
+      </when>
     </choose>
   </select>
 </mapper>

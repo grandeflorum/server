@@ -214,6 +214,11 @@ public class SystemUserController {
         return ResponseBo.ok(userService.findUserByUsername(name));
     }
 
+    @GetMapping("/findUserByCard")
+    public ResponseBo findUserByCard(String card) {
+        return ResponseBo.ok(userService.findUserByCard(card));
+    }
+
     @PostMapping("/insertRoleManage")
     public ResponseBo insertRoleManage(@RequestBody SystemUser user,@RequestParam(value = "type", required = true)  int type){
         return userService.insertRoleManage(user,type);

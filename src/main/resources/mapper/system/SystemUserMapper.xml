@@ -28,6 +28,10 @@
   </select>
 
   <select id="findUserByUsername" resultMap="BaseResultMap">
+    select * from system_user t where t.USERNAME = #{username}
+  </select>
+
+  <select id="findUserByCard" resultMap="BaseResultMap">
     select * from system_user t where t.CARD = #{username}
   </select>
 

@@ -20,7 +20,7 @@ public interface CompanyService extends IService<Company>{
      * @param company
      * @return
      */
-    ResponseBo SaveOrUpdateCompany(Company company);
+    ResponseBo SaveOrUpdateCompany(Company company,int type);
 
     /**
      * 获取企业列表
