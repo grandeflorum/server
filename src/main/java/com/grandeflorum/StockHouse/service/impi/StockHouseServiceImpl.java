@@ -115,8 +115,8 @@ public class StockHouseServiceImpl extends BaseService<StockHouse> implements St
 
     @Override
     public ResponseBo getStockHouseList(Page page) {
-        PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
+        PageHelper.startPage(page.getPageNo(), page.getPageSize());
         List<StockHouse> list = stockHouseMapper.getStockHouseList(map);
 
         PageInfo<StockHouse> pageInfo = new PageInfo<StockHouse>(list);

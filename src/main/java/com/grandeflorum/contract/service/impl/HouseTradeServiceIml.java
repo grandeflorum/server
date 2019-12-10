@@ -318,12 +318,12 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
 
     @Override
     public ResponseBo getHouseTradeList(Page page) {
-        PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
 
         //获取过滤条件
         systemUserService.getSelectInfo(map);
 
+        PageHelper.startPage(page.getPageNo(), page.getPageSize());
         List<HouseTrade> list = houseTradeMapper.getHouseTradeList(map);
 
         PageInfo<HouseTrade> pageInfo = new PageInfo<HouseTrade>(list);
@@ -334,8 +334,8 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
 
     @Override
     public ResponseBo getHouseTradeCancelList(Page page) {
-        PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
+        PageHelper.startPage(page.getPageNo(), page.getPageSize());
         List<ContractCancel> list = houseTradeMapper.getHouseTradeCancelList(map);
 
         PageInfo<ContractCancel> pageInfo = new PageInfo<ContractCancel>(list);

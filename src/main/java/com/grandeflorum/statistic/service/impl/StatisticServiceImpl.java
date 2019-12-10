@@ -87,11 +87,8 @@ public class StatisticServiceImpl implements StatisticService {
 
     @Override
     public ResponseBo getProjectSalesVolumeList(Page page){
-
-        PageHelper.startPage(page.getPageNo(), page.getPageSize());
-
         Map<String, Object> map = page.getQueryParameter();
-
+        PageHelper.startPage(page.getPageNo(), page.getPageSize());
         List<SalesStatisticInfo> list = statisticMapper.getProjectSalesVolumeList(map);
 
         PageInfo<SalesStatisticInfo> pageInfo = new PageInfo<>(list);

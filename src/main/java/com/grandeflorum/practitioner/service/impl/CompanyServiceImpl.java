@@ -134,7 +134,6 @@ public class CompanyServiceImpl extends BaseService<Company> implements CompanyS
     @Override
     public ResponseBo getCompanyList(Page page){
 
-        PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
 
 
@@ -143,6 +142,7 @@ public class CompanyServiceImpl extends BaseService<Company> implements CompanyS
 
 
 
+        PageHelper.startPage(page.getPageNo(), page.getPageSize());
         List<Company> list = companyMapper.getCompanyList(map);
 
         PageInfo<Company> pageInfo = new PageInfo<Company>(list);

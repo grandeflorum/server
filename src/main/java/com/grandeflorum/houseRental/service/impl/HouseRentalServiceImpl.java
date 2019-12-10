@@ -85,16 +85,17 @@ public class HouseRentalServiceImpl extends BaseService<HouseRental> implements 
     @Override
     public ResponseBo getHouseRentalList(Page page){
 
-        PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
 
         //获取过滤条件
         systemUserService.getSelectInfo(map);
 
+        
         if(map.containsKey("regioncode")) {
             String code = sysRegionService.getFilterCode(map.get("regioncode").toString());
             map.put("regioncode", code);
         }
+		PageHelper.startPage(page.getPageNo(), page.getPageSize());
         List<HouseRentalExtend> list = houseRentalMapper.getHouseRentalList(map);
 
         PageInfo<HouseRentalExtend> pageInfo = new PageInfo<HouseRentalExtend>(list);

@@ -146,8 +146,8 @@ public class SystemUserServiceImpl extends BaseService<SystemUser> implements Sy
 
     @Override
     public ResponseBo getUserList(Page page) {
-        PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
+        PageHelper.startPage(page.getPageNo(), page.getPageSize());
         List<SystemUser> list = userMapper.getUserList(map);
 
         PageInfo<SystemUser> pageInfo = new PageInfo<SystemUser>(list);

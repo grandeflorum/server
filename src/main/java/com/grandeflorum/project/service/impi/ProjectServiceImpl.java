@@ -62,12 +62,12 @@ public class ProjectServiceImpl extends BaseService<Project> implements ProjectS
 
     @Override
     public ResponseBo getProjectList(Page page) {
-        PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
 
         //获取过滤条件
         systemUserService.getSelectInfo(map);
 
+        PageHelper.startPage(page.getPageNo(), page.getPageSize());
         List<Project> list = projectMapper.getProjectList(map);
 
         PageInfo<Project> pageInfo = new PageInfo<Project>(list);
@@ -127,8 +127,8 @@ public class ProjectServiceImpl extends BaseService<Project> implements ProjectS
 
     @Override
     public ResponseBo getProjectDialog(Page page) {
-        PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
+        PageHelper.startPage(page.getPageNo(), page.getPageSize());
         List<ProjectDialog> list = projectMapper.getProjectDialog(map);
 
         PageInfo<ProjectDialog> pageInfo = new PageInfo<ProjectDialog>(list);

@@ -44,31 +44,32 @@ public class CrossInterceptor extends HandlerInterceptorAdapter {
 
 
         System.out.print(url);
-        String[] Urls = new String[]{"/login","/error" };
+        String[] Urls = new String[]{"/login","/error","/SystemMenu/getUserMenu","/SystemUser/findUserByUsername","/SystemUser/insertUserCompany",
+        "/SystemDictionary/getAllDictionary","/SysRegion/getAllRegion","/SystemOrganization/getAllOrganization","/SystemRole/getAllRoles"};
 
-//        if (null == authid) {
-//            for (String string : Urls) {
-//
-//                if (url.indexOf(string)>-1) {
-//                    return super.preHandle(request, response, handler);
-//                }
-//            }
-//            response.setStatus(403);
-//            return false;
-//        } else {
-//
-//            for (String string : Urls) {
-//                if (url.indexOf(string)>-1) {
-//                    return super.preHandle(request, response, handler);
-//                }
-//            }
-//            Object user = EHCacheUtils.getCache(cacheManager,authid);
-//            if (null == user) {
-//                response.setStatus(403);
-//                return false;
-//            }
-//
-//        }
+        if (null == authid) {
+            for (String string : Urls) {
+
+                if (url.indexOf(string)>-1) {
+                    return super.preHandle(request, response, handler);
+                }
+            }
+            response.setStatus(403);
+            return false;
+        } else {
+
+            for (String string : Urls) {
+                if (url.indexOf(string)>-1) {
+                    return super.preHandle(request, response, handler);
+                }
+            }
+            Object user = EHCacheUtils.getCache(cacheManager,authid);
+            if (null == user) {
+                response.setStatus(403);
+                return false;
+            }
+
+        }
 
         return super.preHandle(request, response, handler);
     }
