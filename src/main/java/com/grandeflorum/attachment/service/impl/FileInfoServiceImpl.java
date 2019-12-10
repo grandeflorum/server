@@ -117,8 +117,8 @@ public class FileInfoServiceImpl extends BaseService<FileInfo> implements FileIn
 
     @Override
     public ResponseBo getFileListByRefidAndType(Page page) {
-        PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
+        PageHelper.startPage(page.getPageNo(), page.getPageSize());
         List<FileInfo> list = fileInfoMapper.getFileListByRefidAndType(map);
 
         PageInfo<FileInfo> pageInfo = new PageInfo<FileInfo>(list);

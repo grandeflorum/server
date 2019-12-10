@@ -76,12 +76,12 @@ public class EmployeeServiceImpl extends BaseService<Employee> implements Employ
 
     @Override
     public ResponseBo getEmployeeList(Page page) {
-        PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
 
         //获取过滤条件
         systemUserService.getSelectInfo(map);
 
+        PageHelper.startPage(page.getPageNo(), page.getPageSize());
         List<EmployeeList> list = employeeMapper.getEmployeeList(map);
 
         PageInfo<EmployeeList> pageInfo = new PageInfo<EmployeeList>(list);

@@ -230,12 +230,12 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
 
     @Override
     public ResponseBo getStockTradeList(Page page) {
-        PageHelper.startPage(page.getPageNo(), page.getPageSize());
+
         Map<String, Object> map = page.getQueryParameter();
 
         //获取过滤条件
         systemUserService.getSelectInfo(map);
-
+        PageHelper.startPage(page.getPageNo(), page.getPageSize());
         List<StockTrade> list = stockTradeMapper.getStockTradeList(map);
 
         PageInfo<StockTrade> pageInfo = new PageInfo<StockTrade>(list);
@@ -246,8 +246,8 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
 
     @Override
     public ResponseBo getStockTradeCancelList(Page page) {
-        PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
+        PageHelper.startPage(page.getPageNo(), page.getPageSize());
         List<ContractCancel> list = stockTradeMapper.getStockTradeCancelList(map);
 
         PageInfo<ContractCancel> pageInfo = new PageInfo<ContractCancel>(list);

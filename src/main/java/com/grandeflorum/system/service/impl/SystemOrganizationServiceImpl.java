@@ -42,8 +42,8 @@ public class SystemOrganizationServiceImpl extends BaseService<SystemOrganizatio
 
     @Override
     public ResponseBo getOrganizationList(Page page) {
-        PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
+        PageHelper.startPage(page.getPageNo(), page.getPageSize());
         List<SystemOrganization> list = mapper.getOrganizationList(map);
 
         PageInfo<SystemOrganization> pageInfo = new PageInfo<SystemOrganization>(list);

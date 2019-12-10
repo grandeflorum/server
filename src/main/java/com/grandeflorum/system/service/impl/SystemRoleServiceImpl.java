@@ -63,8 +63,9 @@ public class SystemRoleServiceImpl extends BaseService<SystemRole> implements Sy
 
     @Override
     public ResponseBo getRoleList(Page page) {
-        PageHelper.startPage(page.getPageNo(), page.getPageSize());
+
         Map<String, Object> map = page.getQueryParameter();
+ 		PageHelper.startPage(page.getPageNo(), page.getPageSize());
         List<SystemRole> list = roleMapper.getRoleList(map);
 
         PageInfo<SystemRole> pageInfo = new PageInfo<SystemRole>(list);

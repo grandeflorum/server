@@ -183,8 +183,8 @@ public class ContractTemplateServiceImpl extends BaseService<ContractTemplate> i
 
     @Override
     public ResponseBo getContractTemplateHistoryList(Page page) {
-        PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
+        PageHelper.startPage(page.getPageNo(), page.getPageSize());
         List<ContractTemplateHistory> list = contractTemplateHistoryMapper.getContractTemplateHistoryList(map);
 
         PageInfo<ContractTemplateHistory> pageInfo = new PageInfo<ContractTemplateHistory>(list);

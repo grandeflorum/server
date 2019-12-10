@@ -77,11 +77,11 @@ public class BuildingTableServiceImpl implements BuildingTableService {
     @Override
     public ResponseBo getBuildingTableList(Page page) {
 
-        PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
 
         //获取过滤条件
         systemUserService.getSelectInfo(map);
+        PageHelper.startPage(page.getPageNo(), page.getPageSize());
 
         List<ResultList> list = buildingTableMapper.getBuildingTableList(map);
 
@@ -557,9 +557,9 @@ public class BuildingTableServiceImpl implements BuildingTableService {
 
     @Override
     public ResponseBo getChildHList(Page page) {
-        PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
 
+        PageHelper.startPage(page.getPageNo(), page.getPageSize());
         List<H> list = buildingTableMapper.getChildHList(map);
 
         PageInfo<H> pageInfo = new PageInfo<>(list);
@@ -631,9 +631,9 @@ public class BuildingTableServiceImpl implements BuildingTableService {
 
     @Override
     public ResponseBo getBAHistory(Page page) {
-        PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
 
+        PageHelper.startPage(page.getPageNo(), page.getPageSize());
         List<BAHistory> list = buildingTableMapper.getBAHistory(map);
 
         PageInfo<BAHistory> pageInfo = new PageInfo<>(list);

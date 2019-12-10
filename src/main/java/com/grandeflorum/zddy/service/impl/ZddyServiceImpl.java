@@ -73,12 +73,12 @@ public class ZddyServiceImpl extends BaseService<Zddy> implements ZddyService {
     @Override
     public ResponseBo getZddyList(Page page){
 
-        PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
 
         //获取过滤条件
         systemUserService.getSelectInfo(map);
 
+        PageHelper.startPage(page.getPageNo(), page.getPageSize());
         List<Zddy> list = zddyMapper.getZddyList(map);
 
         PageInfo<Zddy> pageInfo = new PageInfo<Zddy>(list);
