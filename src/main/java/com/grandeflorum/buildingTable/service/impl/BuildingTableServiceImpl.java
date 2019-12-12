@@ -129,7 +129,7 @@ public class BuildingTableServiceImpl implements BuildingTableService {
         List<C> cList = buildingTableMapper.getCList(map);
         List<H> hList = buildingTableMapper.getHList(map);
 
-        if (cList != null && cList.size() > 0 && hList != null && hList.size() > 0) {
+        if (cList != null && cList.size() > 0 ) {
 
             result.setLjzStatistical(new LJZStatistical());
             result.getLjzStatistical().setZmj(new BigDecimal(hList.stream().mapToDouble(H::getScjzmj).sum()).setScale(4,BigDecimal.ROUND_HALF_UP).doubleValue());
@@ -143,49 +143,56 @@ public class BuildingTableServiceImpl implements BuildingTableService {
 
 
             //1.获取单元合并数
-            int Dys = hList.stream().max(Comparator.comparingInt(H::getDyh)).map(x -> x.getDyh()).get();
-
+            int Dys=1;
+            if(hList!=null&&hList.size()>0){
+                 Dys = hList.stream().max(Comparator.comparingInt(H::getDyh)).map(x -> x.getDyh()).get();
+            }
             for (int i = 1; i <= Dys; i++) {
                 DY d = new DY();
                 d.setName(i + "单元");
 
                 int rowSpan = 0;
 
-                for (C c : cList) {
-                    int count = 0;
-                    if (c.getSfqfdy().equals("0")) {
-                        if (i == 1) {
-                            int copyDyh = Dys;
+                if(hList!=null&&hList.size()>0){
+                    for (C c : cList) {
+                        int count = 0;
+                        if (c.getSfqfdy().equals("0")) {
+                            if (i == 1) {
+                                int copyDyh = Dys;
 
-                            while (copyDyh > 0) {
-                                int dy = copyDyh;
+                                while (copyDyh > 0) {
+                                    int dy = copyDyh;
 
-                                List<H> filter = hList.stream().filter(x -> x.getCh() == c.getSjc() && x.getDyh() == dy).collect(Collectors.toList());
+                                    List<H> filter = hList.stream().filter(x -> x.getCh() == c.getSjc() && x.getDyh() == dy).collect(Collectors.toList());
 
-                                if (filter != null && filter.size() > 0) {
-                                    count += filter.stream().max(Comparator.comparingInt(H::getHbh)).map(x -> x.getHbh()).get();
+                                    if (filter != null && filter.size() > 0) {
+                                        count += filter.stream().max(Comparator.comparingInt(H::getHbh)).map(x -> x.getHbh()).get();
+                                    }
+                                    copyDyh--;
                                 }
-                                copyDyh--;
+                            } else {
+                                count = 0;
                             }
                         } else {
-                            count = 0;
-                        }
-                    } else {
-                        int dy = i;
+                            int dy = i;
 
-                        List<H> filter = hList.stream().filter(x -> x.getCh() == c.getSjc() && x.getDyh() == dy).collect(Collectors.toList());
+                            List<H> filter = hList.stream().filter(x -> x.getCh() == c.getSjc() && x.getDyh() == dy).collect(Collectors.toList());
 
-                        if (filter != null && filter.size() > 0) {
-                            count = filter.stream().max(Comparator.comparingInt(H::getHbh)).map(x -> x.getHbh()).get();
+                            if (filter != null && filter.size() > 0) {
+                                count = filter.stream().max(Comparator.comparingInt(H::getHbh)).map(x -> x.getHbh()).get();
+                            }
+                        }
+                        if (count > rowSpan) {
+                            rowSpan = count > 10 ? 10 : count;
+                        }
+                        if (count > c.getCount()) {
+                            c.setCount(count);
                         }
                     }
-                    if (count > rowSpan) {
-                        rowSpan = count > 10 ? 10 : count;
-                    }
-                    if (count > c.getCount()) {
-                        c.setCount(count);
-                    }
+                }else{
+                    rowSpan=1;
                 }
+
 
                 d.setRowSpan(rowSpan);
 
@@ -492,7 +499,7 @@ public class BuildingTableServiceImpl implements BuildingTableService {
         C c= cMapper.selectByPrimaryKey(id);
         if(c!=null&&c.getZrzh()!=null&&c.getLjzh()!=null){
             Example exampleH = new Example(H.class);
-            exampleH.createCriteria().andEqualTo("zrzh", c.getZrzh()).andEqualTo("ljzh",c.getLjzh()).andEqualTo("sjc",c.getSjc());
+            exampleH.createCriteria().andEqualTo("zrzh", c.getZrzh()).andEqualTo("ljzh",c.getLjzh()).andEqualTo("ch",c.getSjc());
             List<H> hList=hMapper.selectByExample(exampleH);
             if(hList!=null&&hList.size()>0){
                 return ResponseBo.error("该层下存在户信息，不能删除");
