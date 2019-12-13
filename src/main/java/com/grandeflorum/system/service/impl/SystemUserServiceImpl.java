@@ -26,10 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.beans.Transient;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by 13260 on 2019/11/1.
@@ -270,14 +267,14 @@ public class SystemUserServiceImpl extends BaseService<SystemUser> implements Sy
         }
 
         if(StrUtil.isNullOrEmpty(user.getCard())){
-            map.put("companyList",new ArrayList<String>());
+            map.put("companyList", Arrays.asList(new String[] {"无"}));
         }else{
             List<String> CompanyList = userMapper.getCompanyIdByCard(user.getCard());
 
             if(CompanyList!=null&&CompanyList.size()>0){
                 map.put("companyList",CompanyList);
             }else{
-                map.put("companyList",new ArrayList<String>());
+                map.put("companyList", Arrays.asList(new String[] {"无"}));
             }
         }
         return map;
