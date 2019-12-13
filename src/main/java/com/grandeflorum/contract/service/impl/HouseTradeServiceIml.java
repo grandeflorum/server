@@ -16,6 +16,7 @@ import com.grandeflorum.common.util.*;
 import com.grandeflorum.contract.dao.*;
 import com.grandeflorum.contract.domain.*;
 import com.grandeflorum.contract.service.HouseTradeService;
+import com.grandeflorum.contract.service.StockTradeService;
 import com.grandeflorum.practitioner.dao.CompanyMapper;
 import com.grandeflorum.practitioner.domain.Company;
 import com.grandeflorum.project.dao.WFAuditMapper;
@@ -95,6 +96,9 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
 
     @Autowired
     StockTradeMapper stockTradeMapper ;
+
+    @Autowired
+    StockTradeService stockTradeService;
 
     @Override
     public ResponseBo getHouseTradeHistory(String id){
@@ -440,121 +444,8 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
                 //新建一个word文档
                 XWPFDocument doc = new XWPFDocument(new FileInputStream(path));
                 Map<String, Object> params = new HashMap<String, Object>();
-                params.put("htbh", NoNullString(houseTrade.getHtbah()));
 
-                //企业
-                Company company =  houseTradeMapper.getCompanyByAssociatedId(id);
-                if(company!=null) {
-
-                    params.put("cmr",company.getQymc());
-                    params.put("txdz",NoNullString(company.getAddress()));
-                    params.put("yzbm",NoNullString(company.getYzbm()));
-                    params.put("yyzz",NoNullString(company.getYyzz()));
-                    params.put("zzzsh",NoNullString(company.getZzzsh()));
-                    params.put("qyfr",NoNullString(company.getQyfr()));
-                    params.put("lxdh",NoNullString(company.getPhone()));
-
-                    //开发项目
-                    String companyId = company.getId();
-                    Project project = houseTradeMapper.getProjectByCompanyId(companyId);
-                    if(project!=null) {
-
-                        String qdfs = systemDictionaryService.getDicName("ydqdfs",project.getYdqdfs());
-                        params.put("qdfs",qdfs);
-                        params.put("xmzl",NoNullString(project.getAddress()));
-
-                        params.put("tdsyzh",NoNullString(project.getTdsyzh()));
-                        params.put("zdmj",DoubleToString(project.getZdmj()));
-
-                        String xmyt = systemDictionaryService.getDicName("xmyt",project.getXmyt());
-                        params.put("xmyt",xmyt);
-
-                        params.put("xmmc",project.getXmmc());
-
-                        params.put("tdsyzzzrq",DateUtils.DateToString(project.getTdsyzzzrq()));
-                        params.put("jsgcghxkzh",NoNullString(project.getJsgcghxkzh()));
-                        params.put("jsgcsgxkzh",NoNullString(project.getJsgcsgxkzh()));
-
-                    }else{
-                        params.put("qdfs","");
-                        params.put("xmzl","");
-                        params.put("tdsyzh","");
-                        params.put("zdmj","");
-                        params.put("xmyt","");
-                        params.put("xmmc","");
-                        params.put("tdsyzzzrq","");
-                        params.put("jsgcghxkzh","");
-                        params.put("jsgcsgxkzh","");
-                    }
-
-                }else{
-                    params.put("cmr","");
-                    params.put("txdz","");
-                    params.put("yzbm","");
-                    params.put("yyzz","");
-                    params.put("zzzsh","");
-                    params.put("qyfr","");
-                    params.put("lxdh","");
-                    params.put("qdfs","");
-                    params.put("xmzl","");
-                    params.put("tdsyzh","");
-                    params.put("zdmj","");
-                    params.put("xmyt","");
-                    params.put("xmmc","");
-                    params.put("tdsyzzzrq","");
-                    params.put("jsgcghxkzh","");
-                    params.put("jsgcsgxkzh","");
-                }
-
-                params.put("msr", NoNullString(houseTrade.getBuyer()));
-                params.put("zh", NoNullString(houseTrade.getZh()));
-                params.put("txdz", NoNullString(houseTrade.getLxdz()));
-
-                params.put("birthday",IDCardUtil.getBirthday(houseTrade.getSfzh()));
-                params.put("sex",IDCardUtil.getSex(houseTrade.getSfzh()));
-                params.put("ysxkz",houseTrade.getYsxkz());
-
-                Map<String,String> map = houseTradeMapper.queryHinfoByTradeId(id);
-                if(map!=null) {
-
-                    String fwyt = systemDictionaryService.getDicName("fwyt",map.get("FWYT")!=null?Integer.parseInt(map.get("FWYT").toString()):null);
-                    params.put("fwyt",fwyt);
-
-                    String jzjg = systemDictionaryService.getDicName("jzjg",map.get("FWJG1")!=null?Integer.parseInt(map.get("FWJG1").toString()):null);
-                    params.put("jzjg",jzjg);
-
-                    params.put("zcs",map.get("ZCS")!=null?String.valueOf(map.get("ZCS")):"");
-                    params.put("dscs",map.get("DSCS")!=null?String.valueOf(map.get("DSCS")):"");
-                    params.put("dxcs",map.get("DXCS")!=null?String.valueOf(map.get("DXCS")):"");
-
-                    if(1==houseTrade.getHouseType()){
-                        params.put("scjzmj",map.get("SCJZMJ")!=null?String.valueOf(map.get("SCJZMJ")):"");
-                        params.put("sctnjzmj",map.get("SCTNJZMJ")!=null?String.valueOf(map.get("SCTNJZMJ")):"");
-                        params.put("scftjzmj",map.get("SCFTJZMJ")!=null?String.valueOf(map.get("SCFTJZMJ")):"");
-                    }else{
-                        params.put("ycjzmj",map.get("YCJZMJ")!=null?String.valueOf(map.get("YCJZMJ")):"");
-                        params.put("yctnjzmj",map.get("YCTNJZMJ")!=null?String.valueOf(map.get("YCTNJZMJ")):"");
-                        params.put("ycftjzmj",map.get("YCFTJZMJ")!=null?String.valueOf(map.get("YCFTJZMJ")):"");
-                    }
-                }else{
-                    params.put("fwyt","");
-                    params.put("jzjg","");
-                    params.put("zcs","");
-                    params.put("dscs","");
-                    params.put("dxcs","");
-
-                    if(1==houseTrade.getHouseType()){
-                        params.put("scjzmj","");
-                        params.put("sctnjzmj","");
-                        params.put("scftjzmj","");
-                    }else{
-                        params.put("ycjzmj","");
-                        params.put("yctnjzmj","");
-                        params.put("ycftjzmj","");
-                    }
-
-                }
-
+                getParams(params,id);
                 XwpfTUtil xwpfTUtil = new XwpfTUtil();
                 xwpfTUtil.replaceInPara(doc, params,id,sourcePath+"/"+id+".png");
 
@@ -614,10 +505,140 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
     @Override
     public ResponseBo getEwmCheckInfo(String id,String type){
 
+        Map<String,Object> map = new HashMap<>();
+
         if("1".equalsIgnoreCase(type)){
-            return ResponseBo.ok(houseTradeMapper.selectByPrimaryKey(id));
+
+            HouseTrade houseTrade = houseTradeMapper.selectByPrimaryKey(id);
+            getParams(map,id);
+            map.put("house",houseTrade);
+
+            return ResponseBo.ok(map);
         }
 
-        return ResponseBo.ok(stockTradeMapper.selectByPrimaryKey(id));
+        stockTradeService.getParams(map,id);
+        map.put("house",stockTradeMapper.selectByPrimaryKey(id));
+
+        return ResponseBo.ok(map);
+    }
+
+    public void getParams(Map<String, Object> params,String id){
+
+
+        HouseTrade houseTrade = houseTradeMapper.selectByPrimaryKey(id);
+        params.put("htbh", NoNullString(houseTrade.getHtbah()));
+
+        //企业
+        Company company =  houseTradeMapper.getCompanyByAssociatedId(id);
+        if(company!=null) {
+
+            params.put("cmr",company.getQymc());
+            params.put("txdz",NoNullString(company.getAddress()));
+            params.put("yzbm",NoNullString(company.getYzbm()));
+            params.put("yyzz",NoNullString(company.getYyzz()));
+            params.put("zzzsh",NoNullString(company.getZzzsh()));
+            params.put("qyfr",NoNullString(company.getQyfr()));
+            params.put("lxdh",NoNullString(company.getPhone()));
+
+            //开发项目
+            String companyId = company.getId();
+            Project project = houseTradeMapper.getProjectByCompanyId(companyId);
+            if(project!=null) {
+
+                String qdfs = systemDictionaryService.getDicName("ydqdfs",project.getYdqdfs());
+                params.put("qdfs",qdfs);
+                params.put("xmzl",NoNullString(project.getAddress()));
+
+                params.put("tdsyzh",NoNullString(project.getTdsyzh()));
+                params.put("zdmj",DoubleToString(project.getZdmj()));
+
+                String xmyt = systemDictionaryService.getDicName("xmyt",project.getXmyt());
+                params.put("xmyt",xmyt);
+
+                params.put("xmmc",project.getXmmc());
+
+                params.put("tdsyzzzrq",DateUtils.DateToString(project.getTdsyzzzrq()));
+                params.put("jsgcghxkzh",NoNullString(project.getJsgcghxkzh()));
+                params.put("jsgcsgxkzh",NoNullString(project.getJsgcsgxkzh()));
+
+            }else{
+                params.put("qdfs","");
+                params.put("xmzl","");
+                params.put("tdsyzh","");
+                params.put("zdmj","");
+                params.put("xmyt","");
+                params.put("xmmc","");
+                params.put("tdsyzzzrq","");
+                params.put("jsgcghxkzh","");
+                params.put("jsgcsgxkzh","");
+            }
+
+        }else{
+            params.put("cmr","");
+            params.put("txdz","");
+            params.put("yzbm","");
+            params.put("yyzz","");
+            params.put("zzzsh","");
+            params.put("qyfr","");
+            params.put("lxdh","");
+            params.put("qdfs","");
+            params.put("xmzl","");
+            params.put("tdsyzh","");
+            params.put("zdmj","");
+            params.put("xmyt","");
+            params.put("xmmc","");
+            params.put("tdsyzzzrq","");
+            params.put("jsgcghxkzh","");
+            params.put("jsgcsgxkzh","");
+        }
+
+        params.put("msr", NoNullString(houseTrade.getBuyer()));
+        params.put("zh", NoNullString(houseTrade.getZh()));
+        params.put("txdz", NoNullString(houseTrade.getLxdz()));
+
+        params.put("birthday",IDCardUtil.getBirthday(houseTrade.getSfzh()));
+        params.put("sex",IDCardUtil.getSex(houseTrade.getSfzh()));
+        params.put("ysxkz",houseTrade.getYsxkz());
+
+        Map<String,String> map = houseTradeMapper.queryHinfoByTradeId(id);
+        if(map!=null) {
+
+            String fwyt = systemDictionaryService.getDicName("fwyt",map.get("FWYT")!=null?Integer.parseInt(map.get("FWYT").toString()):null);
+            params.put("fwyt",fwyt);
+
+            String jzjg = systemDictionaryService.getDicName("jzjg",map.get("FWJG1")!=null?Integer.parseInt(map.get("FWJG1").toString()):null);
+            params.put("jzjg",jzjg);
+
+            params.put("zcs",map.get("ZCS")!=null?String.valueOf(map.get("ZCS")):"");
+            params.put("dscs",map.get("DSCS")!=null?String.valueOf(map.get("DSCS")):"");
+            params.put("dxcs",map.get("DXCS")!=null?String.valueOf(map.get("DXCS")):"");
+
+            if(1==houseTrade.getHouseType()){
+                params.put("scjzmj",map.get("SCJZMJ")!=null?String.valueOf(map.get("SCJZMJ")):"");
+                params.put("sctnjzmj",map.get("SCTNJZMJ")!=null?String.valueOf(map.get("SCTNJZMJ")):"");
+                params.put("scftjzmj",map.get("SCFTJZMJ")!=null?String.valueOf(map.get("SCFTJZMJ")):"");
+            }else{
+                params.put("ycjzmj",map.get("YCJZMJ")!=null?String.valueOf(map.get("YCJZMJ")):"");
+                params.put("yctnjzmj",map.get("YCTNJZMJ")!=null?String.valueOf(map.get("YCTNJZMJ")):"");
+                params.put("ycftjzmj",map.get("YCFTJZMJ")!=null?String.valueOf(map.get("YCFTJZMJ")):"");
+            }
+        }else{
+            params.put("fwyt","");
+            params.put("jzjg","");
+            params.put("zcs","");
+            params.put("dscs","");
+            params.put("dxcs","");
+
+            if(1==houseTrade.getHouseType()){
+                params.put("scjzmj","");
+                params.put("sctnjzmj","");
+                params.put("scftjzmj","");
+            }else{
+                params.put("ycjzmj","");
+                params.put("yctnjzmj","");
+                params.put("ycftjzmj","");
+            }
+
+        }
     }
 }

@@ -34,13 +34,13 @@ public class office2PDF {
                 OpenOffice_HOME += "\\";
             }
 //            // 启动OpenOffice的服务
-            String command = OpenOffice_HOME
-                    + "program\\soffice -headless -accept=\"socket,host=127.0.0.1,port=8100;urp;\" -nofirststartwizard";
-            Process pro = Runtime.getRuntime().exec(command);
+//            String command = OpenOffice_HOME
+//                    + "program\\soffice -headless -accept=\"socket,host=127.0.0.1,port=8100;urp;\" -nofirststartwizard";
+//            Process pro = Runtime.getRuntime().exec(command);
             // connect to an OpenOffice.org instance running on port 8100
             OpenOfficeConnection connection = new SocketOpenOfficeConnection(
                     "127.0.0.1", 8100);
-            connection.connect();
+//            connection.connect();
 
             // convert
             DocumentConverter converter = new OpenOfficeDocumentConverter(
@@ -48,7 +48,7 @@ public class office2PDF {
             converter.convert(inputFile, outputFile);
 
             // close the connection
-            connection.disconnect();
+//            connection.disconnect();
             // 关闭OpenOffice服务的进程
 //            pro.destroy();
 
@@ -58,9 +58,7 @@ public class office2PDF {
 //            e.printStackTrace();
 //            return -1;
 //        }
-        catch (ConnectException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        catch (Exception e) {
             e.printStackTrace();
         }
 

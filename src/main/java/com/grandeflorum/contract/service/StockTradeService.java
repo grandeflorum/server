@@ -8,6 +8,7 @@ import com.grandeflorum.project.domain.AuditParam;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Map;
 
 public interface StockTradeService extends IService<StockTrade> {
 
@@ -38,4 +39,6 @@ public interface StockTradeService extends IService<StockTrade> {
 
     //预览合同
     void previewHt(String id,HttpServletResponse response);
+
+    void getParams(Map<String, Object> params, String id);
 }

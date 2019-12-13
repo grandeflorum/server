@@ -374,49 +374,7 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
                 //生成二维码
                 QrCodeUtil.createQrCode(grandeflorumProperties.getQrCodePath()+"?id="+id+"&type=2",sourcePath+"/",id+".png");
 
-                params.put("htbh",StrUtil.NoNullString(stockTrade.getHtbah()));
-                params.put("cmr",StrUtil.NoNullString(stockTrade.getJf()));
-                params.put("msr",StrUtil.NoNullString(stockTrade.getYf()));
-
-                //甲方
-                params.put("jflxdz",StrUtil.NoNullString(stockTrade.getJflxdz()));
-                params.put("jfzjlx",StrUtil.NoNullString(systemDictionaryService.getDicName("zjlb",stockTrade.getJfzjlx())));
-                params.put("jfzjh",StrUtil.NoNullString(stockTrade.getJfzjhm()));
-                params.put("jflxdh",StrUtil.NoNullString(stockTrade.getJflxdz()));
-
-                //乙方
-                params.put("yflxdz",StrUtil.NoNullString(stockTrade.getYflxdz()));
-                params.put("yfzjlx",StrUtil.NoNullString(systemDictionaryService.getDicName("zjlb",stockTrade.getYfzjlx())));
-                params.put("yfzjh",StrUtil.NoNullString(stockTrade.getYfzjhm()));
-                params.put("yflxdh",StrUtil.NoNullString(stockTrade.getYflxdh()));
-
-
-                params.put("zj",DoubleToString(stockTrade.getZj()));
-                params.put("dj",DoubleToString(stockTrade.getDj()));
-
-                params.put("bdcqzh",StrUtil.NoNullString(stockTrade.getBdcqzh()));
-                params.put("djsj", DateUtils.DateToString(stockTrade.getDjsj()));
-
-                Map<String,String> map = stockTradeMapper.queryHinfoByStockId(id);
-
-                if(map!=null) {
-                    params.put("zl",map.get("ZL")!=null?map.get("ZL").toString():"");
-
-                    String fwyt = systemDictionaryService.getDicName("fwyt",map.get("FWYT")!=null?Integer.parseInt(map.get("FWYT").toString()):null);
-                    params.put("fwyt",fwyt);
-
-                    params.put("jzmj",map.get("SCJZMJ")!=null?String.valueOf(map.get("SCJZMJ")):"");
-
-                    String jzjg = systemDictionaryService.getDicName("jzjg",map.get("FWJG1")!=null?Integer.parseInt(map.get("FWJG1").toString()):null);
-                    params.put("jzjg",jzjg);
-                }else{
-                    params.put("zl","");
-                    params.put("fwyt","");
-                    params.put("jzmj","");
-                    params.put("jzjg","");
-                }
-
-
+                getParams(params,id);
 
                 XwpfTUtil xwpfTUtil = new XwpfTUtil();
                 xwpfTUtil.replaceInPara(doc, params,id,sourcePath+"/"+id+".png");
@@ -433,6 +391,54 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
         }
 
         return file1;
+    }
+
+    @Override
+    public void getParams(Map<String, Object> params,String id){
+
+        StockTrade stockTrade = stockTradeMapper.selectByPrimaryKey(id);
+
+        params.put("htbh",StrUtil.NoNullString(stockTrade.getHtbah()));
+        params.put("cmr",StrUtil.NoNullString(stockTrade.getJf()));
+        params.put("msr",StrUtil.NoNullString(stockTrade.getYf()));
+
+        //甲方
+        params.put("jflxdz",StrUtil.NoNullString(stockTrade.getJflxdz()));
+        params.put("jfzjlx",StrUtil.NoNullString(systemDictionaryService.getDicName("zjlb",stockTrade.getJfzjlx())));
+        params.put("jfzjh",StrUtil.NoNullString(stockTrade.getJfzjhm()));
+        params.put("jflxdh",StrUtil.NoNullString(stockTrade.getJflxdz()));
+
+        //乙方
+        params.put("yflxdz",StrUtil.NoNullString(stockTrade.getYflxdz()));
+        params.put("yfzjlx",StrUtil.NoNullString(systemDictionaryService.getDicName("zjlb",stockTrade.getYfzjlx())));
+        params.put("yfzjh",StrUtil.NoNullString(stockTrade.getYfzjhm()));
+        params.put("yflxdh",StrUtil.NoNullString(stockTrade.getYflxdh()));
+
+
+        params.put("zj",DoubleToString(stockTrade.getZj()));
+        params.put("dj",DoubleToString(stockTrade.getDj()));
+
+        params.put("bdcqzh",StrUtil.NoNullString(stockTrade.getBdcqzh()));
+        params.put("djsj", DateUtils.DateToString(stockTrade.getDjsj()));
+
+        Map<String,String> map = stockTradeMapper.queryHinfoByStockId(id);
+
+        if(map!=null) {
+            params.put("zl",map.get("ZL")!=null?map.get("ZL").toString():"");
+
+            String fwyt = systemDictionaryService.getDicName("fwyt",map.get("FWYT")!=null?Integer.parseInt(map.get("FWYT").toString()):null);
+            params.put("fwyt",fwyt);
+
+            params.put("jzmj",map.get("SCJZMJ")!=null?String.valueOf(map.get("SCJZMJ")):"");
+
+            String jzjg = systemDictionaryService.getDicName("jzjg",map.get("FWJG1")!=null?Integer.parseInt(map.get("FWJG1").toString()):null);
+            params.put("jzjg",jzjg);
+        }else{
+            params.put("zl","");
+            params.put("fwyt","");
+            params.put("jzmj","");
+            params.put("jzjg","");
+        }
     }
 
 }
