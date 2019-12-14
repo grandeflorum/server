@@ -117,7 +117,7 @@ public class HouseTrade {
      * 1 现售 2预售
      */
     @Column(name="HOUSE_TYPE")
-    private Integer houseType;
+    public Integer houseType;
 
 
     public List<WFAudit>  wfAuditList;

@@ -509,7 +509,7 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
 
         if("1".equalsIgnoreCase(type)){
 
-            HouseTrade houseTrade = houseTradeMapper.selectByPrimaryKey(id);
+            HouseTrade houseTrade = houseTradeMapper.getHouseTradeById(id);
             getParams(map,id);
             map.put("house",houseTrade);
 
@@ -525,9 +525,8 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
     public void getParams(Map<String, Object> params,String id){
 
 
-        HouseTrade houseTrade = houseTradeMapper.selectByPrimaryKey(id);
+        HouseTrade houseTrade = houseTradeMapper.getHouseTradeById(id);
         params.put("htbh", NoNullString(houseTrade.getHtbah()));
-
         //企业
         Company company =  houseTradeMapper.getCompanyByAssociatedId(id);
         if(company!=null) {
@@ -553,7 +552,7 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
                 params.put("zdmj",DoubleToString(project.getZdmj()));
 
                 String xmyt = systemDictionaryService.getDicName("xmyt",project.getXmyt());
-                params.put("xmyt",xmyt);
+                params.put("xmyt",NoNullString(xmyt));
 
                 params.put("xmmc",project.getXmmc());
 
@@ -562,12 +561,13 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
                 params.put("jsgcsgxkzh",NoNullString(project.getJsgcsgxkzh()));
 
             }else{
+
                 params.put("qdfs","");
                 params.put("xmzl","");
                 params.put("tdsyzh","");
                 params.put("zdmj","");
                 params.put("xmyt","");
-                params.put("xmmc","");
+                params.put("xmmc",houseTrade.getXmmc());
                 params.put("tdsyzzzrq","");
                 params.put("jsgcghxkzh","");
                 params.put("jsgcsgxkzh","");
@@ -604,10 +604,10 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
         if(map!=null) {
 
             String fwyt = systemDictionaryService.getDicName("fwyt",map.get("FWYT")!=null?Integer.parseInt(map.get("FWYT").toString()):null);
-            params.put("fwyt",fwyt);
+            params.put("fwyt",NoNullString(fwyt));
 
             String jzjg = systemDictionaryService.getDicName("jzjg",map.get("FWJG1")!=null?Integer.parseInt(map.get("FWJG1").toString()):null);
-            params.put("jzjg",jzjg);
+            params.put("jzjg",NoNullString(jzjg));
 
             params.put("zcs",map.get("ZCS")!=null?String.valueOf(map.get("ZCS")):"");
             params.put("dscs",map.get("DSCS")!=null?String.valueOf(map.get("DSCS")):"");

@@ -12,6 +12,7 @@ import tk.mybatis.mapper.entity.Example;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("HouseTrade")
@@ -133,8 +134,10 @@ public class HouseTradeController {
         return houseTradeService.checkExistCompletionFile(id);
     }
 
-    @GetMapping("/getEwmCheckInfo")
-    public ResponseBo getEwmCheckInfo(String id,String type){
+    @PostMapping("/getEwmCheckInfo")
+    public ResponseBo getEwmCheckInfo(@RequestBody  Map map){
+        String id  =map.get("id").toString();
+        String type = map.get("type").toString();
         return houseTradeService.getEwmCheckInfo(id,type);
     }
 }

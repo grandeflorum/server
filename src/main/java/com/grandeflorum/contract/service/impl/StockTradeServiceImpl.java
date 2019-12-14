@@ -43,6 +43,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.grandeflorum.common.util.StrUtil.DoubleToString;
+import static com.grandeflorum.common.util.StrUtil.NoNullString;
 
 @Service("StockTradeService")
 public class StockTradeServiceImpl extends BaseService<StockTrade> implements StockTradeService {
@@ -396,29 +397,29 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
     @Override
     public void getParams(Map<String, Object> params,String id){
 
-        StockTrade stockTrade = stockTradeMapper.selectByPrimaryKey(id);
+        StockTrade stockTrade = stockTradeMapper.getStockTradeById(id);
 
-        params.put("htbh",StrUtil.NoNullString(stockTrade.getHtbah()));
-        params.put("cmr",StrUtil.NoNullString(stockTrade.getJf()));
-        params.put("msr",StrUtil.NoNullString(stockTrade.getYf()));
+        params.put("htbh", NoNullString(stockTrade.getHtbah()));
+        params.put("cmr", NoNullString(stockTrade.getJf()));
+        params.put("msr", NoNullString(stockTrade.getYf()));
 
         //甲方
-        params.put("jflxdz",StrUtil.NoNullString(stockTrade.getJflxdz()));
-        params.put("jfzjlx",StrUtil.NoNullString(systemDictionaryService.getDicName("zjlb",stockTrade.getJfzjlx())));
-        params.put("jfzjh",StrUtil.NoNullString(stockTrade.getJfzjhm()));
-        params.put("jflxdh",StrUtil.NoNullString(stockTrade.getJflxdz()));
+        params.put("jflxdz", NoNullString(stockTrade.getJflxdz()));
+        params.put("jfzjlx", NoNullString(systemDictionaryService.getDicName("zjlb",stockTrade.getJfzjlx())));
+        params.put("jfzjh", NoNullString(stockTrade.getJfzjhm()));
+        params.put("jflxdh", NoNullString(stockTrade.getJflxdz()));
 
         //乙方
-        params.put("yflxdz",StrUtil.NoNullString(stockTrade.getYflxdz()));
-        params.put("yfzjlx",StrUtil.NoNullString(systemDictionaryService.getDicName("zjlb",stockTrade.getYfzjlx())));
-        params.put("yfzjh",StrUtil.NoNullString(stockTrade.getYfzjhm()));
-        params.put("yflxdh",StrUtil.NoNullString(stockTrade.getYflxdh()));
+        params.put("yflxdz", NoNullString(stockTrade.getYflxdz()));
+        params.put("yfzjlx", NoNullString(systemDictionaryService.getDicName("zjlb",stockTrade.getYfzjlx())));
+        params.put("yfzjh", NoNullString(stockTrade.getYfzjhm()));
+        params.put("yflxdh", NoNullString(stockTrade.getYflxdh()));
 
 
         params.put("zj",DoubleToString(stockTrade.getZj()));
         params.put("dj",DoubleToString(stockTrade.getDj()));
 
-        params.put("bdcqzh",StrUtil.NoNullString(stockTrade.getBdcqzh()));
+        params.put("bdcqzh", NoNullString(stockTrade.getBdcqzh()));
         params.put("djsj", DateUtils.DateToString(stockTrade.getDjsj()));
 
         Map<String,String> map = stockTradeMapper.queryHinfoByStockId(id);
@@ -427,12 +428,12 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
             params.put("zl",map.get("ZL")!=null?map.get("ZL").toString():"");
 
             String fwyt = systemDictionaryService.getDicName("fwyt",map.get("FWYT")!=null?Integer.parseInt(map.get("FWYT").toString()):null);
-            params.put("fwyt",fwyt);
+            params.put("fwyt",NoNullString(fwyt));
 
             params.put("jzmj",map.get("SCJZMJ")!=null?String.valueOf(map.get("SCJZMJ")):"");
 
             String jzjg = systemDictionaryService.getDicName("jzjg",map.get("FWJG1")!=null?Integer.parseInt(map.get("FWJG1").toString()):null);
-            params.put("jzjg",jzjg);
+            params.put("jzjg",NoNullString(jzjg));
         }else{
             params.put("zl","");
             params.put("fwyt","");
