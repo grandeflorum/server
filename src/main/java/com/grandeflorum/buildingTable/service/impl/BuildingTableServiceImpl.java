@@ -394,7 +394,7 @@ public class BuildingTableServiceImpl implements BuildingTableService {
             exampleLJZ.createCriteria().andEqualTo("zrzh", zrz.getZrzh());
             List<LJZ> ljzList=ljzMapper.selectByExample(exampleLJZ);
             if(ljzList!=null&&ljzList.size()>0){
-                return ResponseBo.error("该逻辑幢下存在层信息，不能删除");
+                return ResponseBo.error("该自然幢下存在逻辑幢信息，不能删除");
             }else{
                 zrzMapper.deleteByPrimaryKey(id);
             }
