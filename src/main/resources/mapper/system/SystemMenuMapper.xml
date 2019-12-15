@@ -11,6 +11,7 @@
     <result column="PARENT_ID" jdbcType="VARCHAR" property="parentId" />
     <result column="MENU_LEVEL" jdbcType="DECIMAL" property="menuLevel" />
     <result column="MENU_ORDER" jdbcType="DECIMAL" property="menuOrder" />
+    <result column="ICON" jdbcType="VARCHAR" property="icon" />
   </resultMap>
 
 

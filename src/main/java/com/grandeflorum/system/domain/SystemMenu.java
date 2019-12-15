@@ -23,6 +23,17 @@ public class SystemMenu {
     @Column(name = "MENU_ORDER")
     private Integer menuOrder;
 
+    @Column(name = "ICON")
+    private String icon;
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
     /**
      * @return ID
      */
