@@ -14,6 +14,7 @@
     <result column="ORG_ID" jdbcType="VARCHAR" property="orgId" />
     <result column="IS_VAILD" jdbcType="INTEGER" property="isVaild" />
     <result column="CARD" jdbcType="VARCHAR" property="card"/>
+    <result column="SYS_UPD_DATE" jdbcType="TIMESTAMP" property="sysUpdDate" />
   </resultMap>
 
   <resultMap id="UserWithRoleMap" extends="BaseResultMap" type="com.grandeflorum.system.domain.SystemUser">
@@ -46,6 +47,8 @@
     <if test="mobile != null and mobile != ''">
       and instr(t.mobile,#{mobile})>0
     </if>
+
+    order by t.SYS_UPD_DATE desc desc nulls last
   </select>
 
   <select id="getUserDetailByUserId" resultMap="UserWithRoleMap">

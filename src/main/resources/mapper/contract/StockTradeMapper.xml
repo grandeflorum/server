@@ -134,4 +134,8 @@
          where hst.id = #{id}
     </select>
 
+    <update id="sh" parameterType="String">
+        UPDATE house_stock_trade t set t.CURRENTSTATUS =1 where t.id = #{id}
+    </update>
+
 </mapper>

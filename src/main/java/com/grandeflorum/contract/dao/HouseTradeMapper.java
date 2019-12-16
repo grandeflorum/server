@@ -32,5 +32,7 @@ public interface HouseTradeMapper extends MyMapper<HouseTrade> {
     HouseTrade getHInfo(String hid);
 
     int checkExistCompletionFile(String tradeId);
+
+    void sh(String id);
 }
 

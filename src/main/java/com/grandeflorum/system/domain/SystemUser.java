@@ -1,6 +1,7 @@
 package com.grandeflorum.system.domain;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Table(name = "SYSTEM_USER")
@@ -32,6 +33,9 @@ public class SystemUser {
 
     @Column(name="CARD")
     private String card;
+
+    @Column(name = "SYS_UPD_DATE")
+    private Date sysUpdDate;
 
     private List<SystemRole> roleList;
 
@@ -166,5 +170,13 @@ public class SystemUser {
 
     public void setIsVaild(Integer isVaild) {
         this.isVaild = isVaild;
+    }
+
+    public Date getSysUpdDate() {
+        return sysUpdDate;
+    }
+
+    public void setSysUpdDate(Date sysUpdDate) {
+        this.sysUpdDate = sysUpdDate;
     }
 }

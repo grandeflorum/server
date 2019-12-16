@@ -442,4 +442,11 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
         }
     }
 
+    @Override
+    public ResponseBo sh(String id){
+
+        stockTradeMapper.sh(id);
+        return ResponseBo.ok();
+    }
+
 }

@@ -109,4 +109,9 @@ public class StockTradeController {
     public ResponseBo linkH(String id,String hid){
         return stockTradeService.linkH(id,hid);
     }
+
+    @GetMapping("/sh")
+    public ResponseBo sh(String id){
+        return stockTradeService.sh(id);
+    }
 }

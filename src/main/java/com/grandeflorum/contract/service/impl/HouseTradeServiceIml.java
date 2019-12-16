@@ -641,4 +641,11 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
 
         }
     }
+
+    @Override
+    public ResponseBo sh(String id){
+
+        houseTradeMapper.sh(id);
+        return ResponseBo.ok();
+    }
 }
