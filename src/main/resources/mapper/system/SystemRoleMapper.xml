@@ -47,7 +47,7 @@
         and t.name='开发企业'
       </when>
       <when test="4 == type">
-        and t.name='经纪公司'
+        and t.name='经济公司'
       </when>
     </choose>
   </select>
