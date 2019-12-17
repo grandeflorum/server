@@ -268,6 +268,36 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
             houseTradeMapper.insert(houseTrade);
         } else {
             houseTrade.setSysUpdDate(new Date());
+
+            //变更
+            if(!StrUtil.isNullOrEmpty(houseTrade.getBg())){
+
+                HouseTrade old = houseTradeMapper.selectByPrimaryKey(houseTrade.getId());
+                HouseTrade houseTradeBg = (HouseTrade)old.clone();
+                houseTradeBg.setIsCancel(2);
+                houseTradeBg.setSysUpdDate(new Date());
+                String id = GuidHelper.getGuid();
+                houseTradeBg.setId(id);
+                houseTradeMapper.insert(houseTradeBg);
+
+                HouseTradeHistory history = new HouseTradeHistory();
+                history.setId(GuidHelper.getGuid());
+                history.setHousetradeid(houseTrade.getId());
+                history.setCurrentstatus(houseTrade.getCurrentStatus().shortValue());
+                history.setSysDate(new Date());
+                history.setHistoryobj(JSON.toJSONString(old));
+                houseTradeHistoryMapper.insert(history);
+
+                WFAudit wfAudit = new WFAudit();
+                wfAudit.setId(GuidHelper.getGuid());
+                wfAudit.setZxly(houseTrade.getBgly());
+
+                wfAudit.setProjectid(id);
+                wfAudit.setSysDate(new Date());
+                wfAudit.setSysUpdDate(new Date());
+                wfAudit.setCurrentStatus(houseTrade.getCurrentStatus());
+                wFAuditMapper.insert(wfAudit);
+            }
             houseTradeMapper.updateByPrimaryKey(houseTrade);
             //如果更新的话先删除原来关系数据
             relationShipMapper.deleteRelationShipByProjectId(houseTrade.getId());

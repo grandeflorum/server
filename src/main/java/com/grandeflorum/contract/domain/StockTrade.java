@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 @Table(name = "HOUSE_STOCK_TRADE")
-public class StockTrade {
+public class StockTrade implements Cloneable{
     @Id
     @Column(name = "ID")
     public String id;
@@ -206,6 +206,12 @@ public class StockTrade {
      */
     @Column(name="BASJ")
     public Date basj;
+
+    @Transient
+    private String bg;
+
+    @Transient
+    private String bgly;
 
 
     public Date getBasj() {
@@ -502,5 +508,34 @@ public class StockTrade {
 
     public void setDjsj(Date djsj) {
         this.djsj = djsj;
+    }
+
+    public String getBg() {
+        return bg;
+    }
+
+    public void setBg(String bg) {
+        this.bg = bg;
+    }
+
+    public String getBgly() {
+        return bgly;
+    }
+
+    public void setBgly(String bgly) {
+        this.bgly = bgly;
+    }
+
+    @Override
+    public Object clone() {
+
+        Object object = null;
+        try {
+            object = super.clone();
+        } catch (Exception e) {
+
+        }
+
+        return object;
     }
 }

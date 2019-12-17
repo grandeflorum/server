@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 @Table(name = "HOUSE_NEW_TRADE")
-public class HouseTrade {
+public class HouseTrade implements Cloneable {
     @Id
     @Column(name = "ID")
     public String id;
@@ -110,17 +110,17 @@ public class HouseTrade {
     /**
      * 登记人
      */
-    @Column(name="DJR")
+    @Column(name = "DJR")
     public String djr;
 
     /**
      * 1 现售 2预售
      */
-    @Column(name="HOUSE_TYPE")
+    @Column(name = "HOUSE_TYPE")
     public Integer houseType;
 
 
-    public List<WFAudit>  wfAuditList;
+    public List<WFAudit> wfAuditList;
 
     /**
      * 多个购买人
@@ -161,6 +161,13 @@ public class HouseTrade {
      */
     @Transient
     private String fh;
+
+
+    @Transient
+    private String bg;
+
+    @Transient
+    private String bgly;
 
 
     public String getDjr() {
@@ -393,5 +400,34 @@ public class HouseTrade {
 
     public void setHouseType(Integer houseType) {
         this.houseType = houseType;
+    }
+
+    public String getBg() {
+        return bg;
+    }
+
+    public void setBg(String bg) {
+        this.bg = bg;
+    }
+
+    public String getBgly() {
+        return bgly;
+    }
+
+    public void setBgly(String bgly) {
+        this.bgly = bgly;
+    }
+
+    @Override
+    public Object clone() {
+
+        Object object = null;
+        try {
+            object = super.clone();
+        } catch (Exception e) {
+
+        }
+
+        return object;
     }
 }

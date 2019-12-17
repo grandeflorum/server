@@ -193,6 +193,36 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
             stockTradeMapper.insert(stockTrade);
         } else {
             stockTrade.setSysUpdDate(new Date());
+
+            //变更
+            if(!StrUtil.isNullOrEmpty(stockTrade.getBg())){
+
+                StockTrade old = stockTradeMapper.selectByPrimaryKey(stockTrade.getId());
+                StockTrade stockTradeBg = (StockTrade)old.clone();
+                stockTradeBg.setIsCancel(2);
+                stockTradeBg.setSysDate(new Date());
+                String id = GuidHelper.getGuid();
+                stockTradeBg.setId(id);
+                stockTradeMapper.insert(stockTradeBg);
+
+                StockTradeHistory history = new StockTradeHistory();
+                history.setId(GuidHelper.getGuid());
+                history.setStocktradeid(stockTradeBg.getId());
+                history.setCurrentstatus(stockTradeBg.getCurrentStatus().shortValue());
+                history.setSysDate(new Date());
+                history.setHistoryobj(JSON.toJSONString(old));
+                stockTradeHistoryMapper.insert(history);
+
+                WFAudit wfAudit = new WFAudit();
+                wfAudit.setId(GuidHelper.getGuid());
+                wfAudit.setZxly(stockTrade.getBgly());
+
+                wfAudit.setProjectid(id);
+                wfAudit.setSysDate(new Date());
+                wfAudit.setSysUpdDate(new Date());
+                wfAudit.setCurrentStatus(stockTrade.getCurrentStatus());
+                wFAuditMapper.insert(wfAudit);
+            }
             stockTradeMapper.updateByPrimaryKey(stockTrade);
             //如果更新的话先删除原来关系数据
             relationShipMapper.deleteRelationShipByProjectId(stockTrade.getId());
