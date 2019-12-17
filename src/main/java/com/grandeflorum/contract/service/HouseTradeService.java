@@ -44,4 +44,6 @@ public interface HouseTradeService extends IService<HouseTrade> {
     ResponseBo checkExistCompletionFile(String id);
 
     ResponseBo getEwmCheckInfo(String id,String type);
+
+    ResponseBo sh(String id);
 }

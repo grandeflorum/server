@@ -140,4 +140,9 @@ public class HouseTradeController {
         String type = map.get("type").toString();
         return houseTradeService.getEwmCheckInfo(id,type);
     }
+
+    @GetMapping("/sh")
+    public ResponseBo sh(String id){
+        return houseTradeService.sh(id);
+    }
 }

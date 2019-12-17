@@ -83,6 +83,7 @@ public class SystemUserServiceImpl extends BaseService<SystemUser> implements Sy
         user.setId(GuidHelper.getGuid());
         try {
             user.setIsVaild(1);
+            user.setSysUpdDate(new Date());
             userMapper.insert(user);
             userRoleService.insertUserRoleByRole(user);
             return 1;
@@ -94,6 +95,7 @@ public class SystemUserServiceImpl extends BaseService<SystemUser> implements Sy
     @Override
     public int modifyUser(SystemUser userWithRole) {
         try {
+            userWithRole.setSysUpdDate(new Date());
             userMapper.updateByPrimaryKey(userWithRole);
             userRoleService.deleteUserRoleByUserId(userWithRole.getId());
             userRoleService.insertUserRoleByRole(userWithRole);
@@ -106,6 +108,7 @@ public class SystemUserServiceImpl extends BaseService<SystemUser> implements Sy
     @Override
     public int updateUser(SystemUser user){
         try {
+            user.setSysUpdDate(new Date());
             userMapper.updateByPrimaryKey(user);
             return 1;
         } catch (Exception e) {

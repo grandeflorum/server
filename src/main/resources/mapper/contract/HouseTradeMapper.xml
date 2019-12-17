@@ -151,6 +151,9 @@ left join file_info fi on t.id =fi.ref_id
 where fi.file_type = 8 and t.id = #{tradeId}
 </select>
 
+    <update id="sh" parameterType="String">
+        UPDATE house_new_trade t set t.CURRENTSTATUS =1 where t.id = #{id}
+    </update>
 
 
 

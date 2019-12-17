@@ -41,4 +41,6 @@ public interface StockTradeService extends IService<StockTrade> {
     void previewHt(String id,HttpServletResponse response);
 
     void getParams(Map<String, Object> params, String id);
+
+    ResponseBo sh(String id);
 }
