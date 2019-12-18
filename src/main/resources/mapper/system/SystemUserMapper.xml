@@ -48,7 +48,7 @@
       and instr(t.mobile,#{mobile})>0
     </if>
 
-    order by t.SYS_UPD_DATE desc desc nulls last
+    order by t.SYS_UPD_DATE desc  nulls last
   </select>
 
   <select id="getUserDetailByUserId" resultMap="UserWithRoleMap">
