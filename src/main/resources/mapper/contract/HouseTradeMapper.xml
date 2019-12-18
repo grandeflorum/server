@@ -129,7 +129,7 @@
     </select>
 
     <select id="queryHinfoByTradeId" parameterType="String" resultType="map">
-      select h.id, h.YCJZMJ,h.YCTNJZMJ,h.YCFTJZMJ,h.SCJZMJ,h.sCTNJZMJ,h.sCFTJZMJ, h.FWYT1, ljz.fwjg1,ljz.ZCS,ljz.dscs,0 as dxcs
+      select h.id, h.YCJZMJ,h.YCTNJZMJ,h.YCFTJZMJ,h.SCJZMJ,h.sCTNJZMJ,h.sCFTJZMJ, h.FWYT1, ljz.fwjg1,ljz.ZCS,ljz.dscs,ljz.ZCS - ljz.dscs as dxcs
   from house_new_trade hnt
   left join  h on hnt.houseid = h.id
   left join ljz on h.LJZH = ljz.LJZH
