@@ -243,8 +243,8 @@ public class SystemUserServiceImpl extends BaseService<SystemUser> implements Sy
 
         ResponseBo bo = companyService.SaveOrUpdateCompany(company,2);
 
-        if(!bo.get("code").toString().equals("200")){
-            return bo;
+        if(bo.get("msg").toString().equals("repeat")){
+            return ResponseBo.error("企业名称重复");
         }
 
         userCompany.setIsVaild(1);
@@ -265,7 +265,7 @@ public class SystemUserServiceImpl extends BaseService<SystemUser> implements Sy
 
         if(roles.contains("管理员")||roles.contains("录入员")||roles.contains("审核员")||roles.contains("领导")){
             map.put("needFilter",false);
-        }else if(roles.contains("开发企业")||roles.contains("经济公司")||roles.contains("默认开发企业")||roles.contains("默认经济公司")){
+        }else if(roles.contains("开发企业")||roles.contains("经纪公司")||roles.contains("默认开发企业")||roles.contains("默认经纪公司")){
             map.put("needFilter",true);
         }
 

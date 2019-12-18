@@ -41,13 +41,13 @@
         and t.name='默认开发企业'
       </when>
       <when test="2 == type">
-        and t.name='默认经济公司'
+        and t.name='默认经纪公司'
       </when>
       <when test="3 == type">
         and t.name='开发企业'
       </when>
       <when test="4 == type">
-        and t.name='经济公司'
+        and t.name='经纪公司'
       </when>
     </choose>
   </select>
