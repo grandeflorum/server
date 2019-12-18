@@ -473,11 +473,15 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
                 String path = this.getClass().getResource("/").getPath()+ "templates/"+name;
                 //新建一个word文档
                 XWPFDocument doc = new XWPFDocument(new FileInputStream(path));
+                XWPFDocument docTemp = new XWPFDocument(new FileInputStream(path));
+
                 Map<String, Object> params = new HashMap<String, Object>();
 
                 getParams(params,id);
                 XwpfTUtil xwpfTUtil = new XwpfTUtil();
                 xwpfTUtil.replaceInPara(doc, params,id,sourcePath+"/"+id+".png");
+
+                xwpfTUtil.setStyle(docTemp,doc,params);
 
                 doc.write(new FileOutputStream(fileSavePath));
                 if(os!=null){
@@ -622,12 +626,50 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
             params.put("jsgcsgxkzh","");
         }
 
-        params.put("msr", NoNullString(houseTrade.getBuyer()));
-        params.put("zh", NoNullString(houseTrade.getZh()));
+
+        List<Map<String,String>> listR = houseTradeMapper.getRelationshipByProjectId(id);
+
+        String msr = NoNullString(houseTrade.getBuyer())+",";
+        String msrzjlx = "居民身份证"+",";
+        String zh = NoNullString(houseTrade.getSfzh())+",";
+        String birthday = IDCardUtil.getBirthday(houseTrade.getSfzh())+",";
+        String sex = IDCardUtil.getSex(houseTrade.getSfzh())+",";
+
+        if(listR!=null&&listR.size()>0){
+
+            for (Map<String,String> map:listR) {
+
+                if(!houseTrade.getBuyer().equalsIgnoreCase(map.get("NAME").toString())){
+                    msr += map.get("NAME").toString() + ",";
+                    msrzjlx += map.get("ZJLB").toString() + ",";
+
+                    String zhTemp = map.get("SFZH").toString();
+                    zh += zhTemp + ",";
+                    birthday += IDCardUtil.getBirthday(zhTemp) + ",";
+                    sex += IDCardUtil.getSex(zhTemp) + ",";
+                }
+
+            }
+            msr = msr.substring(0,msr.length()-1);
+            msrzjlx = msrzjlx.substring(0,msrzjlx.length()-1);
+            zh = zh.substring(0,zh.length()-1);
+            birthday = birthday.substring(0,birthday.length()-1);
+            sex = sex.substring(0,sex.length()-1);
+
+        }
+
+
+        params.put("msr", msr);
+
+        params.put("msrzjlx",msrzjlx);
+        params.put("zh", zh);
+
+        params.put("birthday",birthday);
+        params.put("sex",sex);
+
         params.put("txdz", NoNullString(houseTrade.getLxdz()));
 
-        params.put("birthday",IDCardUtil.getBirthday(houseTrade.getSfzh()));
-        params.put("sex",IDCardUtil.getSex(houseTrade.getSfzh()));
+
         params.put("ysxkz",houseTrade.getYsxkz());
 
         Map<String,String> map = houseTradeMapper.queryHinfoByTradeId(id);

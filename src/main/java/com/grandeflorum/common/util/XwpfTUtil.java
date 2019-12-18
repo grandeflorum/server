@@ -4,6 +4,10 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.util.Units;
 import org.apache.poi.xwpf.usermodel.*;
 import org.apache.xmlbeans.XmlCursor;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTR;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTRPr;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTUnderline;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.STUnderline;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -120,9 +124,30 @@ public class XwpfTUtil {
                         while ((matcher = matcher(runText)).find()) {
                             runText = matcher.replaceFirst(String.valueOf(params.get(matcher.group(1))));
                         }
+                        UnderlinePatterns ul = run.getUnderline();
+
+                        CTRPr ctrPr = run.getCTR().getRPr();
+//                        CTR ctr =  run.getCTR();
                         para.removeRun(i);
+                        para.insertNewRun(i);
+                        XWPFRun pRun = para.getRuns().get(i);
                         //重新插入run里内容格式可能与原来模板的格式不一致
-                        para.insertNewRun(i).setText(runText);
+                        pRun.setText(runText);
+//                        pRun.getCTR().setRPr(ctrPr);
+//                        pRun.setUnderline(ul);
+//                        XWPFRun pRun = para.ge
+//                             tRuns().get(i);
+//
+//                        CTRPr pRpr = null;
+//                        if (pRun.getCTR() != null) {
+//                            pRpr = pRun.getCTR().getRPr();
+//                            if (pRpr == null) {
+//                                pRpr = pRun.getCTR().addNewRPr();
+//                            }
+//                        }
+//
+//                        CTUnderline u = pRpr.isSetU() ? pRpr.getU() : pRpr.addNewU();
+//                        u.setVal(STUnderline.Enum.forInt(Math.abs(1 % 19)));
                     }
 
                 }
@@ -140,6 +165,37 @@ public class XwpfTUtil {
         Pattern pattern = Pattern.compile("\\$\\{(.+?)\\}", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(str);
         return matcher;
+    }
+
+    public   void setStyle(XWPFDocument doc,XWPFDocument tempdoc, Map<String, Object> params) {
+        Iterator<XWPFParagraph> iterator = doc.getParagraphsIterator();
+        Iterator<XWPFParagraph> iterator2 = tempdoc.getParagraphsIterator();
+        XWPFParagraph para ;
+        XWPFParagraph para2;
+        while (iterator.hasNext()) {
+            para = iterator.next();
+            para2 = iterator2.next();
+            this.styleInPara(para,para2, params);
+        }
+    }
+    private  void styleInPara(XWPFParagraph para, XWPFParagraph para2,Map<String, Object> params) {
+        List<XWPFRun> runs;
+        List<XWPFRun> runs2;
+        Matcher matcher;
+        if (matcher(para.getParagraphText()).find()) {
+            runs = para.getRuns();
+            runs2 = para2.getRuns();
+            for (int i=0; i<runs.size(); i++) {
+                XWPFRun run = runs.get(i);
+                XWPFRun run2 = runs2.get(i);
+                String runText = run.toString();
+                matcher = matcher(runText);
+                if (matcher.find()) {
+                    //按模板文件格式设置格式
+                    run2.getCTR().setRPr(run.getCTR().getRPr());
+                }
+            }
+        }
     }
 
     /**

@@ -155,6 +155,10 @@ where fi.file_type = 8 and t.id = #{tradeId}
         UPDATE house_new_trade t set t.CURRENTSTATUS =1 where t.id = #{id}
     </update>
 
-
+<select id="getRelationshipByProjectId" parameterType="String" resultType="map">
+    select t.name,dic.name as zjlb,t.sfzh from relationship t
+left join dictionary dic on t.zjlb = dic.code and dic.type = 'zjlb'
+where t.projectid = #{id}
+</select>
 
 </mapper>

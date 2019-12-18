@@ -34,5 +34,7 @@ public interface HouseTradeMapper extends MyMapper<HouseTrade> {
     int checkExistCompletionFile(String tradeId);
 
     void sh(String id);
+
+    List<Map<String,String>> getRelationshipByProjectId(String id);
 }
 

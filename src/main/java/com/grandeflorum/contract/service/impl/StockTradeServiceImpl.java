@@ -400,6 +400,8 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
                 String path = this.getClass().getResource("/").getPath()+ "templates/万年县存量房买卖合同.docx";
                 //新建一个word文档
                 XWPFDocument doc = new XWPFDocument(new FileInputStream(path));
+                XWPFDocument docTemp = new XWPFDocument(new FileInputStream(path));
+
                 Map<String, Object> params = new HashMap<String, Object>();
 
                 //生成二维码
@@ -409,6 +411,7 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
 
                 XwpfTUtil xwpfTUtil = new XwpfTUtil();
                 xwpfTUtil.replaceInPara(doc, params,id,sourcePath+"/"+id+".png");
+                xwpfTUtil.setStyle(docTemp,doc,params);
 
                 doc.write(new FileOutputStream(fileSavePath));
                 if(os!=null){
