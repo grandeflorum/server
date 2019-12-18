@@ -20,7 +20,7 @@ public class AESUtils {
     //密钥字节大小
     private static final Integer PRIVATE_KEY_BIT_SIZE = 128;
     //默认密码
-    public static final String DEFAULT_PASSWORD = "abc123";
+    public static final String DEFAULT_PASSWORD = "abcdefgabcdefg12";
 
     /**
      * AES 加密操作
@@ -33,7 +33,7 @@ public class AESUtils {
         try {
             Cipher cipher = Cipher.getInstance(DEFAULT_CIPHER_ALGORITHM);
             byte[] byteContent = content.getBytes(KEY_CHARSET);
-            cipher.init(Cipher.ENCRYPT_MODE, getSecretKey(password));
+            cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(password.getBytes(), "AES"));
             byte[] result = cipher.doFinal(byteContent);
             return Base64.encodeBase64String(result);
         } catch (Exception ex) {
@@ -58,7 +58,7 @@ public class AESUtils {
         if (content != null && content.length() > 0) {
             try {
                 Cipher cipher = Cipher.getInstance(DEFAULT_CIPHER_ALGORITHM);
-                cipher.init(Cipher.DECRYPT_MODE, getSecretKey(password));
+                cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(password.getBytes(), "AES"));
                 byte[] result = cipher.doFinal(Base64.decodeBase64(content));
                 return new String(result, KEY_CHARSET);
             } catch (Exception ex) {
@@ -97,9 +97,9 @@ public class AESUtils {
     public static void main(String[] args) {
         String text = "abc123456789";
         System.out.println("text -> " + text);
-        String encrypt = AESUtils.encrypt(text, "abc123");
+        String encrypt = AESUtils.encrypt(text, "abcdefgabcdefg12");
         System.out.println("encrypt -> " + encrypt);
-        System.out.println("decrypt -> " + AESUtils.decrypt(encrypt, "1234"));
+        System.out.println("decrypt -> " + AESUtils.decrypt(encrypt, "abcdefgabcdefg12"));
     }
 
 }
