@@ -118,7 +118,7 @@
     </select>
 
     <select id="getStockTradeById"  parameterType="String" resultType="com.grandeflorum.contract.domain.StockTrade">
-        select t2.xmmc ,t2.JZWMC,t1.mph zh,t.dymc dyh, t.ch,t.mph fh,hst.*
+        select t2.xmmc ,t2.JZWMC,t1.mph zh,t.dymc dyh, t.ch,t.mph fh,hst.*,t1.zl
         from house_stock_trade hst
         left join h t on hst.houseid=t.id
         left join ljz t1 on t.ljzh=t1.ljzh
