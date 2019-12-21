@@ -32,6 +32,8 @@
         <result column="DJR" jdbcType="VARCHAR" property="djr"/>
         <result column="BASJ" jdbcType="TIMESTAMP" property="basj"/>
         <result column="ISCANCEL" jdbcType="DECIMAL" property="isCancel"/>
+        <result column="GYQK" jdbcType="DECIMAL" property="gyqk"/>
+        <result column="GYBL" jdbcType="VARCHAR" property="gybl"/>
     </resultMap>
 
     <resultMap id="listMap" type="com.grandeflorum.contract.domain.StockTrade" extends="BaseResultMap">

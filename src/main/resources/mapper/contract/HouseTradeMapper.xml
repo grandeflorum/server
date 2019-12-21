@@ -24,6 +24,8 @@
         <result column="SYS_UPD_DATE" jdbcType="TIMESTAMP" property="sysUpdDate"/>
         <result column="DJR" jdbcType="VARCHAR" property="djr"/>
         <result column="HOUSE_TYPE" jdbcType="DECIMAL" property="houseType"/>
+        <result column="GYQK" jdbcType="DECIMAL" property="gyqk"/>
+        <result column="GYBL" jdbcType="VARCHAR" property="gybl"/>
     </resultMap>
 
     <resultMap id="listMap" type="com.grandeflorum.contract.domain.HouseTrade" extends="BaseResultMap">

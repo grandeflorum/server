@@ -207,6 +207,18 @@ public class StockTrade implements Cloneable{
     @Column(name="BASJ")
     public Date basj;
 
+    /**
+     * 共有情况
+     */
+    @Column(name = "GYQK")
+    public Integer gyqk;
+
+    /**
+     * 共有比例
+     */
+    @Column(name = "GYBL")
+    public String gybl;
+
     @Transient
     private String bg;
 
@@ -538,6 +550,22 @@ public class StockTrade implements Cloneable{
 
     public void setZl(String zl) {
         this.zl = zl;
+    }
+
+    public Integer getGyqk() {
+        return gyqk;
+    }
+
+    public void setGyqk(Integer gyqk) {
+        this.gyqk = gyqk;
+    }
+
+    public String getGybl() {
+        return gybl;
+    }
+
+    public void setGybl(String gybl) {
+        this.gybl = gybl;
     }
 
     @Override
