@@ -5,4 +5,8 @@
     <select id="getDicName" parameterType="map" resultType="String">
         select t.name from dictionary t where t.type = #{type} and t.code = #{code,jdbcType=VARCHAR}
     </select>
+
+    <select id="getBtachDicName" parameterType="map" resultType="String">
+          select  wm_concat(to_char(t.name)) from dictionary t where t.type = #{type} and t.code in (${code})
+    </select>
 </mapper>

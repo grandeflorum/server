@@ -9,12 +9,12 @@
         <result column="HTBH" jdbcType="VARCHAR" property="htbh"/>
         <result column="JF" jdbcType="VARCHAR" property="jf"/>
         <result column="JFLXDZ" jdbcType="VARCHAR" property="jflxdz"/>
-        <result column="JFZJLX" jdbcType="DECIMAL" property="jfzjlx"/>
+        <result column="JFZJLX" jdbcType="VARCHAR" property="jfzjlx"/>
         <result column="JFZJHM" jdbcType="VARCHAR" property="jfzjhm"/>
         <result column="JFLXDH" jdbcType="VARCHAR" property="jflxdh"/>
         <result column="YF" jdbcType="VARCHAR" property="yf"/>
         <result column="YFLXDZ" jdbcType="VARCHAR" property="yflxdz"/>
-        <result column="YFZJLX" jdbcType="DECIMAL" property="yfzjlx"/>
+        <result column="YFZJLX" jdbcType="VARCHAR" property="yfzjlx"/>
         <result column="YFZJHM" jdbcType="VARCHAR" property="yfzjhm"/>
         <result column="YFLXDH" jdbcType="VARCHAR" property="yflxdh"/>
         <result column="DJ" jdbcType="DECIMAL" property="dj"/>

@@ -60,4 +60,16 @@ public class SystemDictionaryServiceImpl extends BaseService<DataDictionaryItem>
         map.put("code",code);
         return systemDictionaryMapper.getDicName(map);
     }
+
+    @Override
+    public String getBtachDicName(String type,String code){
+        if(code==null){
+            return "";
+        }
+        Map<String,Object> map = new HashMap<>();
+        map.put("type",type);
+        map.put("code",code);
+        return systemDictionaryMapper.getBtachDicName(map);
+
+    }
 }

@@ -34,7 +34,7 @@ public class StockTrade implements Cloneable{
      *甲方证件类型
      */
     @Column(name = "JFZJLX")
-    public Integer jfzjlx;
+    public String jfzjlx;
     /**
      *甲方证件号码
      */
@@ -59,7 +59,7 @@ public class StockTrade implements Cloneable{
      *乙方证件类型
      */
     @Column(name = "YFZJLX")
-    public Integer yfzjlx;
+    public String yfzjlx;
     /**
      *乙方证件号码
      */
@@ -312,13 +312,6 @@ public class StockTrade implements Cloneable{
         this.jflxdz = jflxdz;
     }
 
-    public Integer getJfzjlx() {
-        return jfzjlx;
-    }
-
-    public void setJfzjlx(Integer jfzjlx) {
-        this.jfzjlx = jfzjlx;
-    }
 
     public String getJfzjhm() {
         return jfzjhm;
@@ -352,11 +345,19 @@ public class StockTrade implements Cloneable{
         this.yflxdz = yflxdz;
     }
 
-    public Integer getYfzjlx() {
+    public String getJfzjlx() {
+        return jfzjlx;
+    }
+
+    public void setJfzjlx(String jfzjlx) {
+        this.jfzjlx = jfzjlx;
+    }
+
+    public String getYfzjlx() {
         return yfzjlx;
     }
 
-    public void setYfzjlx(Integer yfzjlx) {
+    public void setYfzjlx(String yfzjlx) {
         this.yfzjlx = yfzjlx;
     }
 

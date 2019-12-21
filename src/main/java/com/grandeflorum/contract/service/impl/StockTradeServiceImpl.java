@@ -437,16 +437,16 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
         params.put("msr", NoNullString(stockTrade.getYf()));
 
         //甲方
-        params.put("jflxdz", NoNullString(stockTrade.getJflxdz()));
-        params.put("jfzjlx", NoNullString(systemDictionaryService.getDicName("zjlb",stockTrade.getJfzjlx())));
-        params.put("jfzjh", NoNullString(stockTrade.getJfzjhm()));
-        params.put("jflxdh", NoNullString(stockTrade.getJflxdz()));
+        params.put("jflxdz", buildInfo(stockTrade.getJflxdz()));
+        params.put("jfzjlx", NoNullString(systemDictionaryService.getBtachDicName("zjlb",buildInfo(stockTrade.getJfzjlx()))));
+        params.put("jfzjh", buildInfo(stockTrade.getJfzjhm()));
+        params.put("jflxdh", buildInfo(stockTrade.getJflxdz()));
 
         //乙方
-        params.put("yflxdz", NoNullString(stockTrade.getYflxdz()));
-        params.put("yfzjlx", NoNullString(systemDictionaryService.getDicName("zjlb",stockTrade.getYfzjlx())));
-        params.put("yfzjh", NoNullString(stockTrade.getYfzjhm()));
-        params.put("yflxdh", NoNullString(stockTrade.getYflxdh()));
+        params.put("yflxdz", buildInfo(stockTrade.getYflxdz()));
+        params.put("yfzjlx", NoNullString(systemDictionaryService.getBtachDicName("zjlb",buildInfo(stockTrade.getYfzjlx()))));
+        params.put("yfzjh", buildInfo(stockTrade.getYfzjhm()));
+        params.put("yflxdh", buildInfo(stockTrade.getYflxdh()));
 
 
         params.put("zj",DoubleToString(stockTrade.getZj()));
@@ -473,6 +473,30 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
             params.put("jzmj","");
             params.put("jzjg","");
         }
+    }
+
+    public String buildInfo(String param) {
+        if (StrUtil.isNullOrEmpty(param)) {
+            return "";
+        }
+
+        String result = "";
+        String[] str = param.split(",");
+        for (int i = 0; i < str.length; i++) {
+
+            if (!StrUtil.isNullOrEmpty(str[i])) {
+                result += str[i] + ",";
+            }
+
+        }
+
+        if (!StrUtil.isNullOrEmpty(result)) {
+            result = result.substring(0, result.length() - 1);
+        }
+
+
+        return result;
+
     }
 
     @Override

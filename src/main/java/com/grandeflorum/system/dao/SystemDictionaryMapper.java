@@ -8,4 +8,6 @@ import java.util.Map;
 public interface SystemDictionaryMapper extends MyMapper<DataDictionaryItem> {
 
     String getDicName( Map<String,Object> map);
+
+    String getBtachDicName( Map<String,Object> map);
 }
