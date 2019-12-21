@@ -89,7 +89,8 @@ public class CompanyServiceImpl extends BaseService<Company> implements CompanyS
                     user = new SystemUser();
 
                     user.setUsername(company.getZjh());
-                    user.setPassword(!StrUtil.isNullOrEmpty(company.getZjh())&&company.getZjh().length()>=6?company.getZjh().substring(company.getZjh().length() - 6):"abc123");
+//                    user.setPassword(!StrUtil.isNullOrEmpty(company.getZjh())&&company.getZjh().length()>=6?company.getZjh().substring(company.getZjh().length() - 6):"abc123");
+                    user.setPassword("123456");
                     user.setRealname(company.getQyfr());
                     user.setEmail(company.getDzyx());
                     user.setMobile(company.getPhone());
