@@ -79,11 +79,7 @@ public class StockHouse extends H {
     @Column(name = "SYS_UPD_DATE")
     public Date sysUpdDate;
 
-    /**
-     * 审核状态
-     */
-    @Column(name = "AUDIT_TYPE")
-    public Integer auditType;
+
 
 //    /**
 //     * 不动产单元号
@@ -363,13 +359,7 @@ public class StockHouse extends H {
         this.sysUpdDate = sysUpdDate;
     }
 
-    public Integer getAuditType() {
-        return auditType;
-    }
 
-    public void setAuditType(Integer auditType) {
-        this.auditType = auditType;
-    }
 
     public List<RelationShip> getRelationShips() {
         return relationShips;

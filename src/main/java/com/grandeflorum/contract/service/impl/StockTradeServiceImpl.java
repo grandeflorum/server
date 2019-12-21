@@ -482,4 +482,10 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
         return ResponseBo.ok();
     }
 
+    @Override
+    public ResponseBo getHInfo(String hid) {
+        StockTrade result=stockTradeMapper.getHInfo(hid);
+        return ResponseBo.ok(result);
+    }
+
 }

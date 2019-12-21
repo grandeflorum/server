@@ -114,4 +114,15 @@ public class StockTradeController {
     public ResponseBo sh(String id){
         return stockTradeService.sh(id);
     }
+
+
+    /**
+     * 获取户详细信息
+     * @param hid
+     * @return
+     */
+    @GetMapping("/getHInfo")
+    public ResponseBo getHInfo(String hid) {
+        return stockTradeService.getHInfo(hid);
+    }
 }

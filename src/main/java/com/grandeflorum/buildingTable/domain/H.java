@@ -320,22 +320,40 @@ public class H {
     private String qxdm;
 
     /**
-     * 状态
+     * 抵押状态
      */
     @Transient
     private Integer status;
 
+    /**
+     * 查封状态
+     */
     @Transient
     private Integer cfStatus;
 
+    /**
+     * 备案状态
+     */
     @Transient
     private Integer tradeType;
+
+    /**
+     * 租赁状态
+     */
+    @Transient
+    private Integer zlStatus;
 
     /**
      *  1:商品房 2:存量房
      */
     @Column(name="ISNEWSTOCK")
     private Integer isnewstock;
+
+    /**
+     * 审核状态
+     */
+    @Column(name = "AUDIT_TYPE")
+    public Integer auditType;
 
     public Integer getCfStatus() {
         return cfStatus;
@@ -1063,5 +1081,21 @@ public class H {
 
     public void setIsnewstock(Integer isnewstock) {
         this.isnewstock = isnewstock;
+    }
+
+    public Integer getAuditType() {
+        return auditType;
+    }
+
+    public void setAuditType(Integer auditType) {
+        this.auditType = auditType;
+    }
+
+    public Integer getZlStatus() {
+        return zlStatus;
+    }
+
+    public void setZlStatus(Integer zlStatus) {
+        this.zlStatus = zlStatus;
     }
 }

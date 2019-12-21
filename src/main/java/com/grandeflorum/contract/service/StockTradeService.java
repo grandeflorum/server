@@ -43,4 +43,6 @@ public interface StockTradeService extends IService<StockTrade> {
     void getParams(Map<String, Object> params, String id);
 
     ResponseBo sh(String id);
+
+    ResponseBo getHInfo(String hid);
 }

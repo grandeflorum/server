@@ -532,6 +532,7 @@ public class BuildingTableServiceImpl implements BuildingTableService {
             }
             h.setId(GuidHelper.getGuid());
             h.setZt("1");
+            h.setAuditType(0);
             hMapper.insert(h);
         }else{
             if(hbhRepeatlist!=null&&hbhRepeatlist.size()>0){
