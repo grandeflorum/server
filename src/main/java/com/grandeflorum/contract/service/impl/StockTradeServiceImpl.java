@@ -355,14 +355,14 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
 
 
             OutputStream os = response.getOutputStream();
-            if(file1.exists()){
-                os.write(FileUtils.readFileToByteArray(file1));
-            }else{
+//            if(file1.exists()){
+//                os.write(FileUtils.readFileToByteArray(file1));
+//            }else{
                 creatWord(id,null);
 
                 File file2 = new File(filePath);
                 os.write(FileUtils.readFileToByteArray(file2));
-            }
+//            }
 
             response.setContentType("application/vnd.ms-excel");
             response.setHeader("content-disposition", "Attachment;filename=" + URLEncoder.encode(id+".pdf", "utf-8"));
@@ -387,13 +387,13 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
         File file1 = new File(fileSavePath);
 
         try{
-            if(file1.exists()){
-                if(os!=null){
-                    os.write(FileUtils.readFileToByteArray(file1));
-                }
-                office2PDF.office2PDF(sourcePath+"/"+id+".docx",sourcePath+"/"+id+".pdf",grandeflorumProperties.getOpenoffice());
-
-            }else{
+//            if(file1.exists()){
+//                if(os!=null){
+//                    os.write(FileUtils.readFileToByteArray(file1));
+//                }
+//                office2PDF.office2PDF(sourcePath+"/"+id+".docx",sourcePath+"/"+id+".pdf",grandeflorumProperties.getOpenoffice());
+//
+//            }else{
 
                 StockTrade stockTrade = stockTradeMapper.selectByPrimaryKey(id);
                 //读入流中
@@ -419,7 +419,7 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
                 }
 
                 office2PDF.office2PDF(sourcePath+"/"+id+".docx",sourcePath+"/"+id+".pdf",grandeflorumProperties.getOpenoffice());
-            }
+//            }
         }catch (Exception e){
             e.printStackTrace();
         }

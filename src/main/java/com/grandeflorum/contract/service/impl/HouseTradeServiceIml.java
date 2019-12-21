@@ -329,12 +329,15 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
             }
             result.setRelationShips(relationShipMapper.getRelationShipByProjectId(result.getId()));
 
-            //通过完工验收材料判断预售与现售
-            Integer count = houseTradeMapper.checkExistCompletionFile(id);
-            result.setHouseType(2);
-            if(count>0){
-                result.setHouseType(1);
+            if(result.getHouseType()==null|| result.getHouseType()==0){
+                //通过完工验收材料判断预售与现售
+                Integer count = houseTradeMapper.checkExistCompletionFile(id);
+                result.setHouseType(2);
+                if(count>0){
+                    result.setHouseType(1);
+                }
             }
+
             return ResponseBo.ok(result);
         }
         return ResponseBo.error("查询失败");
@@ -418,14 +421,14 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
 
 
             OutputStream os = response.getOutputStream();
-            if(file1.exists()){
-                os.write(FileUtils.readFileToByteArray(file1));
-            }else{
+//            if(file1.exists()){
+//                os.write(FileUtils.readFileToByteArray(file1));
+//            }else{
                 creatWord(id,null);
 
                 File file2 = new File(filePath);
                 os.write(FileUtils.readFileToByteArray(file2));
-            }
+//            }
             response.setContentType("application/vnd.ms-excel");
             response.setHeader("content-disposition", "Attachment;filename=" + URLEncoder.encode(id+".pdf", "utf-8"));
             os.flush();
@@ -457,14 +460,14 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
         File file1 = new File(fileSavePath);
 
         try{
-            if(file1.exists()){
-                if(os!=null){
-
-                    os.write(FileUtils.readFileToByteArray(file1));
-                }
-                office2PDF.office2PDF(sourcePath+"/"+id+".docx",sourcePath+"/"+id+".pdf",grandeflorumProperties.getOpenoffice());
-
-            }else{
+//            if(file1.exists()){
+//                if(os!=null){
+//
+//                    os.write(FileUtils.readFileToByteArray(file1));
+//                }
+//                office2PDF.office2PDF(sourcePath+"/"+id+".docx",sourcePath+"/"+id+".pdf",grandeflorumProperties.getOpenoffice());
+//
+//            }else{
 
                 //生成二维码
                 QrCodeUtil.createQrCode(grandeflorumProperties.getQrCodePath()+"?id="+id+"&type=1",sourcePath+"/",id+".png");
@@ -489,7 +492,7 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
                 }
 
                 office2PDF.office2PDF(sourcePath+"/"+id+".docx",sourcePath+"/"+id+".pdf",grandeflorumProperties.getOpenoffice());
-            }
+//            }
         }catch (Exception e){
             e.printStackTrace();
         }
