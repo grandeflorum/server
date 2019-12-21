@@ -551,7 +551,7 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
         }
 
         stockTradeService.getParams(map,id);
-        map.put("house",stockTradeMapper.selectByPrimaryKey(id));
+        map.put("house",stockTradeMapper.getStockTradeById(id));
 
         return ResponseBo.ok(map);
     }

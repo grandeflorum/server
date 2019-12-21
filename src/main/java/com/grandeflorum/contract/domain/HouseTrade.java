@@ -169,6 +169,12 @@ public class HouseTrade implements Cloneable {
     @Transient
     private String bgly;
 
+    /**
+     * 坐落
+     */
+    @Transient
+    private String zl;
+
 
     public String getDjr() {
         return djr;
@@ -416,6 +422,14 @@ public class HouseTrade implements Cloneable {
 
     public void setBgly(String bgly) {
         this.bgly = bgly;
+    }
+
+    public String getZl() {
+        return zl;
+    }
+
+    public void setZl(String zl) {
+        this.zl = zl;
     }
 
     @Override

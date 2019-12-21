@@ -110,7 +110,7 @@
     </select>
 
     <select id="getHouseTradeById"  parameterType="String" resultType="com.grandeflorum.contract.domain.HouseTrade">
-      select t2.xmmc ,t2.JZWMC,t1.mph zh,t.dymc dyh, t.ch,t.mph fh,hnt.*,hnt.HOUSE_TYPE as houseType
+      select t2.xmmc ,t2.JZWMC,t1.mph zh,t.dymc dyh, t.ch,t.mph fh,hnt.*,hnt.HOUSE_TYPE as houseType,t1.zl
       from house_new_trade hnt
       left join h t on hnt.houseid=t.id
       left join ljz t1 on t.ljzh=t1.ljzh
