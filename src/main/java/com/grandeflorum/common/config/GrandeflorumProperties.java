@@ -33,6 +33,8 @@ public class GrandeflorumProperties {
 
     private String qrCodePath;
 
+    private String token;
+
     public String getUploadFolder() {
         return uploadFolder;
     }
@@ -71,5 +73,13 @@ public class GrandeflorumProperties {
 
     public void setQrCodePath(String qrCodePath) {
         this.qrCodePath = qrCodePath;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.grandeflorum.dataExchange.dao.DataExchangeMapper">
+
+    <select id="QueryNewHouseTradeByCode" parameterType="String" resultType="java.util.LinkedHashMap">
+
+        select
+
+ hnt.htbah,
+ CASE hnt.currentstatus
+   when 1 then
+    '已受理'
+   when 2 then
+    '已初审'
+   when 3 then
+    '已核定'
+   when 4 then
+    '已登簿'
+   when 5 then
+    '已备案'
+   else
+    '未备案'
+ end as CURRENTSTATUS,
+ hnt.basj,
+ c.qymc,
+ c.address,
+ c.yyzz,
+ c.qyfr,
+ c.phone,
+
+ concat(concat(hnt.buyer, ','), re.name) as MSR,
+ concat(concat(hnt.sfzh, ','), re.sfzh) as SFZH,
+ hnt.lxdz,
+ p.xmmc,
+ hnt.ysxkz,
+ h.mph,
+ dic.name as fwyt,
+ concat(nvl(h.SCJZMJ,0),'㎡') as SCJZMJ,
+ concat(nvl(h.sctnjzmj,0),'㎡') sctnjzmj,
+ concat(nvl(h.scftjzmj,0),'㎡') scftjzmj,
+ concat(nvl(hnt.dj,0),'元') as dj,
+ concat（nvl(hnt.zj,0),'元') as zj
+
+  from house_new_trade hnt
+
+  left join associated_company ac
+    on hnt.id = ac.associatedid
+  left join company c
+    on c.id = ac.companyid
+  left join project p
+    on p.company_id = c.id
+  left join h
+    on hnt.houseid = h.id
+  left join dictionary dic
+    on dic.code = h.FWYT1
+   and dic.type = 'fwyt'
+  left join ljz t1
+    on h.ljzh = t1.ljzh
+  left join zrz t2
+    on t1.zrzh = t2.zrzh
+  left join (select t.projectid,
+                    wm_concat(to_char(t.name)) as name,
+                    wm_concat(to_char(t.sfzh)) as sfzh
+               from relationship t
+              group by t.projectid) re
+    on re.projectid = hnt.id
+
+ where hnt.sfzh = #{IdentityCode}
+   and nvl(hnt.iscancel, 0) not in (1, 2)
+
+    </select>
+
+</mapper>
