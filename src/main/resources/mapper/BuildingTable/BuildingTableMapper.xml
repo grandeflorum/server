@@ -35,6 +35,7 @@
         <result column="QXDM" jdbcType="VARCHAR" property="qxdm" />
         <result column="XMID" jdbcType="VARCHAR" property="xmid" />
         <result column="GXSJ" jdbcType="TIMESTAMP" property="gxsj" />
+        <result column="YSXKZ" jdbcType="VARCHAR" property="ysxkz"/>
     </resultMap>
 
     <resultMap id="BaseLJZResultMap" type="com.grandeflorum.buildingTable.domain.LJZ">

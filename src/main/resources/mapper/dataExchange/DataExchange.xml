@@ -70,4 +70,58 @@
 
     </select>
 
+    <select id="QueryStockHouseTradeByCode" parameterType="String" resultType="java.util.LinkedHashMap">
+select
+ t.htbh,
+ CASE t.currentstatus
+   when 1 then
+    '已受理'
+   when 2 then
+    '已初审'
+   when 3 then
+    '已核定'
+   when 4 then
+    '已登簿'
+   when 5 then
+    '已备案'
+   else
+    '未备案'
+ end as currentstatus,
+ t.rwsj,
+ t.bdcqzh,
+ h.ZL,
+ t.jf as cqr,
+ dic1.name as hx,
+ concat(nvl(h.SCJZMJ, 0), '㎡') jzmj,
+ dic.name as FWYT,
+ t.jf,
+ t.jfzjhm,
+ t.yf,
+ t.yfzjhm,
+ concat(nvl(t.zj, 0), '元') as crzj
+
+  from house_stock_trade t
+  left join h
+    on t.houseid = h.id
+  left join dictionary dic
+    on dic.code = h.FWYT1
+   and dic.type = 'fwyt'
+
+  left join dictionary dic1
+    on dic1.code = h.HX
+   and dic1.type = 'hx'
+
+ where instr(t.jfzjhm, #{IdentityCode}) > 0
+   and nvl(t.iscancel, 0) not in (1, 2)
+
+    </select>
+
+    <select id="QueryPresaleByName" parameterType="String" resultType="java.util.LinkedHashMap">
+select t.XMMC as LPMC, t.zrzh as LPZH, t.zcs, dic.name as FWYT,t.YSXKZ
+  from zrz t
+  left join dictionary dic
+    on dic.code = t.GHYT
+   and dic.type = 'fwyt'
+ where t.XMMC = #{lpmc}
+    </select>
 </mapper>

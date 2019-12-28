@@ -149,6 +149,12 @@ public class ZRZ {
     @Column(name = "AUDIT_TYPE")
     public Integer auditType;
 
+    /**
+     * 预售许可证
+     */
+    @Column(name = "YSXKZ")
+    private String ysxkz;
+
 
     /**
      * 逻辑幢集合
@@ -433,5 +439,13 @@ public class ZRZ {
 
     public void setAuditType(Integer auditType) {
         this.auditType = auditType;
+    }
+
+    public String getYsxkz() {
+        return ysxkz;
+    }
+
+    public void setYsxkz(String ysxkz) {
+        this.ysxkz = ysxkz;
     }
 }

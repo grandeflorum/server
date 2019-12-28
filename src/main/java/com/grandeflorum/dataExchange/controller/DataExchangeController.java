@@ -35,9 +35,24 @@ public class DataExchangeController {
 
     }
 
+    /**
+     * 存量房合同查询
+     * @param map
+     * @return
+     */
     @PostMapping("/QueryStockHouseTradeByCode")
     public DataExchange QueryStockHouseTradeByCode(@RequestBody Map<String,String> map){
         return dataExchangeService.QueryStockHouseTradeByCode(map);
+    }
+
+    /**
+     * 楼盘预售证查询
+     * @param map
+     * @return
+     */
+    @PostMapping("/QueryPresaleByName")
+    public DataExchange QueryPresaleByName(@RequestBody Map<String,String> map){
+        return dataExchangeService.QueryPresaleByName(map);
     }
 
 }
