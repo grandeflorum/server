@@ -125,7 +125,7 @@ select t.XMMC as LPMC, t.zrzh as LPZH, t.zcs, dic.name as FWYT,t.YSXKZ
  where t.XMMC = #{lpmc}
     </select>
 
-    <select id="QueryHouseResourceByName" parameterType="String" resultType="java.util.LinkedHashMap">
+    <select id="QueryHouseResourceByName" parameterType="map" resultType="java.util.LinkedHashMap">
 
        select z.JZWMC as lpmc ,h.zl,h.SCJZMJ as mj,di.name jsjt,dic.name as yt ,dict.name as jg,
         case when (
@@ -141,7 +141,7 @@ select t.XMMC as LPMC, t.zrzh as LPZH, t.zcs, dic.name as FWYT,t.YSXKZ
         left join dictionary di on di.type='hx' and di.code=h.HX
         left join dictionary dic on dic.type='fwyt' and dic.code=h.FWYT1
         left join dictionary dict on dict.type='fwjg' and dict.code=l.FWJG1
-        where instr(z.JZWMC,#{LPMC})>0 and  h.zt='1'
+        where (instr(z.XMMC,#{xmmc})>0  or   instr(z.JZWMC,#{jzwmc})>0) and  h.zt='1'
     </select>
 
 </mapper>
