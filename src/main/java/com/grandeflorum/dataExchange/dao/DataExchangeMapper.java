@@ -15,4 +15,7 @@ public interface DataExchangeMapper {
     List<Map<String,Object>> QueryPresaleByName(String lpmc);
 
 
+    List<Map<String,Object>> QueryHouseResourceByName(String LPMC);
+
+
 }

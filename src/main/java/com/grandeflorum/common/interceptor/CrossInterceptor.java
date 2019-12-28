@@ -47,7 +47,8 @@ public class CrossInterceptor extends HandlerInterceptorAdapter {
         String[] Urls = new String[]{"/login","/error","/SystemMenu/getUserMenu","/SystemUser/findUserByUsername","/SystemUser/insertUserCompany",
         "/SystemDictionary/getAllDictionary","/SysRegion/getAllRegion","/SystemOrganization/getAllOrganization","/SystemRole/getAllRoles","/HouseTrade/getEwmCheckInfo",
         "/ContractTemplate/downloadDocByEditor","/ContractTemplate/uploadDoc","/FileInfo/download","/FileInfo/upload",
-        "/Statistic/excelDownload","/DataExchange/QueryNewHouseTradeByCode","/DataExchange/QueryStockHouseTradeByCode","/DataExchange/QueryPresaleByName"};
+        "/Statistic/excelDownload","/DataExchange/QueryNewHouseTradeByCode","/DataExchange/QueryStockHouseTradeByCode","/DataExchange/QueryPresaleByName",
+        "/DataExchange/QueryHouseResourceByName"};
 
         if (null == authid) {
             for (String string : Urls) {

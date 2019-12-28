@@ -15,4 +15,7 @@ public interface DataExchangeService {
     DataExchange QueryStockHouseTradeByCode(Map<String,String> map);
 
     DataExchange QueryPresaleByName(Map<String,String> map);
+
+    DataExchange QueryHouseResourceByName(Map<String,String> map);
+
 }

@@ -124,4 +124,24 @@ select t.XMMC as LPMC, t.zrzh as LPZH, t.zcs, dic.name as FWYT,t.YSXKZ
    and dic.type = 'fwyt'
  where t.XMMC = #{lpmc}
     </select>
+
+    <select id="QueryHouseResourceByName" parameterType="String" resultType="java.util.LinkedHashMap">
+
+       select z.JZWMC as lpmc ,h.zl,h.SCJZMJ as mj,di.name jsjt,dic.name as yt ,dict.name as jg,
+        case when (
+          exists(select 1 from dyaq d where d.BDCDYH = h.BDCDYH and d.QSZT='1')
+          or exists(select 1 from cfdj cf where cf.BDCDYH = h.BDCDYH and cf.QSZT='1' )
+          or (z.AUDITTYPE!=4  and z.datasource=1)
+          ) then '不可销售'
+        else '可销售'
+        end as fwzt
+         from zrz z
+        left join ljz l on z.ZRZH=l.ZRZH
+        left join h on l.LJZH=h.LJZH
+        left join dictionary di on di.type='hx' and di.code=h.HX
+        left join dictionary dic on dic.type='fwyt' and dic.code=h.FWYT1
+        left join dictionary dict on dict.type='fwjg' and dict.code=l.FWJG1
+        where instr(z.JZWMC,#{LPMC})>0 and  h.zt='1'
+    </select>
+
 </mapper>

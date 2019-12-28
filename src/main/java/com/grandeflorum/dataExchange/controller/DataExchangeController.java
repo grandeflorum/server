@@ -55,4 +55,10 @@ public class DataExchangeController {
         return dataExchangeService.QueryPresaleByName(map);
     }
 
+    @PostMapping("/QueryHouseResourceByName")
+    public DataExchange QueryHouseResourceByName(@RequestBody Map<String,String> map){
+        return dataExchangeService.QueryHouseResourceByName(map);
+    }
+
+
 }

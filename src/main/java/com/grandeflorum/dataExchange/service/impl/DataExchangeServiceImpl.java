@@ -81,6 +81,37 @@ public class DataExchangeServiceImpl implements DataExchangeService {
         return dataExchange;
     }
 
+    @Override
+    public DataExchange QueryHouseResourceByName(Map<String, String> map) {
+        DataExchange dataExchange = new DataExchange();
+
+        try {
+
+            if(!tokenCheck(map)){
+                dataExchange.setFlag(false);
+                dataExchange.setMessage("赣互通平台令牌错误");
+                return dataExchange;
+            }
+
+            String LPMC = map.get("LPMC");
+            List<Map<String,Object>> data = dataExchangeMapper.QueryHouseResourceByName(LPMC);
+
+            dataExchange.setFlag(true);
+            mapNullToString(data);
+            dataExchange.setData(data);
+
+        }catch (Exception e){
+            dataExchange.setFlag(false);
+
+            e.printStackTrace();
+            dataExchange.setMessage("系统错误，请联系管理员");
+            return dataExchange;
+        }
+
+        return dataExchange;
+    }
+
+
     public boolean tokenCheck(Map<String,String> map){
         boolean result = true;
 
