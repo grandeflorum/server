@@ -117,12 +117,12 @@ select
     </select>
 
     <select id="QueryPresaleByName" parameterType="String" resultType="java.util.LinkedHashMap">
-select t.XMMC as LPMC, t.zrzh as LPZH, t.zcs, dic.name as FWYT,t.YSXKZ
+select t.JZWMC as LPMC, t.zrzh as LPZH, t.zcs, dic.name as FWYT,t.YSXKZ
   from zrz t
   left join dictionary dic
     on dic.code = t.GHYT
    and dic.type = 'fwyt'
- where t.XMMC = #{lpmc}
+ where t.JZWMC = #{lpmc}
     </select>
 
     <select id="QueryHouseResourceByName" parameterType="map" resultType="java.util.LinkedHashMap">
