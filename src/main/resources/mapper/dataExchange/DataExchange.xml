@@ -122,7 +122,7 @@ select t.JZWMC as LPMC, t.zrzh as LPZH, t.zcs, dic.name as FWYT,t.YSXKZ
   left join dictionary dic
     on dic.code = t.GHYT
    and dic.type = 'fwyt'
- where t.JZWMC = #{lpmc}
+ where instr(t.JZWMC, #{lpmc})>0 
     </select>
 
     <select id="QueryHouseResourceByName" parameterType="map" resultType="java.util.LinkedHashMap">
