@@ -20,8 +20,8 @@
         <if test="cqrxm!=null and cqrxm != ''">
             and (p.cqrxm like '%'||#{cqrxm}||'%' )
         </if>
-        <if test="address!=null and address != ''">
-            and (p.address like '%'||#{address}||'%' or p.zl like '%'||#{address}||'%')
+        <if test="cqzh!=null and cqzh != ''">
+            and (p.cqzh like '%'||#{cqzh}||'%' )
         </if>
         <if test="auditType!=null and auditType != ''">
             and p.audit_type=#{auditType}
