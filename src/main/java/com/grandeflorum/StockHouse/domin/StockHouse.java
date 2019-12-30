@@ -28,6 +28,12 @@ public class StockHouse extends H {
     public String cqrxm;
 
     /**
+     * 产权证号
+     */
+    @Column(name = "CQZH")
+    public String cqzh;
+
+    /**
      * 房型
      */
     @Column(name = "FX")
@@ -300,6 +306,14 @@ public class StockHouse extends H {
 
     public void setCqrxm(String cqrxm) {
         this.cqrxm = cqrxm;
+    }
+
+    public String getCqzh() {
+        return cqzh;
+    }
+
+    public void setCqzh(String cqzh) {
+        this.cqzh = cqzh;
     }
 
     public Integer getFx() {

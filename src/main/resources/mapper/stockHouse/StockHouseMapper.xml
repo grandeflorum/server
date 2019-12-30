@@ -7,6 +7,7 @@
         -->
         <id column="ID" jdbcType="VARCHAR" property="id"/>
         <result column="CQRXM" jdbcType="VARCHAR" property="cqrxm"/>
+        <result column="CQZH" jdbcType="VARCHAR" property="cqzh"/>
         <result column="ADDRESS" jdbcType="VARCHAR" property="address"/>
         <result column="FX" jdbcType="DECIMAL" property="fx"/>
         <result column="JZMJ" jdbcType="DECIMAL" property="jzmj"/>
