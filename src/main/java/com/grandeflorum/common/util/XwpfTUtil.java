@@ -2,17 +2,16 @@ package com.grandeflorum.common.util;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.util.Units;
+import org.apache.poi.xwpf.model.XWPFHeaderFooterPolicy;
 import org.apache.poi.xwpf.usermodel.*;
 import org.apache.xmlbeans.XmlCursor;
-import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTR;
-import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTRPr;
-import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTUnderline;
-import org.openxmlformats.schemas.wordprocessingml.x2006.main.STUnderline;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.*;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.math.BigInteger;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -150,6 +149,50 @@ public class XwpfTUtil {
 //                        u.setVal(STUnderline.Enum.forInt(Math.abs(1 % 19)));
                     }
 
+                }
+            }
+        }
+    }
+
+
+    /**
+     * @param doc
+     * @param id   id
+     * @param logoFilePath   二维码图片的地址
+     * @throws Exception
+     */
+    public void createFooter(XWPFDocument doc, String id, String logoFilePath) throws Exception {
+
+        List<XWPFFooter> footerList=  doc.getFooterList();
+        for (XWPFFooter xwpfFooter:footerList  ){
+          List<XWPFParagraph> paragraphs=  xwpfFooter.getParagraphs();
+            for (XWPFParagraph paragraph:paragraphs){
+                if (matcher(paragraph.getParagraphText()).find()) {
+                    Matcher matcher;
+                    List<XWPFRun> runs=paragraph.getRuns();
+                    for (int i=0; i<runs.size(); i++) {
+                        XWPFRun run = runs.get(i);
+                        String runText = run.toString();
+                        matcher = matcher(runText);
+                        if (matcher.find()) {
+                            if("${ewm1}".equalsIgnoreCase(runText)){
+                                try{
+                                    paragraph.removeRun(i);
+                                    XWPFPicture picture= paragraph.insertNewRun(i).addPicture(new FileInputStream(logoFilePath),XWPFDocument.PICTURE_TYPE_PNG,id+".png",Units.toEMU(60), Units.toEMU(60));
+                                    String blipID = "";
+                                    for(XWPFPictureData picturedata : xwpfFooter.getAllPackagePictures()) {    //这段必须有，不然打开的logo图片不显示
+                                        blipID = xwpfFooter.getRelationId(picturedata);
+                                    }
+                                    picture.getCTPicture().getBlipFill().getBlip().setEmbed(blipID);
+                                    paragraph.getRuns().get(i).addTab();
+                                }catch (Exception e){
+                                    e.printStackTrace();
+                                }
+
+
+                            }
+                        }
+                    }
                 }
             }
         }

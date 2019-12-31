@@ -482,6 +482,7 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
 
                 getParams(params,id);
                 XwpfTUtil xwpfTUtil = new XwpfTUtil();
+                xwpfTUtil.createFooter(doc,id,sourcePath+"/"+id+".png");
                 xwpfTUtil.replaceInPara(doc, params,id,sourcePath+"/"+id+".png");
 
                 xwpfTUtil.setStyle(docTemp,doc,params);

@@ -36,6 +36,7 @@ import tk.mybatis.mapper.entity.Example;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.util.Date;
 import java.util.HashMap;
@@ -410,6 +411,7 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
                 getParams(params,id);
 
                 XwpfTUtil xwpfTUtil = new XwpfTUtil();
+                xwpfTUtil.createFooter(doc,id,sourcePath+"/"+id+".png");
                 xwpfTUtil.replaceInPara(doc, params,id,sourcePath+"/"+id+".png");
                 xwpfTUtil.setStyle(docTemp,doc,params);
 
@@ -438,18 +440,32 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
 
         //甲方
         params.put("jflxdz", buildInfo(stockTrade.getJflxdz()));
-        params.put("jfzjlx", NoNullString(systemDictionaryService.getBtachDicName("zjlb",buildInfo(stockTrade.getJfzjlx()))));
+        if(stockTrade.getJfzjlx()!=null){
+            params.put("jfzjlx", NoNullString(systemDictionaryService.getBtachDicName("zjlb",buildInfo(stockTrade.getJfzjlx()))));
+        }else{
+            params.put("jfzjlx","");
+        }
         params.put("jfzjh", buildInfo(stockTrade.getJfzjhm()));
         params.put("jflxdh", buildInfo(stockTrade.getJflxdz()));
 
         //乙方
         params.put("yflxdz", buildInfo(stockTrade.getYflxdz()));
-        params.put("yfzjlx", NoNullString(systemDictionaryService.getBtachDicName("zjlb",buildInfo(stockTrade.getYfzjlx()))));
+        if(stockTrade.getYfzjlx()!=null){
+            params.put("yfzjlx", NoNullString(systemDictionaryService.getBtachDicName("zjlb",buildInfo(stockTrade.getYfzjlx()))));
+        }else{
+            params.put("yfzjlx","");
+        }
         params.put("yfzjh", buildInfo(stockTrade.getYfzjhm()));
         params.put("yflxdh", buildInfo(stockTrade.getYflxdh()));
 
 
-        params.put("zj",DoubleToString(stockTrade.getZj()));
+        params.put("zj",stockTrade.getZj()!=null? DoubleToString(stockTrade.getZj()):"  ");
+        if(stockTrade.getZj()!=null&&stockTrade.getZj()>0){
+            params.put("zjdx",NumberToCNUtils.convert(BigDecimal.valueOf(stockTrade.getZj())));
+        }else{
+            params.put("zjdx","  ");
+        }
+
         params.put("dj",DoubleToString(stockTrade.getDj()));
 
         params.put("bdcqzh", NoNullString(stockTrade.getBdcqzh()));
