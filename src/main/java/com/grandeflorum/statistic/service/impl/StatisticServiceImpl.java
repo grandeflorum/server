@@ -213,7 +213,7 @@ public class StatisticServiceImpl implements StatisticService {
 
             if(type ==1){
                 statisticValue.setTbFlag(rate>0?"Up":rate==0?"Equal":"Down");
-                statisticValue.setTs(Math.abs(rate));
+                statisticValue.setTb(Math.abs(rate));
             }else {
                 statisticValue.setHbFlag(rate>0?"Up":rate==0?"Equal":"Down");
                 statisticValue.setHb(Math.abs(rate));
