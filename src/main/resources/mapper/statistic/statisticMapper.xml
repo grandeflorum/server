@@ -56,13 +56,13 @@
         select t.yf dateValue,count(t.houseid)ts
         from (select hnt.houseid, to_char(hnt.basj,'mm')yf
               from house_new_trade hnt
-              where hnt.currentstatus = 5
+              where hnt.currentstatus = 5 and nvl(hnt.iscancel,0) not in (1,2)
                 and hnt.houseid is not null
                 and to_char(hnt.basj, 'yyyy') = #{year}
               union all
               select hst.houseid, to_char(hst.basj,'mm') yf
               from house_stock_trade hst
-              where hst.currentstatus = 5
+              where hst.currentstatus = 5 and nvl(hst.iscancel,0) not in (1,2)
                 and hst.houseid is not null
                 and to_char(hst.basj, 'yyyy') = #{year}) t
         group by t.yf order by to_number(t.yf)
@@ -78,20 +78,20 @@
     </sql>
     
     <select id="getProjectSalesVolumeList" parameterType="map" resultType="com.grandeflorum.statistic.domain.SalesStatisticInfo">
-        select  min(c.qymc)qymc,min(p.xmmc) xmmc,min(d.name)yt,avg(t.dj)jj,sum(nvl2(t.houseid,h.SCJZMJ,0))xsmj,count(t.houseid)xsl,sum(t.zj)zj from project p
+        select  min(c.qymc)qymc,min(p.xmmc) xmmc,min(d.name)yt,round(avg(t.dj),2) jj,sum(nvl2(t.houseid,h.SCJZMJ,0))xsmj,count(t.houseid)xsl,sum(t.zj)zj from project p
             left join company c on p.company_id = c.id
             left join zrz z on z.xmid = p.id
             left join h on h.ZRZH = z.ZRZH
             left join dictionary d on d.code = p.xmyt and d.type='fwyt'
             left join (select hnt.houseid, hnt.zj,hnt.dj
             from house_new_trade hnt
-            where hnt.currentstatus = 5
+            where hnt.currentstatus = 5 and nvl(hnt.iscancel,0) not in (1,2)
             and hnt.houseid is not null
             <include refid="BasjFilter"></include>
             union all
             select hst.houseid, hst.zj,hst.dj
             from house_stock_trade hst
-            where hst.currentstatus = 5
+            where hst.currentstatus = 5 and nvl(hst.iscancel,0) not in (1,2)
             and hst.houseid is not null
             <include refid="BasjFilter"></include>
           )t on t.houseid = h.id
@@ -117,13 +117,13 @@
         select count(1)ts,sum(h.SCJZMJ)mj,sum(t.zj)zj from (
           select hnt.houseid, hnt.zj
             from house_new_trade hnt
-            where hnt.currentstatus = 5
+            where hnt.currentstatus = 5 and nvl(hnt.iscancel,0) not in (1,2)
               and hnt.houseid is not null
           <include refid="BasjFilter"></include>
             union all
             select hst.houseid, hst.zj
             from house_stock_trade hst
-            where hst.currentstatus = 5
+            where hst.currentstatus = 5 and nvl(hst.iscancel,0) not in (1,2)
               and hst.houseid is not null
           <include refid="BasjFilter"></include>)t
                left join h on h.id = t.houseid
@@ -134,7 +134,7 @@
           <if test="type=='new' or type=='all'">
               select hnt.houseid, hnt.zj,hnt.dj
               from house_new_trade hnt
-              where hnt.currentstatus = 5
+              where hnt.currentstatus = 5 and nvl(hnt.iscancel,0) not in (1,2)
               and hnt.houseid is not null
               <include refid="BasjFilter"></include>
           </if>
@@ -144,7 +144,7 @@
            <if test="type=='stock' or type=='all'">
                select hst.houseid, hst.zj,hst.dj
                from house_stock_trade hst
-               where hst.currentstatus = 5
+               where hst.currentstatus = 5 and nvl(hst.iscancel,0) not in (1,2)
                and hst.houseid is not null
                <include refid="BasjFilter"></include>
            </if>
@@ -165,7 +165,7 @@
         <if test="type=='new' or type=='all'">
             select hnt.houseid,hnt.currentstatus
             from house_new_trade hnt
-            where hnt.houseid is not null
+            where hnt.houseid is not null and nvl(hnt.iscancel,0) not in (1,2)
             <include refid="BasjFilter"></include>
         </if>
         <if test="type=='all'">
@@ -174,7 +174,7 @@
         <if test="type=='stock' or type=='all' ">
             select hst.houseid,hst.currentstatus
             from house_stock_trade hst
-            where hst.houseid is not null
+            where hst.houseid is not null and nvl(hst.iscancel,0) not in (1,2)
             <include refid="BasjFilter"></include>
         </if>
         )t
