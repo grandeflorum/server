@@ -302,6 +302,7 @@
         nvl2(d.ID,1,0) status,nvl2(cf.id,1,0)cfStatus,
          case when hnt.id is not null then 1
              when hst.id is not null then 2
+              when szh.szs>0 then 3
              else 0 end as tradeType,
         case when (exists(select 1 from HOUSE_RENTAL hr where hr.HOUSE_ID=h.id )) then 1 else 0 end as zlStatus
         from h h
@@ -309,6 +310,7 @@
         left join cfdj cf on cf.BDCDYH = h.BDCDYH and cf.QSZT='1'
         left join house_new_trade hnt on hnt.houseid = h.id and hnt.currentstatus = 5
         left join house_stock_trade hst on hst.houseid = h.id and hst.currentstatus = 5
+        left join (select bdcdyh,sum(case when dyzt='1' then 1 else 0 end)szs from sz group by bdcdyh) szh on szh.bdcdyh = h.bdcdyh
         where h.zt='1' and h.ZRZH=#{zrzh} and h.ljzh=#{ljzh}
     </select>
 

@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.grandeflorum.buildingTable.dao.*;
 import com.grandeflorum.buildingTable.domain.*;
 import com.grandeflorum.buildingTable.service.BuildingTableService;
+import com.grandeflorum.common.cache.EHCacheUtils;
 import com.grandeflorum.common.domain.Page;
 import com.grandeflorum.common.domain.PagingEntity;
 import com.grandeflorum.common.domain.ResponseBo;
@@ -14,7 +15,9 @@ import com.grandeflorum.contract.service.StockTradeService;
 import com.grandeflorum.project.dao.WFAuditMapper;
 import com.grandeflorum.project.domain.AuditParam;
 import com.grandeflorum.project.domain.WFAudit;
+import com.grandeflorum.system.domain.SystemUser;
 import com.grandeflorum.system.service.SystemUserService;
+import net.sf.ehcache.CacheManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,6 +58,9 @@ public class BuildingTableServiceImpl implements BuildingTableService {
     @Autowired
     WFAuditMapper wFAuditMapper;
 
+    @Autowired
+    private CacheManager cacheManager;
+
     @Override
     public ResponseBo getInfoByZh(String ZH,String Type){
         if(Type.equals("1")){
@@ -81,6 +87,16 @@ public class BuildingTableServiceImpl implements BuildingTableService {
 
         //获取过滤条件
         systemUserService.getSelectInfo(map);
+
+        //需要对经纪公司特殊处理
+        SystemUser user = EHCacheUtils.getCurrentUser(cacheManager);
+
+        List<String> roles = user.getRoles();
+
+        if(roles.contains("经纪公司")){
+            map.put("needFilter",false);
+        }
+
         PageHelper.startPage(page.getPageNo(), page.getPageSize());
 
         List<ResultList> list = buildingTableMapper.getBuildingTableList(map);
