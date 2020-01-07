@@ -50,6 +50,12 @@ public class RelationShip {
     public Integer gyfs;
 
     /**
+     * 共有比例
+     */
+    @Column(name="GYBL")
+    public String gybl;
+
+    /**
      * 证件类别
      */
     @Column(name="ZJLB")
@@ -80,6 +86,14 @@ public class RelationShip {
 
     public void setGyfs(Integer gyfs) {
         this.gyfs = gyfs;
+    }
+
+    public String getGybl() {
+        return gybl;
+    }
+
+    public void setGybl(String gybl) {
+        this.gybl = gybl;
     }
 
     public String getId() {

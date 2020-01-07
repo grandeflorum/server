@@ -219,6 +219,30 @@ public class StockTrade implements Cloneable{
     @Column(name = "GYBL")
     public String gybl;
 
+    /**
+     * 甲方共有方式
+     */
+    @Column(name = "JFGYFS")
+    public String jfgyfs;
+
+    /**
+     * 甲方共有比例
+     */
+    @Column(name = "JFGYBL")
+    public String jfgybl;
+
+    /**
+     * 已方共有方式
+     */
+    @Column(name = "YFGYFS")
+    public String yfgyfs;
+
+    /**
+     * 已方共有比例
+     */
+    @Column(name = "YFGYBL")
+    public String yfgybl;
+
     @Transient
     private String bg;
 
@@ -567,6 +591,38 @@ public class StockTrade implements Cloneable{
 
     public void setGybl(String gybl) {
         this.gybl = gybl;
+    }
+
+    public String getJfgyfs() {
+        return jfgyfs;
+    }
+
+    public void setJfgyfs(String jfgyfs) {
+        this.jfgyfs = jfgyfs;
+    }
+
+    public String getJfgybl() {
+        return jfgybl;
+    }
+
+    public void setJfgybl(String jfgybl) {
+        this.jfgybl = jfgybl;
+    }
+
+    public String getYfgyfs() {
+        return yfgyfs;
+    }
+
+    public void setYfgyfs(String yfgyfs) {
+        this.yfgyfs = yfgyfs;
+    }
+
+    public String getYfgybl() {
+        return yfgybl;
+    }
+
+    public void setYfgybl(String yfgybl) {
+        this.yfgybl = yfgybl;
     }
 
     @Override
