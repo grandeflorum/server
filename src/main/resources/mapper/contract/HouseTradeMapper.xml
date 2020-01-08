@@ -84,6 +84,14 @@
     <select id="getHouseTradeCancelList" resultType="com.grandeflorum.contract.domain.ContractCancel">
         select hnt.id as id, hnt.htbah,hnt.lxdz as zl, hnt.buyer as cqr, hnt.buyer as gmr,wa.shrq as zxrq,wa.zxly,hnt.iscancel as status from house_new_trade hnt
         left join wf_audit wa on hnt.id=wa.projectid
+
+        left join h t on hnt.houseid=t.id
+        left join ljz t1 on t.ljzh=t1.ljzh
+        left join zrz t2 on t1.zrzh=t2.zrzh
+        <if test="needFilter">
+            left join project p on p.ID = t2.XMID
+            left join ASSOCIATED_COMPANY ac on ac.ASSOCIATEDID=hnt.id and ac.MODULENAME='houseTrade'
+        </if>
         where hnt.iscancel in (1,2) and wa.currentstatus=5
         <if test="htbah!=null and htbah != ''">
             and (hnt.htbah like '%'||#{htbah}||'%' )
@@ -93,6 +101,20 @@
         </if>
         <if test="jsrq!=null and jsrq != ''">
             and wa.shrq<![CDATA[<=]]>to_date(#{jsrq},'yyyy-mm-dd hh24:mi:ss')
+        </if>
+
+        <if test="needFilter">
+            and (
+            p.COMPANY_ID in
+            <foreach collection="companyList" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+            or ac.COMPANYID in
+            <foreach collection="companyList" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+            or hnt.DJR=#{userId}
+            )
         </if>
             order by hnt.SYS_UPD_DATE desc
     </select>

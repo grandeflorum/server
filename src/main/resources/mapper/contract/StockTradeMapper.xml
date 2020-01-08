@@ -92,6 +92,13 @@
     <select id="getStockTradeCancelList" resultType="com.grandeflorum.contract.domain.ContractCancel">
         select hst.id as id, hst.htbah,hst.jflxdz as zl, hst.jf as cqr, hst.yf as gmr,wa.shrq as zxrq,wa.zxly,hst.iscancel as status from house_stock_trade hst
         left join wf_audit wa on hst.id=wa.projectid
+        left join h t on hst.houseid=t.id
+        left join ljz t1 on t.ljzh=t1.ljzh
+        left join zrz t2 on t1.zrzh=t2.zrzh
+        <if test="needFilter">
+            left join project p on p.ID = t2.XMID
+            left join ASSOCIATED_COMPANY ac on ac.ASSOCIATEDID=hst.id and ac.MODULENAME='stockTrade'
+        </if>
         where hst.iscancel in (1,2) and wa.currentstatus=5
         <if test="htbah!=null and htbah != ''">
             and (hst.htbah like '%'||#{htbah}||'%' )
@@ -101,6 +108,19 @@
         </if>
         <if test="jsrq!=null and jsrq != ''">
             and wa.shrq<![CDATA[<=]]>to_date(#{jsrq},'yyyy-mm-dd hh24:mi:ss')
+        </if>
+        <if test="needFilter">
+            and (
+            p.COMPANY_ID in
+            <foreach collection="companyList" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+            or ac.COMPANYID in
+            <foreach collection="companyList" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+            or hst.DJR=#{userId}
+            )
         </if>
         order by hst.SYS_UPD_DATE desc
     </select>
