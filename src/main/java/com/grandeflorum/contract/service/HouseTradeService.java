@@ -3,10 +3,15 @@ package com.grandeflorum.contract.service;
 import com.grandeflorum.common.domain.Page;
 import com.grandeflorum.common.domain.ResponseBo;
 import com.grandeflorum.common.service.IService;
+import com.grandeflorum.contract.domain.ContractEdit;
 import com.grandeflorum.contract.domain.HouseTrade;
 import com.grandeflorum.project.domain.AuditParam;
+import com.grandeflorum.project.domain.WFAudit;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.OutputStream;
 import java.util.List;
 
 public interface HouseTradeService extends IService<HouseTrade> {
@@ -46,4 +51,9 @@ public interface HouseTradeService extends IService<HouseTrade> {
     ResponseBo getEwmCheckInfo(String id,String type);
 
     ResponseBo sh(String id);
+
+    File creatWord(String id, OutputStream os);
+
+    ResponseBo AuditHouseTradeNew(WFAudit wfAudit);
+
 }

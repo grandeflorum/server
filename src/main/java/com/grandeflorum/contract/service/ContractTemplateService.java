@@ -1,5 +1,6 @@
 package com.grandeflorum.contract.service;
 
+import com.grandeflorum.contract.domain.ContractEdit;
 import com.grandeflorum.contract.domain.ContractTemplate;
 import com.grandeflorum.attachment.domain.FileInfo;
 import com.grandeflorum.common.domain.Page;
@@ -29,6 +30,10 @@ public interface ContractTemplateService extends IService<ContractTemplate>{
     ResponseBo  uploadDoc(MultipartFile file, HttpServletRequest request);
 
     ResponseBo getContractTemplateHistoryById(String id);
+
+    ResponseBo getTradeEditByTradeId(String tradeId,String type);
+
+    ResponseBo saveTradeEdit(ContractEdit contractEdit);
 }
 
 

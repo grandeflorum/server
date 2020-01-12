@@ -59,6 +59,18 @@ public class WFAudit extends EntityBase {
     private String zxly;
 
     private List<FileInfo> fileInfoList;
+
+    @Column(name = "USER_ID")
+    private String userId;
+
+    @Column(name = "USER_TYPE")
+    private Integer userType;
+
+    @Column(name = "IS_ACTIVE")
+    private Integer isActive;
+
+    private List<WFAudit> otherWf;
+
     /**
      * @return ID
      */
@@ -194,4 +206,37 @@ public class WFAudit extends EntityBase {
     public void setFileInfoList(List<FileInfo> fileInfoList) {
         this.fileInfoList = fileInfoList;
     }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public Integer getUserType() {
+        return userType;
+    }
+
+    public void setUserType(Integer userType) {
+        this.userType = userType;
+    }
+
+    public Integer getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(Integer isActive) {
+        this.isActive = isActive;
+    }
+
+    public List<WFAudit> getOtherWf() {
+        return otherWf;
+    }
+
+    public void setOtherWf(List<WFAudit> otherWf) {
+        this.otherWf = otherWf;
+    }
+
 }

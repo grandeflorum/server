@@ -5,6 +5,7 @@ import com.grandeflorum.common.domain.ResponseBo;
 import com.grandeflorum.common.service.IService;
 import com.grandeflorum.contract.domain.StockTrade;
 import com.grandeflorum.project.domain.AuditParam;
+import com.grandeflorum.project.domain.WFAudit;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -45,4 +46,6 @@ public interface StockTradeService extends IService<StockTrade> {
     ResponseBo sh(String id);
 
     ResponseBo getHInfo(String hid);
+
+    ResponseBo AuditHouseTradeNew(WFAudit wfAudit);
 }

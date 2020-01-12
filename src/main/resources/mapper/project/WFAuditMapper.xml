@@ -13,6 +13,9 @@
         <result column="PROJECTID" jdbcType="VARCHAR" property="projectid"/>
         <result column="SYS_DATE" jdbcType="TIMESTAMP" property="sysDate"/>
         <result column="SYS_UPD_DATE" jdbcType="TIMESTAMP" property="sysUpdDate"/>
+        <result column="USER_ID" jdbcType="VARCHAR" property="userId"/>
+        <result column="USER_TYPE" jdbcType="DECIMAL" property="userType"/>
+        <result column="IS_ACTIVE" jdbcType="DECIMAL" property="isActive"/>
     </resultMap>
 
     <select id="getWFAuditList" resultMap="BaseResultMap">
@@ -25,4 +28,39 @@
         </if>
         order by sys_date
     </select>
+
+    <select id="getWFAuditInfo" parameterType="map" resultMap="BaseResultMap">
+            select *
+      from wf_audit t
+     where t.projectid = #{projectId}
+       and t.currentstatus = #{currentStatus}
+       and t.is_active = 1
+       and t.user_type = #{userType}
+       and t.user_id =#{userId}
+          and rownum =1
+    </select>
+
+    <select id="getWFAuditOtherInfo" parameterType="map" resultMap="BaseResultMap">
+        select *
+        from wf_audit t
+        where t.projectid = #{projectId}
+        and t.currentstatus = #{currentStatus}
+        and t.is_active = 1
+        and t.user_type = #{userType}
+        and  <![CDATA[t.user_id <> #{userId}]]>
+    </select>
+
+    <update id="updateWfActive" parameterType="map">
+        UPDATE wf_audit t set t.is_active = 0
+        where t.projectid = #{projectId}   and t.currentstatus = #{currentStatus}
+    </update>
+
+    <select id="getOtherOrgPassCount" parameterType="map" resultType="Integer">
+       SELECT count(1) from wf_audit t
+        where t.projectid = #{projectId}
+        and t.currentstatus = #{currentStatus}
+        and t.is_active = 1 and t.user_type = #{userType}
+        and t.SHJG = 1
+    </select>
+
 </mapper>

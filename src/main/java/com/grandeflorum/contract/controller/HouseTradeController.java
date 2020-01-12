@@ -145,4 +145,9 @@ public class HouseTradeController {
     public ResponseBo sh(String id){
         return houseTradeService.sh(id);
     }
+
+    @PostMapping("/AuditHouseTradeNew")
+    public ResponseBo AuditHouseTradeNew(@RequestBody WFAudit wfAudit){
+        return houseTradeService.AuditHouseTradeNew(wfAudit);
+    }
 }

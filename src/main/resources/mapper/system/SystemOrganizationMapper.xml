@@ -18,7 +18,7 @@
   </select>
 
   <select id="getTopOrganization" resultType="String">
-     select t.id from system_organization t where t.parent_id ='0'
+     select t.id from system_organization t where t.parent_id ='0'    and rownum =1
   </select>
 
 </mapper>

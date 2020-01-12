@@ -2,9 +2,11 @@ package com.grandeflorum.contract.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.grandeflorum.contract.dao.ContractEditMapper;
 import com.grandeflorum.contract.dao.ContractTemplateHistoryMapper;
 import com.grandeflorum.contract.dao.ContractTemplateMapper;
 import com.grandeflorum.attachment.dao.FileInfoMapper;
+import com.grandeflorum.contract.domain.ContractEdit;
 import com.grandeflorum.contract.domain.ContractTemplate;
 import com.grandeflorum.contract.domain.ContractTemplateHistory;
 import com.grandeflorum.attachment.domain.FileInfo;
@@ -18,6 +20,7 @@ import com.grandeflorum.common.util.GuidHelper;
 import com.grandeflorum.common.util.StrUtil;
 import com.grandeflorum.common.util.WordHelper;
 import com.grandeflorum.contract.service.ContractTemplateService;
+import com.grandeflorum.contract.service.HouseTradeService;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
@@ -49,6 +52,12 @@ public class ContractTemplateServiceImpl extends BaseService<ContractTemplate> i
 
     @Autowired
     private ContractTemplateHistoryMapper contractTemplateHistoryMapper;
+
+    @Autowired
+    private ContractEditMapper contractEditMapper;
+
+    @Autowired
+    private HouseTradeService houseTradeService;
 
     @Override
     public String GetFileStorageFolder(String actualFile) {
@@ -145,7 +154,6 @@ public class ContractTemplateServiceImpl extends BaseService<ContractTemplate> i
         return ResponseBo.ok();
     }
 
-
     @Override
     public ResponseBo SaveContractTemplate(ContractTemplate contractTemplate) {
         if (contractTemplate.getId() == null || contractTemplate.getId().equals("")) {
@@ -201,6 +209,79 @@ public class ContractTemplateServiceImpl extends BaseService<ContractTemplate> i
         } else {
             return ResponseBo.error();
         }
+    }
+
+    @Override
+    public  ResponseBo getTradeEditByTradeId(String tradeId,String type){
+
+        ContractEdit contractEdit =contractEditMapper.selectByPrimaryKey(tradeId);
+
+        if(contractEdit==null){
+            contractEdit = new ContractEdit();
+            //从数据库查询
+            if("house-trade".equalsIgnoreCase(type)){
+
+                File file = houseTradeService.creatWord(tradeId,null);
+
+                try{
+
+                    String content = WordHelper.wordToHtml(file.getAbsolutePath());
+                    contractEdit.setContent(content);
+                    contractEdit.setTradeId(tradeId);
+
+                }catch (Exception e){
+
+                }
+
+
+            }
+        }
+
+        return ResponseBo.ok(contractEdit);
+    }
+
+    @Override
+    public ResponseBo saveTradeEdit(ContractEdit contractEdit){
+
+        OutputStream  os = null;
+        try{
+            contractEdit.setUploadDate(new Date());
+            contractEditMapper.deleteByPrimaryKey(contractEdit.getTradeId());
+            contractEditMapper.insert(contractEdit);
+
+            String content = contractEdit.getContent();
+
+            String str = " <!--[if gte mso 9]><xml><w:WordDocument><w:View>Print</w:View><w:TrackMoves>false</w:TrackMoves><w:TrackFormatting/><w:ValidateAgainstSchemas/><w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid><w:IgnoreMixedContent>false</w:IgnoreMixedContent><w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText><w:DoNotPromoteQF/><w:LidThemeOther>EN-US</w:LidThemeOther><w:LidThemeAsian>ZH-CN</w:LidThemeAsian><w:LidThemeComplexScript>X-NONE</w:LidThemeComplexScript><w:Compatibility><w:BreakWrappedTables/><w:SnapToGridInCell/><w:WrapTextWithPunct/><w:UseAsianBreakRules/><w:DontGrowAutofit/><w:SplitPgBreakAndParaMark/><w:DontVertAlignCellWithSp/><w:DontBreakConstrainedForcedTables/><w:DontVertAlignInTxbx/><w:Word11KerningPairs/><w:CachedColBalance/><w:UseFELayout/></w:Compatibility><w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel><m:mathPr><m:mathFont m:val='Cambria Math'/><m:brkBin m:val='before'/><m:brkBinSub m:val='--'/><m:smallFrac m:val='off'/><m:dispDef/><m:lMargin m:val='0'/> <m:rMargin m:val='0'/><m:defJc m:val='centerGroup'/><m:wrapIndent m:val='1440'/><m:intLim m:val='subSup'/><m:naryLim m:val='undOvr'/></m:mathPr></w:WordDocument></xml><![endif]-->";
+            //其中content为ueditor生成的内容
+            String h = " <html xmlns:v='urn:schemas-microsoft-com:vml'xmlns:o='urn:schemas-microsoft-com:office:office'xmlns:w='urn:schemas-microsoft-com:office:word'xmlns:m='http://schemas.microsoft.com/office/2004/12/omml'xmlns='http://www.w3.org/TR/REC-html40'  ";
+            content = h + "<head>" + "<meta http-equiv='Content-Type' content='text/html; charset=utf-8' />" + str + "</head><body>" + content + "</body> </html>";
+            byte b[] = content.getBytes("utf-8");  //这里是必须要设置编码的，不然导出中文就会乱码。
+
+            String sourcePath = grandeflorumProperties.getUploadFolder()+"ht";
+            String fileSavePath = sourcePath+"/"+contractEdit.getTradeId()+"_edit"+".docx";
+
+            File file = new File(fileSavePath);
+            os = new FileOutputStream(file,true);
+
+            os.write(b, 0, b.length);
+            os.flush();
+        }catch (Exception e){
+
+        }finally {
+            if (os != null) {
+                try {
+                    os.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    System.out.println("关闭输出流失败！");
+                }
+            }
+        }
+
+
+
+
+        return ResponseBo.ok(contractEdit);
     }
 
 

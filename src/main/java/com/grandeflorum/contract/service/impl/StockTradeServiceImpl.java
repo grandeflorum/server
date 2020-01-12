@@ -15,10 +15,7 @@ import com.grandeflorum.common.service.impl.BaseService;
 import com.grandeflorum.common.util.*;
 import com.grandeflorum.contract.dao.StockTradeHistoryMapper;
 import com.grandeflorum.contract.dao.StockTradeMapper;
-import com.grandeflorum.contract.domain.ContractCancel;
-import com.grandeflorum.contract.domain.HouseTrade;
-import com.grandeflorum.contract.domain.StockTrade;
-import com.grandeflorum.contract.domain.StockTradeHistory;
+import com.grandeflorum.contract.domain.*;
 import com.grandeflorum.contract.service.StockTradeService;
 import com.grandeflorum.project.dao.WFAuditMapper;
 import com.grandeflorum.project.domain.AuditParam;
@@ -165,6 +162,78 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
         return ResponseBo.ok();
     }
 
+    @Override
+    @Transactional
+    public  ResponseBo AuditHouseTradeNew(WFAudit wfAudit){
+        StockTrade stockTrade = stockTradeMapper.selectByPrimaryKey(wfAudit.getProjectid());
+
+
+        if (StrUtil.isNullOrEmpty(wfAudit.getId())) {
+            wfAudit.setId(GuidHelper.getGuid());
+        }
+        wfAudit.setSysDate(new Date());
+        wfAudit.setSysUpdDate(new Date());
+        wfAudit.setCurrentStatus(stockTrade.getCurrentStatus());
+        wfAudit.setIsActive(1);
+        wFAuditMapper.insert(wfAudit);
+
+        //备案记录备案时间
+        if (stockTrade.getCurrentStatus() == 4) {
+            stockTrade.setBasj(new Date());
+        }
+
+        Map<String, Object> mapUpdate = new HashMap<>();
+        mapUpdate.put("projectId", wfAudit.getProjectid());
+        mapUpdate.put("currentStatus", wfAudit.getCurrentStatus());
+
+        if (wfAudit.getShjg() == 1) {
+
+            if (1 == wfAudit.getUserType()) {
+                mapUpdate.put("userType",2);
+            }else{
+                mapUpdate.put("userType",1);
+            }
+
+            int count = wFAuditMapper.getOtherOrgPassCount(mapUpdate);
+
+            if(count>0){
+                stockTrade.setIsPass(1);
+                stockTrade.setCurrentStatus(stockTrade.getCurrentStatus() + 1);
+
+                if (stockTrade.getCurrentStatus() == 4) {
+                    stockTrade.setHtbah(this.houseTradeServiceIml.getHTBAH("StockTrade"));
+                }
+
+                if (stockTrade.getCurrentStatus() == 5) {
+                    stockTrade.setBasj(new Date());
+                }
+            }
+
+
+
+        } else if (wfAudit.getShjg() == 2) {
+
+            //设置以前的审核位失效
+            wFAuditMapper.updateWfActive(mapUpdate);
+
+
+            //设置历史信息
+            stockTrade.setIsPass(2);
+            StockTradeHistory history = new StockTradeHistory();
+            history.setId(GuidHelper.getGuid());
+            history.setStocktradeid(stockTrade.getId());
+            history.setCurrentstatus(stockTrade.getCurrentStatus().shortValue());
+            history.setSysDate(new Date());
+            history.setHistoryobj(JSON.toJSONString(stockTrade));
+            stockTradeHistoryMapper.insert(history);
+        }
+
+        stockTrade.setSysUpdDate(new Date());
+        stockTradeMapper.updateByPrimaryKey(stockTrade);
+
+
+        return ResponseBo.ok();
+    }
     @Override
     public ResponseBo auditStockTradeById(String id, int type) {
         Map<String, Object> map = new HashMap<>();

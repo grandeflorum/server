@@ -132,6 +132,7 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
                 wfAudit.setProjectid(id);
                 wfAudit.setSysDate(new Date());
                 wfAudit.setSysUpdDate(new Date());
+                wfAudit.setIsActive(1);
                 wfAudit.setCurrentStatus(houseTrade.getCurrentStatus());
                 wFAuditMapper.insert(wfAudit);
                 if(wf.getFileInfoList()!=null&&wf.getFileInfoList().size()>0){
@@ -183,6 +184,82 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
             houseTrade.setSysUpdDate(new Date());
             houseTradeMapper.updateByPrimaryKey(houseTrade);
         }
+
+        return ResponseBo.ok();
+    }
+
+
+
+    @Override
+    @Transactional
+    public ResponseBo AuditHouseTradeNew(WFAudit wfAudit) {
+
+        HouseTrade houseTrade = houseTradeMapper.selectByPrimaryKey(wfAudit.getProjectid());
+
+
+        if (StrUtil.isNullOrEmpty(wfAudit.getId())) {
+            wfAudit.setId(GuidHelper.getGuid());
+        }
+        wfAudit.setSysDate(new Date());
+        wfAudit.setSysUpdDate(new Date());
+        wfAudit.setCurrentStatus(houseTrade.getCurrentStatus());
+        wfAudit.setIsActive(1);
+        wFAuditMapper.insert(wfAudit);
+
+        //备案记录备案时间
+        if (houseTrade.getCurrentStatus() == 4) {
+            houseTrade.setBasj(new Date());
+        }
+
+        Map<String, Object> mapUpdate = new HashMap<>();
+        mapUpdate.put("projectId", wfAudit.getProjectid());
+        mapUpdate.put("currentStatus", wfAudit.getCurrentStatus());
+
+        if (wfAudit.getShjg() == 1) {
+
+            if (1 == wfAudit.getUserType()) {
+                mapUpdate.put("userType",2);
+            }else{
+                mapUpdate.put("userType",1);
+            }
+
+            int count = wFAuditMapper.getOtherOrgPassCount(mapUpdate);
+
+            if(count>0){
+                houseTrade.setIsPass(1);
+                houseTrade.setCurrentStatus(houseTrade.getCurrentStatus() + 1);
+
+                if (houseTrade.getCurrentStatus() == 4) {
+                    houseTrade.setHtbah(this.getHTBAH("HouseTrade"));
+                }
+
+                if (houseTrade.getCurrentStatus() == 5) {
+                    houseTrade.setBasj(new Date());
+                }
+            }
+
+
+
+        } else if (wfAudit.getShjg() == 2) {
+
+            //设置以前的审核位失效
+            wFAuditMapper.updateWfActive(mapUpdate);
+
+
+            //设置历史信息
+            houseTrade.setIsPass(2);
+            HouseTradeHistory history = new HouseTradeHistory();
+            history.setId(GuidHelper.getGuid());
+            history.setHousetradeid(houseTrade.getId());
+            history.setCurrentstatus(houseTrade.getCurrentStatus().shortValue());
+            history.setSysDate(new Date());
+            history.setHistoryobj(JSON.toJSONString(houseTrade));
+            houseTradeHistoryMapper.insert(history);
+        }
+
+        houseTrade.setSysUpdDate(new Date());
+        houseTradeMapper.updateByPrimaryKey(houseTrade);
+
 
         return ResponseBo.ok();
     }
@@ -446,6 +523,7 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
     }
 
 
+    @Override
     public File creatWord(String id,OutputStream os){
 
         HouseTrade houseTrade = houseTradeMapper.selectByPrimaryKey(id);
@@ -464,13 +542,10 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
         File file1 = new File(fileSavePath);
 
         try{
-//            if(file1.exists()){
-//                if(os!=null){
-//
-//                    os.write(FileUtils.readFileToByteArray(file1));
-//                }
+//            File file2 = new File(sourcePath+"/"+id+"_edit.docx");
+//            if(file2.exists()){
+//                FileUtils.copyFile(file2, file1);
 //                office2PDF.office2PDF(sourcePath+"/"+id+".docx",sourcePath+"/"+id+".pdf",grandeflorumProperties.getOpenoffice());
-//
 //            }else{
 
                 //生成二维码

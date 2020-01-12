@@ -4,6 +4,8 @@ import com.grandeflorum.common.cache.EHCacheUtils;
 import com.grandeflorum.common.domain.Page;
 import com.grandeflorum.common.domain.ResponseBo;
 import com.grandeflorum.common.util.GuidHelper;
+import com.grandeflorum.system.dao.SystemOrganizationMapper;
+import com.grandeflorum.system.domain.SystemOrganization;
 import com.grandeflorum.system.domain.SystemUser;
 import com.grandeflorum.system.domain.UserCompany;
 import com.grandeflorum.system.service.SystemUserService;
@@ -30,6 +32,9 @@ public class SystemUserController {
     @Autowired
     private CacheManager cacheManager;
 
+    @Autowired
+    private SystemOrganizationMapper systemOrganizationMapper;
+
 
     @PostMapping("/login")
     public ResponseBo login(@RequestBody Map<String,String> map, HttpServletRequest request) {
@@ -37,6 +42,17 @@ public class SystemUserController {
         Map<String, Object> result = new HashMap<>();
 
         SystemUser systemUser = userService.login(map);
+
+        String rootOrgName = "万年县自然资源局";
+
+        SystemOrganization systemOrganization =systemOrganizationMapper.selectByPrimaryKey(systemUser.getOrgId());
+
+        while (systemOrganization!=null){
+            rootOrgName = systemOrganization.getName();
+            systemOrganization = systemOrganizationMapper.selectByPrimaryKey(systemOrganization.getParentId());
+        }
+
+        systemUser.setRootOrgName(rootOrgName);
 
         if (systemUser == null) {
             return ResponseBo.error("用户名或密码错误，请重试！");

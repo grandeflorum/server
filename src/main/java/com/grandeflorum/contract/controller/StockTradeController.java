@@ -5,6 +5,7 @@ import com.grandeflorum.common.domain.ResponseBo;
 import com.grandeflorum.contract.domain.StockTrade;
 import com.grandeflorum.contract.service.StockTradeService;
 import com.grandeflorum.project.domain.AuditParam;
+import com.grandeflorum.project.domain.WFAudit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -124,5 +125,10 @@ public class StockTradeController {
     @GetMapping("/getHInfo")
     public ResponseBo getHInfo(String hid) {
         return stockTradeService.getHInfo(hid);
+    }
+
+    @PostMapping("/AuditHouseTradeNew")
+    public ResponseBo AuditHouseTradeNew(@RequestBody WFAudit wfAudit){
+        return stockTradeService.AuditHouseTradeNew(wfAudit);
     }
 }

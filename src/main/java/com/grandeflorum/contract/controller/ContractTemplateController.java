@@ -2,6 +2,7 @@ package com.grandeflorum.contract.controller;
 
 import com.grandeflorum.common.domain.Page;
 import com.grandeflorum.common.domain.ResponseBo;
+import com.grandeflorum.contract.domain.ContractEdit;
 import com.grandeflorum.contract.domain.ContractTemplate;
 import com.grandeflorum.contract.service.ContractTemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,5 +100,20 @@ public class ContractTemplateController {
     public ResponseBo getContractTemplateHistoryById(String id) {
 
         return contractTemplateService.getContractTemplateHistoryById(id);
+    }
+
+    /**
+     * 获取编辑的合同模板
+     * @param tradeId
+     * @return
+     */
+    @GetMapping("/getTradeEditByTradeId")
+    public ResponseBo getTradeEditByTradeId(String tradeId,String type) {
+        return contractTemplateService.getTradeEditByTradeId(tradeId,type);
+    }
+
+    @PostMapping("/saveTradeEdit")
+    public ResponseBo saveTradeEdit(@RequestBody  ContractEdit contractEdit){
+        return contractTemplateService.saveTradeEdit(contractEdit);
     }
 }

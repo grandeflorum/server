@@ -41,6 +41,12 @@ public class SystemUser {
 
     private List<String> roles;
 
+    /**
+     * 当前登录人的组织名
+     */
+    @Transient
+    private String rootOrgName;
+
     public List<String> getRoles() {
         return roles;
     }
@@ -178,5 +184,13 @@ public class SystemUser {
 
     public void setSysUpdDate(Date sysUpdDate) {
         this.sysUpdDate = sysUpdDate;
+    }
+
+    public String getRootOrgName() {
+        return rootOrgName;
+    }
+
+    public void setRootOrgName(String rootOrgName) {
+        this.rootOrgName = rootOrgName;
     }
 }
