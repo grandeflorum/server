@@ -255,6 +255,107 @@ public class StockTrade implements Cloneable{
     @Transient
     private String zl;
 
+    /**
+     * 甲方邮政编码
+     */
+    @Column(name = "JFYZBM")
+    private String jfyzbm;
+
+    /**
+     * 乙方邮政编码
+     */
+    @Column(name = "YFYZBM")
+    private String yfyzbm;
+
+    /**
+     * 办证时间
+     */
+    @Column(name = "BZSJ")
+    private Date bzsj;
+
+    /**
+     * 乙方首付款时间
+     */
+    @Column(name = "YFSFKSJ")
+    private Date yfsfksj;
+
+    /**
+     * 乙方首付款金额
+     */
+    @Column(name = "YFSFKJE")
+    private Double yfsfkje;
+
+    /**
+     * 乙方剩余房款
+     */
+    @Column(name = "YFSYFK")
+    private Double yfsyfk;
+
+    /**
+     *乙方付款方式
+     */
+    @Column(name = "YFFKFS")
+    private String yffkfs;
+
+    /**
+     * 甲乙两方缴纳税费约定
+     */
+    @Column(name = "JYLFJNSFYD")
+    private String jylfjnsfyd;
+
+    /**
+     * 合同签订日起多少日内
+     */
+    @Column(name = "HTQJRDSRN")
+    private Double htqjrdsrn;
+
+    /**
+     * 房屋约定交付时间
+     */
+    @Column(name = "FWYDJFSJ")
+    private Date fwydjfsj;
+
+    /**
+     * 甲方房屋欠费交清时间
+     */
+    @Column(name = "JFFWQFJQSJ")
+    private Date jffwqfjqsj;
+
+    /**
+     * 甲方违约金
+     */
+    @Column(name = "JFWYJ")
+    private Double jfwyj;
+
+    /**
+     * 甲方违约天数
+     */
+    @Column(name = "JFWYTS")
+    private Double jfwyts;
+
+    /**
+     * 乙方违约金
+     */
+    @Column(name = "YFWYJ")
+    private Double yfwyj;
+
+    /**
+     * 乙方违约天数
+     */
+    @Column(name = "YFWYTS")
+    private Double yfwyts;
+
+    /**
+     * 违约处理方式
+     */
+    @Column(name = "WYCLFS")
+    private String wyclfs;
+
+    /**
+     *违约方违约金
+     */
+    @Column(name = "WYFWYJ")
+    private Double wyfwyj;
 
     public Date getBasj() {
         return basj;
@@ -636,5 +737,141 @@ public class StockTrade implements Cloneable{
         }
 
         return object;
+    }
+
+    public String getJfyzbm() {
+        return jfyzbm;
+    }
+
+    public void setJfyzbm(String jfyzbm) {
+        this.jfyzbm = jfyzbm;
+    }
+
+    public String getYfyzbm() {
+        return yfyzbm;
+    }
+
+    public void setYfyzbm(String yfyzbm) {
+        this.yfyzbm = yfyzbm;
+    }
+
+    public Date getBzsj() {
+        return bzsj;
+    }
+
+    public void setBzsj(Date bzsj) {
+        this.bzsj = bzsj;
+    }
+
+    public Date getYfsfksj() {
+        return yfsfksj;
+    }
+
+    public void setYfsfksj(Date yfsfksj) {
+        this.yfsfksj = yfsfksj;
+    }
+
+    public Double getYfsfkje() {
+        return yfsfkje;
+    }
+
+    public void setYfsfkje(Double yfsfkje) {
+        this.yfsfkje = yfsfkje;
+    }
+
+    public Double getYfsyfk() {
+        return yfsyfk;
+    }
+
+    public void setYfsyfk(Double yfsyfk) {
+        this.yfsyfk = yfsyfk;
+    }
+
+    public String getYffkfs() {
+        return yffkfs;
+    }
+
+    public void setYffkfs(String yffkfs) {
+        this.yffkfs = yffkfs;
+    }
+
+    public String getJylfjnsfyd() {
+        return jylfjnsfyd;
+    }
+
+    public void setJylfjnsfyd(String jylfjnsfyd) {
+        this.jylfjnsfyd = jylfjnsfyd;
+    }
+
+    public Double getHtqjrdsrn() {
+        return htqjrdsrn;
+    }
+
+    public void setHtqjrdsrn(Double htqjrdsrn) {
+        this.htqjrdsrn = htqjrdsrn;
+    }
+
+    public Date getFwydjfsj() {
+        return fwydjfsj;
+    }
+
+    public void setFwydjfsj(Date fwydjfsj) {
+        this.fwydjfsj = fwydjfsj;
+    }
+
+    public Date getJffwqfjqsj() {
+        return jffwqfjqsj;
+    }
+
+    public void setJffwqfjqsj(Date jffwqfjqsj) {
+        this.jffwqfjqsj = jffwqfjqsj;
+    }
+
+    public Double getJfwyj() {
+        return jfwyj;
+    }
+
+    public void setJfwyj(Double jfwyj) {
+        this.jfwyj = jfwyj;
+    }
+
+    public Double getJfwyts() {
+        return jfwyts;
+    }
+
+    public void setJfwyts(Double jfwyts) {
+        this.jfwyts = jfwyts;
+    }
+
+    public Double getYfwyj() {
+        return yfwyj;
+    }
+
+    public void setYfwyj(Double yfwyj) {
+        this.yfwyj = yfwyj;
+    }
+
+    public Double getYfwyts() {
+        return yfwyts;
+    }
+
+    public void setYfwyts(Double yfwyts) {
+        this.yfwyts = yfwyts;
+    }
+
+    public String getWyclfs() {
+        return wyclfs;
+    }
+
+    public void setWyclfs(String wyclfs) {
+        this.wyclfs = wyclfs;
+    }
+
+    public Double getWyfwyj() {
+        return wyfwyj;
+    }
+
+    public void setWyfwyj(Double wyfwyj) {
+        this.wyfwyj = wyfwyj;
     }
 }

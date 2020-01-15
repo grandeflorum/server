@@ -34,6 +34,26 @@
         <result column="ISCANCEL" jdbcType="DECIMAL" property="isCancel"/>
         <result column="GYQK" jdbcType="DECIMAL" property="gyqk"/>
         <result column="GYBL" jdbcType="VARCHAR" property="gybl"/>
+        <result column="JFYZBM" jdbcType="VARCHAR" property="jfyzbm"/>
+        <result column="YFYZBM" jdbcType="VARCHAR" property="yfyzbm"/>
+        <result column="BZSJ" jdbcType="TIMESTAMP" property="bzsj"/>
+        <result column="YFSFKSJ" jdbcType="TIMESTAMP" property="yfsfksj"/>
+        <result column="YFSFKJE" jdbcType="DECIMAL" property="yfsfkje"/>
+        <result column="YFSYFK" jdbcType="DECIMAL" property="yfsyfk"/>
+        <result column="YFFKFS" jdbcType="VARCHAR" property="yffkfs"/>
+        <result column="JYLFJNSFYD" jdbcType="VARCHAR" property="jylfjnsfyd"/>
+        <result column="HTQJRDSRN" jdbcType="DECIMAL" property="htqjrdsrn"/>
+        <result column="FWYDJFSJ" jdbcType="TIMESTAMP" property="fwydjfsj"/>
+        <result column="JFFWQFJQSJ" jdbcType="TIMESTAMP" property="jffwqfjqsj"/>
+        <result column="JFWYJ" jdbcType="DECIMAL" property="jfwyj"/>
+
+        <result column="JFWYTS" jdbcType="DECIMAL" property="jfwyts"/>
+        <result column="YFWYJ" jdbcType="DECIMAL" property="yfwyj"/>
+        <result column="YFWYTS" jdbcType="DECIMAL" property="yfwyts"/>
+
+        <result column="WYCLFS" jdbcType="VARCHAR" property="wyclfs"/>
+        <result column="WYFWYJ" jdbcType="DECIMAL" property="wyfwyj"/>
+
     </resultMap>
 
     <resultMap id="listMap" type="com.grandeflorum.contract.domain.StockTrade" extends="BaseResultMap">

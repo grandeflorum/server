@@ -5,10 +5,7 @@ import javax.persistence.*;
 
 @Table(name = "CONTRACT_EDIT")
 public class contractEdit {
-    @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Object id;
-
+    @Id
     @Column(name = "TRADE_ID")
     private Object tradeId;
 
@@ -17,20 +14,6 @@ public class contractEdit {
 
     @Column(name = "CONTENT")
     private String content;
-
-    /**
-     * @return ID
-     */
-    public Object getId() {
-        return id;
-    }
-
-    /**
-     * @param id
-     */
-    public void setId(Object id) {
-        this.id = id;
-    }
 
     /**
      * @return TRADE_ID

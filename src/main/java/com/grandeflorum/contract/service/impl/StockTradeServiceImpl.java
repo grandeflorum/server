@@ -511,6 +511,59 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
         params.put("cmr", NoNullString(stockTrade.getJf()));
         params.put("msr", NoNullString(stockTrade.getYf()));
 
+        //20200115新增
+        params.put("jfyzbm",NoNullString(stockTrade.getJfyzbm()));
+        params.put("yfyzbm",NoNullString(stockTrade.getYfyzbm()));
+        params.put("bzsj", DateUtils.DateToString(stockTrade.getBzsj()));
+
+
+        params.put("yfsfksj", DateUtils.DateToString(stockTrade.getYfsfksj()));
+
+        params.put("yfsfkje",stockTrade.getYfsfkje()!=null? DoubleToString(stockTrade.getYfsfkje()):"  ");
+        if(stockTrade.getYfsfkje()!=null&&stockTrade.getYfsfkje()>0){
+            params.put("yfsfkjedx",NumberToCNUtils.convert(BigDecimal.valueOf(stockTrade.getYfsfkje())));
+        }else{
+            params.put("yfsfkjedx","  ");
+        }
+
+        params.put("yfsyfk",stockTrade.getYfsyfk()!=null? DoubleToString(stockTrade.getYfsyfk()):"  ");
+        if(stockTrade.getYfsyfk()!=null&&stockTrade.getYfsyfk()>0){
+            params.put("yfsyfkdx",NumberToCNUtils.convert(BigDecimal.valueOf(stockTrade.getYfsyfk())));
+        }else{
+            params.put("yfsyfkdx","  ");
+        }
+
+        params.put("yffkfs",NoNullString(stockTrade.getYffkfs()));
+        params.put("jylfjnsfyd",NoNullString(stockTrade.getJylfjnsfyd()));
+
+        params.put("htqjrdsrn",DoubleToString(stockTrade.getHtqjrdsrn()));
+
+        params.put("fwydjfsj", DateUtils.DateToString(stockTrade.getFwydjfsj()));
+        params.put("jffwqfjqsj", DateUtils.DateToString(stockTrade.getJffwqfjqsj()));
+
+        if(stockTrade.getJfwyj()!=null&&stockTrade.getJfwyj()>0){
+            params.put("jfwyj",NumberToCNUtils.convert(BigDecimal.valueOf(stockTrade.getJfwyj())));
+        }else{
+            params.put("jfwyj","  ");
+        }
+        params.put("jfwyts",DoubleToString(stockTrade.getJfwyts()));
+
+        if(stockTrade.getYfwyj()!=null&&stockTrade.getYfwyj()>0){
+            params.put("yfwyj",NumberToCNUtils.convert(BigDecimal.valueOf(stockTrade.getYfwyj())));
+        }else{
+            params.put("yfwyj","  ");
+        }
+        params.put("yfwyts",DoubleToString(stockTrade.getYfwyts()));
+
+
+        if(stockTrade.getWyfwyj()!=null&&stockTrade.getWyfwyj()>0){
+            params.put("wyfwyj",NumberToCNUtils.convert(BigDecimal.valueOf(stockTrade.getWyfwyj())));
+        }else{
+            params.put("wyfwyj","  ");
+        }
+
+
+
         //甲方
         params.put("jflxdz", buildInfo(stockTrade.getJflxdz()));
         if(stockTrade.getJfzjlx()!=null){
@@ -542,7 +595,7 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
         params.put("dj",DoubleToString(stockTrade.getDj()));
 
         params.put("bdcqzh", NoNullString(stockTrade.getBdcqzh()));
-        params.put("djsj", DateUtils.DateToString(stockTrade.getDjsj()));
+
 
         Map<String,String> map = stockTradeMapper.queryHinfoByStockId(id);
 
