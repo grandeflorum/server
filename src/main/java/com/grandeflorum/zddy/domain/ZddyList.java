@@ -1,6 +1,7 @@
 package com.grandeflorum.zddy.domain;
 
 import javax.persistence.Column;
+import javax.persistence.Transient;
 
 /**
  * Created by 13260 on 2019/11/19.
@@ -27,6 +28,13 @@ public class ZddyList {
 
     @Column(name="zmj")
     private double zmj;
+
+    //20200208新增
+    /**
+     * 数据来源1:备案系统数据，2：登记系统数据
+     */
+    @Transient
+    private Integer datasource;
 
     public String getId() {
         return id;
@@ -82,5 +90,13 @@ public class ZddyList {
 
     public void setZmj(double zmj) {
         this.zmj = zmj;
+    }
+
+    public Integer getDatasource() {
+        return datasource;
+    }
+
+    public void setDatasource(Integer datasource) {
+        this.datasource = datasource;
     }
 }

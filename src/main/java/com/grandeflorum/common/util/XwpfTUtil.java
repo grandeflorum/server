@@ -18,6 +18,16 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.xmlbeans.impl.xb.xmlschema.SpaceAttribute;
+
+import java.util.ArrayList;
+
+
+
+
+
+
 /**
  * Created by 13260 on 2019/11/12.
  */
@@ -132,6 +142,7 @@ public class XwpfTUtil {
                         XWPFRun pRun = para.getRuns().get(i);
                         //重新插入run里内容格式可能与原来模板的格式不一致
                         pRun.setText(runText);
+                        pRun.setBold(true);//字体是否加粗
 //                        pRun.getCTR().setRPr(ctrPr);
 //                        pRun.setUnderline(ul);
 //                        XWPFRun pRun = para.ge
@@ -155,6 +166,96 @@ public class XwpfTUtil {
     }
 
 
+
+
+
+    public void createFooter(XWPFDocument document) throws Exception {
+        /*
+         * 生成页脚段落
+         * 给段落设置宽度为占满一行
+         * 为公司地址和公司电话左对齐，页码右对齐创造条件
+         * */
+        CTSectPr sectPr = document.getDocument().getBody().addNewSectPr();
+        XWPFHeaderFooterPolicy headerFooterPolicy = new XWPFHeaderFooterPolicy(document, sectPr);
+        XWPFFooter footer =  headerFooterPolicy.createFooter(STHdrFtr.DEFAULT);
+        XWPFParagraph paragraph = footer.getParagraphArray(0);
+        paragraph.setAlignment(ParagraphAlignment.LEFT);
+        paragraph.setVerticalAlignment(TextAlignment.CENTER);
+        paragraph.setBorderTop(Borders.THICK);
+        CTTabStop tabStop = paragraph.getCTP().getPPr().addNewTabs().addNewTab();
+        tabStop.setVal(STTabJc.RIGHT);
+        int twipsPerInch =  1440;
+        tabStop.setPos(BigInteger.valueOf(6 * twipsPerInch));
+
+        /*
+         * 给段落创建元素
+         * 设置元素字面为公司地址+公司电话
+         * */
+        XWPFRun run = paragraph.createRun();
+        //run.setText((StringUtils.isNotEmptyOrNull(orgAddress) ? orgAddress : "") + (StringUtils.isNotEmptyOrNull(telephone) ? "  " + telephone: ""));
+        setXWPFRunStyle(run,"仿宋",10);
+        run.addTab();
+
+        /*
+         * 生成页码
+         * 页码右对齐
+         * */
+        run = paragraph.createRun();
+        run.setText("第");
+        setXWPFRunStyle(run,"仿宋",10);
+
+        run = paragraph.createRun();
+        CTFldChar fldChar = run.getCTR().addNewFldChar();
+        fldChar.setFldCharType(STFldCharType.Enum.forString("begin"));
+
+        run = paragraph.createRun();
+        CTText ctText = run.getCTR().addNewInstrText();
+        ctText.setStringValue("PAGE  \\* MERGEFORMAT");
+        ctText.setSpace(SpaceAttribute.Space.Enum.forString("preserve"));
+        setXWPFRunStyle(run,"仿宋",10);
+
+        fldChar = run.getCTR().addNewFldChar();
+        fldChar.setFldCharType(STFldCharType.Enum.forString("end"));
+
+        run = paragraph.createRun();
+        run.setText("页 总共");
+        setXWPFRunStyle(run,"仿宋",10);
+
+        run = paragraph.createRun();
+        fldChar = run.getCTR().addNewFldChar();
+        fldChar.setFldCharType(STFldCharType.Enum.forString("begin"));
+
+        run = paragraph.createRun();
+        ctText = run.getCTR().addNewInstrText();
+        ctText.setStringValue("NUMPAGES  \\* MERGEFORMAT ");
+        ctText.setSpace(SpaceAttribute.Space.Enum.forString("preserve"));
+        setXWPFRunStyle(run,"仿宋",10);
+
+        fldChar = run.getCTR().addNewFldChar();
+        fldChar.setFldCharType(STFldCharType.Enum.forString("end"));
+
+        run = paragraph.createRun();
+        run.setText("页");
+        setXWPFRunStyle(run,"仿宋",10);
+
+    }
+
+
+    /**
+     * 设置页脚的字体样式
+     *
+     * @param r1 段落元素
+     */
+    private void setXWPFRunStyle(XWPFRun r1,String font,int fontSize) {
+        r1.setFontSize(fontSize);
+        CTRPr rpr = r1.getCTR().isSetRPr() ? r1.getCTR().getRPr() : r1.getCTR().addNewRPr();
+        CTFonts fonts = rpr.isSetRFonts() ? rpr.getRFonts() : rpr.addNewRFonts();
+        fonts.setAscii(font);
+        fonts.setEastAsia(font);
+        fonts.setHAnsi(font);
+    }
+
+
     /**
      * @param doc
      * @param id   id
@@ -162,7 +263,6 @@ public class XwpfTUtil {
      * @throws Exception
      */
     public void createFooter(XWPFDocument doc, String id, String logoFilePath) throws Exception {
-
         List<XWPFFooter> footerList=  doc.getFooterList();
         for (XWPFFooter xwpfFooter:footerList  ){
           List<XWPFParagraph> paragraphs=  xwpfFooter.getParagraphs();
@@ -198,6 +298,9 @@ public class XwpfTUtil {
         }
     }
 
+
+
+
     /**
      * 正则匹配字符串
      *
@@ -210,7 +313,7 @@ public class XwpfTUtil {
         return matcher;
     }
 
-    public   void setStyle(XWPFDocument doc,XWPFDocument tempdoc, Map<String, Object> params) {
+    public void setStyle(XWPFDocument doc,XWPFDocument tempdoc, Map<String, Object> params) {
         Iterator<XWPFParagraph> iterator = doc.getParagraphsIterator();
         Iterator<XWPFParagraph> iterator2 = tempdoc.getParagraphsIterator();
         XWPFParagraph para ;
@@ -221,7 +324,7 @@ public class XwpfTUtil {
             this.styleInPara(para,para2, params);
         }
     }
-    private  void styleInPara(XWPFParagraph para, XWPFParagraph para2,Map<String, Object> params) {
+    private void styleInPara(XWPFParagraph para, XWPFParagraph para2,Map<String, Object> params) {
         List<XWPFRun> runs;
         List<XWPFRun> runs2;
         Matcher matcher;

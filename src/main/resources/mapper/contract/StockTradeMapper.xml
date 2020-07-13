@@ -53,7 +53,10 @@
 
         <result column="WYCLFS" jdbcType="VARCHAR" property="wyclfs"/>
         <result column="WYFWYJ" jdbcType="DECIMAL" property="wyfwyj"/>
-
+         <!--追加字段-->
+        <result column="HTFWYT" jdbcType="DECIMAL" property="htfwyt"/>
+        <result column="HTHX" jdbcType="DECIMAL" property="hthx"/>
+        <result column="FWJG" jdbcType="DECIMAL" property="fwjg"/>
     </resultMap>
 
     <resultMap id="listMap" type="com.grandeflorum.contract.domain.StockTrade" extends="BaseResultMap">
@@ -165,6 +168,23 @@
         left join h t on hst.houseid=t.id
         left join ljz t1 on t.ljzh=t1.ljzh
         left join zrz t2 on t1.zrzh=t2.zrzh
+        where hst.id=#{id}
+    </select>
+
+    <select id="getEwmById"  parameterType="String" resultType="com.grandeflorum.contract.domain.StockTrade">
+        select hst.htbah,hst.rwsj,hst.basj,tem.jf1 jf,tem.jf3 jflxdz,tem.jf5 jfzjlx,tem.jf6 jfzjhm,tem.jf7 jflxdh,tem.yf1 yf,tem.yf3 yflxdz,tem.yf5 yfzjlx,tem.yf6 yfzjhm,tem.yf7 yflxdh,hst.bdcqzh,
+        dic1.name fwyt,t.SCJZMJ jzmj,hst.dj,hst.zj,t2.xmmc,t2.JZWMC,t1.mph zh,t.dymc dyh,t.ch,t.mph  fh,t1.zl,hst.currentstatus
+          from house_stock_trade hst
+          left join house_stock_trade_template tem
+          on tem.stocktradeid = hst.id
+          left join dictionary dic1
+          on hst.htfwyt=dic1.code and dic1.type='htfwyt'
+          left join h t
+          on hst.houseid = t.id
+          left join ljz t1
+          on t.ljzh = t1.ljzh
+          left join zrz t2
+          on t1.zrzh = t2.zrzh
         where hst.id=#{id}
     </select>
 

@@ -79,6 +79,23 @@ public class DateUtils {
         return result;
     }
 
+    public static String StringToDateString(String str){
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date dd = null; //将字符串改为date的格式
+        String result ="";
+        try {
+
+            dd = sdf.parse(str);
+
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            result = formatter.format(dd);
+        } catch (ParseException e) {
+
+        }
+        return result;
+    }
+
     public static String getUpDate(String date,String type){
 
         String result = "";

@@ -298,7 +298,7 @@
     </select>
 
     <select id="getHList" parameterType="map" resultType="com.grandeflorum.buildingTable.domain.H">
-        select h.ID,h.BDCDYH,h.FWBM,h.CH,h.ZL,h.SJCS,h.HH,h.SHBW,h.HX,h.HXJG,h.FWYT1,h.SCJZMJ,h.FWLX,h.MPH,nvl(h.DYH,1)dyh,nvl(h.HBH,1)hbh,h.ISNEWSTOCK,
+        select h.ID,h.BDCDYH,h.FWBM,h.ZRZH,h.CH,h.ZL,h.SJCS,h.HH,h.SHBW,h.HX,h.HXJG,h.FWYT1,h.SCJZMJ,h.FWLX,h.MPH,nvl(h.DYH,1)dyh,nvl(h.HBH,1)hbh,h.ISNEWSTOCK,
         nvl2(d.ID,1,0) status,nvl2(cf.id,1,0)cfStatus,
          case when hnt.id is not null then 1
              when hst.id is not null then 2
@@ -382,5 +382,7 @@
 
     </select>
 
-
+    <select id="getZrzDataSource" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select datasource from zrz where zrzh=#{zh}
+    </select>
 </mapper>

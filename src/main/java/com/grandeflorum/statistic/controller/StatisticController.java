@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.text.SimpleDateFormat;
 
 /**
  * Created by 13260 on 2019/12/1.
@@ -59,6 +60,16 @@ public class StatisticController {
     }
 
     /**
+     * 获取房屋类型销售量列表
+     * @param
+     * @return
+     */
+    @PostMapping("/getSalesVolumeTotalList")
+    public ResponseBo getSalesVolumeTotalList(@RequestBody Page page){
+        return statisticService.getSalesVolumeTotalList(page);
+    }
+
+    /**
      * 获取时间查询统计分析统计值
      * @param map
      * @return
@@ -89,7 +100,7 @@ public class StatisticController {
      * @throws IOException
      */
     @RequestMapping("/excelDownload")
-    public void excelDownload(HttpServletResponse response, @Param("kssj") String kssj,@Param("jssj") String jssj,@Param("mc") String mc,@Param("yt")String yt,@Param("exportType") String exportType)throws IOException {
+    public void excelDownload(HttpServletResponse response, @Param("kssj") String kssj,@Param("jssj") String jssj,@Param("mc") String mc,@Param("yt")String yt,@Param("lx")String lx,@Param("exportType") String exportType)throws IOException {
         Page page = new Page();
 
         page.setPageNo(1);
@@ -101,19 +112,24 @@ public class StatisticController {
         list.add(new Condition("jssj",jssj));
         list.add(new Condition("mc",mc));
         list.add(new Condition("yt",yt));
+        list.add(new Condition("lx",lx));
 
         page.setConditions(list);
 
-        ResponseBo bo  = statisticService.getProjectSalesVolumeList(page);
+        ResponseBo bo  = statisticService.getSalesVolumeTotalList(page);
 
         //声明一个工作簿
         HSSFWorkbook workbook = new HSSFWorkbook();
+        //文件名
 
-        //生成一个表格，设置表格名称为"学生表"
+        Date d = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+        String fileName= sdf.format(d);
+        //生成一个表格，设置表格名称
         HSSFSheet sheet = workbook.createSheet("导出结果");
 
         //设置表格列宽度为10个字节
-        sheet.setDefaultColumnWidth(10);
+        sheet.setDefaultColumnWidth(20);
 
         //创建第一行表头
         HSSFRow headrow = sheet.createRow(0);
@@ -121,9 +137,11 @@ public class StatisticController {
         String[] header =null;
 
         if(exportType.equals("sales")){
-            header = new String[]{"项目名称","开发企业名称","销售量(套)","销售均价(元/平方米)","销售面积(平方米)"};
+
+            header = new String[]{"开发企业/经济公司","项目名称","销售量(套)","销售均价(元/㎡)","销售面积(平方米)"};
         }else{
-            header = new String[]{"项目名称","开发企业名称","用途","均价(元/平方米)","销售面积(平方米)","销售量(套)","总价(万元)"};
+
+            header = new String[]{"开发企业/经济公司","项目名称","用途","均价(元/㎡)","销售面积(平方米)","销售量(套)","总价(万元)"};
         }
 
         //遍历添加表头
@@ -149,8 +167,8 @@ public class StatisticController {
 
                 HSSFRow row = sheet.createRow(i+1);
 
-                row.createCell(0).setCellValue(ssi.getXmmc());
-                row.createCell(1).setCellValue(ssi.getQymc());
+                row.createCell(0).setCellValue(ssi.getQymc());
+                row.createCell(1).setCellValue(ssi.getXmmc());
 
                 if(exportType.equals("sales")){
                     row.createCell(2).setCellValue(ssi.getXsl());
@@ -172,7 +190,7 @@ public class StatisticController {
         response.setContentType("application/octet-stream");
 
         //这后面可以设置导出Excel的名称，此例中名为student.xls
-        response.setHeader("Content-disposition", "attachment;filename=Statistic.xls");
+        response.setHeader("Content-disposition", "attachment;filename="+fileName+".xls");
 
         //刷新缓冲
         response.flushBuffer();

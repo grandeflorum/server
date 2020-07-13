@@ -25,6 +25,7 @@
         <result column="DJR" jdbcType="VARCHAR" property="djr"/>
         <result column="HOUSE_TYPE" jdbcType="DECIMAL" property="houseType"/>
         <result column="GYQK" jdbcType="DECIMAL" property="gyqk"/>
+        <result column="HTHX" jdbcType="DECIMAL" property="hthx"/>
         <result column="GYBL" jdbcType="VARCHAR" property="gybl"/>
     </resultMap>
 

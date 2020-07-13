@@ -35,4 +35,6 @@ public interface BuildingTableMapper {
 
     List<BAHistory> getBAHistory(Map<String,Object> map);
 
+    Integer getZrzDataSource(String zrzh);
+
 }

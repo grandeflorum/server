@@ -7,10 +7,7 @@ import com.grandeflorum.common.domain.PagingEntity;
 import com.grandeflorum.common.domain.ResponseBo;
 import com.grandeflorum.common.util.DateUtils;
 import com.grandeflorum.statistic.dao.StatisticMapper;
-import com.grandeflorum.statistic.domain.SalesStatisticInfo;
-import com.grandeflorum.statistic.domain.StatisticValue;
-import com.grandeflorum.statistic.domain.TransactionSummaryInfo;
-import com.grandeflorum.statistic.domain.TransactionSummaryResponse;
+import com.grandeflorum.statistic.domain.*;
 import com.grandeflorum.statistic.service.StatisticService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Created by 13260 on 2019/12/1.
@@ -84,12 +82,29 @@ public class StatisticServiceImpl implements StatisticService {
         return ResponseBo.ok(result);
     }
 
-
     @Override
     public ResponseBo getProjectSalesVolumeList(Page page){
         Map<String, Object> map = page.getQueryParameter();
         PageHelper.startPage(page.getPageNo(), page.getPageSize());
         List<SalesStatisticInfo> list = statisticMapper.getProjectSalesVolumeList(map);
+
+        return ResponseBo.ok(list);
+    }
+
+
+    @Override
+    public ResponseBo getSalesVolumeTotalList(Page page){
+        Map<String, Object> map = page.getQueryParameter();
+        PageHelper.startPage(page.getPageNo(), page.getPageSize());
+        List<SalesStatisticInfo> list = statisticMapper.getSalesVolumeTotalList(map);
+//        List<SalesStatisticInfo> list = new ArrayList<>();
+//        if(map.get("lx").equals("1")){
+//            list = statisticMapper.getHouseTradeTotalList(map);
+//        }else if(map.get("lx").equals("2")){
+//            list = statisticMapper.getStockTradeTotalList(map);
+//        }else {
+//            list = statisticMapper.getSalesVolumeTotalList(map);
+//        }
 
         PageInfo<SalesStatisticInfo> pageInfo = new PageInfo<>(list);
 
@@ -100,9 +115,56 @@ public class StatisticServiceImpl implements StatisticService {
 
     @Override
     public ResponseBo getTimeQueryStatistics(Map<String,Object> map){
-        List<StatisticValue> list = statisticMapper.getTimeQueryStatistics(map);
+       // List<StatisticValue> list = statisticMapper.getTimeQueryStatistics(map);
+        Map<String,Object> result = new HashMap<>();
 
-        return ResponseBo.ok(list);
+        List<TimeTatolValue> list=statisticMapper.getTimeTotalValueList(map);
+        Optional<TimeTatolValue> spf = list.stream().filter(s -> s.getLx().equals(1)).findFirst();
+        Optional<TimeTatolValue> clf = list.stream().filter(s -> s.getLx().equals(2)).findFirst();
+        boolean sflag = spf.isPresent();
+        boolean cflag= clf.isPresent();
+
+        double zj=0;
+        double mj=0;
+        double ts=0;
+        double szj=0;
+        double smj=0;
+        double sts=0;
+        double czj=0;
+        double cmj=0;
+        double cts=0;
+
+        if(sflag){
+            zj=zj+spf.get().getZj();
+            mj=mj+spf.get().getMj();
+            ts=ts+spf.get().getTs();
+            szj=spf.get().getZj();
+            smj=spf.get().getMj();
+            sts=spf.get().getTs();
+        }
+
+        if(cflag){
+            zj=zj+clf.get().getZj();
+            mj=mj+clf.get().getMj();
+            ts=ts+clf.get().getTs();
+            czj=clf.get().getZj();
+            cmj=clf.get().getMj();
+            cts=clf.get().getTs();
+        }
+
+
+        result.put("zj",zj);
+        result.put("mj",mj);
+        result.put("ts",ts);
+
+        result.put("czj",czj);
+        result.put("szj",szj);
+        result.put("cmj",cmj);
+        result.put("smj",smj);
+        result.put("cts",cts);
+        result.put("sts",sts);
+
+        return ResponseBo.ok(result);
     }
 
     @Override

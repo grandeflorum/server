@@ -78,18 +78,18 @@
     </sql>
     
     <select id="getProjectSalesVolumeList" parameterType="map" resultType="com.grandeflorum.statistic.domain.SalesStatisticInfo">
-        select  min(c.qymc)qymc,min(p.xmmc) xmmc,min(d.name)yt,round(avg(t.dj),2) jj,sum(nvl2(t.houseid,h.SCJZMJ,0))xsmj,count(t.houseid)xsl,sum(t.zj)zj from project p
+        select  min(c.qymc)qymc,min(p.xmmc) xmmc,min(d.name)yt,round(avg(t.dj),2) jj,sum(nvl2(t.houseid,h.SCJZMJ,0))xsmj,count(t.houseid)xsl,sum(t.zj)zj,min(t.lx) xmlx from project p
             left join company c on p.company_id = c.id
             left join zrz z on z.xmid = p.id
             left join h on h.ZRZH = z.ZRZH
             left join dictionary d on d.code = p.xmyt and d.type='fwyt'
-            left join (select hnt.houseid, hnt.zj,hnt.dj
+            left join (select hnt.houseid, hnt.zj,hnt.dj,1 as lx
             from house_new_trade hnt
             where hnt.currentstatus = 5 and nvl(hnt.iscancel,0) not in (1,2)
             and hnt.houseid is not null
             <include refid="BasjFilter"></include>
             union all
-            select hst.houseid, hst.zj,hst.dj
+            select hst.houseid, hst.zj,hst.dj,2 as lx
             from house_stock_trade hst
             where hst.currentstatus = 5 and nvl(hst.iscancel,0) not in (1,2)
             and hst.houseid is not null
@@ -102,6 +102,9 @@
             <if test="yt!=null and yt!=''">
                 and p.xmyt = #{yt}
             </if>
+            <if test="lx!=null and lx!=''">
+                  and p.xmlx = #{lx}
+            </if>
           </where>
         group by p.id
         <choose>
@@ -112,6 +115,205 @@
             </when>
         </choose>
     </select>
+
+    <select id="getSalesVolumeTotalList" parameterType="map" resultType="com.grandeflorum.statistic.domain.SalesStatisticInfo">
+        SELECT * FROM (
+        select * from (
+        select c.qymc,
+        p.xmmc,
+        d.name yt,
+        round(avg(hnt.dj), 2) jj,
+        sum(nvl2(hnt.houseid, h.SCJZMJ, 0)) xsmj,
+        count(hnt.houseid) xsl,
+        sum(hnt.zj) zj,
+        1 as xmlx
+        from house_new_trade hnt
+        left join ASSOCIATED_COMPANY ac
+        on ac.modulename = 'houseTrade'
+        and ac.associatedid = hnt.id
+        left join company c
+        on c.id = ac.companyid
+        left join h h
+        on h.id = hnt.houseid
+        left join zrz z
+        on z.ZRZH = h.ZRZH
+        left join project p
+        on p.id = z.XMID
+        left join dictionary d
+        on d.code = p.xmyt
+        and d.type = 'fwyt'
+        where hnt.currentstatus = 5
+        and nvl(hnt.iscancel, 0) not in (1, 2)
+        and hnt.houseid is not null
+            <if test="mc!=null and mc!=''">
+                and  (instr(qymc,#{mc})>0 or instr(xmmc,#{mc})>0)
+            </if>
+            <if test="yt!=null and yt!=''">
+                and xmyt = #{yt}
+            </if>
+            <include refid="BasjFilter"></include>
+        group by c.qymc, p.xmmc, d.name ) t1
+        union all
+        select * from (
+        select c.qymc,
+        p.xmmc,
+        d.name yt,
+        round(avg(hst.dj), 2) jj,
+        sum(nvl2(hst.houseid, h.SCJZMJ, 0)) xsmj,
+        count(hst.houseid) xsl,
+        sum(hst.zj) zj,
+        2 as xmlx
+        from house_stock_trade hst
+        left join ASSOCIATED_COMPANY ac
+        on ac.modulename = 'stockTrade'
+        and ac.associatedid = hst.id
+        left join company c
+        on c.id = ac.companyid
+        left join h h
+        on h.id = hst.houseid
+        left join zrz z
+        on z.ZRZH = h.ZRZH
+        left join project p
+        on p.id = z.XMID
+        left join dictionary d
+        on d.code = p.xmyt
+        and d.type = 'fwyt'
+        where hst.currentstatus = 5
+        and nvl(hst.iscancel, 0) not in (1, 2)
+        and hst.houseid is not null
+            <if test="mc!=null and mc!=''">
+                and  (instr(qymc,#{mc})>0 or instr(xmmc,#{mc})>0)
+            </if>
+            <if test="yt!=null and yt!=''">
+                and p.xmyt = #{yt}
+            </if>
+            <include refid="BasjFilter"></include>
+        group by c.qymc, p.xmmc, d.name )t2
+        ) t3
+        <where>
+
+            <if test="lx!=null and lx!=''">
+                and t3.xmlx = #{lx}
+            </if>
+        </where>
+        <choose>
+            <when test="sort!=null and sort.size()>0">
+                <foreach collection="sort" item="item" open="order by " separator=",">
+                    ${item}
+                </foreach>
+            </when>
+        </choose>
+    </select>
+
+    <select id="getHouseTradeTotalList" parameterType="map" resultType="com.grandeflorum.statistic.domain.SalesStatisticInfo">
+
+        select c.qymc,
+        p.xmmc,
+        d.name yt,
+        round(avg(hnt.dj), 2) jj,
+        sum(nvl2(hnt.houseid, h.SCJZMJ, 0)) xsmj,
+        count(hnt.houseid) xsl,
+        sum(hnt.zj) zj,
+        1 as xmlx
+        from house_new_trade hnt
+        left join ASSOCIATED_COMPANY ac
+        on ac.modulename = 'houseTrade'
+        and ac.associatedid = hnt.id
+        left join company c
+        on c.id = ac.companyid
+        left join h h
+        on h.id = hnt.houseid
+        left join zrz z
+        on z.ZRZH = h.ZRZH
+        left join project p
+        on p.id = z.XMID
+        left join dictionary d
+        on d.code = p.xmyt
+        and d.type = 'fwyt'
+        where hnt.currentstatus = 5
+        and nvl(hnt.iscancel, 0) not in (1, 2)
+        and hnt.houseid is not null
+        <if test="mc!=null and mc!=''">
+            and  (instr(qymc,#{mc})>0 or instr(xmmc,#{mc})>0)
+        </if>
+        <if test="yt!=null and yt!=''">
+            and xmyt = #{yt}
+        </if>
+        <include refid="BasjFilter"></include>
+        group by c.qymc, p.xmmc, d.name
+        <choose>
+            <when test="sort!=null and sort.size()>0">
+                <foreach collection="sort" item="item" open="order by " separator=",">
+                    ${item}
+                </foreach>
+            </when>
+        </choose>
+    </select>
+
+    <select id="getStockTradeTotalList" parameterType="map" resultType="com.grandeflorum.statistic.domain.SalesStatisticInfo">
+        select c.qymc,
+        p.xmmc,
+        d.name yt,
+        round(avg(hst.dj), 2) jj,
+        sum(nvl2(hst.houseid, h.SCJZMJ, 0)) xsmj,
+        count(hst.houseid) xsl,
+        sum(hst.zj) zj,
+        2 as xmlx
+        from house_stock_trade hst
+        left join ASSOCIATED_COMPANY ac
+        on ac.modulename = 'stockTrade'
+        and ac.associatedid = hst.id
+        left join company c
+        on c.id = ac.companyid
+        left join h h
+        on h.id = hst.houseid
+        left join zrz z
+        on z.ZRZH = h.ZRZH
+        left join project p
+        on p.id = z.XMID
+        left join dictionary d
+        on d.code = p.xmyt
+        and d.type = 'fwyt'
+        where hst.currentstatus = 5
+        and nvl(hst.iscancel, 0) not in (1, 2)
+        and hst.houseid is not null
+        <if test="mc!=null and mc!=''">
+            and  (instr(qymc,#{mc})>0 or instr(xmmc,#{mc})>0)
+        </if>
+        <if test="yt!=null and yt!=''">
+            and p.xmyt = #{yt}
+        </if>
+        <include refid="BasjFilter"></include>
+        group by c.qymc, p.xmmc, d.name
+        <choose>
+            <when test="sort!=null and sort.size()>0">
+                <foreach collection="sort" item="item" open="order by " separator=",">
+                    ${item}
+                </foreach>
+            </when>
+        </choose>
+    </select>
+
+    <select id="getTimeTotalValueList" parameterType="map" resultType="com.grandeflorum.statistic.domain.TimeTatolValue">
+        select t.lx,count(1) ts, sum(h.SCJZMJ) mj, sum(t.zj) zj
+        from (select hnt.houseid, hnt.zj,1 as lx
+        from house_new_trade hnt
+        where hnt.currentstatus = 5
+        and nvl(hnt.iscancel, 0) not in (1, 2)
+        and hnt.houseid is not null
+        <include refid="BasjFilter"></include>
+        union all
+        select hst.houseid, hst.zj,2 as lx
+        from house_stock_trade hst
+        where hst.currentstatus = 5
+        and nvl(hst.iscancel, 0) not in (1, 2)
+        and hst.houseid is not null
+        <include refid="BasjFilter"></include>) t
+        left join h  h
+        on h.id = t.houseid
+        group by t.lx
+    </select>
+
     
     <select id="getTimeQueryStatistics" parameterType="map" resultType="com.grandeflorum.statistic.domain.StatisticValue">
         select count(1)ts,sum(h.SCJZMJ)mj,sum(t.zj)zj from (

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.grandeflorum.contract.dao.ContractEntrustmentMapper">
+    <resultMap id="BaseResultMap" type="com.grandeflorum.contract.domain.ContractEntrustment">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="ID" jdbcType="VARCHAR" property="id" />
+        <result column="STOCKTRADEID" jdbcType="OTHER" property="stocktradeid" />
+        <result column="HT1" jdbcType="VARCHAR" property="ht1" />
+        <result column="JF1" jdbcType="VARCHAR" property="jf1" />
+        <result column="JF2" jdbcType="VARCHAR" property="jf2" />
+        <result column="JF3" jdbcType="VARCHAR" property="jf3" />
+        <result column="JF4" jdbcType="VARCHAR" property="jf4" />
+        <result column="JF5" jdbcType="VARCHAR" property="jf5" />
+        <result column="JF6" jdbcType="VARCHAR" property="jf6" />
+        <result column="JF7" jdbcType="VARCHAR" property="jf7" />
+        <result column="JF8" jdbcType="VARCHAR" property="jf8" />
+        <result column="JF9" jdbcType="VARCHAR" property="jf9" />
+        <result column="YF1" jdbcType="VARCHAR" property="yf1" />
+        <result column="YF2" jdbcType="VARCHAR" property="yf2" />
+        <result column="YF3" jdbcType="VARCHAR" property="yf3" />
+        <result column="YF4" jdbcType="VARCHAR" property="yf4" />
+        <result column="YF5" jdbcType="VARCHAR" property="yf5" />
+        <result column="YF6" jdbcType="VARCHAR" property="yf6" />
+        <result column="YF7" jdbcType="VARCHAR" property="yf7" />
+        <result column="YF8" jdbcType="VARCHAR" property="yf8" />
+        <result column="YF9" jdbcType="VARCHAR" property="yf9" />
+        <result column="D1T1" jdbcType="VARCHAR" property="d1t1" />
+        <result column="D2T1" jdbcType="VARCHAR" property="d2t1" />
+        <result column="D3T1" jdbcType="VARCHAR" property="d3t1" />
+        <result column="D3T2" jdbcType="VARCHAR" property="d3t2" />
+        <result column="D4T1" jdbcType="VARCHAR" property="d4t1" />
+        <result column="D4T2" jdbcType="VARCHAR" property="d4t2" />
+        <result column="D6T1" jdbcType="VARCHAR" property="d6t1" />
+        <result column="D6T2" jdbcType="VARCHAR" property="d6t2" />
+        <result column="D6T3" jdbcType="VARCHAR" property="d6t3" />
+        <result column="D6T4" jdbcType="VARCHAR" property="d6t4" />
+        <result column="D6T5" jdbcType="VARCHAR" property="d6t5" />
+        <result column="D9T1" jdbcType="VARCHAR" property="d9t1" />
+        <result column="D9T2" jdbcType="VARCHAR" property="d9t2" />
+        <result column="D12T1" jdbcType="VARCHAR" property="d12t1" />
+        <result column="QZ1" jdbcType="VARCHAR" property="qz1" />
+        <result column="QZ2" jdbcType="VARCHAR" property="qz2" />
+        <result column="QZ3" jdbcType="VARCHAR" property="qz3" />
+        <result column="QZ4" jdbcType="VARCHAR" property="qz4" />
+        <result column="QZ5" jdbcType="VARCHAR" property="qz5" />
+        <result column="QZ6" jdbcType="VARCHAR" property="qz6" />
+        <result column="QZ7" jdbcType="VARCHAR" property="qz7" />
+        <result column="QZ8" jdbcType="VARCHAR" property="qz8" />
+        <result column="QZ9" jdbcType="VARCHAR" property="qz9" />
+    </resultMap>
+
+    <select id="getIdByStocktradeId"  parameterType="String" resultType="String">
+        select Id
+        from CONTRACT_ENTRUSTMENT t
+        where t.stocktradeid=#{stocktradeid}
+    </select>
+    <select id="getAllByStocktradeId"  parameterType="String" resultType="ContractEntrustment">
+        select *
+        from CONTRACT_ENTRUSTMENT t
+        where t.stocktradeid=#{stocktradeid}
+    </select>
+
+</mapper>

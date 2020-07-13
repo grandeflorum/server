@@ -91,9 +91,15 @@ public class ZddyServiceImpl extends BaseService<Zddy> implements ZddyService {
     @Override
     public ResponseBo getZddyById(String id){
 
-        Zddy zddy =  zddyMapper.selectByPrimaryKey(id);
+        Zddy zddy =  zddyMapper.getZddyById(id);
+        //Zddy zddy =  zddyMapper.selectByPrimaryKey(id);
         return ResponseBo.ok(zddy);
     }
+//    public ResponseBo getZddyById(String id){
+//
+//        Zddy zddy =  zddyMapper.selectByPrimaryKey(id);
+//        return ResponseBo.ok(zddy);
+//    }
 
     @Override
     public ResponseBo deleteZddyByIds(List<String> ids){

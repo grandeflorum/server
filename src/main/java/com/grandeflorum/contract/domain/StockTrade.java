@@ -107,6 +107,8 @@ public class StockTrade implements Cloneable{
     @Column(name = "CURRENTSTATUS")
     public Integer currentStatus;
 
+
+
     /**
      * 是否通过
      */
@@ -197,6 +199,7 @@ public class StockTrade implements Cloneable{
 
     /**
      * 登记时间
+     * 改为 权证时间
      */
     @Column(name = "DJSJ")
     public Date djsj;
@@ -325,25 +328,25 @@ public class StockTrade implements Cloneable{
      * 甲方违约金
      */
     @Column(name = "JFWYJ")
-    private Double jfwyj;
+    private String jfwyj;
 
     /**
      * 甲方违约天数
      */
     @Column(name = "JFWYTS")
-    private Double jfwyts;
+    private String jfwyts;
 
     /**
      * 乙方违约金
      */
     @Column(name = "YFWYJ")
-    private Double yfwyj;
+    private String yfwyj;
 
     /**
      * 乙方违约天数
      */
     @Column(name = "YFWYTS")
-    private Double yfwyts;
+    private String yfwyts;
 
     /**
      * 违约处理方式
@@ -355,7 +358,69 @@ public class StockTrade implements Cloneable{
      *违约方违约金
      */
     @Column(name = "WYFWYJ")
-    private Double wyfwyj;
+    private String wyfwyj;
+
+    /**
+     *房屋用途
+     */
+    @Column(name = "HTFWYT")
+    private Integer htfwyt;
+
+    /**
+     *户型
+     */
+    @Column(name = "HTHX")
+    private Integer hthx;
+
+    /**
+     *房屋结构
+     */
+    @Column(name = "FWJG")
+    private Integer fwjg;
+
+    /**
+     *建筑面积
+     */
+    @Transient
+    private String jzmj;
+
+    public  String getJzmj(){ return jzmj; }
+
+    public void setJzmj(String jzmj) {
+        this.jzmj = jzmj;
+    }
+
+    /**
+     *房屋用途
+     */
+    @Transient
+    private String fwyt;
+
+    public  String getFwyt(){ return fwyt; }
+
+    public void setFwyt(String fwyt) {
+        this.fwyt = fwyt;
+    }
+
+    public ContractEntrustment contractEntrustment;
+
+    public ContractEntrustment getContractEntrustment() {
+        return contractEntrustment;
+    }
+
+    public void setContractEntrustment(ContractEntrustment contractEntrustment) {
+        this.contractEntrustment = contractEntrustment;
+    }
+
+    public StockTradeTemplate stockTradeTemplate;
+
+    public StockTradeTemplate getStockTradeTemplate() {
+        return stockTradeTemplate;
+    }
+
+    public void setStockTradeTemplate(StockTradeTemplate stockTradeTemplate) {
+        this.stockTradeTemplate = stockTradeTemplate;
+    }
 
     public Date getBasj() {
         return basj;
@@ -827,35 +892,35 @@ public class StockTrade implements Cloneable{
         this.jffwqfjqsj = jffwqfjqsj;
     }
 
-    public Double getJfwyj() {
+    public String getJfwyj() {
         return jfwyj;
     }
 
-    public void setJfwyj(Double jfwyj) {
+    public void setJfwyj(String jfwyj) {
         this.jfwyj = jfwyj;
     }
 
-    public Double getJfwyts() {
+    public String getJfwyts() {
         return jfwyts;
     }
 
-    public void setJfwyts(Double jfwyts) {
+    public void setJfwyts(String jfwyts) {
         this.jfwyts = jfwyts;
     }
 
-    public Double getYfwyj() {
+    public String getYfwyj() {
         return yfwyj;
     }
 
-    public void setYfwyj(Double yfwyj) {
+    public void setYfwyj(String yfwyj) {
         this.yfwyj = yfwyj;
     }
 
-    public Double getYfwyts() {
+    public String getYfwyts() {
         return yfwyts;
     }
 
-    public void setYfwyts(Double yfwyts) {
+    public void setYfwyts(String yfwyts) {
         this.yfwyts = yfwyts;
     }
 
@@ -867,11 +932,24 @@ public class StockTrade implements Cloneable{
         this.wyclfs = wyclfs;
     }
 
-    public Double getWyfwyj() {
+    public String getWyfwyj() {
         return wyfwyj;
     }
 
-    public void setWyfwyj(Double wyfwyj) {
+    public void setWyfwyj(String wyfwyj) {
         this.wyfwyj = wyfwyj;
     }
+
+    public Integer getHtfwyt() { return htfwyt; }
+
+    public void setHtfwyt(Integer htfwyt) { this.htfwyt = htfwyt; }
+
+    public Integer getHthx() { return hthx; }
+
+    public void setHthx(Integer hthx) { this.hthx = hthx; }
+
+    public Integer getFwjg() { return fwjg; }
+
+    public void setFwjg(Integer fwjg) { this.fwjg = fwjg; }
+
 }

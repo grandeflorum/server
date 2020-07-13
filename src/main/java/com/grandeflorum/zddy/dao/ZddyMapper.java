@@ -17,4 +17,6 @@ public interface ZddyMapper extends MyMapper<Zddy> {
     void restrictedProperty(Map<String,Object> map);
 
     String selectBdcdyhByZh(Map<String,Object> map);
+
+    Zddy getZddyById(String id);
 }

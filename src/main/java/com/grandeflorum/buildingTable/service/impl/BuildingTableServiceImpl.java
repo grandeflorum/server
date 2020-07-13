@@ -144,6 +144,16 @@ public class BuildingTableServiceImpl implements BuildingTableService {
 
         List<C> cList = buildingTableMapper.getCList(map);
         List<H> hList = buildingTableMapper.getHList(map);
+        Integer HDataSource=buildingTableMapper.getZrzDataSource(result.getZrzh());
+        if (HDataSource == 2 ){
+            for (int i = 0; i < hList.size(); i++){
+                H h =hList.get(i);
+                if (h.getTradeType()==0){
+                    h.setTradeType(1);
+                }
+            }
+
+        }
 
         if (cList != null && cList.size() > 0 ) {
 
@@ -666,6 +676,10 @@ public class BuildingTableServiceImpl implements BuildingTableService {
 
         return ResponseBo.ok(result);
     }
-
+    @Override
+    public ResponseBo getZrzDataSource(String zrzh) {
+        Integer dataSource=buildingTableMapper.getZrzDataSource(zrzh);
+        return ResponseBo.ok(dataSource);
+    }
 
 }

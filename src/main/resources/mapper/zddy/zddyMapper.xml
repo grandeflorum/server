@@ -45,11 +45,11 @@
   </resultMap>
 
 <select id="getZddyList" parameterType="map" resultType="com.grandeflorum.zddy.domain.ZddyList">
-select m.id,m.bdcdyh,m.dybdclxName,m.dyfsName,m.zjjzwzl,m.dy_type dyType,m.zmj
-  from (select t.id,t.bdcdyh,d1.name dybdclxName,d2.name dyfsName,t.zjjzwzl,t.dy_type,
+select m.id,m.bdcdyh,m.dybdclxName,m.dybdclx,m.dyfsName,m.zjjzwzl,m.dy_type dyType,m.zmj,m.SYS_UPD_DATE,1 datasource
+  from (select t.id,t.bdcdyh,d1.name dybdclxName,to_char(t.dybdclx) DYBDCLX,d2.name dyfsName,t.zjjzwzl,t.dy_type,
   case when t.dy_type =1 then (select sum(SCJZMJ) from h where zrzh = t.zrzh)
   when t.dy_type =2 then (select sum(SCJZMJ) from h where ljzh = t.ljzh)
-  else 0 end zmj,t.SYS_UPD_DATE,t.dybdclx
+  else 0 end zmj,t.SYS_UPD_DATE
 from zddy t
   left join dictionary d1 on d1.code = t.dybdclx and d1.type='dybdclx'
   left join dictionary d2 on d2.code = t.dyfs and d2.type = 'dylx'
@@ -62,19 +62,23 @@ from zddy t
     </foreach>
     or t.DJR=#{userId}
   </if>
-    )m where 1=1
-
+    )m
+  union all
+  select * from(
+  select cast(d.id as varchar2(36)) as id,cast(d.bdcdyh as varchar2(36)) as bdcdyh, d.DYBDCLXNAME,to_char(d.DYBDCLX) DYBDCLX, dyfsName,cast(d.ZJJZWZL as varchar2(255)) as ZJJZWZL, dy_Type, d.ZMJ,to_date('1999-01-01','yyyy-MM-dd')  as sys_upd_date,2 datasource
+  from djdyq d) n
+  where 1=1
   <if test="bdcdyh != null and bdcdyh != ''">
-    and instr(m.bdcdyh,#{bdcdyh})>0
+    and instr(bdcdyh,#{bdcdyh})>0
   </if>
   <if test="dybdclx != null and dybdclx != ''">
-    and m.dybdclx = #{dybdclx}
+    and dybdclx = #{dybdclx}
   </if>
   <if test="zjjzwzl != null and zjjzwzl != ''">
-    and instr(m.zjjzwzl,#{zjjzwzl})>0
+    and instr(zjjzwzl,#{zjjzwzl})>0
   </if>
   <if test="dy_type != null and dy_type != ''">
-    and m.dy_type = #{dy_type}
+    and dy_type = #{dy_type}
   </if>
 
   <choose>
@@ -84,7 +88,7 @@ from zddy t
       </foreach>
     </when>
     <otherwise>
-      order by m.SYS_UPD_DATE desc
+      order by SYS_UPD_DATE DESC
     </otherwise>
   </choose>
 </select>
@@ -123,4 +127,7 @@ from zddy t
     </choose>
   </select>
 
+  <select id="getZddyById" parameterType="String" resultType="com.grandeflorum.zddy.domain.Zddy">
+    select * from ZDDYGL where ID =#{id}
+  </select>
 </mapper>

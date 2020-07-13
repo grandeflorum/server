@@ -22,6 +22,14 @@ public class ContractCancel {
      * 购买人
      */
     public String gmr;
+
+    /**
+     * 坐落
+     */
+    public String zl;
+
+
+
     /**
      * 日期
      */
@@ -35,6 +43,15 @@ public class ContractCancel {
      * 状态 1 注销 2变更
      */
     public int status;
+
+
+    public String getZl() {
+        return zl;
+    }
+
+    public void setZl(String zl) {
+        this.zl = zl;
+    }
 
     public String getId() {
         return id;

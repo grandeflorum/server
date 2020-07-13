@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.grandeflorum.contract.dao.StockTradeTemplateMapper">
+    <resultMap id="BaseResultMap" type="com.grandeflorum.contract.domain.StockTradeTemplate">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="ID" jdbcType="VARCHAR" property="id" />
+        <result column="STOCKTRADEID" jdbcType="OTHER" property="stocktradeid" />
+        <result column="HT1" jdbcType="VARCHAR" property="ht1" />
+        <result column="HT2" jdbcType="VARCHAR" property="ht2" />
+        <result column="HT3" jdbcType="VARCHAR" property="ht3" />
+        <result column="JF1" jdbcType="VARCHAR" property="jf1" />
+        <result column="JF2" jdbcType="VARCHAR" property="jf2" />
+        <result column="JF3" jdbcType="VARCHAR" property="jf3" />
+        <result column="JF4" jdbcType="VARCHAR" property="jf4" />
+        <result column="JF5" jdbcType="VARCHAR" property="jf5" />
+        <result column="JF6" jdbcType="VARCHAR" property="jf6" />
+        <result column="JF7" jdbcType="VARCHAR" property="jf7" />
+        <result column="JF8" jdbcType="VARCHAR" property="jf8" />
+        <result column="JF9" jdbcType="VARCHAR" property="jf9" />
+        <result column="JF10" jdbcType="VARCHAR" property="jf10" />
+        <result column="JF11" jdbcType="VARCHAR" property="jf11" />
+        <result column="JF12" jdbcType="VARCHAR" property="jf12" />
+        <result column="JF13" jdbcType="VARCHAR" property="jf13" />
+        <result column="JF14" jdbcType="VARCHAR" property="jf14" />
+        <result column="JF15" jdbcType="VARCHAR" property="jf15" />
+        <result column="JF16" jdbcType="VARCHAR" property="jf16" />
+        <result column="JF17" jdbcType="VARCHAR" property="jf17" />
+        <result column="JF18" jdbcType="VARCHAR" property="jf18" />
+        <result column="YF1" jdbcType="VARCHAR" property="yf1" />
+        <result column="YF2" jdbcType="VARCHAR" property="yf2" />
+        <result column="YF3" jdbcType="VARCHAR" property="yf3" />
+        <result column="YF4" jdbcType="VARCHAR" property="yf4" />
+        <result column="YF5" jdbcType="VARCHAR" property="yf5" />
+        <result column="YF6" jdbcType="VARCHAR" property="yf6" />
+        <result column="YF7" jdbcType="VARCHAR" property="yf7" />
+        <result column="YF8" jdbcType="VARCHAR" property="yf8" />
+        <result column="YF9" jdbcType="VARCHAR" property="yf9" />
+        <result column="YF10" jdbcType="VARCHAR" property="yf10" />
+        <result column="YF11" jdbcType="VARCHAR" property="yf11" />
+        <result column="YF12" jdbcType="VARCHAR" property="yf12" />
+        <result column="YF13" jdbcType="VARCHAR" property="yf13" />
+        <result column="YF14" jdbcType="VARCHAR" property="yf14" />
+        <result column="YF15" jdbcType="VARCHAR" property="yf15" />
+        <result column="YF16" jdbcType="VARCHAR" property="yf16" />
+        <result column="YF17" jdbcType="VARCHAR" property="yf17" />
+        <result column="YF18" jdbcType="VARCHAR" property="yf18" />
+        <result column="D1T1" jdbcType="VARCHAR" property="d1t1" />
+        <result column="D1T2" jdbcType="VARCHAR" property="d1t2" />
+        <result column="D1T3" jdbcType="VARCHAR" property="d1t3" />
+        <result column="D1T4" jdbcType="VARCHAR" property="d1t4" />
+        <result column="D1T5" jdbcType="VARCHAR" property="d1t5" />
+        <result column="D1T6" jdbcType="VARCHAR" property="d1t6" />
+        <result column="D1T7" jdbcType="VARCHAR" property="d1t7" />
+        <result column="D1T8" jdbcType="VARCHAR" property="d1t8" />
+        <result column="D1T9" jdbcType="VARCHAR" property="d1t9" />
+        <result column="D1T10" jdbcType="VARCHAR" property="d1t10" />
+        <result column="D2T1" jdbcType="VARCHAR" property="d2t1" />
+        <result column="D2T2" jdbcType="VARCHAR" property="d2t2" />
+        <result column="D3T1" jdbcType="VARCHAR" property="d3t1" />
+        <result column="D3T2" jdbcType="VARCHAR" property="d3t2" />
+        <result column="D3T3" jdbcType="VARCHAR" property="d3t3" />
+        <result column="D3T4" jdbcType="VARCHAR" property="d3t4" />
+        <result column="D3T5" jdbcType="VARCHAR" property="d3t5" />
+        <result column="D3T6" jdbcType="VARCHAR" property="d3t6" />
+        <result column="D3T7" jdbcType="VARCHAR" property="d3t7" />
+        <result column="D3T8" jdbcType="VARCHAR" property="d3t8" />
+        <result column="D3T9" jdbcType="VARCHAR" property="d3t9" />
+        <result column="D3T10" jdbcType="VARCHAR" property="d3t10" />
+        <result column="D3T11" jdbcType="VARCHAR" property="d3t11" />
+        <result column="D3T12" jdbcType="VARCHAR" property="d3t12" />
+        <result column="D3T13" jdbcType="VARCHAR" property="d3t13" />
+        <result column="D3T14" jdbcType="VARCHAR" property="d3t14" />
+        <result column="D3T15" jdbcType="VARCHAR" property="d3t15" />
+        <result column="D3T16" jdbcType="VARCHAR" property="d3t16" />
+        <result column="D3T17" jdbcType="VARCHAR" property="d3t17" />
+        <result column="D3T18" jdbcType="VARCHAR" property="d3t18" />
+        <result column="D3T19" jdbcType="VARCHAR" property="d3t19" />
+        <result column="D3T20" jdbcType="VARCHAR" property="d3t20" />
+        <result column="D3T21" jdbcType="VARCHAR" property="d3t21" />
+        <result column="D3T22" jdbcType="VARCHAR" property="d3t22" />
+        <result column="D3T23" jdbcType="VARCHAR" property="d3t23" />
+        <result column="D3T24" jdbcType="VARCHAR" property="d3t24" />
+        <result column="D3T25" jdbcType="VARCHAR" property="d3t25" />
+        <result column="D3T26" jdbcType="VARCHAR" property="d3t26" />
+        <result column="D3T27" jdbcType="VARCHAR" property="d3t27" />
+        <result column="D4T1" jdbcType="VARCHAR" property="d4t1" />
+        <result column="D4T2" jdbcType="VARCHAR" property="d4t2" />
+        <result column="D5T1" jdbcType="VARCHAR" property="d5t1" />
+        <result column="D6T1" jdbcType="VARCHAR" property="d6t1" />
+        <result column="D6T2" jdbcType="VARCHAR" property="d6t2" />
+        <result column="D7T1" jdbcType="VARCHAR" property="d7t1" />
+        <result column="D7T2" jdbcType="VARCHAR" property="d7t2" />
+        <result column="D7T3" jdbcType="VARCHAR" property="d7t3" />
+        <result column="D7T4" jdbcType="VARCHAR" property="d7t4" />
+        <result column="D8T1" jdbcType="VARCHAR" property="d8t1" />
+        <result column="D8T2" jdbcType="VARCHAR" property="d8t2" />
+        <result column="D8T3" jdbcType="VARCHAR" property="d8t3" />
+        <result column="D8T4" jdbcType="VARCHAR" property="d8t4" />
+        <result column="D9T1" jdbcType="VARCHAR" property="d9t1" />
+        <result column="D9T2" jdbcType="VARCHAR" property="d9t2" />
+        <result column="D9T3" jdbcType="VARCHAR" property="d9t3" />
+        <result column="D9T4" jdbcType="VARCHAR" property="d9t4" />
+        <result column="D10T1" jdbcType="VARCHAR" property="d10t1" />
+        <result column="D10T2" jdbcType="VARCHAR" property="d10t2" />
+        <result column="D10T3" jdbcType="VARCHAR" property="d10t3" />
+        <result column="D11T1" jdbcType="VARCHAR" property="d11t1" />
+        <result column="D11T2" jdbcType="VARCHAR" property="d11t2" />
+        <result column="D12T1" jdbcType="VARCHAR" property="d12t1" />
+        <result column="D12T2" jdbcType="VARCHAR" property="d12t2" />
+        <result column="QZ1" jdbcType="VARCHAR" property="qz1" />
+        <result column="QZ2" jdbcType="VARCHAR" property="qz2" />
+        <result column="QZ3" jdbcType="VARCHAR" property="qz3" />
+        <result column="QZ4" jdbcType="VARCHAR" property="qz4" />
+        <result column="QZ5" jdbcType="VARCHAR" property="qz5" />
+        <result column="QZ6" jdbcType="VARCHAR" property="qz6" />
+        <result column="QZ7" jdbcType="VARCHAR" property="qz7" />
+        <result column="QZ8" jdbcType="VARCHAR" property="qz8" />
+    </resultMap>
+
+    <resultMap id="templateList" type="com.grandeflorum.contract.domain.StockTradeTemplate" extends="BaseResultMap">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="ID" jdbcType="VARCHAR" property="id" />
+        <result column="STOCKTRADEID" jdbcType="OTHER" property="stocktradeid" />
+        <result column="HT1" jdbcType="VARCHAR" property="ht1" />
+        <result column="HT2" jdbcType="VARCHAR" property="ht2" />
+        <result column="HT3" jdbcType="VARCHAR" property="ht3" />
+        <result column="JF1" jdbcType="VARCHAR" property="jf1" />
+        <result column="JF2" jdbcType="VARCHAR" property="jf2" />
+        <result column="JF3" jdbcType="VARCHAR" property="jf3" />
+        <result column="JF4" jdbcType="VARCHAR" property="jf4" />
+        <result column="JF5" jdbcType="VARCHAR" property="jf5" />
+        <result column="JF6" jdbcType="VARCHAR" property="jf6" />
+        <result column="JF7" jdbcType="VARCHAR" property="jf7" />
+        <result column="JF8" jdbcType="VARCHAR" property="jf8" />
+        <result column="JF9" jdbcType="VARCHAR" property="jf9" />
+        <result column="JF10" jdbcType="VARCHAR" property="jf10" />
+        <result column="JF11" jdbcType="VARCHAR" property="jf11" />
+        <result column="JF12" jdbcType="VARCHAR" property="jf12" />
+        <result column="JF13" jdbcType="VARCHAR" property="jf13" />
+        <result column="JF14" jdbcType="VARCHAR" property="jf14" />
+        <result column="JF15" jdbcType="VARCHAR" property="jf15" />
+        <result column="JF16" jdbcType="VARCHAR" property="jf16" />
+        <result column="JF17" jdbcType="VARCHAR" property="jf17" />
+        <result column="JF18" jdbcType="VARCHAR" property="jf18" />
+        <result column="YF1" jdbcType="VARCHAR" property="yf1" />
+        <result column="YF2" jdbcType="VARCHAR" property="yf2" />
+        <result column="YF3" jdbcType="VARCHAR" property="yf3" />
+        <result column="YF4" jdbcType="VARCHAR" property="yf4" />
+        <result column="YF5" jdbcType="VARCHAR" property="yf5" />
+        <result column="YF6" jdbcType="VARCHAR" property="yf6" />
+        <result column="YF7" jdbcType="VARCHAR" property="yf7" />
+        <result column="YF8" jdbcType="VARCHAR" property="yf8" />
+        <result column="YF9" jdbcType="VARCHAR" property="yf9" />
+        <result column="YF10" jdbcType="VARCHAR" property="yf10" />
+        <result column="YF11" jdbcType="VARCHAR" property="yf11" />
+        <result column="YF12" jdbcType="VARCHAR" property="yf12" />
+        <result column="YF13" jdbcType="VARCHAR" property="yf13" />
+        <result column="YF14" jdbcType="VARCHAR" property="yf14" />
+        <result column="YF15" jdbcType="VARCHAR" property="yf15" />
+        <result column="YF16" jdbcType="VARCHAR" property="yf16" />
+        <result column="YF17" jdbcType="VARCHAR" property="yf17" />
+        <result column="YF18" jdbcType="VARCHAR" property="yf18" />
+        <result column="D1T1" jdbcType="VARCHAR" property="d1t1" />
+        <result column="D1T2" jdbcType="VARCHAR" property="d1t2" />
+        <result column="D1T3" jdbcType="VARCHAR" property="d1t3" />
+        <result column="D1T4" jdbcType="VARCHAR" property="d1t4" />
+        <result column="D1T5" jdbcType="VARCHAR" property="d1t5" />
+        <result column="D1T6" jdbcType="VARCHAR" property="d1t6" />
+        <result column="D1T7" jdbcType="VARCHAR" property="d1t7" />
+        <result column="D1T8" jdbcType="VARCHAR" property="d1t8" />
+        <result column="D1T9" jdbcType="VARCHAR" property="d1t9" />
+        <result column="D1T10" jdbcType="VARCHAR" property="d1t10" />
+        <result column="D2T1" jdbcType="VARCHAR" property="d2t1" />
+        <result column="D2T2" jdbcType="VARCHAR" property="d2t2" />
+        <result column="D3T1" jdbcType="VARCHAR" property="d3t1" />
+        <result column="D3T2" jdbcType="VARCHAR" property="d3t2" />
+        <result column="D3T3" jdbcType="VARCHAR" property="d3t3" />
+        <result column="D3T4" jdbcType="VARCHAR" property="d3t4" />
+        <result column="D3T5" jdbcType="VARCHAR" property="d3t5" />
+        <result column="D3T6" jdbcType="VARCHAR" property="d3t6" />
+        <result column="D3T7" jdbcType="VARCHAR" property="d3t7" />
+        <result column="D3T8" jdbcType="VARCHAR" property="d3t8" />
+        <result column="D3T9" jdbcType="VARCHAR" property="d3t9" />
+        <result column="D3T10" jdbcType="VARCHAR" property="d3t10" />
+        <result column="D3T11" jdbcType="VARCHAR" property="d3t11" />
+        <result column="D3T12" jdbcType="VARCHAR" property="d3t12" />
+        <result column="D3T13" jdbcType="VARCHAR" property="d3t13" />
+        <result column="D3T14" jdbcType="VARCHAR" property="d3t14" />
+        <result column="D3T15" jdbcType="VARCHAR" property="d3t15" />
+        <result column="D3T16" jdbcType="VARCHAR" property="d3t16" />
+        <result column="D3T17" jdbcType="VARCHAR" property="d3t17" />
+        <result column="D3T18" jdbcType="VARCHAR" property="d3t18" />
+        <result column="D3T19" jdbcType="VARCHAR" property="d3t19" />
+        <result column="D3T20" jdbcType="VARCHAR" property="d3t20" />
+        <result column="D3T21" jdbcType="VARCHAR" property="d3t21" />
+        <result column="D3T22" jdbcType="VARCHAR" property="d3t22" />
+        <result column="D3T23" jdbcType="VARCHAR" property="d3t23" />
+        <result column="D3T24" jdbcType="VARCHAR" property="d3t24" />
+        <result column="D3T25" jdbcType="VARCHAR" property="d3t25" />
+        <result column="D3T26" jdbcType="VARCHAR" property="d3t26" />
+        <result column="D3T27" jdbcType="VARCHAR" property="d3t27" />
+        <result column="D4T1" jdbcType="VARCHAR" property="d4t1" />
+        <result column="D4T2" jdbcType="VARCHAR" property="d4t2" />
+        <result column="D5T1" jdbcType="VARCHAR" property="d5t1" />
+        <result column="D6T1" jdbcType="VARCHAR" property="d6t1" />
+        <result column="D6T2" jdbcType="VARCHAR" property="d6t2" />
+        <result column="D7T1" jdbcType="VARCHAR" property="d7t1" />
+        <result column="D7T2" jdbcType="VARCHAR" property="d7t2" />
+        <result column="D7T3" jdbcType="VARCHAR" property="d7t3" />
+        <result column="D7T4" jdbcType="VARCHAR" property="d7t4" />
+        <result column="D8T1" jdbcType="VARCHAR" property="d8t1" />
+        <result column="D8T2" jdbcType="VARCHAR" property="d8t2" />
+        <result column="D8T3" jdbcType="VARCHAR" property="d8t3" />
+        <result column="D8T4" jdbcType="VARCHAR" property="d8t4" />
+        <result column="D9T1" jdbcType="VARCHAR" property="d9t1" />
+        <result column="D9T2" jdbcType="VARCHAR" property="d9t2" />
+        <result column="D9T3" jdbcType="VARCHAR" property="d9t3" />
+        <result column="D9T4" jdbcType="VARCHAR" property="d9t4" />
+        <result column="D10T1" jdbcType="VARCHAR" property="d10t1" />
+        <result column="D10T2" jdbcType="VARCHAR" property="d10t2" />
+        <result column="D10T3" jdbcType="VARCHAR" property="d10t3" />
+        <result column="D11T1" jdbcType="VARCHAR" property="d11t1" />
+        <result column="D11T2" jdbcType="VARCHAR" property="d11t2" />
+        <result column="D12T1" jdbcType="VARCHAR" property="d12t1" />
+        <result column="D12T2" jdbcType="VARCHAR" property="d12t2" />
+        <result column="QZ1" jdbcType="VARCHAR" property="qz1" />
+        <result column="QZ2" jdbcType="VARCHAR" property="qz2" />
+        <result column="QZ3" jdbcType="VARCHAR" property="qz3" />
+        <result column="QZ4" jdbcType="VARCHAR" property="qz4" />
+        <result column="QZ5" jdbcType="VARCHAR" property="qz5" />
+        <result column="QZ6" jdbcType="VARCHAR" property="qz6" />
+        <result column="QZ7" jdbcType="VARCHAR" property="qz7" />
+        <result column="QZ8" jdbcType="VARCHAR" property="qz8" />
+    </resultMap>
+
+    <select id="getIdByStocktradeId"  parameterType="String" resultType="String">
+        select Id
+        from HOUSE_STOCK_TRADE_TEMPLATE t
+        where t.stocktradeid=#{stocktradeid}
+    </select>
+    <select id="getAllByStocktradeId"  parameterType="String" resultType="StockTradeTemplate">
+        select *
+        from HOUSE_STOCK_TRADE_TEMPLATE t
+        where t.stocktradeid=#{stocktradeid}
+    </select>
+
+</mapper>

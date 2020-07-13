@@ -22,7 +22,7 @@
         <!-- 数据库链接地址账号密码 -->
         <jdbcConnection
                 driverClass="oracle.jdbc.driver.OracleDriver"
-                connectionURL="jdbc:oracle:thin:@115.29.37.200:1521:orcl1"
+                connectionURL="jdbc:oracle:thin:@192.168.0.4:1522:orcl1"
                 userId="GRANDEFLORUM"
                 password="8888888">
             <property name="nullCatalogMeansCurrent" value="true"/>

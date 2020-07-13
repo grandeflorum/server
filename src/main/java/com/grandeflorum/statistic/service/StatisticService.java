@@ -16,6 +16,8 @@ public interface StatisticService {
 
     ResponseBo getProjectSalesVolumeList(Page page);
 
+    ResponseBo getSalesVolumeTotalList(Page page);
+
     ResponseBo getTimeQueryStatistics(Map<String,Object> map);
 
     ResponseBo getSummarySalesPurposes(Map<String,Object> map);

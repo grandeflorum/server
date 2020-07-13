@@ -57,4 +57,6 @@ public interface BuildingTableService {
     ResponseBo auditZRZById(String id,int type);
 
     ResponseBo getBAHistory(Page page);
+    //数据来源
+    ResponseBo getZrzDataSource(String zrzh);
 }

@@ -21,6 +21,8 @@ public interface StockTradeMapper extends MyMapper<StockTrade> {
 
     StockTrade getStockTradeById(String id);
 
+    StockTrade getEwmById(String id);
+
     Map<String,String> queryHinfoByStockId(String id);
 
     void sh(String id);

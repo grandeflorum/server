@@ -2,6 +2,7 @@ package com.grandeflorum.statistic.dao;
 
 import com.grandeflorum.statistic.domain.SalesStatisticInfo;
 import com.grandeflorum.statistic.domain.StatisticValue;
+import com.grandeflorum.statistic.domain.TimeTatolValue;
 import com.grandeflorum.statistic.domain.TransactionSummaryInfo;
 
 import java.util.List;
@@ -19,6 +20,14 @@ public interface StatisticMapper {
     List<StatisticValue> getOverallSalesTrend(Map<String,Object> map);
 
     List<SalesStatisticInfo> getProjectSalesVolumeList(Map<String,Object> map);
+
+    List<SalesStatisticInfo> getSalesVolumeTotalList(Map<String,Object> map);
+
+    List<SalesStatisticInfo> getHouseTradeTotalList(Map<String,Object> map);
+
+    List<SalesStatisticInfo> getStockTradeTotalList(Map<String,Object> map);
+
+    List<TimeTatolValue>  getTimeTotalValueList(Map<String,Object> map);
 
     List<StatisticValue> getTimeQueryStatistics(Map<String,Object> map);
 

@@ -9,7 +9,7 @@ public class Zddy {
     @Id
     @Column(name = "ID")
     private String id;
-
+    //
     @Column(name = "YSDM")
     private String ysdm;
 
@@ -111,7 +111,9 @@ public class Zddy {
 
     @Column(name = "ZRZH")
     private String zrzh;
-
+    /**
+     *
+     */
     @Column(name = "LJZH")
     private String ljzh;
 

@@ -12,7 +12,7 @@ spring:
       # 数据库访问配置, 使用druid数据源
       db-type: com.alibaba.druid.pool.DruidDataSource
       driverClassName: oracle.jdbc.driver.OracleDriver
-      url: jdbc:oracle:thin:@115.29.37.200:1521:orcl1
+      url: jdbc:oracle:thin:@192.168.0.4:1522:orcl1
       username: GRANDEFLORUM
       password: 8888888
       # 连接池配置
@@ -78,7 +78,7 @@ grandeflorum:
 
   openoffice : C:\\Program Files (x86)\\OpenOffice 4
 
-  qrCodePath: http://115.29.47.210:3000/#/ewmcheck
+  qrCodePath: http://localhost:4200/#/ewmcheck
 
   token: GanHuTongCrinum
 

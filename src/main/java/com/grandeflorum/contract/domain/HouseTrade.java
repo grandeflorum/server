@@ -131,6 +131,13 @@ public class HouseTrade implements Cloneable {
     @Column(name = "GYBL")
     public String gybl;
 
+    /**
+     * 合同户型
+     */
+    @Column(name = "HTHX")
+    public Integer hthx;
+
+
 
     public List<WFAudit> wfAuditList;
 
@@ -187,6 +194,42 @@ public class HouseTrade implements Cloneable {
     @Transient
     private String zl;
 
+
+
+    /**
+     * 预售
+     */
+    public AdvanceSalesTemplate advanceSalesTemplate;
+
+    /**
+     * 现售
+     */
+    public CashSalesTemplate cashSalesTemplate;
+
+
+    public CashSalesTemplate getCashSalesTemplate() {
+        return cashSalesTemplate;
+    }
+
+    public void setCashSalesTemplate(CashSalesTemplate cashSalesTemplate) {
+        this.cashSalesTemplate = cashSalesTemplate;
+    }
+
+    public AdvanceSalesTemplate getAdvanceSalesTemplate() {
+        return advanceSalesTemplate;
+    }
+
+    public void setAdvanceSalesTemplate(AdvanceSalesTemplate advanceSalesTemplate) {
+        this.advanceSalesTemplate = advanceSalesTemplate;
+    }
+
+    public Integer getHthx() {
+        return hthx;
+    }
+
+    public void setHthx(Integer hthx) {
+        this.hthx = hthx;
+    }
 
     public String getDjr() {
         return djr;
