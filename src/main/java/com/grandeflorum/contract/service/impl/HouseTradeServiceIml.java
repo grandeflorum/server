@@ -257,7 +257,11 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
         wfAudit.setSysUpdDate(new Date());
         wfAudit.setCurrentStatus(houseTrade.getCurrentStatus());
         wfAudit.setIsActive(1);
-        wFAuditMapper.insert(wfAudit);
+        try {
+            wFAuditMapper.insert(wfAudit);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         //备案记录备案时间
         if (houseTrade.getCurrentStatus() == 4) {
@@ -270,15 +274,15 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
 
         if (wfAudit.getShjg() == 1) {
 
-            if (1 == wfAudit.getUserType()) {
-                mapUpdate.put("userType",2);
-            }else{
-                mapUpdate.put("userType",1);
-            }
-
-            int count = wFAuditMapper.getOtherOrgPassCount(mapUpdate);
-
-            if(count>0){
+//            if (1 == wfAudit.getUserType()) {
+//                mapUpdate.put("userType",2);
+//            }else{
+//                mapUpdate.put("userType",1);
+//            }
+//
+//            int count = wFAuditMapper.getOtherOrgPassCount(mapUpdate);
+//
+//            if(count>0){
                 houseTrade.setIsPass(1);
                 houseTrade.setCurrentStatus(houseTrade.getCurrentStatus() + 1);
 
@@ -289,7 +293,7 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
                 if (houseTrade.getCurrentStatus() == 5) {
                     houseTrade.setBasj(new Date());
                 }
-            }
+//            }
 
 
 
@@ -904,6 +908,9 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
             params.put("ht1", NoNullString(cashSalesTemplate.getHt1()));
             params.put("ht2", NoNullString(cashSalesTemplate.getHt2()));
             params.put("ht3", NoNullString(cashSalesTemplate.getHt3()));
+
+            params.put("htmc", NoNullString(cashSalesTemplate.getHtmc()));
+            params.put("fh", NoNullString(cashSalesTemplate.getFh()));
             //甲方
             params.put("jf1", NoNullString(cashSalesTemplate.getJf1()));
             params.put("jf2", NoNullString(cashSalesTemplate.getJf2()));
@@ -1420,7 +1427,281 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
             params.put("fj8jw12", NoNullString(cashSalesTemplate.getFj8jw12()));
             params.put("fj8jw13", NoNullString(cashSalesTemplate.getFj8jw13()));
             params.put("fj8jw14", NoNullString(cashSalesTemplate.getFj8jw14()));
-            
+
+            // 勾选部分
+            if(cashSalesTemplate.getIsdbr()==null||cashSalesTemplate.getIsdbr()!=1){
+                params.put("isdbr","☐");
+            }else {
+                params.put("isdbr","☑");
+            }
+            if(cashSalesTemplate.getIsfzr()==null||cashSalesTemplate.getIsfzr()!=1){
+                params.put("isfzr","☐");
+            }else {
+                params.put("isfzr","☑");
+            }
+            if(cashSalesTemplate.getIsdbrgj()==null||cashSalesTemplate.getIsdbrgj()!=1){
+                params.put("isdbrgj","☐");
+            }else {
+                params.put("isdbrgj","☑");
+            }
+            if(cashSalesTemplate.getIsdbrhj()==null||cashSalesTemplate.getIsdbrhj()!=1){
+                params.put("isdbrhj","☐");
+            }else {
+                params.put("isdbrhj","☑");
+            }
+            if(cashSalesTemplate.getIsdbrsfz()==null||cashSalesTemplate.getIsdbrsfz()!=1){
+                params.put("isdbrsfz","☐");
+            }else {
+                params.put("isdbrsfz","☑");
+            }
+            if(cashSalesTemplate.getIsdbrhz()==null||cashSalesTemplate.getIsdbrhz()!=1){
+                params.put("isdbrhz","☐");
+            }else {
+                params.put("isdbrhz","☑");
+            }
+            if(cashSalesTemplate.getIsdbryyzz()==null||cashSalesTemplate.getIsdbryyzz()!=1){
+                params.put("isdbryyzz","☐");
+            }else {
+                params.put("isdbryyzz","☑");
+            }
+
+            if(cashSalesTemplate.getIswtdlr()==null||cashSalesTemplate.getIswtdlr()!=1){
+                params.put("iswtdlr","☐");
+            }else {
+                params.put("iswtdlr","☑");
+            }
+            if(cashSalesTemplate.getIsfddlr()==null||cashSalesTemplate.getIsfddlr()!=1){
+                params.put("isfddlr","☐");
+            }else {
+                params.put("isfddlr","☑");
+            }
+            if(cashSalesTemplate.getIsdlrgj()==null||cashSalesTemplate.getIsdlrgj()!=1){
+                params.put("isdlrgj","☐");
+            }else {
+                params.put("isdlrgj","☑");
+            }
+            if(cashSalesTemplate.getIsdlrhj()==null||cashSalesTemplate.getIsdlrhj()!=1){
+                params.put("isdlrhj","☐");
+            }else {
+                params.put("isdlrhj","☑");
+            }
+            if(cashSalesTemplate.getIsdlrsfz()==null||cashSalesTemplate.getIsdlrsfz()!=1){
+                params.put("isdlrsfz","☐");
+            }else {
+                params.put("isdlrsfz","☑");
+            }
+            if(cashSalesTemplate.getIsdlrhz()==null||cashSalesTemplate.getIsdlrhz()!=1){
+                params.put("isdlrhz","☐");
+            }else {
+                params.put("isdlrhz","☑");
+            }
+            if(cashSalesTemplate.getIsdlryyzz()==null||cashSalesTemplate.getIsdlryyzz()!=1){
+                params.put("isdlryyzz","☐");
+            }else {
+                params.put("isdlryyzz","☑");
+            }
+
+            if(cashSalesTemplate.getIscrd1()==null||cashSalesTemplate.getIscrd1()!=1){
+                params.put("iscrd1","☐");
+            }else {
+                params.put("iscrd1","☑");
+            }
+            if(cashSalesTemplate.getIshbd1()==null||cashSalesTemplate.getIshbd1()!=1){
+                params.put("ishbd1","☐");
+            }else {
+                params.put("ishbd1","☑");
+            }
+
+            if(cashSalesTemplate.getIsjswjd2()==null||cashSalesTemplate.getIsjswjd2()!=1){
+                params.put("isjswjd2","☐");
+            }else {
+                params.put("isjswjd2","☑");
+            }
+            if(cashSalesTemplate.getIsbdcqzd2()==null||cashSalesTemplate.getIsbdcqzd2()!=1){
+                params.put("isbdcqzd2","☐");
+            }else {
+                params.put("isbdcqzd2","☑");
+            }
+            if(cashSalesTemplate.getIsbahd2()==null||cashSalesTemplate.getIsbahd2()!=1){
+                params.put("isbahd2","☐");
+            }else {
+                params.put("isbahd2","☑");
+            }
+            if(cashSalesTemplate.getIsbdczhd2()==null||cashSalesTemplate.getIsbdczhd2()!=1){
+                params.put("isbdczhd2","☐");
+            }else {
+                params.put("isbdczhd2","☑");
+            }
+            if(cashSalesTemplate.getIsbajgd2()==null||cashSalesTemplate.getIsbajgd2()!=1){
+                params.put("isbajgd2","☐");
+            }else {
+                params.put("isbajgd2","☑");
+            }
+            if(cashSalesTemplate.getIsdjjgd2()==null||cashSalesTemplate.getIsdjjgd2()!=1){
+                params.put("isdjjgd2","☐");
+            }else {
+                params.put("isdjjgd2","☑");
+            }
+
+
+            if(cashSalesTemplate.getIszzd3()==null||cashSalesTemplate.getIszzd3()!=1){
+                params.put("iszzd3","☐");
+            }else {
+                params.put("iszzd3","☑");
+            }
+            if(cashSalesTemplate.getIsbgd3()==null||cashSalesTemplate.getIsbgd3()!=1){
+                params.put("isbgd3","☐");
+            }else {
+                params.put("isbgd3","☑");
+            }
+            if(cashSalesTemplate.getIssyd3()==null||cashSalesTemplate.getIssyd3()!=1){
+                params.put("issyd3","☐");
+            }else {
+                params.put("issyd3","☑");
+            }
+            if(cashSalesTemplate.getIsz1d3()==null||cashSalesTemplate.getIsz1d3()!=1){
+                params.put("isz1d3","☐");
+            }else {
+                params.put("isz1d3","☑");
+            }
+            if(cashSalesTemplate.getIsz2d3()==null||cashSalesTemplate.getIsz2d3()!=1){
+                params.put("isz2d3","☐");
+            }else {
+                params.put("isz2d3","☑");
+            }
+
+            if(cashSalesTemplate.getIsdyd4()==null||cashSalesTemplate.getIsdyd4()!=1){
+                params.put("isdyd4","☐");
+            }else {
+                params.put("isdyd4","☑");
+            }
+            if(cashSalesTemplate.getIswdyd4()==null||cashSalesTemplate.getIswdyd4()!=1){
+                params.put("iswdyd4","☐");
+            }else {
+                params.put("iswdyd4","☑");
+            }
+
+
+            if(cashSalesTemplate.getIsczd5()==null||cashSalesTemplate.getIsczd5()!=1){
+                params.put("isczd5","☐");
+            }else {
+                params.put("isczd5","☑");
+            }
+            if(cashSalesTemplate.getIswczd5()==null||cashSalesTemplate.getIswczd5()!=1){
+                params.put("iswczd5","☐");
+            }else {
+                params.put("iswczd5","☑");
+            }
+            if(cashSalesTemplate.getIsczrd5()==null||cashSalesTemplate.getIsczrd5()!=1){
+                params.put("isczrd5","☐");
+            }else {
+                params.put("isczrd5","☑");
+            }
+            if(cashSalesTemplate.getIsgmqd5()==null||cashSalesTemplate.getIsgmqd5()!=1){
+                params.put("isgmqd5","☐");
+            }else {
+                params.put("isgmqd5","☑");
+            }
+            if(cashSalesTemplate.getIscmrd5()==null||cashSalesTemplate.getIscmrd5()!=1){
+                params.put("iscmrd5","☐");
+            }else {
+                params.put("iscmrd5","☑");
+            }
+            if(cashSalesTemplate.getIsmsrd5()==null||cashSalesTemplate.getIsmsrd5()!=1){
+                params.put("ismsrd5","☐");
+            }else {
+                params.put("ismsrd5","☑");
+            }
+
+            if(cashSalesTemplate.getIsyffkd6()==null||cashSalesTemplate.getIsyffkd6()!=1){
+                params.put("isyffkd6","☐");
+            }else {
+                params.put("isyffkd6","☑");
+            }
+            if(cashSalesTemplate.getIsqbssd6()==null||cashSalesTemplate.getIsqbssd6()!=1){
+                params.put("isqbssd6","☐");
+            }else {
+                params.put("isqbssd6","☑");
+            }
+
+            if(cashSalesTemplate.getIshtqdd8()==null||cashSalesTemplate.getIshtqdd8()!=1){
+                params.put("ishtqdd8","☐");
+            }else {
+                params.put("ishtqdd8","☑");
+            }
+            if(cashSalesTemplate.getIsjfsfkd8()==null||cashSalesTemplate.getIsjfsfkd8()!=1){
+                params.put("isjfsfkd8","☐");
+            }else {
+                params.put("isjfsfkd8","☑");
+            }
+            if(cashSalesTemplate.getIsdzd8()==null||cashSalesTemplate.getIsdzd8()!=1){
+                params.put("isdzd8","☐");
+            }else {
+                params.put("isdzd8","☑");
+            }
+            if(cashSalesTemplate.getIsgjjdkd8()==null||cashSalesTemplate.getIsgjjdkd8()!=1){
+                params.put("isgjjdkd8","☐");
+            }else {
+                params.put("isgjjdkd8","☑");
+            }
+            if(cashSalesTemplate.getIssydkd8()==null||cashSalesTemplate.getIssydkd8()!=1){
+                params.put("issydkd8","☐");
+            }else {
+                params.put("issydkd8","☑");
+            }
+
+            if(cashSalesTemplate.getIsyffkd14()==null||cashSalesTemplate.getIsyffkd14()!=1){
+                params.put("isyffkd14","☐");
+            }else {
+                params.put("isyffkd14","☑");
+            }
+            if(cashSalesTemplate.getIsqbssd14()==null||cashSalesTemplate.getIsqbssd14()!=1){
+                params.put("isqbssd14","☐");
+            }else {
+                params.put("isqbssd14","☑");
+            }
+            if(cashSalesTemplate.getIsgj1d14()==null||cashSalesTemplate.getIsgj1d14()!=1){
+                params.put("isgj1d14","☐");
+            }else {
+                params.put("isgj1d14","☑");
+            }
+            if(cashSalesTemplate.getIsdf1d14()==null||cashSalesTemplate.getIsdf1d14()!=1){
+                params.put("isdf1d14","☐");
+            }else {
+                params.put("isdf1d14","☑");
+            }
+            if(cashSalesTemplate.getIsgj2d14()==null||cashSalesTemplate.getIsgj2d14()!=1){
+                params.put("isgj2d14","☐");
+            }else {
+                params.put("isgj2d14","☑");
+            }
+            if(cashSalesTemplate.getIsdf2d14()==null||cashSalesTemplate.getIsdf2d14()!=1){
+                params.put("isdf2d14","☐");
+            }else {
+                params.put("isdf2d14","☑");
+            }
+
+            if(cashSalesTemplate.getIsbgzd18()==null||cashSalesTemplate.getIsbgzd18()!=1){
+                params.put("isbgzd18","☐");
+            }else {
+                params.put("isbgzd18","☑");
+            }
+            if(cashSalesTemplate.getIscjzd18()==null||cashSalesTemplate.getIscjzd18()!=1){
+                params.put("iscjzd18","☐");
+            }else {
+                params.put("iscjzd18","☑");
+            }
+
+            if(cashSalesTemplate.getIskdd22()==null||cashSalesTemplate.getIskdd22()!=1){
+                params.put("iskdd22","☐");
+            }else {
+                params.put("iskdd22","☑");
+            }
+            if(cashSalesTemplate.getIsghxd22()==null||cashSalesTemplate.getIsghxd22()!=1){
+                params.put("isghxd22","☐");
+            }else {
+                params.put("isghxd22","☑");
+            }
         }
 
         public void getAdvanceSalesParams(Map<String, Object> params,String id){
@@ -1430,6 +1711,9 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
             params.put("ht1", NoNullString(advanceSalesTemplate.getHt1()));
             params.put("ht2", NoNullString(advanceSalesTemplate.getHt2()));
             params.put("ht3", NoNullString(advanceSalesTemplate.getHt3()));
+
+            params.put("htmc", NoNullString(advanceSalesTemplate.getHtmc()));
+            params.put("fh", NoNullString(advanceSalesTemplate.getFh()));
             //甲方
             params.put("jf1", NoNullString(advanceSalesTemplate.getJf1()));
             params.put("jf2", NoNullString(advanceSalesTemplate.getJf2()));
@@ -1972,6 +2256,229 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
             params.put("fj7jw13", NoNullString(advanceSalesTemplate.getFj7jw13()));
             params.put("fj7jw14", NoNullString(advanceSalesTemplate.getFj7jw14()));
 
+
+            // 勾选部分
+            if(advanceSalesTemplate.getIsdbr()==null||advanceSalesTemplate.getIsdbr()!=1){
+                params.put("isdbr","☐");
+            }else {
+                params.put("isdbr","☑");
+            }
+            if(advanceSalesTemplate.getIsfzr()==null||advanceSalesTemplate.getIsfzr()!=1){
+                params.put("isfzr","☐");
+            }else {
+                params.put("isfzr","☑");
+            }
+            if(advanceSalesTemplate.getIsdbrgj()==null||advanceSalesTemplate.getIsdbrgj()!=1){
+                params.put("isdbrgj","☐");
+            }else {
+                params.put("isdbrgj","☑");
+            }
+            if(advanceSalesTemplate.getIsdbrhj()==null||advanceSalesTemplate.getIsdbrhj()!=1){
+                params.put("isdbrhj","☐");
+            }else {
+                params.put("isdbrhj","☑");
+            }
+            if(advanceSalesTemplate.getIsdbrsfz()==null||advanceSalesTemplate.getIsdbrsfz()!=1){
+                params.put("isdbrsfz","☐");
+            }else {
+                params.put("isdbrsfz","☑");
+            }
+            if(advanceSalesTemplate.getIsdbrhz()==null||advanceSalesTemplate.getIsdbrhz()!=1){
+                params.put("isdbrhz","☐");
+            }else {
+                params.put("isdbrhz","☑");
+            }
+            if(advanceSalesTemplate.getIsdbryyzz()==null||advanceSalesTemplate.getIsdbryyzz()!=1){
+                params.put("isdbryyzz","☐");
+            }else {
+                params.put("isdbryyzz","☑");
+            }
+
+            if(advanceSalesTemplate.getIswtdlr()==null||advanceSalesTemplate.getIswtdlr()!=1){
+                params.put("iswtdlr","☐");
+            }else {
+                params.put("iswtdlr","☑");
+            }
+            if(advanceSalesTemplate.getIsfddlr()==null||advanceSalesTemplate.getIsfddlr()!=1){
+                params.put("isfddlr","☐");
+            }else {
+                params.put("isfddlr","☑");
+            }
+            if(advanceSalesTemplate.getIsdlrgj()==null||advanceSalesTemplate.getIsdlrgj()!=1){
+                params.put("isdlrgj","☐");
+            }else {
+                params.put("isdlrgj","☑");
+            }
+            if(advanceSalesTemplate.getIsdlrhj()==null||advanceSalesTemplate.getIsdlrhj()!=1){
+                params.put("isdlrhj","☐");
+            }else {
+                params.put("isdlrhj","☑");
+            }
+            if(advanceSalesTemplate.getIsdlrsfz()==null||advanceSalesTemplate.getIsdlrsfz()!=1){
+                params.put("isdlrsfz","☐");
+            }else {
+                params.put("isdlrsfz","☑");
+            }
+            if(advanceSalesTemplate.getIsdlrhz()==null||advanceSalesTemplate.getIsdlrhz()!=1){
+                params.put("isdlrhz","☐");
+            }else {
+                params.put("isdlrhz","☑");
+            }
+            if(advanceSalesTemplate.getIsdlryyzz()==null||advanceSalesTemplate.getIsdlryyzz()!=1){
+                params.put("isdlryyzz","☐");
+            }else {
+                params.put("isdlryyzz","☑");
+            }
+
+            if(advanceSalesTemplate.getIscrd1()==null||advanceSalesTemplate.getIscrd1()!=1){
+                params.put("iscrd1","☐");
+            }else {
+                params.put("iscrd1","☑");
+            }
+            if(advanceSalesTemplate.getIshbd1()==null||advanceSalesTemplate.getIshbd1()!=1){
+                params.put("ishbd1","☐");
+            }else {
+                params.put("ishbd1","☑");
+            }
+
+
+            if(advanceSalesTemplate.getIszzd3()==null||advanceSalesTemplate.getIszzd3()!=1){
+                params.put("iszzd3","☐");
+            }else {
+                params.put("iszzd3","☑");
+            }
+            if(advanceSalesTemplate.getIsbgd3()==null||advanceSalesTemplate.getIsbgd3()!=1){
+                params.put("isbgd3","☐");
+            }else {
+                params.put("isbgd3","☑");
+            }
+            if(advanceSalesTemplate.getIssyd3()==null||advanceSalesTemplate.getIssyd3()!=1){
+                params.put("issyd3","☐");
+            }else {
+                params.put("issyd3","☑");
+            }
+            if(advanceSalesTemplate.getIsz1d3()==null||advanceSalesTemplate.getIsz1d3()!=1){
+                params.put("isz1d3","☐");
+            }else {
+                params.put("isz1d3","☑");
+            }
+            if(advanceSalesTemplate.getIsz2d3()==null||advanceSalesTemplate.getIsz2d3()!=1){
+                params.put("isz2d3","☐");
+            }else {
+                params.put("isz2d3","☑");
+            }
+
+            if(advanceSalesTemplate.getIsdyd4()==null||advanceSalesTemplate.getIsdyd4()!=1){
+                params.put("isdyd4","☐");
+            }else {
+                params.put("isdyd4","☑");
+            }
+            if(advanceSalesTemplate.getIswdyd4()==null||advanceSalesTemplate.getIswdyd4()!=1){
+                params.put("iswdyd4","☐");
+            }else {
+                params.put("iswdyd4","☑");
+            }
+
+
+
+
+            if(advanceSalesTemplate.getIsyffkd5()==null||advanceSalesTemplate.getIsyffkd5()!=1){
+                params.put("isyffkd5","☐");
+            }else {
+                params.put("isyffkd5","☑");
+            }
+            if(advanceSalesTemplate.getIsqbssd5()==null||advanceSalesTemplate.getIsqbssd5()!=1){
+                params.put("isqbssd5","☐");
+            }else {
+                params.put("isqbssd5","☑");
+            }
+
+            if(advanceSalesTemplate.getIshtqdd7()==null||advanceSalesTemplate.getIshtqdd7()!=1){
+                params.put("ishtqdd7","☐");
+            }else {
+                params.put("ishtqdd7","☑");
+            }
+            if(advanceSalesTemplate.getIsjfsfkd7()==null||advanceSalesTemplate.getIsjfsfkd7()!=1){
+                params.put("isjfsfkd7","☐");
+            }else {
+                params.put("isjfsfkd7","☑");
+            }
+            if(advanceSalesTemplate.getIsdzd7()==null||advanceSalesTemplate.getIsdzd7()!=1){
+                params.put("isdzd7","☐");
+            }else {
+                params.put("isdzd7","☑");
+            }
+            if(advanceSalesTemplate.getIsgjjdkd7()==null||advanceSalesTemplate.getIsgjjdkd7()!=1){
+                params.put("isgjjdkd7","☐");
+            }else {
+                params.put("isgjjdkd7","☑");
+            }
+            if(advanceSalesTemplate.getIssydkd7()==null||advanceSalesTemplate.getIssydkd7()!=1){
+                params.put("issydkd7","☐");
+            }else {
+                params.put("issydkd7","☑");
+            }
+
+            if(advanceSalesTemplate.getIsyffkd16()==null||advanceSalesTemplate.getIsyffkd16()!=1){
+                params.put("isyffkd16","☐");
+            }else {
+                params.put("isyffkd16","☑");
+            }
+            if(advanceSalesTemplate.getIsqbssd16()==null||advanceSalesTemplate.getIsqbssd16()!=1){
+                params.put("isqbssd16","☐");
+            }else {
+                params.put("isqbssd16","☑");
+            }
+            if(advanceSalesTemplate.getIsgj1d16()==null||advanceSalesTemplate.getIsgj1d16()!=1){
+                params.put("isgj1d16","☐");
+            }else {
+                params.put("isgj1d16","☑");
+            }
+            if(advanceSalesTemplate.getIsdf1d16()==null||advanceSalesTemplate.getIsdf1d16()!=1){
+                params.put("isdf1d16","☐");
+            }else {
+                params.put("isdf1d16","☑");
+            }
+            if(advanceSalesTemplate.getIsgj2d16()==null||advanceSalesTemplate.getIsgj2d16()!=1){
+                params.put("isgj2d16","☐");
+            }else {
+                params.put("isgj2d16","☑");
+            }
+            if(advanceSalesTemplate.getIsdf2d16()==null||advanceSalesTemplate.getIsdf2d16()!=1){
+                params.put("isdf2d16","☐");
+            }else {
+                params.put("isdf2d16","☑");
+            }
+
+            if(advanceSalesTemplate.getIs30tnd19()==null||advanceSalesTemplate.getIs30tnd19()!=1){
+                params.put("is30tnd19","☐");
+            }else {
+                params.put("is30tnd19","☑");
+            }
+
+            if(advanceSalesTemplate.getIsbgzd21()==null||advanceSalesTemplate.getIsbgzd21()!=1){
+                params.put("isbgzd21","☐");
+            }else {
+                params.put("isbgzd21","☑");
+            }
+
+            if(advanceSalesTemplate.getIscjzd21()==null||advanceSalesTemplate.getIscjzd21()!=1){
+                params.put("iscjzd21","☐");
+            }else {
+                params.put("iscjzd21","☑");
+            }
+
+            if(advanceSalesTemplate.getIskdd25()==null||advanceSalesTemplate.getIskdd25()!=1){
+                params.put("iskdd25","☐");
+            }else {
+                params.put("iskdd25","☑");
+            }
+            if(advanceSalesTemplate.getIsghxd25()==null||advanceSalesTemplate.getIsghxd25()!=1){
+                params.put("isghxd25","☐");
+            }else {
+                params.put("isghxd25","☑");
+            }
+
         }
 
 //    public void getParams(Map<String, Object> params,String id){
@@ -2133,9 +2640,15 @@ public class HouseTradeServiceIml extends BaseService<HouseTrade> implements Hou
 //    }
 
     @Override
+    @Transactional
     public ResponseBo sh(String id){
+        int currentStatus=houseTradeMapper.getShZtById(id);
+        if(currentStatus==0){
+            houseTradeMapper.sh(id);
+        }else {
+            houseTradeMapper.xgsh(id);
+        }
 
-        houseTradeMapper.sh(id);
         return ResponseBo.ok();
     }
 }

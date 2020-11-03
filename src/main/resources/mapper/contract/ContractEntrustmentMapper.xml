@@ -49,6 +49,36 @@
         <result column="QZ7" jdbcType="VARCHAR" property="qz7" />
         <result column="QZ8" jdbcType="VARCHAR" property="qz8" />
         <result column="QZ9" jdbcType="VARCHAR" property="qz9" />
+        <result column="ISJFSFZZH" jdbcType="DECIMAL" property="isjfsfzzh"/>
+        <result column="ISJFHZH" jdbcType="DECIMAL" property="isjfhzh"/>
+        <result column="ISJFYYZZ" jdbcType="DECIMAL" property="isjfyyzz"/>
+        <result column="ISYFSFZZH" jdbcType="DECIMAL" property="isyfsfzzh"/>
+        <result column="ISYFHZH" jdbcType="DECIMAL" property="isyfhzh"/>
+        <result column="ISYFYYZZ" jdbcType="DECIMAL" property="isyfyyzz"/>
+        <result column="ISCS" jdbcType="DECIMAL" property="iscs"/>
+        <result column="ISCZ" jdbcType="DECIMAL" property="iscz"/>
+        <result column="ISCG" jdbcType="DECIMAL" property="iscg"/>
+        <result column="ISCZ1" jdbcType="DECIMAL" property="iscz1"/>
+        <result column="ISZH" jdbcType="DECIMAL" property="iszh"/>
+
+        <result column="FJ1JW1" jdbcType="VARCHAR" property="fj1jw1" />
+        <result column="FJ1JW2" jdbcType="VARCHAR" property="fj1jw2" />
+        <result column="FJ1JW3" jdbcType="VARCHAR" property="fj1jw3" />
+        <result column="FJ1JW4" jdbcType="VARCHAR" property="fj1jw4" />
+        <result column="FJ1JW5" jdbcType="VARCHAR" property="fj1jw5" />
+        <result column="FJ1JW6" jdbcType="VARCHAR" property="fj1jw6" />
+        <result column="FJ1JW7" jdbcType="VARCHAR" property="fj1jw7" />
+        <result column="FJ1JW8" jdbcType="VARCHAR" property="fj1jw8" />
+        <result column="FJ1JW9" jdbcType="VARCHAR" property="fj1jw9" />
+        <result column="FJ1JW10" jdbcType="VARCHAR" property="fj1jw10" />
+        <result column="FJ1JW11" jdbcType="VARCHAR" property="fj1jw11" />
+        <result column="FJ1JW12" jdbcType="VARCHAR" property="fj1jw12" />
+        <result column="FJ1JW13" jdbcType="VARCHAR" property="fj1jw13" />
+        <result column="FJ1JW14" jdbcType="VARCHAR" property="fj1jw14" />
+        <result column="FJ1JW15" jdbcType="VARCHAR" property="fj1jw15" />
+        <result column="FJ1JW16" jdbcType="VARCHAR" property="fj1jw16" />
+        <result column="FJ1JW17" jdbcType="VARCHAR" property="fj1jw17" />
+        <result column="FJ1JW18" jdbcType="VARCHAR" property="fj1jw18" />
     </resultMap>
 
     <select id="getIdByStocktradeId"  parameterType="String" resultType="String">
@@ -56,10 +86,23 @@
         from CONTRACT_ENTRUSTMENT t
         where t.stocktradeid=#{stocktradeid}
     </select>
-    <select id="getAllByStocktradeId"  parameterType="String" resultType="ContractEntrustment">
-        select *
+
+    <select id="getJf"  parameterType="String" resultType="Integer">
+        select t.ISJFSFZZH
         from CONTRACT_ENTRUSTMENT t
         where t.stocktradeid=#{stocktradeid}
+    </select>
+
+    <select id="getAllByStocktradeId"  parameterType="String" resultType="com.grandeflorum.contract.domain.ContractEntrustment">
+        select t.*
+        from CONTRACT_ENTRUSTMENT t
+        where t.stocktradeid=#{stocktradeid}
+    </select>
+
+    <select id="getContractEntrustmentByStocktradeId"  parameterType="String" resultType="com.grandeflorum.contract.domain.ContractEntrustment">
+        select t.*
+        from CONTRACT_ENTRUSTMENT t
+        where t.id=#{id}
     </select>
 
 </mapper>

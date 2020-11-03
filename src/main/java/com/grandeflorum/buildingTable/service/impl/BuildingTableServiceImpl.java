@@ -145,6 +145,10 @@ public class BuildingTableServiceImpl implements BuildingTableService {
         List<C> cList = buildingTableMapper.getCList(map);
         List<H> hList = buildingTableMapper.getHList(map);
         Integer HDataSource=buildingTableMapper.getZrzDataSource(result.getZrzh());
+
+        try{
+
+
         if (HDataSource == 2 ){
             for (int i = 0; i < hList.size(); i++){
                 H h =hList.get(i);
@@ -347,6 +351,10 @@ public class BuildingTableServiceImpl implements BuildingTableService {
                     count -= 10;
                 }
             }
+        }
+
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 

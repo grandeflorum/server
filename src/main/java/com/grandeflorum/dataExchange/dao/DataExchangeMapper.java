@@ -12,7 +12,7 @@ public interface DataExchangeMapper {
 
     List<Map<String,Object>> QueryStockHouseTradeByCode(String IdentityCode);
 
-    List<Map<String,Object>> QueryPresaleByName(String lpmc);
+    List<Map<String,Object>> QueryPresaleByName(Map<String,String> map);
 
     List<Map<String,Object>> QueryHouseResourceByName(Map<String,String> map);
 

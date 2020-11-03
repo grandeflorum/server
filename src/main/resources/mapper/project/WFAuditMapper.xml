@@ -29,6 +29,14 @@
         order by sys_date
     </select>
 
+    <select id="getWFAuditListByProjectid" resultMap="BaseResultMap">
+        select * from WF_AUDIT t where 1=1
+        <if test="projectid!=null and projectid!=''">
+            and t.projectid=#{projectid}
+        </if>
+        order by shrq desc
+    </select>
+
     <select id="getWFAuditInfo" parameterType="map" resultMap="BaseResultMap">
             select *
       from wf_audit t

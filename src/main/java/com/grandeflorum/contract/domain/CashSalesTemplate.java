@@ -878,6 +878,600 @@ public class CashSalesTemplate implements Cloneable{
     @Column(name = "FJ8JW14")
     public String fj8jw14;
 
+    @Column(name = "HTMC")
+    public String htmc;
+
+    @Column(name = "FH")
+    public String fh;
+
+    @Column(name = "ISDBR")
+    public Integer isdbr;
+
+    @Column(name = "ISFZR")
+    public Integer isfzr;
+
+    @Column(name = "ISDBRGJ")
+    public Integer isdbrgj;
+
+    @Column(name = "ISDBRHJ")
+    public Integer isdbrhj;
+
+    @Column(name = "ISDBRSFZ")
+    public Integer isdbrsfz;
+
+    @Column(name = "ISDBRHZ")
+    public Integer isdbrhz;
+
+    @Column(name = "ISDBRYYZZ")
+    public Integer isdbryyzz;
+
+    @Column(name = "ISWTDLR")
+    public Integer iswtdlr;
+
+    @Column(name = "ISFDDLR")
+    public Integer isfddlr;
+
+    @Column(name = "ISDLRGJ")
+    public Integer isdlrgj;
+
+    @Column(name = "ISDLRHJ")
+    public Integer isdlrhj;
+
+    @Column(name = "ISDLRSFZ")
+    public Integer isdlrsfz;
+
+    @Column(name = "ISDLRHZ")
+    public Integer isdlrhz;
+
+    @Column(name = "ISDLRYYZZ")
+    public Integer isdlryyzz;
+
+    @Column(name = "ISCRD1")
+    public Integer iscrd1;
+
+    @Column(name = "ISHBD1")
+    public Integer ishbd1;
+
+    @Column(name = "ISJSWJD2")
+    public Integer isjswjd2;
+
+    @Column(name = "ISBDCQZD2")
+    public Integer isbdcqzd2;
+
+    @Column(name = "ISBAHD2")
+    public Integer isbahd2;
+
+    @Column(name = "ISBDCZHD2")
+    public Integer isbdczhd2;
+
+    @Column(name = "ISBAJGD2")
+    public Integer isbajgd2;
+
+    @Column(name = "ISDJJGD2")
+    public Integer isdjjgd2;
+
+    @Column(name = "ISZZD3")
+    public Integer iszzd3;
+
+    @Column(name = "ISBGD3")
+    public Integer isbgd3;
+
+    @Column(name = "ISSYD3")
+    public Integer issyd3;
+
+    @Column(name = "ISZ1D3")
+    public Integer isz1d3;
+
+    @Column(name = "ISZ2D3")
+    public Integer isz2d3;
+
+    @Column(name = "ISDYD4")
+    public Integer isdyd4;
+
+    @Column(name = "ISWDYD4")
+    public Integer iswdyd4;
+
+    @Column(name = "ISCZD5")
+    public Integer isczd5;
+
+    @Column(name = "ISWCZD5")
+    public Integer iswczd5;
+
+    @Column(name = "ISCZRD5")
+    public Integer isczrd5;
+
+    @Column(name = "ISGMQD5")
+    public Integer isgmqd5;
+
+    @Column(name = "ISCMRD5")
+    public Integer iscmrd5;
+
+    @Column(name = "ISMSRD5")
+    public Integer ismsrd5;
+
+    @Column(name = "ISYFFKD6")
+    public Integer isyffkd6;
+
+    @Column(name = "ISQBSSD6")
+    public Integer isqbssd6;
+
+    @Column(name = "ISHTQDD8")
+    public Integer ishtqdd8;
+
+    @Column(name = "ISJFSFKD8")
+    public Integer isjfsfkd8;
+
+    @Column(name = "ISDZD8")
+    public Integer isdzd8;
+
+    @Column(name = "ISGJJDKD8")
+    public Integer isgjjdkd8;
+
+    @Column(name = "ISSYDKD8")
+    public Integer issydkd8;
+
+    @Column(name = "ISYFFKD14")
+    public Integer isyffkd14;
+
+    @Column(name = "ISQBSSD14")
+    public Integer isqbssd14;
+
+    @Column(name = "ISGJ1D14")
+    public Integer isgj1d14;
+
+    @Column(name = "ISDF1D14")
+    public Integer isdf1d14;
+
+    @Column(name = "ISGJ2D14")
+    public Integer isgj2d14;
+
+    @Column(name = "ISDF2D14")
+    public Integer isdf2d14;
+
+    @Column(name = "ISBGZD18")
+    public Integer isbgzd18;
+
+    @Column(name = "ISCJZD18")
+    public Integer iscjzd18;
+
+    @Column(name = "ISKDD22")
+    public Integer iskdd22;
+
+    @Column(name = "ISGHXD22")
+    public Integer isghxd22;
+
+    public String getHtmc() {
+        return htmc;
+    }
+
+    public void setHtmc(String htmc) {
+        this.htmc = htmc;
+    }
+
+    public String getFh() {
+        return fh;
+    }
+
+    public void setFh(String fh) {
+        this.fh = fh;
+    }
+
+    public Integer getIsdbr() {
+        return isdbr;
+    }
+
+    public void setIsdbr(Integer isdbr) {
+        this.isdbr = isdbr;
+    }
+
+    public Integer getIsfzr() {
+        return isfzr;
+    }
+
+    public void setIsfzr(Integer isfzr) {
+        this.isfzr = isfzr;
+    }
+
+    public Integer getIsdbrgj() {
+        return isdbrgj;
+    }
+
+    public void setIsdbrgj(Integer isdbrgj) {
+        this.isdbrgj = isdbrgj;
+    }
+
+    public Integer getIsdbrhj() {
+        return isdbrhj;
+    }
+
+    public void setIsdbrhj(Integer isdbrhj) {
+        this.isdbrhj = isdbrhj;
+    }
+
+    public Integer getIsdbrsfz() {
+        return isdbrsfz;
+    }
+
+    public void setIsdbrsfz(Integer isdbrsfz) {
+        this.isdbrsfz = isdbrsfz;
+    }
+
+    public Integer getIsdbrhz() {
+        return isdbrhz;
+    }
+
+    public void setIsdbrhz(Integer isdbrhz) {
+        this.isdbrhz = isdbrhz;
+    }
+
+    public Integer getIsdbryyzz() {
+        return isdbryyzz;
+    }
+
+    public void setIsdbryyzz(Integer isdbryyzz) {
+        this.isdbryyzz = isdbryyzz;
+    }
+
+    public Integer getIswtdlr() {
+        return iswtdlr;
+    }
+
+    public void setIswtdlr(Integer iswtdlr) {
+        this.iswtdlr = iswtdlr;
+    }
+
+    public Integer getIsfddlr() {
+        return isfddlr;
+    }
+
+    public void setIsfddlr(Integer isfddlr) {
+        this.isfddlr = isfddlr;
+    }
+
+    public Integer getIsdlrgj() {
+        return isdlrgj;
+    }
+
+    public void setIsdlrgj(Integer isdlrgj) {
+        this.isdlrgj = isdlrgj;
+    }
+
+    public Integer getIsdlrhj() {
+        return isdlrhj;
+    }
+
+    public void setIsdlrhj(Integer isdlrhj) {
+        this.isdlrhj = isdlrhj;
+    }
+
+    public Integer getIsdlrsfz() {
+        return isdlrsfz;
+    }
+
+    public void setIsdlrsfz(Integer isdlrsfz) {
+        this.isdlrsfz = isdlrsfz;
+    }
+
+    public Integer getIsdlrhz() {
+        return isdlrhz;
+    }
+
+    public void setIsdlrhz(Integer isdlrhz) {
+        this.isdlrhz = isdlrhz;
+    }
+
+    public Integer getIsdlryyzz() {
+        return isdlryyzz;
+    }
+
+    public void setIsdlryyzz(Integer isdlryyzz) {
+        this.isdlryyzz = isdlryyzz;
+    }
+
+    public Integer getIscrd1() {
+        return iscrd1;
+    }
+
+    public void setIscrd1(Integer iscrd1) {
+        this.iscrd1 = iscrd1;
+    }
+
+    public Integer getIshbd1() {
+        return ishbd1;
+    }
+
+    public void setIshbd1(Integer ishbd1) {
+        this.ishbd1 = ishbd1;
+    }
+
+    public Integer getIsjswjd2() {
+        return isjswjd2;
+    }
+
+    public void setIsjswjd2(Integer isjswjd2) {
+        this.isjswjd2 = isjswjd2;
+    }
+
+    public Integer getIsbdcqzd2() {
+        return isbdcqzd2;
+    }
+
+    public void setIsbdcqzd2(Integer isbdcqzd2) {
+        this.isbdcqzd2 = isbdcqzd2;
+    }
+
+    public Integer getIsbahd2() {
+        return isbahd2;
+    }
+
+    public void setIsbahd2(Integer isbahd2) {
+        this.isbahd2 = isbahd2;
+    }
+
+    public Integer getIsbdczhd2() {
+        return isbdczhd2;
+    }
+
+    public void setIsbdczhd2(Integer isbdczhd2) {
+        this.isbdczhd2 = isbdczhd2;
+    }
+
+    public Integer getIsbajgd2() {
+        return isbajgd2;
+    }
+
+    public void setIsbajgd2(Integer isbajgd2) {
+        this.isbajgd2 = isbajgd2;
+    }
+
+    public Integer getIsdjjgd2() {
+        return isdjjgd2;
+    }
+
+    public void setIsdjjgd2(Integer isdjjgd2) {
+        this.isdjjgd2 = isdjjgd2;
+    }
+
+    public Integer getIszzd3() {
+        return iszzd3;
+    }
+
+    public void setIszzd3(Integer iszzd3) {
+        this.iszzd3 = iszzd3;
+    }
+
+    public Integer getIsbgd3() {
+        return isbgd3;
+    }
+
+    public void setIsbgd3(Integer isbgd3) {
+        this.isbgd3 = isbgd3;
+    }
+
+    public Integer getIssyd3() {
+        return issyd3;
+    }
+
+    public void setIssyd3(Integer issyd3) {
+        this.issyd3 = issyd3;
+    }
+
+    public Integer getIsz1d3() {
+        return isz1d3;
+    }
+
+    public void setIsz1d3(Integer isz1d3) {
+        this.isz1d3 = isz1d3;
+    }
+
+    public Integer getIsz2d3() {
+        return isz2d3;
+    }
+
+    public void setIsz2d3(Integer isz2d3) {
+        this.isz2d3 = isz2d3;
+    }
+
+    public Integer getIsdyd4() {
+        return isdyd4;
+    }
+
+    public void setIsdyd4(Integer isdyd4) {
+        this.isdyd4 = isdyd4;
+    }
+
+    public Integer getIswdyd4() {
+        return iswdyd4;
+    }
+
+    public void setIswdyd4(Integer iswdyd4) {
+        this.iswdyd4 = iswdyd4;
+    }
+
+    public Integer getIsczd5() {
+        return isczd5;
+    }
+
+    public void setIsczd5(Integer isczd5) {
+        this.isczd5 = isczd5;
+    }
+
+    public Integer getIswczd5() {
+        return iswczd5;
+    }
+
+    public void setIswczd5(Integer iswczd5) {
+        this.iswczd5 = iswczd5;
+    }
+
+    public Integer getIsczrd5() {
+        return isczrd5;
+    }
+
+    public void setIsczrd5(Integer isczrd5) {
+        this.isczrd5 = isczrd5;
+    }
+
+    public Integer getIsgmqd5() {
+        return isgmqd5;
+    }
+
+    public void setIsgmqd5(Integer isgmqd5) {
+        this.isgmqd5 = isgmqd5;
+    }
+
+    public Integer getIscmrd5() {
+        return iscmrd5;
+    }
+
+    public void setIscmrd5(Integer iscmrd5) {
+        this.iscmrd5 = iscmrd5;
+    }
+
+    public Integer getIsmsrd5() {
+        return ismsrd5;
+    }
+
+    public void setIsmsrd5(Integer ismsrd5) {
+        this.ismsrd5 = ismsrd5;
+    }
+
+    public Integer getIsyffkd6() {
+        return isyffkd6;
+    }
+
+    public void setIsyffkd6(Integer isyffkd6) {
+        this.isyffkd6 = isyffkd6;
+    }
+
+    public Integer getIsqbssd6() {
+        return isqbssd6;
+    }
+
+    public void setIsqbssd6(Integer isqbssd6) {
+        this.isqbssd6 = isqbssd6;
+    }
+
+    public Integer getIshtqdd8() {
+        return ishtqdd8;
+    }
+
+    public void setIshtqdd8(Integer ishtqdd8) {
+        this.ishtqdd8 = ishtqdd8;
+    }
+
+    public Integer getIsjfsfkd8() {
+        return isjfsfkd8;
+    }
+
+    public void setIsjfsfkd8(Integer isjfsfkd8) {
+        this.isjfsfkd8 = isjfsfkd8;
+    }
+
+    public Integer getIsdzd8() {
+        return isdzd8;
+    }
+
+    public void setIsdzd8(Integer isdzd8) {
+        this.isdzd8 = isdzd8;
+    }
+
+    public Integer getIsgjjdkd8() {
+        return isgjjdkd8;
+    }
+
+    public void setIsgjjdkd8(Integer isgjjdkd8) {
+        this.isgjjdkd8 = isgjjdkd8;
+    }
+
+    public Integer getIssydkd8() {
+        return issydkd8;
+    }
+
+    public void setIssydkd8(Integer issydkd8) {
+        this.issydkd8 = issydkd8;
+    }
+
+    public Integer getIsyffkd14() {
+        return isyffkd14;
+    }
+
+    public void setIsyffkd14(Integer isyffkd14) {
+        this.isyffkd14 = isyffkd14;
+    }
+
+    public Integer getIsqbssd14() {
+        return isqbssd14;
+    }
+
+    public void setIsqbssd14(Integer isqbssd14) {
+        this.isqbssd14 = isqbssd14;
+    }
+
+    public Integer getIsgj1d14() {
+        return isgj1d14;
+    }
+
+    public void setIsgj1d14(Integer isgj1d14) {
+        this.isgj1d14 = isgj1d14;
+    }
+
+    public Integer getIsdf1d14() {
+        return isdf1d14;
+    }
+
+    public void setIsdf1d14(Integer isdf1d14) {
+        this.isdf1d14 = isdf1d14;
+    }
+
+    public Integer getIsgj2d14() {
+        return isgj2d14;
+    }
+
+    public void setIsgj2d14(Integer isgj2d14) {
+        this.isgj2d14 = isgj2d14;
+    }
+
+    public Integer getIsdf2d14() {
+        return isdf2d14;
+    }
+
+    public void setIsdf2d14(Integer isdf2d14) {
+        this.isdf2d14 = isdf2d14;
+    }
+
+    public Integer getIsbgzd18() {
+        return isbgzd18;
+    }
+
+    public void setIsbgzd18(Integer isbgzd18) {
+        this.isbgzd18 = isbgzd18;
+    }
+
+    public Integer getIscjzd18() {
+        return iscjzd18;
+    }
+
+    public void setIscjzd18(Integer iscjzd18) {
+        this.iscjzd18 = iscjzd18;
+    }
+
+    public Integer getIskdd22() {
+        return iskdd22;
+    }
+
+    public void setIskdd22(Integer iskdd22) {
+        this.iskdd22 = iskdd22;
+    }
+
+    public Integer getIsghxd22() {
+        return isghxd22;
+    }
+
+    public void setIsghxd22(Integer isghxd22) {
+        this.isghxd22 = isghxd22;
+    }
+
     public String getD4t5() {
         return d4t5;
     }

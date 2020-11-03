@@ -37,6 +37,9 @@ public class SystemUser {
     @Column(name = "SYS_UPD_DATE")
     private Date sysUpdDate;
 
+    @Column(name = "IS_GRANT")
+    private Integer isGrant;
+
     private List<SystemRole> roleList;
 
     private List<String> roles;
@@ -46,6 +49,14 @@ public class SystemUser {
      */
     @Transient
     private String rootOrgName;
+
+    public Integer getIsGrant() {
+        return isGrant;
+    }
+
+    public void setIsGrant(Integer isGrant) {
+        this.isGrant = isGrant;
+    }
 
     public List<String> getRoles() {
         return roles;

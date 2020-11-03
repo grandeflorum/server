@@ -66,14 +66,16 @@
         <result column="DYH" jdbcType="VARCHAR" property="dyh" />
         <result column="CH" jdbcType="VARCHAR" property="ch" />
         <result column="FH" jdbcType="VARCHAR" property="fh" />
+        <result column="ContractEntrustmentId" jdbcType="VARCHAR" property="contractEntrustmentId" />
     </resultMap>
 
     <!--获取存量合同查询列表-->
     <select id="getStockTradeList" resultMap="listMap">
-        select t2.xmmc ,t2.JZWMC,t1.mph zh,t.dymc dyh, t.ch,t.mph fh,hst.* from HOUSE_STOCK_TRADE hst
+        select ce.id ContractEntrustmentId,t2.xmmc ,t2.JZWMC,t1.mph zh,t.dymc dyh, t.ch,t.mph fh,hst.* from HOUSE_STOCK_TRADE hst
         left join h t on hst.houseid=t.id
         left join ljz t1 on t.ljzh=t1.ljzh
         left join zrz t2 on t1.zrzh=t2.zrzh
+        left join CONTRACT_ENTRUSTMENT ce on hst.id=ce.stocktradeid
         <if test="needFilter">
             left join project p on p.ID = t2.XMID
             left join ASSOCIATED_COMPANY ac on ac.ASSOCIATEDID=hst.id and ac.MODULENAME='stockTrade'
@@ -197,8 +199,17 @@
     </select>
 
     <update id="sh" parameterType="String">
-        UPDATE house_stock_trade t set t.CURRENTSTATUS =1 where t.id = #{id}
+        UPDATE house_stock_trade t set t.CURRENTSTATUS =1,t.ISPASS =1 where t.id = #{id}
     </update>
+
+    <update id="xgsh" parameterType="String">
+        UPDATE house_stock_trade t set t.ISPASS =1 where t.id = #{id}
+    </update>
+
+    <select id="getShZtById" parameterType="String" resultType="Integer">
+        select t.CURRENTSTATUS  from house_stock_trade t
+        where t.id = #{id}
+    </select>
 
     <select id="getHInfo"  parameterType="String" resultType="com.grandeflorum.contract.domain.StockTrade">
         select t2.xmmc ,t2.JZWMC,t1.mph zh,t.dymc dyh, t.ch,t.mph fh,t.id as houseId,t1.id as ljzid

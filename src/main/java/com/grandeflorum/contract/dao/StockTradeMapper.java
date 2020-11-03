@@ -27,5 +27,9 @@ public interface StockTradeMapper extends MyMapper<StockTrade> {
 
     void sh(String id);
 
+    void xgsh(String id);
+
+    int getShZtById(String id);
+
     StockTrade getHInfo(String hid);
 }

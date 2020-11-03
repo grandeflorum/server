@@ -83,6 +83,7 @@ public class SystemUserServiceImpl extends BaseService<SystemUser> implements Sy
         user.setId(GuidHelper.getGuid());
         try {
             user.setIsVaild(1);
+            user.setIsGrant(0);
             user.setSysUpdDate(new Date());
             userMapper.insert(user);
             userRoleService.insertUserRoleByRole(user);
@@ -195,7 +196,14 @@ public class SystemUserServiceImpl extends BaseService<SystemUser> implements Sy
             user.setOrgId(orgId);
             userMapper.insert(user);
 
-            SaveRoles(user.getId(),type);
+            //            SaveRoles(user.getId(),type);
+            //清理修改账号权限然后重新授权
+            userRoleService.deleteUserRoleByUserId(user.getId());
+            if (user.getIsGrant() == 1) {
+                SaveRoles(user.getId(),type == 1 ? 3 : 4);
+            }else {
+                SaveRoles(user.getId(),type == 1 ? 1 : 2);
+            }
         } else {
 
             //判断是否重复
@@ -203,8 +211,12 @@ public class SystemUserServiceImpl extends BaseService<SystemUser> implements Sy
                 return ResponseBo.error("账号重复");
             }
 
-            if (user.getIsVaild() == 1) {
+            //清理修改账号权限然后重新授权
+            userRoleService.deleteUserRoleByUserId(user.getId());
+            if (user.getIsGrant() == 1) {
                 SaveRoles(user.getId(),type == 1 ? 3 : 4);
+            }else {
+                SaveRoles(user.getId(),type == 1 ? 1 : 2);
             }
 
             userMapper.updateUserRoleManage(user);
@@ -248,6 +260,7 @@ public class SystemUserServiceImpl extends BaseService<SystemUser> implements Sy
         }
 
         userCompany.setIsVaild(1);
+        userCompany.setIsGrant(0);
 
         return insertRoleManage(userCompany,Integer.parseInt(userCompany.getCompanyType()));
     }

@@ -180,6 +180,12 @@ public class StockTrade implements Cloneable{
     private String fh;
 
     /**
+     * 委托合同id
+     */
+    @Transient
+    private String contractEntrustmentId;
+
+    /**
      * 是否注销
      */
     @Column(name = "ISCANCEL")
@@ -395,6 +401,14 @@ public class StockTrade implements Cloneable{
      */
     @Transient
     private String fwyt;
+
+    public String getContractEntrustmentId() {
+        return contractEntrustmentId;
+    }
+
+    public void setContractEntrustmentId(String contractEntrustmentId) {
+        this.contractEntrustmentId = contractEntrustmentId;
+    }
 
     public  String getFwyt(){ return fwyt; }
 

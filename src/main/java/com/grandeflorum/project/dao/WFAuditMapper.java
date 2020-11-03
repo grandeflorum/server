@@ -9,6 +9,8 @@ import java.util.Map;
 public interface WFAuditMapper extends MyMapper<WFAudit> {
     List<WFAudit> getWFAuditList(Map<String, Object> map);
 
+    List<WFAudit> getWFAuditListByProjectid(Map<String, Object> map);
+
     WFAudit getWFAuditInfo(Map<String, Object> map);
 
     List<WFAudit> getWFAuditOtherInfo(Map<String, Object> map);

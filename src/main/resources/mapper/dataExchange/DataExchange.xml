@@ -4,45 +4,42 @@
 
     <select id="QueryNewHouseTradeByCode" parameterType="String" resultType="java.util.LinkedHashMap">
 
-        select
-
- hnt.htbah,
- CASE hnt.currentstatus
-   when 1 then
-    '已受理'
-   when 2 then
-    '已初审'
-   when 3 then
-    '已核定'
-   when 4 then
-    '已登簿'
-   when 5 then
-    '已备案'
-   else
-    '未备案'
- end as CURRENTSTATUS,
- hnt.basj,
- c.qymc,
- c.address,
- c.yyzz,
- c.qyfr,
- c.phone,
-
- concat(concat(hnt.buyer, ','), re.name) as MSR,
- concat(concat(hnt.sfzh, ','), re.sfzh) as SFZH,
- hnt.lxdz,
- p.xmmc,
- hnt.ysxkz,
- h.mph,
- dic.name as fwyt,
- concat(nvl(h.SCJZMJ,0),'㎡') as SCJZMJ,
- concat(nvl(h.sctnjzmj,0),'㎡') sctnjzmj,
- concat(nvl(h.scftjzmj,0),'㎡') scftjzmj,
- concat(nvl(hnt.dj,0),'元') as dj,
- concat（nvl(hnt.zj,0),'元') as zj
-
+       select hnt.htbah,
+       CASE hnt.currentstatus
+         when 1 then
+          '已受理'
+         when 2 then
+          '已初审'
+         when 3 then
+          '已核定'
+         when 4 then
+          '已登簿'
+         when 5 then
+          '已备案'
+         else
+          '未备案'
+       end as CURRENTSTATUS,
+       to_char(hnt.basj,'YYYY-MM-DD') basj,
+       c.qymc,
+       c.address,
+       c.yyzz,
+       c.qyfr,
+       c.phone,
+       hnt.buyer MSR,
+       hnt.sfzh SFZH,
+       hnt.lxdz,
+       p.xmmc,
+       hnt.ysxkz,
+       h.mph,
+       dic.name as fwyt,
+       concat(nvl(h.SCJZMJ, 0), '㎡') as SCJZMJ,
+       concat(nvl(h.sctnjzmj, 0), '㎡') sctnjzmj,
+       concat(nvl(h.scftjzmj, 0), '㎡') scftjzmj,
+       concat(nvl(hnt.dj, 0), '元') as dj,
+       concat（nvl(hnt.zj, 0),
+       '元') as zj,
+       h.ZL||concat(nvl(h.dyh, 0), '单元')||concat(nvl(h.mph, 0), '号') ZL
   from house_new_trade hnt
-
   left join associated_company ac
     on hnt.id = ac.associatedid
   left join company c
@@ -64,8 +61,7 @@
                from relationship t
               group by t.projectid) re
     on re.projectid = hnt.id
-
- where hnt.sfzh = #{IdentityCode}
+  where instr(hnt.sfzh, #{IdentityCode}) > 0
    and nvl(hnt.iscancel, 0) not in (1, 2)
 
     </select>
@@ -135,7 +131,7 @@
         end as currentstatus,
         to_char(t.rwsj,'YYYY-MM-DD') rwsj,
         t.bdcqzh,
-        h.ZL,
+        h.ZL||concat(nvl(h.dyh, 0), '单元')||concat(nvl(h.mph, 0), '号') ZL,
         tem.jf1 as cqr,
         dic.name as hx,
         concat(nvl(h.SCJZMJ, 0), '㎡') jzmj,
@@ -162,18 +158,18 @@
 
     </select>
 
-    <select id="QueryPresaleByName" parameterType="String" resultType="java.util.LinkedHashMap">
+    <select id="QueryPresaleByName" parameterType="map" resultType="java.util.LinkedHashMap">
 select t.JZWMC as LPMC, t.zrzh as LPZH, t.zcs, dic.name as FWYT,t.YSXKZ
   from zrz t
   left join dictionary dic
     on dic.code = t.GHYT
    and dic.type = 'fwyt'
- where instr(t.JZWMC, #{lpmc})>0 
+ where instr(t.JZWMC,#{jzwmc})>0
     </select>
 
     <select id="QueryHouseResourceByName" parameterType="map" resultType="java.util.LinkedHashMap">
 
-       select z.JZWMC as lpmc ,h.zl,h.SCJZMJ as mj,di.name jsjt,dic.name as yt ,dict.name as jg,
+       select z.JZWMC as lpmc ,h.ZL||concat(nvl(h.dyh, 0), '单元')||concat(nvl(h.mph, 0), '号') ZL,concat(nvl(h.SCJZMJ, 0), '㎡') as mj,di.name jsjt,dic.name as yt ,dict.name as jg,
         case when (
           exists(select 1 from dyaq d where d.BDCDYH = h.BDCDYH and d.QSZT='1')
           or exists(select 1 from cfdj cf where cf.BDCDYH = h.BDCDYH and cf.QSZT='1' )
@@ -187,7 +183,7 @@ select t.JZWMC as LPMC, t.zrzh as LPZH, t.zcs, dic.name as FWYT,t.YSXKZ
         left join dictionary di on di.type='hx' and di.code=h.HX
         left join dictionary dic on dic.type='fwyt' and dic.code=h.FWYT1
         left join dictionary dict on dict.type='fwjg' and dict.code=l.FWJG1
-        where (instr(z.XMMC,#{xmmc})>0  or   instr(z.JZWMC,#{jzwmc})>0) and  h.zt='1'
+        where (instr(z.XMMC,#{xmmc})>0  or instr(z.JZWMC,#{jzwmc})>0) and  h.zt='1'
     </select>
 
 </mapper>

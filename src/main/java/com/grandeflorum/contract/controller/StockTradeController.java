@@ -100,10 +100,22 @@ public class StockTradeController {
         stockTradeService.printHt(id,response);
     }
 
+    @RequestMapping(value = "/printCeHt", method = RequestMethod.GET)
+    public void printCeHt(@RequestParam(value = "id", required = false) String id
+            , HttpServletResponse response) {
+        stockTradeService.printCeHt(id,response);
+    }
+
     @RequestMapping(value = "/previewHt", method = RequestMethod.GET)
     public void previewHt(@RequestParam(value = "id", required = false) String id,
                           HttpServletResponse response){
         stockTradeService.previewHt(id,response);
+    }
+
+    @RequestMapping(value = "/previewCeHt", method = RequestMethod.GET)
+    public void previewCeHt(@RequestParam(value = "id", required = false) String id,
+                          HttpServletResponse response){
+        stockTradeService.previewCeHt(id,response);
     }
 
     @GetMapping("/linkH")
@@ -131,4 +143,10 @@ public class StockTradeController {
     public ResponseBo AuditHouseTradeNew(@RequestBody WFAudit wfAudit){
         return stockTradeService.AuditHouseTradeNew(wfAudit);
     }
+
+    @PostMapping("/getWFAuditListByProjectid")
+    public ResponseBo getWFAuditListByProjectid(@RequestBody Page page){
+        return stockTradeService.getWFAuditListByProjectid(page);
+    }
+
 }

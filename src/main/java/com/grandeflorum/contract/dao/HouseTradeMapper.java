@@ -35,6 +35,10 @@ public interface HouseTradeMapper extends MyMapper<HouseTrade> {
 
     void sh(String id);
 
+    void xgsh(String id);
+
+    int getShZtById(String id);
+
     List<Map<String,String>> getRelationshipByProjectId(String id);
 }
 

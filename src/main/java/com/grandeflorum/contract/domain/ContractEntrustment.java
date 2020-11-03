@@ -200,6 +200,127 @@ public class ContractEntrustment implements Cloneable{
     @Column(name = "QZ9")
     public String qz9;
 
+    @Column(name = "ISJFSFZZH")
+    public Integer isjfsfzzh;
+
+    @Column(name = "ISJFHZH")
+    public Integer isjfhzh;
+
+    @Column(name = "ISJFYYZZ")
+    public Integer isjfyyzz;
+
+    @Column(name = "ISYFSFZZH")
+    public Integer isyfsfzzh;
+
+    @Column(name = "ISYFHZH")
+    public Integer isyfhzh;
+
+    @Column(name = "ISYFYYZZ")
+    public Integer isyfyyzz;
+
+    @Column(name = "ISCS")
+    public Integer iscs;
+
+    @Column(name = "ISCZ")
+    public Integer iscz;
+
+    @Column(name = "ISCG")
+    public Integer iscg;
+
+    @Column(name = "ISCZ1")
+    public Integer iscz1;
+
+    @Column(name = "ISZH")
+    public Integer iszh;
+
+    public Integer getIscs() {
+        return iscs;
+    }
+
+    public void setIscs(Integer iscs) {
+        this.iscs = iscs;
+    }
+
+    public Integer getIscz() {
+        return iscz;
+    }
+
+    public void setIscz(Integer iscz) {
+        this.iscz = iscz;
+    }
+
+    public Integer getIscg() {
+        return iscg;
+    }
+
+    public void setIscg(Integer iscg) {
+        this.iscg = iscg;
+    }
+
+    public Integer getIscz1() {
+        return iscz1;
+    }
+
+    public void setIscz1(Integer iscz1) {
+        this.iscz1 = iscz1;
+    }
+
+    public Integer getIszh() {
+        return iszh;
+    }
+
+    public void setIszh(Integer iszh) {
+        this.iszh = iszh;
+    }
+
+    public Integer getIsjfsfzzh() {
+        return isjfsfzzh;
+    }
+
+    public void setIsjfsfzzh(Integer isjfsfzzh) {
+        this.isjfsfzzh = isjfsfzzh;
+    }
+
+    public Integer getIsjfhzh() {
+        return isjfhzh;
+    }
+
+    public void setIsjfhzh(Integer isjfhzh) {
+        this.isjfhzh = isjfhzh;
+    }
+
+    public Integer getIsjfyyzz() {
+        return isjfyyzz;
+    }
+
+    public void setIsjfyyzz(Integer isjfyyzz) {
+        this.isjfyyzz = isjfyyzz;
+    }
+
+    public Integer getIsyfsfzzh() {
+        return isyfsfzzh;
+    }
+
+    public void setIsyfsfzzh(Integer isyfsfzzh) {
+        this.isyfsfzzh = isyfsfzzh;
+    }
+
+    public Integer getIsyfhzh() {
+        return isyfhzh;
+    }
+
+    public void setIsyfhzh(Integer isyfhzh) {
+        this.isyfhzh = isyfhzh;
+    }
+
+    public Integer getIsyfyyzz() {
+        return isyfyyzz;
+    }
+
+    public void setIsyfyyzz(Integer isyfyyzz) {
+        this.isyfyyzz = isyfyyzz;
+    }
+
     public String getId() {
         return id;
     }

@@ -8,4 +8,6 @@ public interface ContractEntrustmentMapper extends MyMapper<ContractEntrustment>
     String getIdByStocktradeId(String stocktradeid);
 
     ContractEntrustment getAllByStocktradeId(String stocktradeid);
+
+    ContractEntrustment getContractEntrustmentByStocktradeId(String id);
 }

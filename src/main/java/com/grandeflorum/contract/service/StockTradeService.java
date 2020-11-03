@@ -38,14 +38,22 @@ public interface StockTradeService extends IService<StockTrade> {
 
     void printHt(String id ,HttpServletResponse response);
 
+    void printCeHt(String id ,HttpServletResponse response);
+
     //预览合同
     void previewHt(String id,HttpServletResponse response);
 
+    void previewCeHt(String id,HttpServletResponse response);
+
     void getParams(Map<String, Object> params, String id);
+
+    void getCeParams(Map<String, Object> params, String id);
 
     ResponseBo sh(String id);
 
     ResponseBo getHInfo(String hid);
 
     ResponseBo AuditHouseTradeNew(WFAudit wfAudit);
+
+    ResponseBo getWFAuditListByProjectid(Page page);
 }

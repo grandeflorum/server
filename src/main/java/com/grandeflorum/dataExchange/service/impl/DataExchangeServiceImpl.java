@@ -62,8 +62,11 @@ public class DataExchangeServiceImpl implements DataExchangeService {
                     data = dataExchangeMapper.QueryStockHouseTradeByCode(IdentityCode1);
                     break;
                 case "QueryPresaleByName":
-                    String lpmc = map.get("LPMC");
-                    data = dataExchangeMapper.QueryPresaleByName(lpmc);
+
+                    String LPMC = map.get("LPMC");
+                    Map<String, String> paramMap = new HashMap<>();
+                    paramMap.put("jzwmc", LPMC);
+                    data = dataExchangeMapper.QueryPresaleByName(paramMap);
                     break;
             }
 
@@ -78,7 +81,7 @@ public class DataExchangeServiceImpl implements DataExchangeService {
             dataExchange.setMessage("系统错误，请联系管理员");
             return dataExchange;
         }
-
+        dataExchange.setMessage("");
         return dataExchange;
     }
 
@@ -111,7 +114,7 @@ public class DataExchangeServiceImpl implements DataExchangeService {
             dataExchange.setMessage("系统错误，请联系管理员");
             return dataExchange;
         }
-
+        dataExchange.setMessage("");
         return dataExchange;
     }
 

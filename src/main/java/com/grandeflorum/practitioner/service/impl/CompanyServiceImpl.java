@@ -95,6 +95,7 @@ public class CompanyServiceImpl extends BaseService<Company> implements CompanyS
                     user.setEmail(company.getDzyx());
                     user.setMobile(company.getPhone());
                     user.setIsVaild(1);
+                    user.setIsGrant(0);
                     user.setCard(company.getZjh());
 
                     ResponseBo bo = systemUserService.insertRoleManage(user,(int)company.getCompanyType());

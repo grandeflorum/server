@@ -27,6 +27,8 @@ import com.grandeflorum.system.service.SystemUserService;
 import net.sf.ehcache.CacheManager;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.xwpf.usermodel.BreakClear;
+import org.apache.poi.xwpf.usermodel.BreakType;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -362,7 +364,8 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
             }
             stockTradeTemplate.setId(GuidHelper.getGuid());
             stockTradeTemplate.setStocktradeid(stockTrade.getId());
-
+            contractEntrustment.setId(GuidHelper.getGuid());
+            contractEntrustment.setStocktradeid(stockTrade.getId());
             stockTradeMapper.insert(stockTrade);
 
             stockTradeTemplateMapper.insert(stockTradeTemplate);
@@ -455,9 +458,12 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
             }
             result.setStockTradeTemplate(template);
             ContractEntrustment ce=contractEntrustmentMapper.getAllByStocktradeId(result.getId());
+
+
             if(ce==null){
                 ce=new ContractEntrustment();
             }
+
             result.setContractEntrustment(ce);
             result.setWfAuditList(list);
             if(!StrUtil.isNullOrEmpty(result.getHouseId())){
@@ -573,6 +579,31 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
 
     }
 
+    @Override
+    public void printCeHt(String id, HttpServletResponse response){
+        try{
+
+            String sourcePath = grandeflorumProperties.getUploadFolder()+"ht";
+            String filePath = sourcePath+"/"+id+".pdf";
+            File file1 = new File(filePath);
+
+            OutputStream os = response.getOutputStream();
+            creatCeWord(id,null);
+            File file2 = new File(filePath);
+            os.write(FileUtils.readFileToByteArray(file2));
+
+            response.setContentType("application/vnd.ms-excel");
+            response.setHeader("content-disposition", "Attachment;filename=" + URLEncoder.encode(id+".pdf", "utf-8"));
+            os.flush();
+            os.close();
+            printFileAction(file2);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
     //预览
     @Override
     public void previewHt(String id, HttpServletResponse response){
@@ -584,22 +615,54 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
             String filePath = sourcePath+"/"+id+".pdf";
             File file1 = new File(filePath);
 
-
-
             OutputStream os = response.getOutputStream();
 //            if(file1.exists()){
 //                os.write(FileUtils.readFileToByteArray(file1));
 //            }else{
                 creatWord(id,null);
 
+
+
                 File file2 = new File(filePath);
                 os.write(FileUtils.readFileToByteArray(file2));
+
 //            }
 
             response.setContentType("application/vnd.ms-excel");
             response.setHeader("content-disposition", "Attachment;filename=" + URLEncoder.encode(id+".pdf", "utf-8"));
             os.flush();
             os.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    //委托预览
+    @Override
+    public void previewCeHt(String id, HttpServletResponse response){
+
+
+        try {
+            //String ceid=contractEntrustmentMapper.getIdByStocktradeId(id);
+            String sourcePath = grandeflorumProperties.getUploadFolder()+"ht";
+            String filePath = sourcePath+"/"+id+".pdf";
+            File file1 = new File(filePath);
+
+            OutputStream os = response.getOutputStream();
+            creatCeWord(id,null);
+
+            File file2 = new File(filePath);
+            os.write(FileUtils.readFileToByteArray(file2));
+
+//            }
+
+            response.setContentType("application/vnd.ms-excel");
+            response.setHeader("content-disposition", "Attachment;filename=" + URLEncoder.encode(id+".pdf", "utf-8"));
+            os.flush();
+            os.close();
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -667,6 +730,64 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
         return file1;
     }
 
+    public File creatCeWord(String id,OutputStream os){
+
+        String sourcePath = grandeflorumProperties.getUploadFolder()+"ht";
+        File file = new File(sourcePath);
+
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+        String fileSavePath = sourcePath+"/"+id+".docx";
+        File file1 = new File(fileSavePath);
+
+        try{
+
+            // ContractEntrustment contractEntrustment = contractEntrustmentMapper.selectByPrimaryKey(id);
+            //读入流中
+            String path = this.getClass().getResource("/").getPath()+ "templates/存量房经济委托合同.docx";
+            //新建一个word文档
+            XWPFDocument doc = new XWPFDocument(new FileInputStream(path));
+            XWPFDocument docTemp = new XWPFDocument(new FileInputStream(path));
+
+
+
+            Map<String, Object> params = new HashMap<String, Object>();
+
+            //生成二维码
+            QrCodeUtil.createQrCode(grandeflorumProperties.getQrCodePath()+"?id="+id+"&type=2",sourcePath+"/",id+".png");
+
+            getCeParams(params,id);
+
+            XwpfTUtil xwpfTUtil = new XwpfTUtil();
+
+            xwpfTUtil.createFooter(doc,id,sourcePath+"/"+id+".png");
+            //xwpfTUtil.createFooter(doc);
+            //xwpfTUtil.createHeader(doc);
+            xwpfTUtil.replaceInPara(doc, params,id,sourcePath+"/"+id+".png");
+
+            xwpfTUtil.setStyle(docTemp,doc,params);
+
+            xwpfTUtil.createFooter(doc);
+            doc.write(new FileOutputStream(fileSavePath));
+            if(os!=null){
+                doc.write(os);
+
+            }
+
+            office2PDF.office2PDF(sourcePath+"/"+id+".docx",sourcePath+"/"+id+".pdf",grandeflorumProperties.getOpenoffice());
+//            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return file1;
+    }
+
+
+
+
+
 
     //调用打印机
     private void printFileAction(File file) {
@@ -693,7 +814,7 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
 
     @Override
     public void getParams(Map<String, Object> params,String id){
-
+        try {
         //StockTrade stockTrade = stockTradeMapper.getStockTradeById(id);
         StockTradeTemplate template = stockTradeTemplateMapper.getAllByStocktradeId(id);
 
@@ -768,9 +889,8 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
 
         //第二条
         if(template.getD2t1()!=null){
-            Integer dx=0;
-            dx = Integer.valueOf(template.getD2t1()).intValue();
-            params.put("zjdx",NumberToCNUtils.convert(BigDecimal.valueOf(dx)));
+            BigDecimal dx = new BigDecimal(template.getD2t1());
+            params.put("zjdx",NumberToCNUtils.convert(dx));
         }else {
             params.put("zjdx","    ");
         }
@@ -782,9 +902,8 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
         params.put("d3t1", NoNullString(template.getD3t1()));
 
         if(template.getD3t2()!=null){
-            Integer dx=0;
-            dx = Integer.valueOf(template.getD3t2()).intValue();
-            params.put("jgfkdx",NumberToCNUtils.convert(BigDecimal.valueOf(dx)));
+            BigDecimal dx = new BigDecimal(template.getD3t2());
+            params.put("jgfkdx",NumberToCNUtils.convert(dx));
         }else {
             params.put("jgfkdx","    ");
         }
@@ -794,7 +913,6 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
         params.put("d3t5", NoNullString(template.getD3t5()));
         //params.put("d3t6", NoNullString(template.getD3t6()));
         if(template.getD3t6()!=null){
-
             String time=DateUtils.StringToDateString(template.getD3t6());
             params.put("d3t6",NoNullString(time));
 
@@ -803,18 +921,16 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
         }
 
         if(template.getD3t7()!=null){
-            Integer dx=0;
-            dx = Integer.valueOf(template.getD3t7()).intValue();
-            params.put("ajsfkdx",NumberToCNUtils.convert(BigDecimal.valueOf(dx)));
+            BigDecimal dx = new BigDecimal(template.getD3t7());
+            params.put("ajsfkdx",NumberToCNUtils.convert(dx));
         }else {
             params.put("ajsfkdx","    ");
         }
         params.put("d3t7", NoNullString(template.getD3t7()));
 
         if(template.getD3t8()!=null){
-            Integer dx=0;
-            dx = Integer.valueOf(template.getD3t8()).intValue();
-            params.put("ajyfkdx",NumberToCNUtils.convert(BigDecimal.valueOf(dx)));
+            BigDecimal dx = new BigDecimal(template.getD3t8());
+            params.put("ajyfkdx",NumberToCNUtils.convert(dx));
         }else {
             params.put("ajyfkdx","    ");
         }
@@ -826,9 +942,8 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
         params.put("d3t13", NoNullString(template.getD3t13()));
 
         if(template.getD3t14()!=null){
-            Integer dx=0;
-            dx = Integer.valueOf(template.getD3t14()).intValue();
-            params.put("ycxfkdx",NumberToCNUtils.convert(BigDecimal.valueOf(dx)));
+            BigDecimal dx = new BigDecimal(template.getD3t14());
+            params.put("ycxfkdx",NumberToCNUtils.convert(dx));
         }else {
             params.put("ycxfkdx","    ");
         }
@@ -836,19 +951,17 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
         params.put("d3t15", NoNullString(template.getD3t15()));
         params.put("d3t16", NoNullString(template.getD3t16()));
 
-        if(template.getD3t17()!=null){
-            Integer dx=0;
-            dx = Integer.valueOf(template.getD3t17()).intValue();
-            params.put("fqsfkdx",NumberToCNUtils.convert(BigDecimal.valueOf(dx)));
+        if(template.getD3t16()!=null){
+            BigDecimal dx = new BigDecimal(template.getD3t16());
+            params.put("fqsfkdx",NumberToCNUtils.convert(dx));
         }else {
             params.put("fqsfkdx","    ");
         }
         params.put("d3t17", NoNullString(template.getD3t17()));
 
         if(template.getD3t18()!=null){
-            Integer dx=0;
-            dx = Integer.valueOf(template.getD3t18()).intValue();
-            params.put("fqyfkdx",NumberToCNUtils.convert(BigDecimal.valueOf(dx)));
+            BigDecimal dx = new BigDecimal(template.getD3t18());
+            params.put("fqyfkdx",NumberToCNUtils.convert(dx));
         }else {
             params.put("fqyfkdx","    ");
         }
@@ -856,9 +969,8 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
         params.put("d3t19", NoNullString(template.getD3t19()));
 
         if(template.getD3t20()!=null){
-            Integer dx=0;
-            dx = Integer.valueOf(template.getD3t20()).intValue();
-            params.put("ajtgsfkdx",NumberToCNUtils.convert(BigDecimal.valueOf(dx)));
+            BigDecimal dx = new BigDecimal(template.getD3t20());
+            params.put("ajtgsfkdx",NumberToCNUtils.convert(dx));
         }else {
             params.put("ajtgsfkdx","    ");
         }
@@ -866,9 +978,8 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
         params.put("d3t21", NoNullString(template.getD3t21()));
 
         if(template.getD3t22()!=null){
-            Integer dx=0;
-            dx = Integer.valueOf(template.getD3t22()).intValue();
-            params.put("ajtgyfkdx",NumberToCNUtils.convert(BigDecimal.valueOf(dx)));
+            BigDecimal dx = new BigDecimal(template.getD3t22());
+            params.put("ajtgyfkdx",NumberToCNUtils.convert(dx));
         }else {
             params.put("ajtgyfkdx","    ");
         }
@@ -965,6 +1076,10 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
             params.put("qz8",NoNullString(time));
         }else {
             params.put("qz8"," ");
+        }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         //20200115新增
 //        params.put("jfyzbm",NoNullString(stockTrade.getJfyzbm()));
@@ -1088,6 +1203,212 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
 //        }
     }
 
+    @Override
+    public void getCeParams(Map<String, Object> params,String id){
+        try {
+
+            ContractEntrustment template = contractEntrustmentMapper.getContractEntrustmentByStocktradeId(id);
+
+
+            //20200319 大改版
+            //合同开头
+            params.put("ht1", NoNullString(template.getHt1()));
+            //甲方
+            params.put("jf1", NoNullString(template.getJf1()));
+            params.put("jf2", NoNullString(template.getJf2()));
+            params.put("jf3", NoNullString(template.getJf3()));
+            params.put("jf4", NoNullString(template.getJf4()));
+            params.put("jf5", NoNullString(template.getJf5()));
+            params.put("jf6", NoNullString(template.getJf6()));
+            params.put("jf7", NoNullString(template.getJf7()));
+            params.put("jf8", NoNullString(template.getJf8()));
+            params.put("jf9", NoNullString(template.getJf9()));
+
+            if(template.getIsjfsfzzh()==null||template.getIsjfsfzzh()!=1){
+                params.put("isjfsfzzh","☐");
+            }else {
+                params.put("isjfsfzzh","☑");
+            }
+
+            if(template.getIsjfhzh()==null||template.getIsjfhzh()!=1){
+                params.put("isjfhzh","☐");
+            }else {
+                params.put("isjfhzh","☑");
+            }
+
+            if(template.getIsjfyyzz()==null||template.getIsjfyyzz()!=1){
+                params.put("isjfyyzz","☐");
+            }else {
+                params.put("isjfyyzz","☑");
+            }
+
+            //乙方
+            params.put("yf1", NoNullString(template.getYf1()));
+            params.put("yf2", NoNullString(template.getYf2()));
+            params.put("yf3", NoNullString(template.getYf3()));
+            params.put("yf4", NoNullString(template.getYf4()));
+            params.put("yf5", NoNullString(template.getYf5()));
+            params.put("yf6", NoNullString(template.getYf6()));
+            params.put("yf7", NoNullString(template.getYf7()));
+            params.put("yf8", NoNullString(template.getYf8()));
+            params.put("yf9", NoNullString(template.getYf9()));
+
+            if(template.getIsyfsfzzh()==null||template.getIsyfsfzzh()!=1){
+                params.put("isyfsfzzh","☐");
+            }else {
+                params.put("isyfsfzzh","☑");
+            }
+
+            if(template.getIsyfhzh()==null||template.getIsyfhzh()!=1){
+                params.put("isyfhzh","☐");
+            }else {
+                params.put("isyfhzh","☑");
+            }
+
+            if(template.getIsyfyyzz()==null||template.getIsyfyyzz()!=1){
+                params.put("isyfyyzz","☐");
+            }else {
+                params.put("isyfyyzz","☑");
+            }
+
+            //第一条
+            params.put("d1t1", NoNullString(template.getD1t1()));
+
+            //第二条
+            params.put("d2t1", NoNullString(template.getD2t1()));
+
+            //第三条
+            params.put("d3t1", NoNullString(template.getD3t1()));
+            params.put("d3t2", NoNullString(template.getD3t2()));
+
+
+            //第四条
+            if(template.getD4t1()!=null){
+                String time=DateUtils.StringToDateString(template.getD4t1());
+                params.put("d4t1",NoNullString(time));
+            }else {
+                params.put("d4t1"," ");
+            }
+            if(template.getD4t2()!=null){
+                String time=DateUtils.StringToDateString(template.getD4t2());
+                params.put("d4t2",NoNullString(time));
+            }else {
+                params.put("d4t2"," ");
+            }
+
+            if(template.getIscs()==null||template.getIscs()!=1){
+                params.put("iscs","☐");
+            }else {
+                params.put("iscs","☑");
+            }
+
+            if(template.getIscz()==null||template.getIscz()!=1){
+                params.put("iscz","☐");
+            }else {
+                params.put("iscz","☑");
+            }
+
+            if(template.getIscz()==null||template.getIscg()!=1){
+                params.put("iscg","☐");
+            }else {
+                params.put("iscg","☑");
+            }
+            if(template.getIscz()==null||template.getIscz1()!=1){
+                params.put("iscz1","☐");
+            }else {
+                params.put("iscz1","☑");
+            }
+
+            if(template.getIscz()==null||template.getIszh()!=1){
+                params.put("iszh","☐");
+            }else {
+                params.put("iszh","☑");
+            }
+
+
+            //第六条
+            params.put("d6t1", NoNullString(template.getD6t1()));
+            params.put("d6t2", NoNullString(template.getD6t2()));
+            if(template.getD6t3()!=null){
+                BigDecimal dx = new BigDecimal(template.getD6t3());
+                params.put("d6t3",NumberToCNUtils.convert(dx));
+            }else {
+                params.put("d6t3","    ");
+            }
+            params.put("d6t4", NoNullString(template.getD6t4()));
+            params.put("d6t5", NoNullString(template.getD6t5()));
+            //第七条
+
+
+            //第八条
+
+
+            //第八条
+
+
+            //第九条
+            params.put("d9t1", NoNullString(template.getD9t1()));
+            params.put("d9t2", NoNullString(template.getD9t2()));
+
+
+            //第十条
+
+
+            //第十一条
+
+
+            //第十二条
+            params.put("d12t1", NoNullString(template.getD12t1()));
+
+            //附件一
+            params.put("fj1jw1", NoNullString(template.getFj1jw1()));
+            params.put("fj1jw2", NoNullString(template.getFj1jw2()));
+            params.put("fj1jw3", NoNullString(template.getFj1jw3()));
+            params.put("fj1jw4", NoNullString(template.getFj1jw4()));
+            params.put("fj1jw5", NoNullString(template.getFj1jw5()));
+            params.put("fj1jw6", NoNullString(template.getFj1jw6()));
+            params.put("fj1jw7", NoNullString(template.getFj1jw7()));
+            params.put("fj1jw8", NoNullString(template.getFj1jw8()));
+            params.put("fj1jw9", NoNullString(template.getFj1jw9()));
+            params.put("fj1jw10", NoNullString(template.getFj1jw10()));
+            params.put("fj1jw11", NoNullString(template.getFj1jw11()));
+            params.put("fj1jw12", NoNullString(template.getFj1jw12()));
+            params.put("fj1jw13", NoNullString(template.getFj1jw13()));
+            params.put("fj1jw14", NoNullString(template.getFj1jw14()));
+            params.put("fj1jw15", NoNullString(template.getFj1jw15()));
+            params.put("fj1jw16", NoNullString(template.getFj1jw16()));
+            params.put("fj1jw17", NoNullString(template.getFj1jw17()));
+            params.put("fj1jw18", NoNullString(template.getFj1jw18()));
+
+            //结尾签章
+            params.put("qz1", NoNullString(template.getQz1()));
+            params.put("qz2", NoNullString(template.getQz2()));
+            params.put("qz3", NoNullString(template.getQz3()));
+            params.put("qz4", NoNullString(template.getQz4()));
+            if(template.getQz5()!=null){
+                String time=DateUtils.StringToDateString(template.getQz5());
+                params.put("qz5",NoNullString(time));
+            }else {
+                params.put("qz5"," ");
+            }
+
+            params.put("qz5", NoNullString(template.getQz5()));
+            params.put("qz6", NoNullString(template.getQz6()));
+            params.put("qz7", NoNullString(template.getQz7()));
+            params.put("qz8", NoNullString(template.getQz8()));
+            if(template.getQz9()!=null){
+                String time=DateUtils.StringToDateString(template.getQz9());
+                params.put("qz9",NoNullString(time));
+            }else {
+                params.put("qz9"," ");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public String buildInfo(String param) {
         if (StrUtil.isNullOrEmpty(param)) {
             return "";
@@ -1114,14 +1435,32 @@ public class StockTradeServiceImpl extends BaseService<StockTrade> implements St
 
     @Override
     public ResponseBo sh(String id){
-
-        stockTradeMapper.sh(id);
+        int currentStatus=stockTradeMapper.getShZtById(id);
+        if(currentStatus==0){
+            stockTradeMapper.sh(id);
+        }else {
+            stockTradeMapper.xgsh(id);
+        }
         return ResponseBo.ok();
     }
 
     @Override
     public ResponseBo getHInfo(String hid) {
         StockTrade result=stockTradeMapper.getHInfo(hid);
+        return ResponseBo.ok(result);
+    }
+
+    @Override
+    public ResponseBo getWFAuditListByProjectid(Page page) {
+
+        Map<String, Object> map = page.getQueryParameter();
+
+        PageHelper.startPage(page.getPageNo(), page.getPageSize());
+        List<WFAudit> list = wFAuditMapper.getWFAuditListByProjectid(map);
+
+        PageInfo<WFAudit> pageInfo = new PageInfo<WFAudit>(list);
+
+        PagingEntity<WFAudit> result = new PagingEntity<>(pageInfo);
         return ResponseBo.ok(result);
     }
 

@@ -315,6 +315,62 @@
         <result column="FJ7JW12" jdbcType="VARCHAR" property="fj7jw12" />
         <result column="FJ7JW13" jdbcType="VARCHAR" property="fj7jw13" />
         <result column="FJ7JW14" jdbcType="VARCHAR" property="fj7jw14" />
+
+        <result column="HTMC" jdbcType="VARCHAR" property="htmc" />
+        <result column="FH" jdbcType="VARCHAR" property="fh" />
+
+        <result column="ISDBR" jdbcType="DECIMAL" property="isdbr"/>
+        <result column="ISFZR" jdbcType="DECIMAL" property="isfzr"/>
+        <result column="ISDBRGJ" jdbcType="DECIMAL" property="isdbrgj"/>
+        <result column="ISDBRHJ" jdbcType="DECIMAL" property="isdbrhj"/>
+        <result column="ISDBRSFZ" jdbcType="DECIMAL" property="isdbrsfz"/>
+        <result column="ISDBRHZ" jdbcType="DECIMAL" property="isdbrhz"/>
+        <result column="ISDBRYYZZ" jdbcType="DECIMAL" property="isdbryyzz"/>
+
+        <result column="ISWTDLR" jdbcType="DECIMAL" property="iswtdlr"/>
+        <result column="ISFDDLR" jdbcType="DECIMAL" property="isfddlr"/>
+        <result column="ISDLRGJ" jdbcType="DECIMAL" property="isdlrgj"/>
+        <result column="ISDLRHJ" jdbcType="DECIMAL" property="isdlrhj"/>
+        <result column="IDLRSFZ" jdbcType="DECIMAL" property="isdlrsfz"/>
+        <result column="ISDLRHZ" jdbcType="DECIMAL" property="isdlrhz"/>
+        <result column="ISDLRYYZZ" jdbcType="DECIMAL" property="isdlryyzz"/>
+
+        <result column="ISCRD1" jdbcType="DECIMAL" property="iscrd1"/>
+        <result column="ISHBD1" jdbcType="DECIMAL" property="ishbd1"/>
+
+        <result column="ISZZD3" jdbcType="DECIMAL" property="iszzd3"/>
+        <result column="ISBGD3" jdbcType="DECIMAL" property="isbgd3"/>
+        <result column="ISSYD3" jdbcType="DECIMAL" property="issyd3"/>
+        <result column="ISZ1D3" jdbcType="DECIMAL" property="isz1d3"/>
+        <result column="ISZ2D3" jdbcType="DECIMAL" property="isz2d3"/>
+
+        <result column="ISDYD4" jdbcType="DECIMAL" property="isdyd4"/>
+        <result column="ISWDYD4" jdbcType="DECIMAL" property="iswdyd4"/>
+
+
+        <result column="ISYFFKD5" jdbcType="DECIMAL" property="isyffkd5"/>
+        <result column="ISQBSSD5" jdbcType="DECIMAL" property="isqbssd5"/>
+
+        <result column="ISHTQDD7" jdbcType="DECIMAL" property="ishtqdd7"/>
+        <result column="ISJFSFKD7" jdbcType="DECIMAL" property="isjfsfkd7"/>
+        <result column="ISDZD7" jdbcType="DECIMAL" property="isdzd7"/>
+        <result column="ISGJJDKD7" jdbcType="DECIMAL" property="isgjjdkd7"/>
+        <result column="ISSYDKD7" jdbcType="DECIMAL" property="issydkd7"/>
+
+        <result column="ISYFFKD16" jdbcType="DECIMAL" property="isyffkd16"/>
+        <result column="ISQBSSD16" jdbcType="DECIMAL" property="isqbssd16"/>
+        <result column="ISGJ1D16" jdbcType="DECIMAL" property="isgj1d16"/>
+        <result column="ISDF1D16" jdbcType="DECIMAL" property="isdf1d16"/>
+        <result column="ISGJ2D16" jdbcType="DECIMAL" property="isgj2d16"/>
+        <result column="ISDF2D16" jdbcType="DECIMAL" property="isdf2d16"/>
+
+        <result column="IS30TND19" jdbcType="DECIMAL" property="is30tnd19"/>
+
+        <result column="ISBGZD21" jdbcType="DECIMAL" property="isbgzd21"/>
+        <result column="ISCJZD21" jdbcType="DECIMAL" property="iscjzd21"/>
+
+        <result column="ISKDD25" jdbcType="DECIMAL" property="iskdd25"/>
+        <result column="ISGHXD25" jdbcType="DECIMAL" property="isghxd25"/>
     </resultMap>
 
     <select id="getIdByHousetradeId"  parameterType="String" resultType="String">

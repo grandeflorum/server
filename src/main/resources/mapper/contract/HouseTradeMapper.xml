@@ -52,6 +52,9 @@
         <if test="jzwmc!=null and jzwmc != ''">
             and (t2.jzwmc like '%'||#{jzwmc}||'%' )
         </if>
+        <if test="buyer!=null and buyer != ''">
+            and (hnt.buyer like '%'||#{buyer}||'%' )
+        </if>
         <if test="xmmc!=null and xmmc != ''">
             and (t2.xmmc like '%'||#{xmmc}||'%' )
         </if>
@@ -177,13 +180,24 @@ where fi.file_type = 8 and t.id = #{tradeId}
 </select>
 
     <update id="sh" parameterType="String">
-        UPDATE house_new_trade t set t.CURRENTSTATUS =1 where t.id = #{id}
+        UPDATE house_new_trade t set t.CURRENTSTATUS =1,t.ISPASS =1  where t.id = #{id}
     </update>
+
+    <update id="xgsh" parameterType="String">
+        UPDATE house_new_trade t set t.ISPASS =1 where t.id = #{id}
+    </update>
+
+    <select id="getShZtById" parameterType="String" resultType="Integer">
+        select t.CURRENTSTATUS  from house_new_trade t
+        where t.id = #{id}
+    </select>
 
 <select id="getRelationshipByProjectId" parameterType="String" resultType="map">
     select t.name,dic.name as zjlb,t.sfzh from relationship t
 left join dictionary dic on t.zjlb = dic.code and dic.type = 'zjlb'
 where t.projectid = #{id}
 </select>
+
+
 
 </mapper>
